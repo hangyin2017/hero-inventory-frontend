@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Breadcrumb } from 'antd';
 import styles from './App.module.less';
 import Inventory from './pages/Inventory';
 
@@ -8,9 +8,9 @@ function App() {
 
   return (
     <div className={styles.app}>
-      {/* <Layout>
-        <Sider className={styles.sider}> */}
-
+      <Layout>
+        <Sider className={styles.sider}>
+          <Header className={styles.user}>User</Header>
           <Menu className={styles.sideMenu} theme="dark" defaultSelectedKeys={['1']}>
             <Menu.Item key="1">Dashboard</Menu.Item>
             <Menu.Item key="2">Inventory</Menu.Item>
@@ -18,10 +18,10 @@ function App() {
             <Menu.Item key="4">Contacts</Menu.Item>
             <Menu.Item key="5">Users</Menu.Item>
           </Menu>
-        {/* </Sider> */}
-        {/* <Layout>
-          <Header>
-
+        </Sider>
+        <Layout>
+          <Header className={styles.header}>
+            <h2>Page Title</h2>
           </Header>
           <Content>
             <Inventory />
@@ -29,8 +29,8 @@ function App() {
           <Footer>
             
           </Footer>
-        </Layout> */}
-      {/* </Layout> */}
+        </Layout>
+      </Layout>
     </div>
   );
 }
