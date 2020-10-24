@@ -2,6 +2,8 @@ import React from 'react';
 import { Select, Input, Table } from 'antd';
 import styles from './Inventory.module.less';
 
+const DEFAULT_ENTRIES_PER_PAGE = 20;
+
 class Inventory extends React.Component {
   constructor(props) {
     super(props);
@@ -24,22 +26,22 @@ class Inventory extends React.Component {
       },
     ]
 
+    const mockData = Array(100).fill({}).map((entry, index) => ({
+      key: index,
+      code: parseInt(Math.random() * 10e5),
+      name: `Item${index}`,
+      quantity: parseInt(Math.random() * 10e3)
+    }))
+
     this.state = {
-      dataSource: [
-        {
-          key: '1',
-          code: 'item111',
-          name: 'vitamin',
-          quantity: 122,
-        },
-        {
-          key: '2',
-          code: 'item222',
-          name: 'fomular',
-          quantity: 31,
-        },
-      ]
+      dataSource: mockData,
     }
+  }
+
+  handleEntryChange(value) {
+    this.setState({
+      entriesPerPage: value
+    });
   }
 
   render() {
@@ -47,20 +49,16 @@ class Inventory extends React.Component {
 
     return (
       <>
-        <div className={styles.selectEntries}>
-          <span>Show</span>
-          <Select defualtValue="20">
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-            <option value="50">50</option>
-          </Select>
-          <span>entries each page</span>
-        </div>
-
         <Search className={styles.search} placeholder="search for item" />
 
-        <Table columns={this.columns} dataSource={this.state.dataSource}/>
+        <Table
+          columns={this.columns}
+          dataSource={this.state.dataSource}
+          pagination={{
+            position: ['topRight', 'bottomRight'],
+            defaultPageSize: 10,
+          }}  
+        />
       </>
     )
   }
