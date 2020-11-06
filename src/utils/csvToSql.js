@@ -2,6 +2,8 @@
 
 const fs = require('fs');
 const START_COLUMN = 1;
+const fileDirectory = '../../docs/resource/';
+const fileName = 'brands';
 
 function rowToSqlQuery(row, startColumn) {
   let query = '(';
@@ -18,10 +20,13 @@ function rowToSqlQuery(row, startColumn) {
   return query;
 }
 
-fs.readFile('suppliers.csv', 'utf8', (err, data) => {
-  const rows = data.trim().split('\r\n');
+const inputUrl = fileDirectory + fileName + '.csv';
+const outputUrl = fileDirectory + fileName + '.sql';
+
+fs.readFile(inputUrl, 'utf8', (err, data) => {
+  const rows = data.trim().split('\n');
 
   const sqlQuerys = rows.map((row) => rowToSqlQuery(row, START_COLUMN));
 
-  fs.writeFileSync('suppliers.sql', sqlQuerys.join(',\n'));
+  fs.writeFileSync(outputUrl, sqlQuerys.join(',\n'));
 });
