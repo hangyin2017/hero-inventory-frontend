@@ -64,23 +64,22 @@ class Inventory extends React.Component {
   }
 
   async componentDidMount() {
-    const data = await axios.get('http://localhost:8080/item').then(res => res.data);
+    const data = await axios.get('http://localhost:8080/api/item').then(res => res.data);
     this.setState({
       dataSource: data
     });
   }
 
   async handleSearchBarChange(input) {
-    const data = await axios.get(`http://localhost:8080/item/search?name=${input}`).then(res => res.data);
+    const data = await axios.get(`http://localhost:8080/api/item/search?searchInput=${input}`).then(res => res.data);
     this.setState({
-      // searchInput: input
       dataSource: data
     });
   }
 
   render() {
     const { Search } = Input;
-    const { dataSource, searchInput} = this.state;
+    const { dataSource } = this.state;
 
     return (
       <>
