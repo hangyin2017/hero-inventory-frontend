@@ -11,7 +11,7 @@ function App() {
       <Layout>
         <Sider className={styles.sider}>
           <Header className={styles.user}>User</Header>
-          <Menu className={styles.sideMenu} theme="dark" defaultSelectedKeys={['1']}>
+          <Menu className={styles.sideMenu} theme="dark" defaultSelectedKeys={['2']}>
             <Menu.Item key="1">Dashboard</Menu.Item>
             <Menu.Item key="2">Inventory</Menu.Item>
             <Menu.Item key="3">Orders</Menu.Item>

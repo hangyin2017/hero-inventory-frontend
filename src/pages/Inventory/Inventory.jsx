@@ -7,6 +7,8 @@ class Inventory extends React.Component {
   constructor(props) {
     super(props);
 
+    this.timer = undefined;
+
     this.columns = [
       {
         title: "Code",
@@ -39,7 +41,7 @@ class Inventory extends React.Component {
         key: "weight",
       },
       {
-        title: "Standard Price",
+        title: "Selling Price",
         dataIndex: "standardPrice",
         key: "standardPrice",
       },
@@ -61,17 +63,28 @@ class Inventory extends React.Component {
     }
 
     this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
+    this.handleSearchBarSearch = this.handleSearchBarSearch.bind(this);
   }
 
   async componentDidMount() {
-    const data = await axios.get('http://localhost:8080/api/item').then(res => res.data);
+    const { data } = await axios.get('http://localhost:8080/api/item');
     this.setState({
       dataSource: data
     });
   }
 
-  async handleSearchBarChange(input) {
-    const data = await axios.get(`http://localhost:8080/api/item/search?searchInput=${input}`).then(res => res.data);
+  async handleSearchBarChange(e) {
+    if(this.timer) clearTimeout(this.timer);
+    this.timer = setTimeout(async () => {
+      const { data } = await axios.get(`http://localhost:8080/api/item/search?searchInput=${e.target.value}`);
+      this.setState({
+        dataSource: data
+      });
+    }, 1000);
+  }
+
+  async handleSearchBarSearch(input) {
+    const { data } = await axios.get(`http://localhost:8080/api/item/search?searchInput=${input}`);
     this.setState({
       dataSource: data
     });
@@ -83,7 +96,13 @@ class Inventory extends React.Component {
 
     return (
       <>
-        <Search className={styles.search} placeholder="Search by item name" onSearch={this.handleSearchBarChange} />
+        <Search
+          className={styles.search}
+          placeholder="Search by item name or code"
+          allowClear={true}
+          onChange={this.handleSearchBarChange}
+          onSearch={this.handleSearchBarSearch}
+        />
 
         <Table
           columns={this.columns}
