@@ -1,9 +1,7 @@
 import React from 'react';
-import { Select, Input, Table } from 'antd';
+import { Input, Table } from 'antd';
 import axios from 'axios';
 import styles from './Inventory.module.less';
-
-const DEFAULT_ENTRIES_PER_PAGE = 20;
 
 class Inventory extends React.Component {
   constructor(props) {
@@ -57,16 +55,12 @@ class Inventory extends React.Component {
       },
     ]
 
-    // const mockData = Array(100).fill({}).map((entry, index) => ({
-    //   key: index,
-    //   code: parseInt(Math.random() * 10e5),
-    //   name: `Item${index}`,
-    //   quantity: parseInt(Math.random() * 10e3)
-    // }))
-
     this.state = {
       dataSource: [],
+      searchInput: '',
     }
+
+    this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
   }
 
   async componentDidMount() {
@@ -76,22 +70,25 @@ class Inventory extends React.Component {
     });
   }
 
-  handleEntryChange(value) {
+  async handleSearchBarChange(input) {
+    const data = await axios.get(`http://localhost:8080/item/search?name=${input}`).then(res => res.data);
     this.setState({
-      entriesPerPage: value
+      // searchInput: input
+      dataSource: data
     });
   }
 
   render() {
     const { Search } = Input;
+    const { dataSource, searchInput} = this.state;
 
     return (
       <>
-        <Search className={styles.search} placeholder="search for item" />
+        <Search className={styles.search} placeholder="Search by item name" onSearch={this.handleSearchBarChange} />
 
         <Table
           columns={this.columns}
-          dataSource={this.state.dataSource}
+          dataSource={dataSource}
           pagination={{
             position: ['topRight', 'bottomRight'],
             defaultPageSize: 10,
