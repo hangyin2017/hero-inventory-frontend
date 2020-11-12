@@ -72,6 +72,7 @@ color: #008fb4;
 
 const SignInModal = ({
     onClose,
+    onSignUp,
 }) => (
         <Overlay onClick={onClose}> 
             <Modal onClick={(event) => event.stopPropagation()}>
@@ -84,13 +85,14 @@ const SignInModal = ({
                 <HorizontalRule />
                 <Footer> 
                 Not a member yet?&nbsp;
-                <SignUpButton>Sign Up Now</SignUpButton>
+                <SignUpButton onClick={onSignUp}>Sign Up Now</SignUpButton>
                 </Footer>
             </Modal>
         </Overlay>
     );
     SignInModal.propTypes ={
         onClose: PropTypes.func.isRequired,
+        onSignUp: PropTypes.func.isRequired,
     };
 
 export default SignInModal;

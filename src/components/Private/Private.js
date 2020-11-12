@@ -5,36 +5,50 @@ import SignInModal from './components/SignInModal'
 const Layout = styled.div`
 display: flex;
 `;
-
+ 
+const MODAL={
+    SIGN_IN: 'SIGN_IN',
+    SIGN_UP: 'SIGN_UP',
+    EMPTY: '',
+}
 class Private extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            showSignInModal:false,
+         showModal:MODAL.EMPTY,
         }
 
-        this.toggleSignInModal = this.toggleSignInModal.bind(this);
+        this.showModal = this.showModal.bind(this);
 
     }
-    toggleSignInModal(event){
-        event.preventDefault();
-        this.setState((prevState)=>({
-            showSignInModal: !prevState.showSignInModal,
-        }));
+    showModal(target){
+        return(event)=> {
+            event.preventDefault();
+            this.setState({
+                showModal:target,
+            });
+        };
     }
     render(){
-        const { showSignInModal} = this.state;
+        const { showModal} = this.state;
         return(
             <React.Fragment>
             <Layout>
-            <button onClick={this.toggleSignInModal}>
+            <button onClick={this.showModal(MODAL.SIGN_IN)}>
             Sign in
             </button>
-            <button>
+            <button onClick={this.showModal(MODAL.SIGN_UP)}>
             Sign up
             </button>
            </Layout>
-           {showSignInModal && (<SignInModal onClose={this.toggleSignInModal}/>)}
+           {showModal ===MODAL.SIGN_IN && (
+               <SignInModal 
+               onClose={this.showModal(MODAL.EMPTY)} 
+               onSignUp={this.showModal(MODAL.SIGN_UP)}/>
+               )}
+            {showModal === MODAL.SIGN_UP && (
+                <div>SignUp</div>
+            )}
            </React.Fragment>
         )
 
