@@ -34,7 +34,7 @@ class Private extends React.Component{
             Sign up
             </button>
            </Layout>
-           {showSignInModal && (<SignInModal />)}
+           {showSignInModal && (<SignInModal onClose={this.toggleSignInModal}/>)}
            </React.Fragment>
         )
 
