@@ -8,6 +8,7 @@ import Contacts from './pages/contacts/Contacts'
 import Orders from './pages/orders/Orders'
 import Users from './pages/users/Users'
 import Navbar from './layout/navbar/Navbar'
+import Private from './components/Private/Private'
 
 function App() {
   const { Header, Footer, Sider, Content } = Layout;
@@ -26,6 +27,7 @@ function App() {
             <Header className={styles.header}>
               <h2>Page Title</h2>
             </Header>
+            <Private />
             <Content>
               {/* <Inventory /> */}
               <Switch>
