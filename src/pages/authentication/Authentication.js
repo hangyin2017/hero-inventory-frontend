@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SignInModal from './components/SignInModal'
+import SignUpModal from './components/SignUpModal'
 
 const Layout = styled.div`
 display: flex;
@@ -47,7 +48,9 @@ class Authentication extends React.Component{
                onSignUp={this.showModal(MODAL.SIGN_UP)}/>
                )}
             {showModal === MODAL.SIGN_UP && (
-                <div>SignUp</div>
+                <SignUpModal
+                onClose={this.showModal(MODAL.EMPTY)}
+                onSignIn={this.showModal(MODAL.SIGN_IN)}/>
             )}
            </React.Fragment>
         )
