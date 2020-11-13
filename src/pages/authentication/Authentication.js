@@ -11,7 +11,7 @@ const MODAL={
     SIGN_UP: 'SIGN_UP',
     EMPTY: '',
 }
-class Private extends React.Component{
+class Authentication extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -56,4 +56,4 @@ class Private extends React.Component{
 }
 
 
-export default Private;
+export default Authentication;

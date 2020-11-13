@@ -14,6 +14,7 @@ const Navbar = () => {
         <MenuItem to = '/orders'>Orders</MenuItem>
         <MenuItem to = '/contacts'>Contacts</MenuItem>
         <MenuItem to = '/users'>Users</MenuItem>
+        <MenuItem to ='/authentication'>Authentication</MenuItem>
       </Menu>
         )
   }

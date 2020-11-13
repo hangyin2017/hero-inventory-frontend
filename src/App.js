@@ -8,7 +8,7 @@ import Contacts from './pages/contacts/Contacts'
 import Orders from './pages/orders/Orders'
 import Users from './pages/users/Users'
 import Navbar from './layout/navbar/Navbar'
-import Private from './components/Private/Private'
+import Authentication from './pages/authentication/Authentication'
 
 function App() {
   const { Header, Footer, Sider, Content } = Layout;
@@ -27,7 +27,6 @@ function App() {
             <Header className={styles.header}>
               <h2>Page Title</h2>
             </Header>
-            <Private />
             <Content>
               {/* <Inventory /> */}
               <Switch>
@@ -36,6 +35,7 @@ function App() {
                 <Route exact path='/orders' component={Orders} />
                 <Route exact path='/contacts' component={Contacts} />
                 <Route exact path='/users' component={Users} />
+                <Route exact path='/authentication' component={Authentication} />
               </Switch>
             </Content>
             <Footer>
