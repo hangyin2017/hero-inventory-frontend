@@ -17,7 +17,7 @@ function rowToSqlQuery(row, startColumn) {
     } else {
       query += `'${stringSanitiser(cells[i])}'`;
     }
-    
+
     if (i !== cells.length - 1)
       query += ',';
   }
@@ -27,7 +27,7 @@ function rowToSqlQuery(row, startColumn) {
 }
 
 function stringSanitiser(string) {
-  return string.replace('"', '').replace('"', '').replace('\'', '\'\'').trim();
+  return string.replace('"', '') .replace('"', '').replace('\'', '\'\'').trim();
 }
 
 const inputUrl = path.join(__dirname, TARGET_DIRECTORY, FILE_NAME + '.csv');
