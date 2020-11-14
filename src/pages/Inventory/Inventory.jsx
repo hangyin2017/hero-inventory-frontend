@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Table } from 'antd';
-import axios from 'axios';
+import api from '../../lib/api';
 import styles from './Inventory.module.less';
 
 class Inventory extends React.Component {
@@ -67,7 +67,7 @@ class Inventory extends React.Component {
   }
 
   async componentDidMount() {
-    const { data } = await axios.get('http://localhost:8080/api/item');
+    const { data } = await api.getAll('items');
     this.setState({
       dataSource: data
     });
@@ -76,7 +76,7 @@ class Inventory extends React.Component {
   async handleSearchBarChange(e) {
     if(this.timer) clearTimeout(this.timer);
     this.timer = setTimeout(async () => {
-      const { data } = await axios.get(`http://localhost:8080/api/item/search?searchInput=${e.target.value}`);
+      const { data } = await api.filter('items', e.target.value);
       this.setState({
         dataSource: data
       });
@@ -84,7 +84,7 @@ class Inventory extends React.Component {
   }
 
   async handleSearchBarSearch(input) {
-    const { data } = await axios.get(`http://localhost:8080/api/item/search?searchInput=${input}`);
+    const { data } = await api.filter('items', input);
     this.setState({
       dataSource: data
     });
