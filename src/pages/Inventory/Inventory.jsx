@@ -9,7 +9,7 @@ class Inventory extends React.Component {
 
     this.timer = undefined;
 
-    this.columns = [
+    this.COLUMNS = [
       {
         title: "Code",
         dataIndex: "code",
@@ -58,55 +58,51 @@ class Inventory extends React.Component {
     ]
 
     this.state = {
-      dataSource: [],
+      tableData: [],
       searchInput: '',
     }
 
-    this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
-    this.handleSearchBarSearch = this.handleSearchBarSearch.bind(this);
+    this.debouncedSearch = this.debouncedSearch.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   async componentDidMount() {
     const { data } = await api.getAll('items');
     this.setState({
-      dataSource: data
+      tableData: data
     });
   }
-
-  async handleSearchBarChange(e) {
-    if(this.timer) clearTimeout(this.timer);
-    this.timer = setTimeout(async () => {
-      const { data } = await api.filter('items', e.target.value);
-      this.setState({
-        dataSource: data
-      });
-    }, 1000);
+  
+  async debouncedSearch({ target }) {
+    if(target.timer) clearTimeout(target.timer);
+    target.timer = setTimeout(() => this.handleSearch(target.value), 1000);
   }
 
-  async handleSearchBarSearch(input) {
+  async handleSearch(input) {
     const { data } = await api.filter('items', input);
     this.setState({
-      dataSource: data
+      tableData: data
     });
   }
 
   render() {
     const { Search } = Input;
-    const { dataSource } = this.state;
+    const { tableData } = this.state;
 
     return (
       <>
         <Search
           className={styles.search}
-          placeholder="Search by item name or code"
+          placeholder="Search by item name or SKU"
           allowClear={true}
-          onChange={this.handleSearchBarChange}
-          onSearch={this.handleSearchBarSearch}
+          onChange={this.debouncedSearch}
+          onSearch={this.handleSearch}
         />
 
         <Table
-          columns={this.columns}
-          dataSource={dataSource}
+          columns={this.COLUMNS}
+          dataSource={tableData}
+          rowKey={'id'}
           pagination={{
             position: ['topRight', 'bottomRight'],
             defaultPageSize: 10,
