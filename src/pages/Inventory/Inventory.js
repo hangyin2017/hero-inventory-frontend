@@ -11,19 +11,19 @@ class Inventory extends React.Component {
 
     this.COLUMNS = [
       {
-        title: "Code",
-        dataIndex: "code",
-        key: "code",
+        title: "SKU",
+        dataIndex: "sku",
+        key: "sku",
       },
       {
         title: "Name",
         dataIndex: "name",
         key: "name",
       },
-      {
-        title: "Brand",
-        dataIndex: "brand",
-        key: "brand",
+            {
+        title: "Description",
+        dataIndex: "description",
+        key: "description",
       },
       {
         title: "Categary",
@@ -31,9 +31,14 @@ class Inventory extends React.Component {
         key: "category",
       },
       {
-        title: "Supplier",
-        dataIndex: "supplier",
-        key: "supplier",
+        title: "Brand",
+        dataIndex: "brand",
+        key: "brand",
+      },
+      {
+        title: "Manufacturer",
+        dataIndex: "manufacturer",
+        key: "manufacturer",
       },
       {
         title: "Weight",
@@ -42,18 +47,23 @@ class Inventory extends React.Component {
       },
       {
         title: "Selling Price",
-        dataIndex: "standardPrice",
-        key: "standardPrice",
+        dataIndex: "sellingPrice",
+        key: "sellingPrice",
       },
       {
-        title: "Cost",
-        dataIndex: "cost",
-        key: "cost",
+        title: "Cost Price",
+        dataIndex: "costPrice",
+        key: "costPrice",
       },
       {
-        title: "Quantity",
-        dataIndex: "quantity",
-        key: "quantity",
+        title: "Physical Stock",
+        dataIndex: "physicalStock",
+        key: "physicalStock",
+      },
+      {
+        title: "Created Time",
+        dataIndex: "createdTime",
+        key: "createdTime",
       },
     ]
 
