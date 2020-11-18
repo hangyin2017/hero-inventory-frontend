@@ -11,6 +11,11 @@ import PurchaseOrders from "./pages/PurchaseOrders";
 import Users from "./pages/Users";
 import Authentication from "./pages/Authentication";
 import Navbar from "./layout/Navbar";
+import React from 'react';
+import { Layout, Menu, Breadcrumb } from 'antd';
+import styles from './App.module.less';
+import Inventory from './pages/Inventory';
+import SalesOrders from './pages/SalesOrders';
 
 const App = () => {
   const { Header, Footer, Sider, Content } = Layout;
