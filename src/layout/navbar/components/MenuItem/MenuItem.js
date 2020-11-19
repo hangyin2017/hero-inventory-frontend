@@ -1,11 +1,12 @@
 import React from "react";
-import styles from "./MenuItem.module.css";
+import { Menu } from "antd";
 import { Link } from "react-router-dom";
+
 const MenuItem = ({ to, children }) => {
   return (
-    <li className={styles.item}>
-      <Link to={to}>{children}</Link>
-    </li>
+    <Menu.Item>
+      <Link to={to}></Link>Users
+    </Menu.Item>
   );
 };
 
