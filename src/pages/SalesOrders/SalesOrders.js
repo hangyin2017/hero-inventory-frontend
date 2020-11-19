@@ -22,8 +22,6 @@ class SalesOrders extends React.Component {
     this.setState({ newOrderModalVisible: false });
   }
 
-
-
   render() {
     const { newOrderModalVisible } = this.state;
 
