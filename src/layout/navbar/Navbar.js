@@ -1,35 +1,72 @@
+import styled from 'styled-components';
 import { Menu } from 'antd';
 import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 // import MenuItem from "./components/MenuItem";
 
 const SideMenu = styled(Menu)`
   font-size: 16px;
 `;
 
-const Navbar = () => {
-  return (
-    <SideMenu theme="dark" defaultSelectedKeys={["1"]}>
-      {/* <MenuItem to="/">Dashboard</MenuItem>
-      <MenuItem to="/inventory">Inventory</MenuItem>
-      <MenuItem to="/customers">Customers</MenuItem>
-      <MenuItem to="/salesorders">Sales Orders</MenuItem>
-      <MenuItem to="/suppliers">Suppliers</MenuItem>
-      <MenuItem to="/purchaseorders">Purchase Orders</MenuItem>
-      <MenuItem to="/users">Users</MenuItem>
-      <MenuItem to="/authentication">Sign In / Sign Out</MenuItem> */}
+const PAGES = [
+  {
+    to: "/dashboard",
+    name: "Dashboard",
+  },
+  {
+    to: "/inventory",
+    name: "Inventory",
+  },
+  {
+    to: "/customers",
+    name: "Customers",
+  },
+  {
+    to: "/salesorders",
+    name: "Sales Orders",
+  },
+  {
+    to: "/suppliers",
+    name: "Suppliers",
+  },
+  {
+    to: "/purchaseorders",
+    name: "Purchase Orders",
+  },
+  {
+    to: "/users",
+    name: "Users",
+  },
+  {
+    to: "/authentication",
+    name: "Sign In / Sign Out",
+  },
+]
 
-      <Menu.Item key="1"><Link to="/"></Link>Dashboard</Menu.Item>
-      <Menu.Item><Link to="/inventory"></Link>Inventory</Menu.Item>
-      <Menu.Item><Link to="/customers"></Link>Customers</Menu.Item>
-      <Menu.Item><Link to="/salesorders"></Link>Sales Orders</Menu.Item>
-      <Menu.Item><Link to="/suppliers"></Link>Suppliers</Menu.Item>
-      <Menu.Item><Link to="/purchaseorders"></Link>Purchase Orders</Menu.Item>
-      <Menu.Item><Link to="/users"></Link>Users</Menu.Item>
-      <Menu.Item><Link to="/authentication"></Link>Sign In / Sign Out</Menu.Item>
-    </SideMenu>
-  );
-};
+const StyledNavLink = styled(NavLink).attrs({
+  activeClassName: 'nav-link--active',
+})`
+  display: block;
+  /* padding: 0 16px; */
+
+  &.nav-link--active {
+    background-color: #1890ff;
+    color: #fff;
+  }
+`;
+
+const MenuItem = styled(Menu.Item)`
+  padding: 0;
+`;
+
+const Navbar = () => (
+  <SideMenu theme="dark" defaultSelectedKeys={[window.location.pathname]}>
+    {PAGES.map(({ to, name }) => (
+      <MenuItem key={to}>
+        <StyledNavLink to={to}>{name}</StyledNavLink>
+      </MenuItem>
+    ))}
+  </SideMenu>
+);
 
 export default Navbar;
