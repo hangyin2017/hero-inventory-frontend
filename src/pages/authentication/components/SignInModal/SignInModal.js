@@ -8,7 +8,6 @@ const Form = styled.form`
   padding: 16px 0;
 `;
 
-
 const Input = styled.input`
   display: block;
   box-sizing: border-box;
@@ -41,6 +40,7 @@ const SignInModal = ({ onClose, onSignUp }) => (
         <FormItem label="Password" htmlFor="password">
           <Input id="password" type="password" />
         </FormItem>
+
         <FormItem>
           <button>Sign In</button>
         </FormItem>
@@ -52,6 +52,7 @@ const SignInModal = ({ onClose, onSignUp }) => (
     </Modal.Footer>
   </Modal>
 );
+
 SignInModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSignUp: PropTypes.func.isRequired,

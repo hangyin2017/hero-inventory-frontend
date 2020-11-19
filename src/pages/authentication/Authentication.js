@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import SignInModal from "./components/SignInModal/SignInModal";
-import SignUpModal from "./components/SignUpModal/SignUpModal";
+import SignInModal from "./components/SignInModal";
+import SignUpModal from "./components/SignUpModal";
 
 const Layout = styled.div`
   height: 80vh;
@@ -36,14 +36,18 @@ const ShieldTitle = styled.div`
   font-weight: 500;
   margin-bottom: 15px;
 `;
+
 class Authentication extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       showModal: MODAL.SIGN_IN,
     };
+
     this.showModal = this.showModal.bind(this);
   }
+
   showModal(target) {
     return (event) => {
       event.preventDefault();
@@ -52,30 +56,30 @@ class Authentication extends React.Component {
       });
     };
   }
+
   render() {
     const { showModal } = this.state;
+
     return (
-      <React.Fragment>
-        <Layout>
-          <Left showModal={showModal}>
-            {showModal === MODAL.SIGN_IN && (
-              <SignInModal onSignUp={this.showModal(MODAL.SIGN_UP)} 
-              />)}
-            {showModal === MODAL.SIGN_UP && (
-              <SignUpModal onSignIn={this.showModal(MODAL.SIGN_IN)} 
-              />)}
-          </Left>
-          <Right>
-            <Shield>
-              <ShieldTitle>KEEP YOUR ACCOUNT SECURE</ShieldTitle>
-              <div>
-                OneAuth is our new in-house multi-factor authentication app.
-                Shield your account with OneAuth now.
-              </div>
-            </Shield>
-          </Right>
-        </Layout>
-      </React.Fragment>
+      <Layout>
+        <Left showModal={showModal}>
+          {showModal === MODAL.SIGN_IN && (
+            <SignInModal onSignUp={this.showModal(MODAL.SIGN_UP)} 
+            />)}
+          {showModal === MODAL.SIGN_UP && (
+            <SignUpModal onSignIn={this.showModal(MODAL.SIGN_IN)} 
+            />)}
+        </Left>
+        <Right>
+          <Shield>
+            <ShieldTitle>KEEP YOUR ACCOUNT SECURE</ShieldTitle>
+            <div>
+              OneAuth is our new in-house multi-factor authentication app.
+              Shield your account with OneAuth now.
+            </div>
+          </Shield>
+        </Right>
+      </Layout>
     );
   }
 }

@@ -1,15 +1,11 @@
 import React from 'react';
 import { Select, Input, Table } from 'antd';
-import axios from 'axios';
+import api from '../../lib/api';
 import styles from './Inventory.module.less';
-
-const DEFAULT_ENTRIES_PER_PAGE = 20;
 
 class Inventory extends React.Component {
   constructor(props) {
     super(props);
-
-    this.timer = undefined;
 
     this.COLUMNS = [
       {

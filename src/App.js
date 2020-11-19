@@ -1,16 +1,20 @@
 import React from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styles from "./App.module.less";
-import Inventory from "./pages/Inventory";
 import Dashboard from "./pages/Dashboard";
-import Contacts from "./pages/Contacts";
-import Orders from "./pages/Orders";
+import Inventory from "./pages/Inventory";
+import Customers from "./pages/Customers";
+import SalesOrders from "./pages/SalesOrders";
+import Suppliers from "./pages/Suppliers";
+import PurchaseOrders from "./pages/PurchaseOrders";
 import Users from "./pages/Users";
-import Navbar from "./layout/Navbar";
 import Authentication from "./pages/Authentication";
-function App() {
+import Navbar from "./layout/Navbar";
+
+const App = () => {
   const { Header, Footer, Sider, Content } = Layout;
+
   return (
     <Router>
       <div className={styles.app}>
@@ -31,16 +35,14 @@ function App() {
             </Header>
             <Content>
               <Switch>
-                <Route exact path="/" component={Dashboard} />
                 <Route exact path="/inventory" component={Inventory} />
-                <Route exact path="/orders" component={Orders} />
-                <Route exact path="/contacts" component={Contacts} />
+                <Route exact path="/customers" component={Customers} />
+                <Route exact path="/salesorders" component={SalesOrders} />
+                <Route exact path="/suppliers" component={Suppliers} />
+                <Route exact path="/purchaseorders" component={PurchaseOrders} />
                 <Route exact path="/users" component={Users} />
-                <Route
-                  exact
-                  path="/authentication"
-                  component={Authentication}
-                />
+                <Route exact path="/authentication" component={Authentication} />
+                <Route path="/" component={Dashboard} />
               </Switch>
             </Content>
             <Footer />
@@ -48,3 +50,7 @@ function App() {
         </Layout>
       </div>
     </Router>
+  )
+};
+
+export default App;

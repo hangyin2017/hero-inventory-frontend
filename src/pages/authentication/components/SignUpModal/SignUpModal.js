@@ -47,6 +47,7 @@ const Input = styled.input`
   border-radius: 4px;
   border: 1px solid #bbc2dc;
 `;
+
 const SignInButton = styled.button`
   outline: 0;
   border: 0;
@@ -55,9 +56,11 @@ const SignInButton = styled.button`
   cursor: pointer;
   color: #008fb4;
 `;
+
 class SignUpModal extends React.Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       formData: {
         email: "",
@@ -65,9 +68,11 @@ class SignUpModal extends React.Component {
         confirmPassword: "",
       },
     };
+
     this.handleFormDataChange = this.handleFormDataChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
   handleFormDataChange(target) {
     return (event) => {
       const { value } = event.target;
