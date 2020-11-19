@@ -1,13 +1,8 @@
 import React from 'react';
-import { Modal, Input, Button, Form, DatePicker } from 'antd';
+import { Modal, Input, Button, Form, DatePicker, Divider } from 'antd';
 import moment from 'moment';
+import FormFooter from './components/FormFooter';
 
-const tailLayout = {
-  wrapperCol: {
-    offset: 0,
-    span: 24,
-  },
-};
 
 class NewOrderModal extends React.Component {
   constructor(props) {
@@ -89,20 +84,12 @@ class NewOrderModal extends React.Component {
               },
             ]}
           >
-            <DatePicker defaultValue={moment('08/11/2020', 'DD/MM/YYYY')} format='DD/MM/YYYY' />
+            <DatePicker defaultValue={moment()} format="DD/MM/YYYY" />
           </Form.Item>
 
-          <Form.Item { ...tailLayout }>
-            <Button style={{ margin: '0 8px' }}>
-              Save as Draft
-            </Button>
-            <Button type="primary" htmlType="submit"  style={{ margin: '0 8px' }}>
-              Save and Confirm
-            </Button>
-            <Button style={{ margin: '0 8px' }}>
-              Cancel
-            </Button>
-          </Form.Item>
+          <Divider />
+
+          <FormFooter />
         </Form>
       </Modal>
     );
