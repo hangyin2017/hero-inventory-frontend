@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Input, Button, Form, DatePicker, Divider } from 'antd';
+import OrderedItemsTable from './components/OrderedItemsTable';
 import FormFooter from './components/FormFooter';
 import { FIELDS } from './FIELDS';
 
@@ -47,6 +48,7 @@ class NewOrderModal extends React.Component {
             <Form.Item key={field.name} {...field}/>
           ))}
           <Divider />
+          <OrderedItemsTable />
           <FormFooter />
         </Form>
       </Modal>
