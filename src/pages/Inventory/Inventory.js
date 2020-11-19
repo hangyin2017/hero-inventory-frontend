@@ -1,7 +1,9 @@
 import React from 'react';
-import { Input, Table } from 'antd';
-import api from '../../lib/api';
+import { Select, Input, Table } from 'antd';
+import axios from 'axios';
 import styles from './Inventory.module.less';
+
+const DEFAULT_ENTRIES_PER_PAGE = 20;
 
 class Inventory extends React.Component {
   constructor(props) {
@@ -20,7 +22,7 @@ class Inventory extends React.Component {
         dataIndex: "name",
         key: "name",
       },
-            {
+      {
         title: "Description",
         dataIndex: "description",
         key: "description",

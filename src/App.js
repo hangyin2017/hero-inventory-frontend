@@ -1,38 +1,50 @@
-import React from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
-import styles from './App.module.less';
-import Inventory from './pages/Inventory';
-
+import React from "react";
+import { Layout, Menu, Breadcrumb } from "antd";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import styles from "./App.module.less";
+import Inventory from "./pages/Inventory";
+import Dashboard from "./pages/Dashboard";
+import Contacts from "./pages/Contacts";
+import Orders from "./pages/Orders";
+import Users from "./pages/Users";
+import Navbar from "./layout/Navbar";
+import Authentication from "./pages/Authentication";
 function App() {
   const { Header, Footer, Sider, Content } = Layout;
-
   return (
-    <div className={styles.app}>
-      <Layout>
-        <Sider className={styles.sider}>
-          <Header className={styles.user}>User</Header>
-          <Menu className={styles.sideMenu} theme="dark" defaultSelectedKeys={['2']}>
-            <Menu.Item key="1">Dashboard</Menu.Item>
-            <Menu.Item key="2">Inventory</Menu.Item>
-            <Menu.Item key="3">Orders</Menu.Item>
-            <Menu.Item key="4">Contacts</Menu.Item>
-            <Menu.Item key="5">Users</Menu.Item>
-          </Menu>
-        </Sider>
+    <Router>
+      <div className={styles.app}>
         <Layout>
-          <Header className={styles.header}>
-            <h2>Page Title</h2>
-          </Header>
-          <Content>
-            <Inventory />
-          </Content>
-          <Footer>
-            
-          </Footer>
+          <Sider className={styles.sider}>
+            <Header className={styles.user}>User</Header>
+            <Menu
+              className={styles.sideMenu}
+              theme="dark"
+              defaultSelectedKeys={["1"]}
+            >
+              <Navbar />
+            </Menu>
+          </Sider>
+          <Layout>
+            <Header className={styles.header}>
+              <h2>Page Title</h2>
+            </Header>
+            <Content>
+              <Switch>
+                <Route exact path="/" component={Dashboard} />
+                <Route exact path="/inventory" component={Inventory} />
+                <Route exact path="/orders" component={Orders} />
+                <Route exact path="/contacts" component={Contacts} />
+                <Route exact path="/users" component={Users} />
+                <Route
+                  exact
+                  path="/authentication"
+                  component={Authentication}
+                />
+              </Switch>
+            </Content>
+            <Footer />
+          </Layout>
         </Layout>
-      </Layout>
-    </div>
-  );
-}
-
-export default App;
+      </div>
+    </Router>
