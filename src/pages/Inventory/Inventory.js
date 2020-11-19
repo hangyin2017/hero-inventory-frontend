@@ -9,11 +9,13 @@ class Inventory extends React.Component {
   constructor(props) {
     super(props);
 
-    this.columns = [
+    this.timer = undefined;
+
+    this.COLUMNS = [
       {
-        title: "Code",
-        dataIndex: "code",
-        key: "code",
+        title: "SKU",
+        dataIndex: "sku",
+        key: "sku",
       },
       {
         title: "Name",
@@ -21,9 +23,9 @@ class Inventory extends React.Component {
         key: "name",
       },
       {
-        title: "Brand",
-        dataIndex: "brand",
-        key: "brand",
+        title: "Description",
+        dataIndex: "description",
+        key: "description",
       },
       {
         title: "Categary",
@@ -31,9 +33,14 @@ class Inventory extends React.Component {
         key: "category",
       },
       {
-        title: "Supplier",
-        dataIndex: "supplier",
-        key: "supplier",
+        title: "Brand",
+        dataIndex: "brand",
+        key: "brand",
+      },
+      {
+        title: "Manufacturer",
+        dataIndex: "manufacturer",
+        key: "manufacturer",
       },
       {
         title: "Weight",
@@ -41,57 +48,73 @@ class Inventory extends React.Component {
         key: "weight",
       },
       {
-        title: "Standard Price",
-        dataIndex: "standardPrice",
-        key: "standardPrice",
+        title: "Selling Price",
+        dataIndex: "sellingPrice",
+        key: "sellingPrice",
       },
       {
-        title: "Cost",
-        dataIndex: "cost",
-        key: "cost",
+        title: "Cost Price",
+        dataIndex: "costPrice",
+        key: "costPrice",
       },
       {
-        title: "Quantity",
-        dataIndex: "quantity",
-        key: "quantity",
+        title: "Physical Stock",
+        dataIndex: "physicalStock",
+        key: "physicalStock",
+      },
+      {
+        title: "Created Time",
+        dataIndex: "createdTime",
+        key: "createdTime",
       },
     ]
 
-    // const mockData = Array(100).fill({}).map((entry, index) => ({
-    //   key: index,
-    //   code: parseInt(Math.random() * 10e5),
-    //   name: `Item${index}`,
-    //   quantity: parseInt(Math.random() * 10e3)
-    // }))
-
     this.state = {
-      dataSource: [],
+      tableData: [],
+      searchInput: '',
     }
+
+    this.debouncedSearch = this.debouncedSearch.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   async componentDidMount() {
-    const data = await axios.get('http://localhost:8080/item').then(res => res.data);
+    const { data } = await api.getAll('items');
     this.setState({
-      dataSource: data
+      tableData: data
     });
   }
+  
+  async debouncedSearch({ target }) {
+    if(target.timer) clearTimeout(target.timer);
+    target.timer = setTimeout(() => this.handleSearch(target.value), 1000);
+  }
 
-  handleEntryChange(value) {
+  async handleSearch(input) {
+    const { data } = await api.filter('items', input);
     this.setState({
-      entriesPerPage: value
+      tableData: data
     });
   }
 
   render() {
     const { Search } = Input;
+    const { tableData } = this.state;
 
     return (
       <>
-        <Search className={styles.search} placeholder="search for item" />
+        <Search
+          className={styles.search}
+          placeholder="Search by item name or SKU"
+          allowClear={true}
+          onChange={this.debouncedSearch}
+          onSearch={this.handleSearch}
+        />
 
         <Table
-          columns={this.columns}
-          dataSource={this.state.dataSource}
+          columns={this.COLUMNS}
+          dataSource={tableData}
+          rowKey={'id'}
           pagination={{
             position: ['topRight', 'bottomRight'],
             defaultPageSize: 10,

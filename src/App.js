@@ -48,7 +48,3 @@ function App() {
         </Layout>
       </div>
     </Router>
-  );
-}
-
-export default App;
