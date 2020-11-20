@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { Form, Input, Button } from "antd";
-import { CloseCircleOutlined } from "@ant-design/icons";
+import { Form, Input, Popover, Select } from "antd";
+import { CloseCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { EditableContext } from "../../OrderedItemsTable";
+const { Option } = Select;
 const goodsList = [
   {
     name: "goods01",
@@ -32,6 +33,8 @@ const OrderedItemTableCell = ({
   dataIndex,
   record,
   handleSave,
+  handleAdd,
+  showModal,
   ...restProps
 }) => {
   const [editing, setEditing] = useState(false);
@@ -67,14 +70,19 @@ const OrderedItemTableCell = ({
     }, 300);
     if (dataIndex !== "DETAILS") {
       let data = { ...record, ...values };
+      let amount = 0;
+      if (record.flag === "%") {
+        amount = data.QUANTITY * data.RATE * (1 - data.DISCOUNT / 100);
+      } else {
+        amount = data.QUANTITY * data.RATE - data.DISCOUNT;
+      }
       handleSave({
         ...data,
-        AMOUNT: data.QUANTITY * data.RATE * (1 - data.DISCOUNT / 100),
+        AMOUNT: amount,
       });
     }
   };
   const save = async (data) => {
-    console.log("object");
     try {
       const values = await form.validateFields();
       if (dataIndex === "DETAILS") {
@@ -103,10 +111,10 @@ const OrderedItemTableCell = ({
   let childNode = children;
   if (editable) {
     childNode = editing ? (
-      <>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
-            <h2>
+            <h2 style={{ display: "flex", justifyContent: "space-between" }}>
               {record.data.name} <CloseCircleOutlined />
             </h2>
             <span>SKU:{record.data.sku}</span>
@@ -124,44 +132,98 @@ const OrderedItemTableCell = ({
         >
           <Input ref={inputRef} onBlur={myblur} onPressEnter={myblur} />
         </Form.Item>
-
+        {dataIndex === "DISCOUNT" ? (
+          <Select defaultValue={record.flag} style={{ marginLeft: 10 }}>
+            <Option value="%">%</Option>
+            <Option value="$">$</Option>
+          </Select>
+        ) : null}
         {dataIndex === "DETAILS" && !record.data?.name ? (
           <ul
             style={{
               position: "absolute",
               zIndex: 9999,
-              width: "200px",
+              width: "300px",
               background: "#fff",
             }}
           >
             {goodsList.map((item) => (
-              <li key={item.id} onClick={() => save(item)}>
+              <li
+                key={item.id}
+                onClick={() => {
+                  save(item);
+                  handleAdd();
+                }}
+              >
                 <h2>{item.name}</h2>
-                SKU:{item.sku}
-                Rate:{item.rate}
-                Stock:{item.stock}
+                <span style={{ marginRight: 5 }}> SKU:{item.sku}</span>
+                <span style={{ marginRight: 5 }}> Rate:{item.rate}</span>
+                <span> Stock:{item.stock}</span>
               </li>
             ))}
-            <li>+Add New Item</li>
+            <li onClick={showModal}>+Add New Item</li>
           </ul>
         ) : null}
-      </>
+      </div>
     ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={toggleEdit}
-      >
+      <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }}>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
-            <h2>
+            <h2 style={{ display: "flex", justifyContent: "space-between" }}>
               {record.data.name}
-              <CloseCircleOutlined onClick={del} />
+              <div>
+                <Popover
+                  content={
+                    <div>
+                      <p onClick={showModal}>Edit Item</p>
+                      <p onClick={showModal}>View Item Details</p>
+                    </div>
+                  }
+                >
+                  <PlusCircleOutlined />
+                </Popover>
+                <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
+              </div>
             </h2>
             <span>SKU:{record.data.sku}</span>
           </div>
         ) : null}
-        {children}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ flex: 1 }} onClick={toggleEdit}>
+            {children}
+          </div>
+          {dataIndex === "DISCOUNT" ? (
+            <Select
+              onClick={() => setEditing(false)}
+              defaultValue={record.flag}
+              style={{ width: 60, marginLeft: 10 }}
+              onChange={(val) => {
+                let data = { ...record };
+                let amount = 0;
+                if (val === "%") {
+                  amount =
+                    data.QUANTITY * data.RATE * (1 - data.DISCOUNT / 100);
+                } else {
+                  amount = data.QUANTITY * data.RATE - data.DISCOUNT;
+                }
+                handleSave({
+                  ...data,
+                  AMOUNT: amount,
+                  flag: val,
+                });
+              }}
+            >
+              <Option value="%">%</Option>
+              <Option value="$">$</Option>
+            </Select>
+          ) : null}
+        </div>
       </div>
     );
   }
