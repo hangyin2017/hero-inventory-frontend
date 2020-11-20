@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, DatePicker } from 'antd';
 import moment from 'moment';
 
-export const FIELDS = [
+export default [
   {
     label: "Customer Name",
     name: "username",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Table, Button } from 'antd';
+import { Button } from 'antd';
 import NewOrderModal from './components/NewOrderModal';
 
 class SalesOrders extends React.Component {
@@ -27,9 +27,7 @@ class SalesOrders extends React.Component {
 
     return (
       <>
-        <Button
-          onClick={this.showNewOrderModal}
-        >
+        <Button onClick={this.showNewOrderModal}>
           + New
         </Button>
         <NewOrderModal
@@ -37,6 +35,7 @@ class SalesOrders extends React.Component {
           visible={newOrderModalVisible}
           onSave={this.hideNewOrderModal}
           onCancel={this.hideNewOrderModal}
+          destroyOnClose={true}
         />
       </>
     )
