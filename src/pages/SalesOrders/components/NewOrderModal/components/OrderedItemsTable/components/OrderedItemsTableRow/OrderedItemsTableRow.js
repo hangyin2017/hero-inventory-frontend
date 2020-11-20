@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "antd";
 import { EditableContext } from "../../OrderedItemsTable";
-const OrderedItemTableRow = ({ index, ...props }) => {
+const OrderedItemsTableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
   return (
     <Form form={form} component={false}>
@@ -12,4 +12,4 @@ const OrderedItemTableRow = ({ index, ...props }) => {
   );
 };
 
-export default OrderedItemTableRow;
+export default OrderedItemsTableRow;

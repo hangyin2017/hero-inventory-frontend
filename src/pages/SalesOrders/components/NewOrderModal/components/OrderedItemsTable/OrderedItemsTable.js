@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Popconfirm, Button, Modal } from 'antd';
-import OrderItemTableRow from './components/OrderedItemTableRow';
-import OrderedItemTableCell from './components/OrderItemTableCell';
+import OrderItemsTableRow from './components/OrderedItemsTableRow';
+import OrderedItemsTableCell from './components/OrderItemsTableCell';
 import Total from './components/Total';
 
 export const EditableContext = React.createContext();
@@ -53,7 +53,7 @@ class OrderedItemsTable extends React.Component {
           ) : "Can't not delete",
       },
     ];
-    
+
     this.state = {
       dataSource: [
         {
@@ -123,8 +123,8 @@ class OrderedItemsTable extends React.Component {
     const { dataSource } = this.state;
     const components = {
       body: {
-        row: OrderItemTableRow,
-        cell: OrderedItemTableCell,
+        row: OrderItemsTableRow,
+        cell: OrderedItemsTableCell,
       },
     };
     const columns = this.columns.map((col) => {

@@ -26,7 +26,7 @@ const goodsList = [
     stock: 400,
   },
 ];
-const OrderedItemTableCell = ({
+const OrderedItemsTableCell = ({
   title,
   editable,
   children,
@@ -234,4 +234,4 @@ const OrderedItemTableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-export default OrderedItemTableCell;
+export default OrderedItemsTableCell;

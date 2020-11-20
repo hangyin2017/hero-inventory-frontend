@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Input } from "antd";
 import "./total.less";
+
 export default class Total extends Component {
   constructor() {
     super();
@@ -21,7 +22,7 @@ export default class Total extends Component {
       adjustment: parseInt(e.target.value),
     });
   };
-  
+
   render() {
     const { dataSource } = this.props;
     console.log(dataSource);
@@ -37,7 +38,7 @@ export default class Total extends Component {
             <span>Shipping Charges</span>
             <Input className="inp" onChange={this.inputShipping} type="text" />
           </p>
-          <span>{this.state.ship.toFixed(2)}</span>
+          <span>{this.state.shipment.toFixed(2)}</span>
         </div>
         <div>
           <p>
@@ -49,11 +50,11 @@ export default class Total extends Component {
               type="text"
             />
           </p>
-          <span>{this.state.adjust.toFixed(2)}</span>
+          <span>{this.state.adjustment.toFixed(2)}</span>
         </div>
         <h2>
           <span>Total（$）</span>
-          <span>{(sum + this.state.ship + this.state.adjust).toFixed(2)}</span>
+          <span>{(sum + this.state.shipment + this.state.adjustment).toFixed(2)}</span>
         </h2>
       </div>
     );
