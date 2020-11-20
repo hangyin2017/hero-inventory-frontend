@@ -24,9 +24,9 @@ const App = () => {
             <Navbar />
           </Sider>
           <Layout>
-            <Header className={styles.header}>
+            {/* <Header className={styles.header}>
               <h2>Page Title</h2>
-            </Header>
+            </Header> */}
             <Content>
               <Switch>
                 <Route exact path="/inventory" component={Inventory} />

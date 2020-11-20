@@ -12,7 +12,6 @@ const SideMenu = styled(Menu)`
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
-    this.listeners = [];
     this.state = {
       selectedKey: this.props.history.location.pathname,
     };

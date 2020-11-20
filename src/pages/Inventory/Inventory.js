@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, Table } from 'antd';
 import itemApi from '../../apis/item';
-import styles from './Inventory.module.less';
+import Page from '../../components/Page';
 import COLUMNS from './COLUMNS';
 
 class Inventory extends React.Component {
@@ -37,19 +37,15 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { Search } = Input;
     const { tableData } = this.state;
 
     return (
-      <>
-        <Search
-          className={styles.search}
-          placeholder="Search by item name or SKU"
-          allowClear={true}
-          onChange={this.debouncedSearch}
-          onSearch={this.handleSearch}
-        />
-
+      <Page
+        title="Inventory"
+        searchBarPlaceHolder="Search by item name or SKU"
+        onSearchBarChange={this.debouncedSearch}
+        onSearchBarSearch={this.handleSearch}
+      >
         <Table
           columns={COLUMNS}
           dataSource={tableData}
@@ -59,7 +55,7 @@ class Inventory extends React.Component {
             defaultPageSize: 10,
           }}  
         />
-      </>
+      </Page>
     )
   }
 }

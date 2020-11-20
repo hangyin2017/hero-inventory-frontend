@@ -1,7 +1,8 @@
 import React from "react";
+import Page from '../../components/Page';
 
 export const PurchaseOrders = () => {
-  return <div>PurchaseOrders</div>;
+  return <Page title="PurchaseOrders"></Page>;
 };
 
 export default PurchaseOrders;
