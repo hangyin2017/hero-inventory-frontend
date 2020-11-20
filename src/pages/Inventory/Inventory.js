@@ -1,13 +1,11 @@
 import React from 'react';
-import { Input, Table } from 'antd';
+import { Select, Input, Table } from 'antd';
 import api from '../../lib/api';
 import styles from './Inventory.module.less';
 
 class Inventory extends React.Component {
   constructor(props) {
     super(props);
-
-    this.timer = undefined;
 
     this.COLUMNS = [
       {
@@ -20,7 +18,7 @@ class Inventory extends React.Component {
         dataIndex: "name",
         key: "name",
       },
-            {
+      {
         title: "Description",
         dataIndex: "description",
         key: "description",
