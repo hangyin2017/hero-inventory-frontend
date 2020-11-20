@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Input, Button, Form, DatePicker, Divider } from 'antd';
-import OrderedItemsTable from './components/OrderedItemsTable';
+import OrderedItemsTable from './components/OrderedItemsTable/OrderedItemsTable';
 import FormFooter from './components/FormFooter';
 import { FIELDS } from './FIELDS';
 
