@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Form, Input, Popover, Select } from 'antd';
-import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { EditableContext } from '../../OrderedItemsTable';
+import React, { useContext, useState, useEffect, useRef } from "react";
+import { Form, Input, Popover, Select } from "antd";
+import { CloseCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { EditableContext } from "../../OrderedItemsTable";
 const { Option } = Select;
 const goodsList = [
   {
@@ -51,6 +51,7 @@ const OrderedItemTableCell = ({
     setEditing(!editing);
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
   };
+
   const del = async () => {
     handleSave({
       ...record,
@@ -63,6 +64,7 @@ const OrderedItemTableCell = ({
     });
     toggleEdit();
   };
+
   const myblur = async () => {
     const values = await form.validateFields();
     setTimeout(() => {
@@ -82,6 +84,7 @@ const OrderedItemTableCell = ({
       });
     }
   };
+
   const save = async (data) => {
     try {
       const values = await form.validateFields();

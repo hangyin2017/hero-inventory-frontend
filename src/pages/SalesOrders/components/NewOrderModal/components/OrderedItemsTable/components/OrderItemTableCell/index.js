@@ -1,1 +1,1 @@
-export {default} from './OrderedItemTableCell';
+export { default } from './OrderedItemTableCell';
