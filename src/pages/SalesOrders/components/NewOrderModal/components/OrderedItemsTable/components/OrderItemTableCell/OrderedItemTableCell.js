@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
-import { Form, Input, Popover, Select } from "antd";
-import { CloseCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { EditableContext } from "../../OrderedItemsTable";
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import { Form, Input, Popover, Select } from 'antd';
+import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { EditableContext } from '../../OrderedItemsTable';
 const { Option } = Select;
 const goodsList = [
   {

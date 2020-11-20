@@ -1,10 +1,9 @@
-import React from "react";
-import { Table, Popconfirm, Button, Modal, Input } from "antd";
-import OrderItemTableRow from "./components/OrderedItemTableRow/OrderedItemTableRow";
-import OrderedItemTableCell from "./components/OrderItemTableCell/OrderedItemTableCell";
-import Total from "./components/Total/Total";
+import React from 'react';
+import { Table, Popconfirm, Button, Modal } from 'antd';
+import OrderItemTableRow from './components/OrderedItemTableRow';
+import OrderedItemTableCell from './components/OrderItemTableCell';
+import Total from './components/Total';
 export const EditableContext = React.createContext();
-const { TextArea } = Input;
 class OrderedItemsTable extends React.Component {
   constructor(props) {
     super(props);
@@ -94,6 +93,7 @@ class OrderedItemsTable extends React.Component {
       count: count + 1,
     });
   };
+
   handleSave = (row) => {
     const newData = [...this.state.dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -104,6 +104,7 @@ class OrderedItemsTable extends React.Component {
     });
     this.setState({ dataSource: newData });
   };
+
   showModal = () => {
     this.setState({
       visible: true,
@@ -115,6 +116,7 @@ class OrderedItemsTable extends React.Component {
       visible: false,
     });
   };
+
   render() {
     const { dataSource } = this.state;
     const components = {
