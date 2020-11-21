@@ -1,28 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Input } from 'antd';
+import { Button } from 'antd';
+import SearchBar from './components/SearchBar';
 
 const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  background-color: inherit;
   border-bottom: 1px solid #dadada;
   padding: 20px 14px 12px;
-  text-align: left;
+`;
+
+const Layout = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Left = styled.div`
-
 `;
 
 const Right = styled.div`
+  display: flex;
 
-`;
-
-
-const { Search } = Input;
-const SearchBar = styled(Search)`
-  width: 250px;
+  & > * {
+      margin: 0 10px;
+    }
 `;
 
 const Header = ({
@@ -34,20 +34,21 @@ const Header = ({
 }) => {
   return (
     <StyledHeader>
-      <Left>
-        <h2>{title}</h2>
-      </Left>
-      <Right>
-        <SearchBar
-          placeholder={searchBarPlaceHolder}
-          allowClear={true}
-          onChange={onSearchBarChange}
-          onSearch={onSearchBarSearch}
-        />
-        <Button type="primary" onClick={onNew}>
-          + New
-        </Button>
-      </Right>
+      <Layout>
+        <Left>
+          <h2>{title}</h2>
+        </Left>
+        <Right>
+          <SearchBar
+            placeholder={searchBarPlaceHolder}
+            onChange={onSearchBarChange}
+            onSearch={onSearchBarSearch}
+          />
+          <Button type="primary" onClick={onNew}>
+            + New
+          </Button>
+        </Right>
+      </Layout>
     </StyledHeader>
   );
 };
