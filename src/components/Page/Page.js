@@ -1,10 +1,24 @@
 import React from 'react';
+import { Table } from 'antd';
 import Header from './components/Header';
 
-const Page = ({ children, ...headerProps }) => {
+const Page = ({
+  children,
+  headerProps,
+  searchBarProps,
+  newButtonProps,
+  tableProps,
+}) => {
   return (
     <>
-      <Header {...headerProps} />
+      <Header
+        {...headerProps}
+        searchBarProps={searchBarProps}
+        newButtonProps={newButtonProps}
+      />
+      {tableProps && (
+        <Table {...tableProps} />
+      )}
       {children}
     </>
   );

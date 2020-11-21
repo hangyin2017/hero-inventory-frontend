@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from 'antd';
 import SearchBar from './components/SearchBar';
+import NewButton from './components/NewButton';
 
 const StyledHeader = styled.div`
   border-bottom: 1px solid #dadada;
@@ -27,10 +27,8 @@ const Right = styled.div`
 
 const Header = ({
   title,
-  searchBarPlaceholder,
-  onSearchBarChange,
-  onSearchBarSearch,
-  onNew
+  searchBarProps,
+  newButtonProps,
 }) => {
   return (
     <StyledHeader>
@@ -39,14 +37,12 @@ const Header = ({
           <h2>{title}</h2>
         </Left>
         <Right>
-          <SearchBar
-            placeholder={searchBarPlaceholder}
-            onChange={onSearchBarChange}
-            onSearch={onSearchBarSearch}
-          />
-          <Button type="primary" onClick={onNew}>
-            + New
-          </Button>
+          {searchBarProps && (
+            <SearchBar {...searchBarProps} />
+          )}
+          {newButtonProps && (
+            <NewButton {...newButtonProps} />
+          )}
         </Right>
       </Layout>
     </StyledHeader>

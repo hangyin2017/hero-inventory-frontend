@@ -8,6 +8,7 @@ class SalesOrders extends React.Component {
     super(props);
 
     this.state = {
+      tableData: [],
       newOrderModalVisible: false,
     }
 
@@ -24,13 +25,31 @@ class SalesOrders extends React.Component {
   }
 
   render() {
-    const { newOrderModalVisible } = this.state;
+    const { tableData, newOrderModalVisible } = this.state;
 
     return (
-      <Page title="Sales Orders">
-        <Button type="primary" onClick={this.showNewOrderModal}>
-          + New
-        </Button>
+      <Page
+        headerProps={{
+          title: 'Sales Orders',
+        }}
+        searchBarProps={{
+          placeholder: 'Search by order number',
+          // onChange: this.debouncedSearch,
+          // onSearch: this.handleSearch,
+        }}
+        newButtonProps={{
+          onClick: this.showNewOrderModal,
+        }}
+        tableProps={{
+          // columns: columns,
+          dataSource: tableData,
+          // rowKey: 'id',
+          pagination: {
+            position: ['topRight', 'bottomRight'],
+            defaultPageSize: 10,
+          },
+        }}
+      >
         <NewOrderModal
           title="Add New Sales Order"
           visible={newOrderModalVisible}

@@ -41,21 +41,27 @@ class Inventory extends React.Component {
 
     return (
       <Page
-        title="Inventory"
-        searchBarPlaceholder="Search by item name or SKU"
-        onSearchBarChange={this.debouncedSearch}
-        onSearchBarSearch={this.handleSearch}
-      >
-        <Table
-          columns={columns}
-          dataSource={tableData}
-          rowKey={'id'}
-          pagination={{
+        headerProps={{
+          title: 'Inventory',
+        }}
+        searchBarProps={{
+          placeholder: 'Search by item name or SKU',
+          onChange: this.debouncedSearch,
+          onSearch: this.handleSearch,
+        }}
+        newButtonProps={{
+          // onClick: null,
+        }}
+        tableProps={{
+          columns: columns,
+          dataSource: tableData,
+          rowKey: 'id',
+          pagination: {
             position: ['topRight', 'bottomRight'],
             defaultPageSize: 10,
-          }}  
-        />
-      </Page>
+          },
+        }}
+      />
     )
   }
 }
