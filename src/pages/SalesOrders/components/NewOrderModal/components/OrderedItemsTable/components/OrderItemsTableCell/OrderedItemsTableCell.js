@@ -6,15 +6,6 @@ import { EditableContext } from "../../OrderedItemsTable";
 import api from "../../../../../../../../lib/api";
 
 const { Option } = Select;
-let goodsList = [
-  {
-    name: "hi",
-    id: 1,
-    sku: 9,
-    rate: 100,
-    stock: 20,
-  },
-];
 
 const OrderedItemsTableCell = ({
   title,
@@ -27,11 +18,7 @@ const OrderedItemsTableCell = ({
   showModal,
   ...restProps
 }) => {
-  const [editing, setEditing] = useState(false);
-  const inputRef = useRef();
-  const form = useContext(EditableContext);
   const [data, setData] = useState({ hits: [] });
-
   useEffect(() => {
     const fetchItem = async () => {
       const result = await api.getAll("items");
@@ -40,6 +27,11 @@ const OrderedItemsTableCell = ({
 
     fetchItem();
   }, []);
+  console.log(data);
+
+  const [editing, setEditing] = useState(false);
+  const inputRef = useRef();
+  const form = useContext(EditableContext);
 
   useEffect(() => {
     if (editing) {
@@ -82,6 +74,8 @@ const OrderedItemsTableCell = ({
         ...data,
         AMOUNT: amount,
       });
+    } else {
+      handleSave({ ...record, ...values });
     }
   };
 
@@ -89,16 +83,15 @@ const OrderedItemsTableCell = ({
     try {
       const values = await form.validateFields();
       if (dataIndex === "DETAILS") {
-        console.log(data);
         handleSave({
           ...record,
           data: data,
-          RATE: data.rate,
+          RATE: data.sellingPrice,
           DETAILS:
-            data.rate === 0
+            data.sellingPrice === 0
               ? "Type or click to select an item"
               : "Add description to your item",
-          AMOUNT: data.rate,
+          AMOUNT: data.sellingPrice,
         });
       } else {
         handleSave({ ...record, ...values });
@@ -117,7 +110,7 @@ const OrderedItemsTableCell = ({
       <div style={{ display: "flex", justifyContent: "center" }}>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
-            <h2 style={{ display: "flex", justifyContent: "space-between" }}>
+            <h2 style={{ display: "flex", justifyContent: "space-between"}}>
               {record.data.name} <CloseCircleOutlined />
             </h2>
             <span>SKU:{record.data.sku}</span>
@@ -152,7 +145,7 @@ const OrderedItemsTableCell = ({
               marginTop: "38px",
             }}
           >
-            {goodsList.map((item) => (
+            {data.map((item) => (
               <li
                 key={item.id}
                 onClick={() => {
@@ -160,11 +153,11 @@ const OrderedItemsTableCell = ({
                   handleAdd();
                 }}
               >
-                <h2>{item.name}</h2>
-                <div style={{ marginTop: "-10px" }}>
-                  <span style={{ marginRight: 5 }}> SKU:{item.sku}</span>
-                  <span style={{ marginRight: 5 }}> Rate:{item.rate}</span>
-                  <span> Stock:{item.stock}</span>
+                <span style={{ fontSize: '15px', fontWeight: 'bold'}}>{item.name}</span>
+                <div style={{ marginTop: '15px', marginBottom: '10px'}}>
+                  <span style={{ marginRight: '10px' }}> SKU:{item.sku}</span>
+                  <span style={{ marginRight: '10px' }}> Rate:{item.sellingPrice}</span>
+                  <span> Stock:{item.physicalStock}</span>
                 </div>
               </li>
             ))}
