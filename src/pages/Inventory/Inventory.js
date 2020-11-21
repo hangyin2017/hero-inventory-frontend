@@ -1,8 +1,8 @@
 import React from 'react';
-import { Input, Table } from 'antd';
-import itemApi from '../../apis/item';
+import { Table } from 'antd';
+import itemApi from '../../apis/items';
 import Page from '../../components/Page';
-import COLUMNS from './COLUMNS';
+import columns from './columns';
 
 class Inventory extends React.Component {
   constructor(props) {
@@ -42,12 +42,12 @@ class Inventory extends React.Component {
     return (
       <Page
         title="Inventory"
-        searchBarPlaceHolder="Search by item name or SKU"
+        searchBarPlaceholder="Search by item name or SKU"
         onSearchBarChange={this.debouncedSearch}
         onSearchBarSearch={this.handleSearch}
       >
         <Table
-          columns={COLUMNS}
+          columns={columns}
           dataSource={tableData}
           rowKey={'id'}
           pagination={{

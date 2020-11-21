@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Input } from 'antd';
 
+const Wrapper = styled.div`
+  width: 300px;
+`;
+
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
@@ -11,27 +15,23 @@ class SearchBar extends React.Component {
     }
   }
 
-  SearchBar = styled.div`
-    width: 250px;
-  `;
-
   render() {
     const { Search } = Input;
     const {
-      searchBarPlaceHolder,
-      onSearchBarChange,
-      onSearchBarSearch,
+      placeholder,
+      onChange,
+      onSearch,
     } = this.props;
 
     return (
-      <SearchBar>
+      <Wrapper>
         <Search
-          placeholder={searchBarPlaceHolder}
+          placeholder={placeholder}
           allowClear={true}
-          onChange={onSearchBarChange}
-          onSearch={onSearchBarSearch}
+          onChange={onChange}
+          onSearch={onSearch}
         />
-      </SearchBar>
+      </Wrapper>
     )
   }
 }

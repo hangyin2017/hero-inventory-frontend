@@ -27,7 +27,7 @@ const Right = styled.div`
 
 const Header = ({
   title,
-  searchBarPlaceHolder,
+  searchBarPlaceholder,
   onSearchBarChange,
   onSearchBarSearch,
   onNew
@@ -40,7 +40,7 @@ const Header = ({
         </Left>
         <Right>
           <SearchBar
-            placeholder={searchBarPlaceHolder}
+            placeholder={searchBarPlaceholder}
             onChange={onSearchBarChange}
             onSearch={onSearchBarSearch}
           />

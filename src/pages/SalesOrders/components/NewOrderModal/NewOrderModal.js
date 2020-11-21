@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Form, Divider } from 'antd';
 import OrderedItemsTable from './components/OrderedItemsTable/OrderedItemsTable';
 import FormFooter from './components/FormFooter';
-import FIELDS from './FIELDS';
+import fields from './fields';
 
 class NewOrderModal extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class NewOrderModal extends React.Component {
           onFinish={this.onFinish}
           onFinishFailed={this.onFinishFailed}
         >
-          {FIELDS.map((field) => (
+          {fields.map((field) => (
             <Form.Item key={field.name} {...field}/>
           ))}
           <Divider />
