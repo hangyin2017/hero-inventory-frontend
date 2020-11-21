@@ -1,7 +1,7 @@
 import React from "react";
-import { Layout, Menu } from "antd";
+import { Layout } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import styles from "./App.module.less";
+import Navbar from "./layout/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/Inventory";
 import Customers from "./pages/Customers";
@@ -10,7 +10,7 @@ import Suppliers from "./pages/Suppliers";
 import PurchaseOrders from "./pages/PurchaseOrders";
 import Users from "./pages/Users";
 import Authentication from "./pages/Authentication";
-import Navbar from "./layout/Navbar";
+import styles from "./App.module.less";
 
 const App = () => {
   const { Header, Footer, Sider, Content } = Layout;
@@ -21,18 +21,12 @@ const App = () => {
         <Layout>
           <Sider className={styles.sider}>
             <Header className={styles.user}>User</Header>
-            <Menu
-              className={styles.sideMenu}
-              theme="dark"
-              defaultSelectedKeys={["1"]}
-            >
-              <Navbar />
-            </Menu>
+            <Navbar />
           </Sider>
           <Layout>
-            <Header className={styles.header}>
+            {/* <Header className={styles.header}>
               <h2>Page Title</h2>
-            </Header>
+            </Header> */}
             <Content>
               <Switch>
                 <Route exact path="/inventory" component={Inventory} />

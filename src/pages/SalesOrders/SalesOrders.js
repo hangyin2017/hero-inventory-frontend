@@ -1,5 +1,6 @@
 import React from 'react';
-import { Input, Table, Button } from 'antd';
+import { Button } from 'antd';
+import Page from '../../components/Page';
 import NewOrderModal from './components/NewOrderModal';
 
 class SalesOrders extends React.Component {
@@ -7,6 +8,7 @@ class SalesOrders extends React.Component {
     super(props);
 
     this.state = {
+      tableData: [],
       newOrderModalVisible: false,
     }
 
@@ -23,22 +25,39 @@ class SalesOrders extends React.Component {
   }
 
   render() {
-    const { newOrderModalVisible } = this.state;
+    const { tableData, newOrderModalVisible } = this.state;
 
     return (
-      <>
-        <Button
-          onClick={this.showNewOrderModal}
-        >
-          + New
-        </Button>
+      <Page
+        headerProps={{
+          title: 'Sales Orders',
+        }}
+        searchBarProps={{
+          placeholder: 'Search by order number',
+          // onChange: this.debouncedSearch,
+          // onSearch: this.handleSearch,
+        }}
+        newButtonProps={{
+          onClick: this.showNewOrderModal,
+        }}
+        tableProps={{
+          // columns: columns,
+          dataSource: tableData,
+          // rowKey: 'id',
+          pagination: {
+            position: ['topRight', 'bottomRight'],
+            defaultPageSize: 10,
+          },
+        }}
+      >
         <NewOrderModal
           title="Add New Sales Order"
           visible={newOrderModalVisible}
           onSave={this.hideNewOrderModal}
           onCancel={this.hideNewOrderModal}
+          destroyOnClose={true}
         />
-      </>
+      </Page>
     )
   }
 }
