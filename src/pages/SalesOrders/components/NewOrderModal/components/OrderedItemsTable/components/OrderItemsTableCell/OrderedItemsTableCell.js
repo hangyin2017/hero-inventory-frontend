@@ -1,31 +1,21 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Form, Input, Popover, Select } from "antd";
 import { CloseCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { EditableContext } from "../../OrderedItemsTable";
+import api from "../../../../../../../../lib/api";
+
 const { Option } = Select;
-const goodsList = [
+let goodsList = [
   {
-    name: "goods01",
-    id: "0",
+    name: "hi",
+    id: 1,
     sku: 9,
     rate: 100,
-    stock: 100,
-  },
-  {
-    name: "goods02",
-    id: "1",
-    sku: 99,
-    rate: 200,
-    stock: 200,
-  },
-  {
-    name: "goods03",
-    id: "2",
-    sku: 999,
-    rate: 300,
-    stock: 400,
+    stock: 20,
   },
 ];
+
 const OrderedItemsTableCell = ({
   title,
   editable,
@@ -40,6 +30,16 @@ const OrderedItemsTableCell = ({
   const [editing, setEditing] = useState(false);
   const inputRef = useRef();
   const form = useContext(EditableContext);
+  const [data, setData] = useState({ hits: [] });
+
+  useEffect(() => {
+    const fetchItem = async () => {
+      const result = await api.getAll("items");
+      setData(result.data);
+    };
+
+    fetchItem();
+  }, []);
 
   useEffect(() => {
     if (editing) {
@@ -148,6 +148,8 @@ const OrderedItemsTableCell = ({
               zIndex: 9999,
               width: "300px",
               background: "#fff",
+              marginLeft: "80px",
+              marginTop: "38px",
             }}
           >
             {goodsList.map((item) => (
@@ -159,12 +161,18 @@ const OrderedItemsTableCell = ({
                 }}
               >
                 <h2>{item.name}</h2>
-                <span style={{ marginRight: 5 }}> SKU:{item.sku}</span>
-                <span style={{ marginRight: 5 }}> Rate:{item.rate}</span>
-                <span> Stock:{item.stock}</span>
+                <div style={{ marginTop: "-10px" }}>
+                  <span style={{ marginRight: 5 }}> SKU:{item.sku}</span>
+                  <span style={{ marginRight: 5 }}> Rate:{item.rate}</span>
+                  <span> Stock:{item.stock}</span>
+                </div>
               </li>
             ))}
-            <li onClick={showModal}>+Add New Item</li>
+            <a 
+              onClick={showModal} 
+              style={{ marginTop: "30px", marginLeft: "-18px" }}>
+                +Add New Item
+            </a>
           </ul>
         ) : null}
       </div>

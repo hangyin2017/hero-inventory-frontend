@@ -1,56 +1,40 @@
-import React from "react";
-import { Layout, Menu } from "antd";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import styles from "./App.module.less";
-import Dashboard from "./pages/Dashboard";
-import Inventory from "./pages/Inventory";
-import Customers from "./pages/Customers";
-import SalesOrders from "./pages/SalesOrders";
-import Suppliers from "./pages/Suppliers";
-import PurchaseOrders from "./pages/PurchaseOrders";
-import Users from "./pages/Users";
-import Authentication from "./pages/Authentication";
-import Navbar from "./layout/Navbar";
+import React from 'react';
+import { Layout, Menu, Breadcrumb } from 'antd';
+import styles from './App.module.less';
+import Inventory from './pages/Inventory';
+import SalesOrders from './pages/SalesOrders';
 
-const App = () => {
+function App() {
   const { Header, Footer, Sider, Content } = Layout;
 
   return (
-    <Router>
-      <div className={styles.app}>
+    <div className={styles.app}>
+      <Layout>
+        <Sider className={styles.sider}>
+          <Header className={styles.user}>User</Header>
+          <Menu className={styles.sideMenu} theme="dark" defaultSelectedKeys={['3']}>
+            <Menu.Item key="1">Dashboard</Menu.Item>
+            <Menu.Item key="2">Inventory</Menu.Item>
+            <Menu.Item key="3">SalesOrders</Menu.Item>
+            <Menu.Item key="4">Contacts</Menu.Item>
+            <Menu.Item key="5">Users</Menu.Item>
+          </Menu>
+        </Sider>
         <Layout>
-          <Sider className={styles.sider}>
-            <Header className={styles.user}>User</Header>
-            <Menu
-              className={styles.sideMenu}
-              theme="dark"
-              defaultSelectedKeys={["1"]}
-            >
-              <Navbar />
-            </Menu>
-          </Sider>
-          <Layout>
-            <Header className={styles.header}>
-              <h2>Page Title</h2>
-            </Header>
-            <Content>
-              <Switch>
-                <Route exact path="/inventory" component={Inventory} />
-                <Route exact path="/customers" component={Customers} />
-                <Route exact path="/salesorders" component={SalesOrders} />
-                <Route exact path="/suppliers" component={Suppliers} />
-                <Route exact path="/purchaseorders" component={PurchaseOrders} />
-                <Route exact path="/users" component={Users} />
-                <Route exact path="/authentication" component={Authentication} />
-                <Route path="/" component={Dashboard} />
-              </Switch>
-            </Content>
-            <Footer />
-          </Layout>
+          <Header className={styles.header}>
+            <h2>Page Title</h2>
+          </Header>
+          <Content>
+            {/* <Inventory /> */}
+            <SalesOrders />
+          </Content>
+          <Footer>
+            
+          </Footer>
         </Layout>
-      </div>
-    </Router>
-  )
-};
+      </Layout>
+    </div>
+  );
+}
 
 export default App;
