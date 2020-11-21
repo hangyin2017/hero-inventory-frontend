@@ -53,6 +53,7 @@ class OrderedItemsTable extends React.Component {
           ) : "Can't not delete",
       },
     ];
+
     this.state = {
       dataSource: [
         {
@@ -94,6 +95,7 @@ class OrderedItemsTable extends React.Component {
       count: count + 1,
     });
   };
+
   handleSave = (row) => {
     const newData = [...this.state.dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -104,6 +106,7 @@ class OrderedItemsTable extends React.Component {
     });
     this.setState({ dataSource: newData });
   };
+
   showModal = () => {
     this.setState({
       visible: true,
@@ -115,6 +118,7 @@ class OrderedItemsTable extends React.Component {
       visible: false,
     });
   };
+
   render() {
     const { dataSource } = this.state;
     const components = {

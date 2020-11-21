@@ -9,8 +9,6 @@ const layout = {
   },
 };
 
-
-
 const FormFooter = ({ onCancel }) => {
 
   return (
