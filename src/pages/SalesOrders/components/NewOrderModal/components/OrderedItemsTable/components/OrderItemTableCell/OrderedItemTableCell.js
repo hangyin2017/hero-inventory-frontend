@@ -26,7 +26,7 @@ const goodsList = [
     stock: 400,
   },
 ];
-const OrderedItemsTableCell = ({
+const OrderedItemTableCell = ({
   title,
   editable,
   children,
@@ -51,7 +51,6 @@ const OrderedItemsTableCell = ({
     setEditing(!editing);
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
   };
-
   const del = async () => {
     handleSave({
       ...record,
@@ -64,7 +63,6 @@ const OrderedItemsTableCell = ({
     });
     toggleEdit();
   };
-
   const myblur = async () => {
     const values = await form.validateFields();
     setTimeout(() => {
@@ -84,7 +82,6 @@ const OrderedItemsTableCell = ({
       });
     }
   };
-
   const save = async (data) => {
     try {
       const values = await form.validateFields();
@@ -234,4 +231,4 @@ const OrderedItemsTableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-export default OrderedItemsTableCell;
+export default OrderedItemTableCell;

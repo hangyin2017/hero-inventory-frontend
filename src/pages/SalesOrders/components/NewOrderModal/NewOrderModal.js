@@ -1,8 +1,8 @@
 import React from 'react';
-import { Modal, Input, Button, Form, DatePicker, Divider } from 'antd';
-import OrderedItemsTable from './components/OrderedItemsTable';
+import { Modal, Form, Divider } from 'antd';
+import OrderedItemsTable from './components/OrderedItemsTable/OrderedItemsTable';
 import FormFooter from './components/FormFooter';
-import { FIELDS } from './FIELDS';
+import fields from './fields';
 
 class NewOrderModal extends React.Component {
   constructor(props) {
@@ -22,34 +22,29 @@ class NewOrderModal extends React.Component {
   };
 
   render() {
-    const { title, visible, onSave, onCancel } = this.props;
+    const { onCancel, ...props } = this.props;
     // const { } = this.state;
 
     return (
       <Modal
-        title={title}
-        visible={visible}
+        {...props}
         onCancel={onCancel}
         footer={null}
-        maskClosable={false}
         width={1000}
       >
         <Form
-          labelCol={{
-            span: 4,
-          }}
-          wrapperCol={{
-            span: 8,
-          }}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 8 }}
+          preserve={false}
           onFinish={this.onFinish}
           onFinishFailed={this.onFinishFailed}
         >
-          {FIELDS.map((field) => (
+          {fields.map((field) => (
             <Form.Item key={field.name} {...field}/>
           ))}
           <Divider />
           <OrderedItemsTable />
-          <FormFooter />
+          <FormFooter onCancel={onCancel}/>
         </Form>
       </Modal>
     );
