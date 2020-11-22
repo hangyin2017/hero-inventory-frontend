@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from 'antd';
 import itemApi from '../../apis/items';
 import Page from '../../components/Page';
+import NewItemModal from './components/NewItemModal';
 import columns from './columns';
 
 class Inventory extends React.Component {
@@ -11,8 +12,11 @@ class Inventory extends React.Component {
     this.state = {
       tableData: [],
       searchInput: '',
+      newItemModalVisible: false,
     }
 
+    this.showNewItemModal = this.showNewItemModal.bind(this);
+    this.hideNewItemModal = this.hideNewItemModal.bind(this);
     this.debouncedSearch = this.debouncedSearch.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
@@ -24,6 +28,18 @@ class Inventory extends React.Component {
     });
   }
   
+  hideNewItemModal() {
+    this.setState({
+      newItemModalVisible: false,
+    });
+  }
+
+  showNewItemModal() {
+    this.setState({
+      newItemModalVisible: true,
+    });
+  }
+
   async debouncedSearch({ target }) {
     if(target.timer) clearTimeout(target.timer);
     target.timer = setTimeout(() => this.handleSearch(target.value), 1000);
@@ -37,7 +53,7 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { tableData } = this.state;
+    const { tableData, newItemModalVisible } = this.state;
 
     return (
       <Page
@@ -50,7 +66,7 @@ class Inventory extends React.Component {
           onSearch: this.handleSearch,
         }}
         newButtonProps={{
-          // onClick: null,
+          onClick: this.showNewItemModal,
         }}
         tableProps={{
           columns: columns,
@@ -61,7 +77,16 @@ class Inventory extends React.Component {
             defaultPageSize: 10,
           },
         }}
-      />
+      >
+        <NewItemModal
+          title="Add New Item"
+          visible={newItemModalVisible}
+          maskClosable={false}
+          onSave={this.hideNewItemModal}
+          onCancel={this.hideNewItemModal}
+          destroyOnClose={true}
+        />
+      </Page>
     )
   }
 }
