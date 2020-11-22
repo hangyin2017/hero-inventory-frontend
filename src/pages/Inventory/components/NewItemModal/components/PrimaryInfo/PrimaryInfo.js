@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, Form, Row } from 'antd';
-import Section from '../Section';
+import { Input, Row } from 'antd';
+import Form from '../../../../../../components/Form';
 
 const PrimaryInfo = () => {
   const { TextArea } = Input;
@@ -8,7 +8,7 @@ const PrimaryInfo = () => {
   return (
     <section>
       <Row>
-        <Section.Col>
+        <Form.Col>
           <Form.Item
             label="Name"
             name="name"
@@ -20,10 +20,10 @@ const PrimaryInfo = () => {
           >
             <Input />
           </Form.Item>
-        </Section.Col>
+        </Form.Col>
       </Row>
       <Row>
-        <Section.Col>
+        <Form.Col>
           <Form.Item
             label="SKU"
             name="sku"  
@@ -36,8 +36,8 @@ const PrimaryInfo = () => {
           >
             <Input />
           </Form.Item>
-        </Section.Col>
-        <Section.Col>
+        </Form.Col>
+        <Form.Col>
           <Form.Item
               label="Description"
               name="description"  
@@ -49,7 +49,7 @@ const PrimaryInfo = () => {
                 autoSize={{ minRows: 3 }}  
               />
             </Form.Item>
-        </Section.Col>
+        </Form.Col>
       </Row>
     </section>
   );

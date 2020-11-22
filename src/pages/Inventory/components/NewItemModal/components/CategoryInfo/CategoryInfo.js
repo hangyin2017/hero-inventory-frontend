@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, Select, Form, Row } from 'antd';
-import Section from '../Section';
+import { Select, Row } from 'antd';
+import Form from '../../../../../../components/Form';
 
 const CategoryInfo = () => {
   const { Option } = Select;
@@ -8,7 +8,7 @@ const CategoryInfo = () => {
   return (
     <section>
       <Row>
-        <Section.Col>
+        <Form.Col>
           <Form.Item
               label="Category"
               name="category"  
@@ -22,10 +22,10 @@ const CategoryInfo = () => {
                 <Option value="other">other</Option>
               </Select>
             </Form.Item>
-        </Section.Col>
+        </Form.Col>
       </Row>
       <Row>
-        <Section.Col>
+        <Form.Col>
           <Form.Item
             label="Manufacturer"
             name="manufacturer"  
@@ -39,22 +39,22 @@ const CategoryInfo = () => {
               <Option value="other">other</Option>
             </Select>
           </Form.Item>
-        </Section.Col>
-        <Section.Col>
+        </Form.Col>
+        <Form.Col>
           <Form.Item
-              label="Brand"
-              name="brand"  
+            label="Brand"
+            name="brand"  
+          >
+            <Select
+              placeholder="Select a brand"
+              allowClear
             >
-              <Select
-                placeholder="Select a brand"
-                allowClear
-              >
-                <Option value="male">A2</Option>
-                <Option value="female">Sanofi</Option>
-                <Option value="other">other</Option>
-              </Select>
-            </Form.Item>
-        </Section.Col>
+              <Option value="male">A2</Option>
+              <Option value="female">Sanofi</Option>
+              <Option value="other">other</Option>
+            </Select>
+          </Form.Item>
+        </Form.Col>
       </Row>
     </section>
   );

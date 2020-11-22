@@ -1,19 +1,19 @@
 import React from 'react';
-import { Input, Form, Row } from 'antd';
-import Section from '../Section';
+import { Input, Row } from 'antd';
+import Form from '../../../../../../components/Form';
 
 const Stock = () => {
   return (
     <section>
       <Row>
-        <Section.Col>
+        <Form.Col>
           <Form.Item
             label="Opening Stock"
             name="openingStock"
           >
             <Input />
           </Form.Item>
-        </Section.Col>
+        </Form.Col>
       </Row>
     </section>
   );

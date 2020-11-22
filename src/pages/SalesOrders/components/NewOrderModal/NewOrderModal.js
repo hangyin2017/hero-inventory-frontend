@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Form, Divider } from 'antd';
+import { Modal, Divider, Input } from 'antd';
+import Form from '../../../../components/Form';
 import OrderedItemsTable from './components/OrderedItemsTable/OrderedItemsTable';
 import FormFooter from './components/FormFooter';
 import fields from './fields';
@@ -23,6 +24,7 @@ class NewOrderModal extends React.Component {
 
   render() {
     const { onCancel, ...props } = this.props;
+    const { TextArea } = Input;
     // const { } = this.state;
 
     return (
@@ -34,7 +36,7 @@ class NewOrderModal extends React.Component {
       >
         <Form
           labelCol={{ span: 4 }}
-          wrapperCol={{ span: 8 }}
+          wrapperCol={{ span: 12 }}
           preserve={false}
           onFinish={this.onFinish}
           onFinishFailed={this.onFinishFailed}
@@ -44,6 +46,15 @@ class NewOrderModal extends React.Component {
           ))}
           <Divider />
           <OrderedItemsTable />
+          <Divider />
+          <Form.Item label="Comments" name="comments">
+            <TextArea
+              allowClear
+              autoSize={{ minRows: 3}}
+              maxLength={255}
+              showCount
+            />
+          </Form.Item>
           <FormFooter onCancel={onCancel}/>
         </Form>
       </Modal>
