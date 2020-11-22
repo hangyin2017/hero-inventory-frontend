@@ -37,19 +37,10 @@ class NewOrderModal extends React.Component {
       >
         <Form
           labelCol={{ span: 6 }}
-          // wrapperCol={{ span: 8 }}
           preserve={false}
           // onFinish={this.onFinish}
           // onFinishFailed={this.onFinishFailed}
         >
-          {/* {fields.map((section, index) => {
-            const formSection = section.map((field) => (
-              <Form.Item key={field.name} {...field}/>
-            ));
-            (index < fields.length - 1) &&
-              formSection.push(<Divider />);
-            return formSection;
-          })} */}
           <PrimaryInfo />
           <Divider />
           <CategoryInfo />
