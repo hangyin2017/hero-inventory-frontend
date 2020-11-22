@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
-import { Form, Input, Popover, Select } from "antd";
-import { CloseCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { EditableContext } from "../../OrderedItemsTable";
-import api from "../../../../../../../../lib/api";
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import { Form, Input, Popover, Select } from 'antd';
+import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { EditableContext } from '../../OrderedItemsTable';
+import items from '../../../../../../../../apis/items';
 
 const { Option } = Select;
 
@@ -21,8 +21,8 @@ const OrderedItemsTableCell = ({
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchItem = async () => {
-      const result = await api.getAll("items");
-      setData(result.data.slice(0, 10));
+      const result = await items.getAll("items");
+      setData(result.data.slice(0, 2));
       setAllData(result.data);
     };
 
@@ -76,7 +76,7 @@ const OrderedItemsTableCell = ({
       });
     } else {
       handleSave({ ...record, ...values });
-      setData(allData.slice(0, 10));
+      setData(allData.slice(0, 2));
     }
   };
   const search = (e) => {
@@ -85,10 +85,11 @@ const OrderedItemsTableCell = ({
     }
     let result = allData.filter((item) => {
       return (
-        item.name.toLowerCase().includes(e.target.value) || item.sku.toLowerCase().includes(e.target.value)
+        item.name.toLowerCase().includes(e.target.value) ||
+        item.sku.toLowerCase().includes(e.target.value)
       );
     });
-    setData(result.slice(0, 10));
+    setData(result.slice(0, 2));
   };
   const save = async (data) => {
     try {

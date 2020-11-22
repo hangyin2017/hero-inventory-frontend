@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { Input } from "antd";
-import "./total.less";
+import React, { Component } from 'react';
+import { Input } from 'antd';
+import './total.less';
 
 export default class Total extends Component {
   constructor() {

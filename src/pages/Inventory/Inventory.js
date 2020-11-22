@@ -1,71 +1,12 @@
 import React from 'react';
-import { Input, Table } from 'antd';
-import api from '../../lib/api';
-import styles from './Inventory.module.less';
+import { Table } from 'antd';
+import itemApi from '../../apis/items';
+import Page from '../../components/Page';
+import columns from './columns';
 
 class Inventory extends React.Component {
   constructor(props) {
     super(props);
-
-    this.timer = undefined;
-
-    this.COLUMNS = [
-      {
-        title: "SKU",
-        dataIndex: "sku",
-        key: "sku",
-      },
-      {
-        title: "Name",
-        dataIndex: "name",
-        key: "name",
-      },
-            {
-        title: "Description",
-        dataIndex: "description",
-        key: "description",
-      },
-      {
-        title: "Categary",
-        dataIndex: "category",
-        key: "category",
-      },
-      {
-        title: "Brand",
-        dataIndex: "brand",
-        key: "brand",
-      },
-      {
-        title: "Manufacturer",
-        dataIndex: "manufacturer",
-        key: "manufacturer",
-      },
-      {
-        title: "Weight",
-        dataIndex: "weight",
-        key: "weight",
-      },
-      {
-        title: "Selling Price",
-        dataIndex: "sellingPrice",
-        key: "sellingPrice",
-      },
-      {
-        title: "Cost Price",
-        dataIndex: "costPrice",
-        key: "costPrice",
-      },
-      {
-        title: "Physical Stock",
-        dataIndex: "physicalStock",
-        key: "physicalStock",
-      },
-      {
-        title: "Created Time",
-        dataIndex: "createdTime",
-        key: "createdTime",
-      },
-    ]
 
     this.state = {
       tableData: [],
@@ -77,7 +18,7 @@ class Inventory extends React.Component {
   }
 
   async componentDidMount() {
-    const { data } = await api.getAll('items');
+    const { data } = await itemApi.getAll();
     this.setState({
       tableData: data
     });
@@ -89,36 +30,38 @@ class Inventory extends React.Component {
   }
 
   async handleSearch(input) {
-    const { data } = await api.filter('items', input);
+    const { data } = await itemApi.filter(input);
     this.setState({
       tableData: data
     });
   }
 
   render() {
-    const { Search } = Input;
     const { tableData } = this.state;
 
     return (
-      <>
-        <Search
-          className={styles.search}
-          placeholder="Search by item name or SKU"
-          allowClear={true}
-          onChange={this.debouncedSearch}
-          onSearch={this.handleSearch}
-        />
-
-        <Table
-          columns={this.COLUMNS}
-          dataSource={tableData}
-          rowKey={'id'}
-          pagination={{
+      <Page
+        headerProps={{
+          title: 'Inventory',
+        }}
+        searchBarProps={{
+          placeholder: 'Search by item name or SKU',
+          onChange: this.debouncedSearch,
+          onSearch: this.handleSearch,
+        }}
+        newButtonProps={{
+          // onClick: null,
+        }}
+        tableProps={{
+          columns: columns,
+          dataSource: tableData,
+          rowKey: 'id',
+          pagination: {
             position: ['topRight', 'bottomRight'],
             defaultPageSize: 10,
-          }}  
-        />
-      </>
+          },
+        }}
+      />
     )
   }
 }
