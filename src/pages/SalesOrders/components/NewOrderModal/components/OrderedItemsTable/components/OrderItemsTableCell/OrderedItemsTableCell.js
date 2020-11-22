@@ -81,15 +81,15 @@ const OrderedItemsTableCell = ({
   };
   const search = (e) => {
     if (dataIndex !== "DETAILS") {
-      return;
+      return null;
     }
     let result = allData.filter((item) => {
       return (
-        item.name.toLowerCase().includes(e.target.value) ||
-        item.sku.toLowerCase().includes(e.target.value)
+        new RegExp(e.target.value,'i').test(item.name) || 
+        new RegExp(e.target.value,'i').test(item.sku)
       );
     });
-    setData(result.slice(0, 2));
+    setData(result.slice(0, 5));
   };
   const save = async (data) => {
     try {
