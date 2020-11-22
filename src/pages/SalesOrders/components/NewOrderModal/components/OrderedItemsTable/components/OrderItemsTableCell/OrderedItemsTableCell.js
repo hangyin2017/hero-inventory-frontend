@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Form, Input, Popover, Select } from "antd";
 import { CloseCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -18,16 +17,17 @@ const OrderedItemsTableCell = ({
   showModal,
   ...restProps
 }) => {
-  const [data, setData] = useState({ hits: [] });
+  const [allData, setAllData] = useState([]);
+  const [data, setData] = useState([]);
   useEffect(() => {
     const fetchItem = async () => {
       const result = await api.getAll("items");
-      setData(result.data);
+      setData(result.data.slice(0, 10));
+      setAllData(result.data);
     };
 
     fetchItem();
   }, []);
-  console.log(data);
 
   const [editing, setEditing] = useState(false);
   const inputRef = useRef();
@@ -76,9 +76,20 @@ const OrderedItemsTableCell = ({
       });
     } else {
       handleSave({ ...record, ...values });
+      setData(allData.slice(0, 10));
     }
   };
-
+  const search = (e) => {
+    if (dataIndex !== "DETAILS") {
+      return;
+    }
+    let result = allData.filter((item) => {
+      return (
+        item.name.toLowerCase().includes(e.target.value) || item.sku.toLowerCase().includes(e.target.value)
+      );
+    });
+    setData(result.slice(0, 10));
+  };
   const save = async (data) => {
     try {
       const values = await form.validateFields();
@@ -107,11 +118,26 @@ const OrderedItemsTableCell = ({
   let childNode = children;
   if (editable) {
     childNode = editing ? (
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
-            <h2 style={{ display: "flex", justifyContent: "space-between"}}>
-              {record.data.name} <CloseCircleOutlined />
+            <h2 style={{ display: "flex", justifyContent: "space-between" }}>
+              {record.data.name}
+              <div
+                style={{ display: "flex", alignItems: "center", height: 30 }}
+              >
+                <Popover
+                  content={
+                    <div>
+                      <p onClick={showModal}>Edit Item</p>
+                      <p onClick={showModal}>View Item Details</p>
+                    </div>
+                  }
+                >
+                  <PlusCircleOutlined />
+                </Popover>
+                <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
+              </div>
             </h2>
             <span>SKU:{record.data.sku}</span>
           </div>
@@ -126,7 +152,13 @@ const OrderedItemsTableCell = ({
             },
           ]}
         >
-          <Input ref={inputRef} onBlur={myblur} onPressEnter={myblur} />
+          <Input
+            ref={inputRef}
+            autocomplete="off"
+            onBlur={myblur}
+            onPressEnter={myblur}
+            onChange={search}
+          />
         </Form.Item>
         {dataIndex === "DISCOUNT" ? (
           <Select defaultValue={record.flag} style={{ marginLeft: 10 }}>
@@ -141,8 +173,8 @@ const OrderedItemsTableCell = ({
               zIndex: 9999,
               width: "300px",
               background: "#fff",
-              marginLeft: "80px",
-              marginTop: "38px",
+              marginLeft: "0px",
+              marginTop: "10px",
             }}
           >
             {data.map((item) => (
@@ -153,18 +185,24 @@ const OrderedItemsTableCell = ({
                   handleAdd();
                 }}
               >
-                <span style={{ fontSize: '15px', fontWeight: 'bold'}}>{item.name}</span>
-                <div style={{ marginTop: '15px', marginBottom: '10px'}}>
-                  <span style={{ marginRight: '10px' }}> SKU:{item.sku}</span>
-                  <span style={{ marginRight: '10px' }}> Rate:{item.sellingPrice}</span>
+                <span style={{ fontSize: "15px", fontWeight: "bold" }}>
+                  {item.name}
+                </span>
+                <div style={{ marginTop: "15px", marginBottom: "10px" }}>
+                  <span style={{ marginRight: "10px" }}> SKU:{item.sku}</span>
+                  <span style={{ marginRight: "10px" }}>
+                    {" "}
+                    Rate:{item.sellingPrice}
+                  </span>
                   <span> Stock:{item.physicalStock}</span>
                 </div>
               </li>
             ))}
-            <a 
-              onClick={showModal} 
-              style={{ marginTop: "30px", marginLeft: "-18px" }}>
-                +Add New Item
+            <a
+              onClick={showModal}
+              style={{ marginTop: "30px", marginLeft: "-18px" }}
+            >
+              +Add New Item
             </a>
           </ul>
         ) : null}
@@ -175,7 +213,9 @@ const OrderedItemsTableCell = ({
           <div>
             <h2 style={{ display: "flex", justifyContent: "space-between" }}>
               {record.data.name}
-              <div>
+              <div
+                style={{ display: "flex", alignItems: "center", height: 30 }}
+              >
                 <Popover
                   content={
                     <div>
