@@ -4,7 +4,7 @@ import Form from '../../../../../../components/Form';
 
 const Pricing = () => {
   return (
-    <section>
+    <Form.Section>
       <Row>
         <Form.Col>
           <Form.Item
@@ -34,7 +34,7 @@ const Pricing = () => {
           </Form.Item>
         </Form.Col>
       </Row>
-    </section>
+    </Form.Section>
   );
 };
 

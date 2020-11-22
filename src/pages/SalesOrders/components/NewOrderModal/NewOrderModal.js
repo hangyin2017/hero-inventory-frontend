@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Divider, Input } from 'antd';
 import Form from '../../../../components/Form';
 import OrderedItemsTable from './components/OrderedItemsTable/OrderedItemsTable';
-import FormFooter from './components/FormFooter';
+import Footer from './components/Footer';
 import fields from './fields';
 
 class NewOrderModal extends React.Component {
@@ -41,21 +41,27 @@ class NewOrderModal extends React.Component {
           onFinish={this.onFinish}
           onFinishFailed={this.onFinishFailed}
         >
-          {fields.map((field) => (
-            <Form.Item key={field.name} {...field}/>
-          ))}
+          <Form.Section>
+            {fields.map((field) => (
+              <Form.Item key={field.name} {...field}/>
+            ))}
+          </Form.Section>
           <Divider />
-          <OrderedItemsTable />
+          <Form.Section>
+            <OrderedItemsTable />
+          </Form.Section>
           <Divider />
-          <Form.Item label="Comments" name="comments">
-            <TextArea
-              allowClear
-              autoSize={{ minRows: 3}}
-              maxLength={255}
-              showCount
-            />
-          </Form.Item>
-          <FormFooter onCancel={onCancel}/>
+          <Form.Section>
+            <Form.Item label="Comments" name="comments">
+              <TextArea
+                allowClear
+                autoSize={{ minRows: 3}}
+                maxLength={255}
+                showCount
+              />
+            </Form.Item>
+          </Form.Section>
+          <Footer onCancel={onCancel}/>
         </Form>
       </Modal>
     );

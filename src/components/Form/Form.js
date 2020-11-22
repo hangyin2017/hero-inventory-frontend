@@ -3,8 +3,7 @@ import { Form as AntdForm, Col as AntdCol } from 'antd';
 import styled from 'styled-components';
 
 const Section = styled.section`
-  display: flex;
-  flex-flow: row wrap;
+  margin-bottom: 24px;
 `;
 
 const Col = styled(AntdCol).attrs({
@@ -15,11 +14,17 @@ const Col = styled(AntdCol).attrs({
 `;
 
 const Item = styled(AntdForm.Item)`
-  /* margin-bottom: 0;
+`;
 
-  & ~ & {
-    margin-top: 15px;
-  } */
+const Footer = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -4px 5px -3px rgba(0,0,0,.1);
+  background-color: #fff;
+  padding: 15px;
 `;
 
 const Form = styled(AntdForm)`
@@ -29,5 +34,6 @@ const Form = styled(AntdForm)`
 Form.Section = Section;
 Form.Col = Col;
 Form.Item = Item;
+Form.Footer = Footer;
 
 export default Form;
