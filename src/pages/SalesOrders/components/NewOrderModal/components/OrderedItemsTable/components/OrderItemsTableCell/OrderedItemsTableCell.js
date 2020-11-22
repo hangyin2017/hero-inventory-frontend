@@ -1,31 +1,11 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
-import { Form, Input, Popover, Select } from "antd";
-import { CloseCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { EditableContext } from "../../OrderedItemsTable";
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import { Form, Input, Popover, Select } from 'antd';
+import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { EditableContext } from '../../OrderedItemsTable';
+import items from '../../../../../../../../apis/items';
+
 const { Option } = Select;
-const goodsList = [
-  {
-    name: "goods01",
-    id: "0",
-    sku: 9,
-    rate: 100,
-    stock: 100,
-  },
-  {
-    name: "goods02",
-    id: "1",
-    sku: 99,
-    rate: 200,
-    stock: 200,
-  },
-  {
-    name: "goods03",
-    id: "2",
-    sku: 999,
-    rate: 300,
-    stock: 400,
-  },
-];
+
 const OrderedItemsTableCell = ({
   title,
   editable,
@@ -37,6 +17,18 @@ const OrderedItemsTableCell = ({
   showModal,
   ...restProps
 }) => {
+  const [allData, setAllData] = useState([]);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchItem = async () => {
+      const result = await items.getAll("items");
+      setData(result.data.slice(0, 2));
+      setAllData(result.data);
+    };
+
+    fetchItem();
+  }, []);
+
   const [editing, setEditing] = useState(false);
   const inputRef = useRef();
   const form = useContext(EditableContext);
@@ -82,23 +74,36 @@ const OrderedItemsTableCell = ({
         ...data,
         AMOUNT: amount,
       });
+    } else {
+      handleSave({ ...record, ...values });
+      setData(allData.slice(0, 2));
     }
   };
-
+  const search = (e) => {
+    if (dataIndex !== "DETAILS") {
+      return null;
+    }
+    let result = allData.filter((item) => {
+      return (
+        new RegExp(e.target.value,'i').test(item.name) || 
+        new RegExp(e.target.value,'i').test(item.sku)
+      );
+    });
+    setData(result.slice(0, 5));
+  };
   const save = async (data) => {
     try {
       const values = await form.validateFields();
       if (dataIndex === "DETAILS") {
-        console.log(data);
         handleSave({
           ...record,
           data: data,
-          RATE: data.rate,
+          RATE: data.sellingPrice,
           DETAILS:
-            data.rate === 0
+            data.sellingPrice === 0
               ? "Type or click to select an item"
               : "Add description to your item",
-          AMOUNT: data.rate,
+          AMOUNT: data.sellingPrice,
         });
       } else {
         handleSave({ ...record, ...values });
@@ -114,11 +119,26 @@ const OrderedItemsTableCell = ({
   let childNode = children;
   if (editable) {
     childNode = editing ? (
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
             <h2 style={{ display: "flex", justifyContent: "space-between" }}>
-              {record.data.name} <CloseCircleOutlined />
+              {record.data.name}
+              <div
+                style={{ display: "flex", alignItems: "center", height: 30 }}
+              >
+                <Popover
+                  content={
+                    <div>
+                      <p onClick={showModal}>Edit Item</p>
+                      <p onClick={showModal}>View Item Details</p>
+                    </div>
+                  }
+                >
+                  <PlusCircleOutlined />
+                </Popover>
+                <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
+              </div>
             </h2>
             <span>SKU:{record.data.sku}</span>
           </div>
@@ -133,7 +153,13 @@ const OrderedItemsTableCell = ({
             },
           ]}
         >
-          <Input ref={inputRef} onBlur={myblur} onPressEnter={myblur} />
+          <Input
+            ref={inputRef}
+            autocomplete="off"
+            onBlur={myblur}
+            onPressEnter={myblur}
+            onChange={search}
+          />
         </Form.Item>
         {dataIndex === "DISCOUNT" ? (
           <Select defaultValue={record.flag} style={{ marginLeft: 10 }}>
@@ -148,9 +174,11 @@ const OrderedItemsTableCell = ({
               zIndex: 9999,
               width: "300px",
               background: "#fff",
+              marginLeft: "0px",
+              marginTop: "10px",
             }}
           >
-            {goodsList.map((item) => (
+            {data.map((item) => (
               <li
                 key={item.id}
                 onClick={() => {
@@ -158,13 +186,25 @@ const OrderedItemsTableCell = ({
                   handleAdd();
                 }}
               >
-                <h2>{item.name}</h2>
-                <span style={{ marginRight: 5 }}> SKU:{item.sku}</span>
-                <span style={{ marginRight: 5 }}> Rate:{item.rate}</span>
-                <span> Stock:{item.stock}</span>
+                <span style={{ fontSize: "15px", fontWeight: "bold" }}>
+                  {item.name}
+                </span>
+                <div style={{ marginTop: "15px", marginBottom: "10px" }}>
+                  <span style={{ marginRight: "10px" }}> SKU:{item.sku}</span>
+                  <span style={{ marginRight: "10px" }}>
+                    {" "}
+                    Rate:{item.sellingPrice}
+                  </span>
+                  <span> Stock:{item.physicalStock}</span>
+                </div>
               </li>
             ))}
-            <li onClick={showModal}>+Add New Item</li>
+            <a
+              onClick={showModal}
+              style={{ marginTop: "30px", marginLeft: "-18px" }}
+            >
+              +Add New Item
+            </a>
           </ul>
         ) : null}
       </div>
@@ -174,7 +214,9 @@ const OrderedItemsTableCell = ({
           <div>
             <h2 style={{ display: "flex", justifyContent: "space-between" }}>
               {record.data.name}
-              <div>
+              <div
+                style={{ display: "flex", alignItems: "center", height: 30 }}
+              >
                 <Popover
                   content={
                     <div>

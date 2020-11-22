@@ -1,5 +1,4 @@
 import React from 'react';
-// import styled from 'styled-component';
 import { Form, Button } from 'antd';
 
 const layout = {
@@ -9,17 +8,16 @@ const layout = {
   },
 };
 
-const FormFooter = ({ onCancel }) => {
-
+const FormFooter = () => {
   return (
     <Form.Item { ...layout }>
-      <Button htmlType="submit" style={{ margin: '0 8px' }}>
+      <Button style={{ margin: '0 8px' }}>
         Save as Draft
       </Button>
       <Button type="primary" htmlType="submit"  style={{ margin: '0 8px' }}>
         Save and Confirm
       </Button>
-      <Button onClick={onCancel} style={{ margin: '0 8px' }}>
+      <Button style={{ margin: '0 8px' }}>
         Cancel
       </Button>
     </Form.Item>  
