@@ -1,10 +1,10 @@
-import React from "react";
-import { Table, Popconfirm, Button, Modal, Input } from "antd";
-import OrderItemTableRow from "./components/OrderedItemTableRow/OrderedItemTableRow";
-import OrderedItemTableCell from "./components/OrderItemTableCell/OrderedItemTableCell";
-import Total from "./components/Total/Total";
+import React from 'react';
+import { Table, Popconfirm, Button, Modal } from 'antd';
+import OrderItemsTableRow from './components/OrderedItemsTableRow';
+import OrderedItemsTableCell from './components/OrderItemsTableCell';
+import Total from './components/Total';
+
 export const EditableContext = React.createContext();
-const { TextArea } = Input;
 class OrderedItemsTable extends React.Component {
   constructor(props) {
     super(props);
@@ -123,8 +123,8 @@ class OrderedItemsTable extends React.Component {
     const { dataSource } = this.state;
     const components = {
       body: {
-        row: OrderItemTableRow,
-        cell: OrderedItemTableCell,
+        row: OrderItemsTableRow,
+        cell: OrderedItemsTableCell,
       },
     };
     const columns = this.columns.map((col) => {

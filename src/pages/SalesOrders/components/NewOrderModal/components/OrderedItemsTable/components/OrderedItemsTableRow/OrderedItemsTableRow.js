@@ -1,6 +1,6 @@
-import React from "react";
-import { Form } from "antd";
-import { EditableContext } from "../../OrderedItemsTable";
+import React from 'react';
+import { Form } from 'antd';
+import { EditableContext } from '../../OrderedItemsTable';
 const OrderedItemsTableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
   return (
