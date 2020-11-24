@@ -1,7 +1,8 @@
 import React from 'react';
-import { Modal, Form, Divider } from 'antd';
+import { Modal, Divider, Input } from 'antd';
+import Form from '../../../../components/Form';
 import OrderedItemsTable from './components/OrderedItemsTable/OrderedItemsTable';
-import FormFooter from './components/FormFooter';
+import Footer from './components/Footer';
 import fields from './fields';
 
 class NewOrderModal extends React.Component {
@@ -23,6 +24,7 @@ class NewOrderModal extends React.Component {
 
   render() {
     const { onCancel, ...props } = this.props;
+    const { TextArea } = Input;
     // const { } = this.state;
 
     return (
@@ -34,17 +36,32 @@ class NewOrderModal extends React.Component {
       >
         <Form
           labelCol={{ span: 4 }}
-          wrapperCol={{ span: 8 }}
+          wrapperCol={{ span: 12 }}
           preserve={false}
           onFinish={this.onFinish}
           onFinishFailed={this.onFinishFailed}
         >
-          {fields.map((field) => (
-            <Form.Item key={field.name} {...field}/>
-          ))}
+          <Form.Section>
+            {fields.map((field) => (
+              <Form.Item key={field.name} {...field}/>
+            ))}
+          </Form.Section>
           <Divider />
-          <OrderedItemsTable />
-          <FormFooter onCancel={onCancel}/>
+          <Form.Section>
+            <OrderedItemsTable />
+          </Form.Section>
+          <Divider />
+          <Form.Section>
+            <Form.Item label="Comments" name="comments">
+              <TextArea
+                allowClear
+                autoSize={{ minRows: 3}}
+                maxLength={255}
+                showCount
+              />
+            </Form.Item>
+          </Form.Section>
+          <Footer onCancel={onCancel}/>
         </Form>
       </Modal>
     );

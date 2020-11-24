@@ -1,6 +1,7 @@
 import React from "react";
 import { Layout } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Header from './components/Header';
 import Navbar from "./layout/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/Inventory";
@@ -13,17 +14,17 @@ import Authentication from "./pages/Authentication";
 import styles from "./App.module.less";
 
 const App = () => {
-  const { Header, Footer, Sider, Content } = Layout;
+  const { Footer, Sider, Content } = Layout;
 
   return (
     <Router>
       <div className={styles.app}>
+        <Header />
         <Layout>
           <Sider className={styles.sider}>
-            <Header className={styles.user}>User</Header>
             <Navbar />
           </Sider>
-          <Layout>
+          {/* <Layout> */}
             {/* <Header className={styles.header}>
               <h2>Page Title</h2>
             </Header> */}
@@ -40,7 +41,7 @@ const App = () => {
               </Switch>
             </Content>
             <Footer />
-          </Layout>
+          {/* </Layout> */}
         </Layout>
       </div>
     </Router>
