@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { withRouter, NavLink } from 'react-router-dom';
 import { Menu } from 'antd';
-import pages from './PAGES';
+import pages from './pages';
+
 
 const SideMenu = styled(Menu)`
   font-size: 16px;
