@@ -1,8 +1,9 @@
 import React from 'react';
 import { Select } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import AddNew from './components/AddNew';
-import axios from 'axios';
+import Option from './components/Option';
 
 const StyledSelect = styled(Select)`
   .dropdown {
@@ -10,24 +11,17 @@ const StyledSelect = styled(Select)`
   }
 `;
 
-const Dropdown = (options) => {
-  return (
-    <>
-      {options}
-      <AddNew onAdd={this.add}/>
-    </>
-  );
-};
-
 class DropdownPicker extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       data: [],
+      value: null,
     };
 
     this.add = this.add.bind(this);
+    this.delete = this.delete.bind(this);
     this.dropdownRender = this.dropdownRender.bind(this);
   }
 
@@ -45,6 +39,15 @@ class DropdownPicker extends React.Component {
       }));
   }
 
+  delete(id) {
+    const { api } = this.props;
+    api.delete(id)
+      .then((res) => this.setState((prevState) => {
+        data = prevState.data.filter();
+        return { data: [...prevState.data, res.data] };
+      }));
+  }
+
   dropdownRender(options) {
     return (
       <>
@@ -55,23 +58,30 @@ class DropdownPicker extends React.Component {
   };
 
   render() {
-    const { Option } = Select;
     const { placeholder, ...selectProps } = this.props;
-    const { data } = this.state;
+    const { data, value } = this.state;
 
     return (
       <Select
         placeholder={placeholder}
         allowClear
         showSearch
-        filterOption={(input, option) =>
-          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-        }
+        optionLabelProp="value"
+        filterOption={(input, option) => option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         dropdownRender={this.dropdownRender}
         {...selectProps}
+        defaultOpen={true}
       >
         {data.map((item) => (
-          <Option key={item.id} value={item.name}>{item.name}</Option>
+          <Select.Option key={item.id} value={item.name}
+            // onMouseOver={(e) => console.log(e.target.value)}
+          >
+            <Option
+              item={item}
+              onDelete={this.delete}
+              active={value}
+            />
+          </Select.Option>
         ))}
       </Select>
     );
