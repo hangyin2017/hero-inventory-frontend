@@ -10,9 +10,10 @@ class NewOrderModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      data: {},
-    }
+    // this.state = {
+    //   brands: [],
+    //   manufacturers: [],
+    // }
   }
 
   // onFinish = values => {
@@ -24,7 +25,7 @@ class NewOrderModal extends React.Component {
   // };
 
   render() {
-    const { onCancel, ...modalProps } = this.props;
+    const { onCancel, data, ...modalProps } = this.props;
     // const { } = this.state;
 
     return (
@@ -43,7 +44,7 @@ class NewOrderModal extends React.Component {
         >
           <PrimaryInfo />
           <Divider />
-          <CategoryInfo />
+          <CategoryInfo data={data}/>
           <Divider />
           <Pricing />
           <Divider />

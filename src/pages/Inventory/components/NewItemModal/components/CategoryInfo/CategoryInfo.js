@@ -1,8 +1,10 @@
 import React from 'react';
 import { Select, Row } from 'antd';
 import Form from '../../../../../../components/Form';
+import DropdownPicker from '../../../../../../components/DropdownPicker';
+import brands from '../../../../../../apis/brands';
 
-const CategoryInfo = () => {
+const CategoryInfo = ({ data }) => {
   const { Option } = Select;
 
   return (
@@ -16,6 +18,10 @@ const CategoryInfo = () => {
               <Select
                 placeholder="Select a category"
                 allowClear
+                showSearch
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
               >
                 <Option value="male">Health Product</Option>
                 <Option value="female">Gift</Option>
@@ -30,14 +36,22 @@ const CategoryInfo = () => {
             label="Manufacturer"
             name="manufacturer"  
           >
-            <Select
+            <DropdownPicker
               placeholder="Select a manufacturer"
+              dataSource={brands.getAll}
+            />
+            {/* <Select
+              placeholder="Select a category"
               allowClear
-            >
-              <Option value="male">Sanofi</Option>
+              showSearch
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            > */}
+              {/* <Option value="male">Sanofi</Option>
               <Option value="female">Lifespace</Option>
-              <Option value="other">other</Option>
-            </Select>
+              <Option value="other">other</Option> */}
+            {/* </Select> */}
           </Form.Item>
         </Form.Col>
         <Form.Col>

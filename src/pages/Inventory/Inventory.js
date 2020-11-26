@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
-import itemApi from '../../apis/items';
+import items from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
 import columns from './columns';
@@ -12,7 +12,7 @@ class Inventory extends React.Component {
     this.state = {
       tableData: [],
       searchInput: '',
-      newItemModalVisible: false,
+      newItemModalVisible: true,
     }
 
     this.showNewItemModal = this.showNewItemModal.bind(this);
@@ -22,7 +22,7 @@ class Inventory extends React.Component {
   }
 
   async componentDidMount() {
-    const { data } = await itemApi.getAll();
+    const { data } = await items.getAll();
     this.setState({
       tableData: data
     });
@@ -46,7 +46,7 @@ class Inventory extends React.Component {
   }
 
   async handleSearch(input) {
-    const { data } = await itemApi.filter(input);
+    const { data } = await items.filter(input);
     this.setState({
       tableData: data
     });
@@ -85,6 +85,7 @@ class Inventory extends React.Component {
           onSave={this.hideNewItemModal}
           onCancel={this.hideNewItemModal}
           destroyOnClose={true}
+          data={tableData}
         />
       </Page>
     )
