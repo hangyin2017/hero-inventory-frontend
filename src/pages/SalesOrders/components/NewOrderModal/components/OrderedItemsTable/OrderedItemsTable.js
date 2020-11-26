@@ -95,7 +95,12 @@ class OrderedItemsTable extends React.Component {
       count: count + 1,
     });
   };
-
+  componentDidUpdate(prevProps,prevState){
+    if(this.state.dataSource != prevState.dataSource){
+      // 关键在这个生命周期，只要商品数据一变，这个生命周期就会执行，执行传递过来的函数，将这些数据往上传递
+      this.props.getSoldItems(this.state.dataSource)
+    }
+  }
   handleSave = (row) => {
     const newData = [...this.state.dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -157,8 +162,8 @@ class OrderedItemsTable extends React.Component {
         <div style={{display:'flex',justifyContent:'space-between',paddingTop:20}}>
           <div>
             <button
+              type='button'
               onClick={ this.handleAdd }
-              type="primary"
               style={ { marginTop: 16 } }
             >
               Add another line
