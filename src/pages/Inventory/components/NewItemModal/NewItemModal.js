@@ -25,7 +25,7 @@ class NewOrderModal extends React.Component {
   // };
 
   render() {
-    const { onCancel, data, ...modalProps } = this.props;
+    const { onCancel, ...modalProps } = this.props;
     // const { } = this.state;
 
     return (
@@ -33,7 +33,6 @@ class NewOrderModal extends React.Component {
         {...modalProps}
         onCancel={onCancel}
         footer={null}
-        destroyOnClose={true}
         width={1000}
       >
         <Form
@@ -44,7 +43,7 @@ class NewOrderModal extends React.Component {
         >
           <PrimaryInfo />
           <Divider />
-          <CategoryInfo data={data}/>
+          <CategoryInfo />
           <Divider />
           <Pricing />
           <Divider />

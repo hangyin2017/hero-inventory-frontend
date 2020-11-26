@@ -1,6 +1,7 @@
 import React from "react";
 import { Layout } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import styled from 'styled-components';
 import Header from './components/Header';
 import Navbar from "./layout/Navbar";
 import Dashboard from "./pages/Dashboard";
@@ -13,8 +14,13 @@ import Users from "./pages/Users";
 import Authentication from "./pages/Authentication";
 import styles from "./App.module.less";
 
+const Main = styled.main`
+  position: relative;
+  overflow: hidden;
+`;
+
 const App = () => {
-  const { Footer, Sider, Content } = Layout;
+  const { Footer, Sider } = Layout;
 
   return (
     <Router>
@@ -24,24 +30,19 @@ const App = () => {
           <Sider className={styles.sider}>
             <Navbar />
           </Sider>
-          {/* <Layout> */}
-            {/* <Header className={styles.header}>
-              <h2>Page Title</h2>
-            </Header> */}
-            <Content>
-              <Switch>
-                <Route exact path="/inventory" component={Inventory} />
-                <Route exact path="/customers" component={Customers} />
-                <Route exact path="/salesorders" component={SalesOrders} />
-                <Route exact path="/suppliers" component={Suppliers} />
-                <Route exact path="/purchaseorders" component={PurchaseOrders} />
-                <Route exact path="/users" component={Users} />
-                <Route exact path="/authentication" component={Authentication} />
-                <Route path="/" component={Dashboard} />
-              </Switch>
-            </Content>
+          <Main>
+            <Switch>
+              <Route exact path="/inventory" component={Inventory} />
+              <Route exact path="/customers" component={Customers} />
+              <Route exact path="/salesorders" component={SalesOrders} />
+              <Route exact path="/suppliers" component={Suppliers} />
+              <Route exact path="/purchaseorders" component={PurchaseOrders} />
+              <Route exact path="/users" component={Users} />
+              <Route exact path="/authentication" component={Authentication} />
+              <Route path="/" component={Dashboard} />
+            </Switch>
             <Footer />
-          {/* </Layout> */}
+          </Main>
         </Layout>
       </div>
     </Router>

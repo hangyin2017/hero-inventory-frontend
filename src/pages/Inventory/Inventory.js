@@ -73,19 +73,20 @@ class Inventory extends React.Component {
           dataSource: tableData,
           rowKey: 'id',
           pagination: {
-            position: ['topRight', 'bottomRight'],
-            defaultPageSize: 10,
+            // position: ['topRight', 'bottomRight'],
+            // defaultPageSize: 10,
           },
         }}
+        // style={newItemModalVisible && { overflow: hidden }}
+        style
       >
         <NewItemModal
           title="Add New Item"
           visible={newItemModalVisible}
-          maskClosable={false}
+          // maskClosable={false}
           onSave={this.hideNewItemModal}
           onCancel={this.hideNewItemModal}
-          destroyOnClose={true}
-          data={tableData}
+          // destroyOnClose={true}
         />
       </Page>
     )
