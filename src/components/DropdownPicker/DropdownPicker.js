@@ -1,6 +1,7 @@
 import React from 'react';
 import { Select } from 'antd';
 import styled from 'styled-components';
+import AddNew from './components/AddNew';
 
 const StyledSelect = styled(Select)`
   .dropdown {
@@ -8,18 +9,17 @@ const StyledSelect = styled(Select)`
   }
 `;
 
-// const Dropdown = (_, data) => {
-//   const { Option } = Select;
-//   console.log(data[1].name)
+const Dropdown = (options) => {
+  const { Option } = Select;
 
-//   return (
-//     <>
-//       {data.map((brand) => (
-//         <input value={brand.name}>{brand.name}</input>
-//       ))}
-//     </>
-//   );
-// };
+  return (
+    <>
+      {options}
+      <AddNew />
+    </>
+  );
+};
+
 class DropdownPicker extends React.Component {
   constructor(props) {
     super(props);
@@ -48,12 +48,12 @@ class DropdownPicker extends React.Component {
         filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
-        // dropdownRender={(menu) => {Dropdown(menu, data)}}
+        dropdownRender={Dropdown}
         {...selectProps}
       >
-        {/* {data.map((brand) => (
+        {data.map((brand) => (
           <Option value={brand.name}>{brand.name}</Option>
-        ))} */}
+        ))}
       </Select>
     );
   }

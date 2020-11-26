@@ -4,6 +4,7 @@ import Header from './components/Header';
 import styled from 'styled-components';
 
 const Content = styled.div`
+  width: 100%;
   height: calc(100vh - 130px);
   position: relative;
   overflow-y: auto;
