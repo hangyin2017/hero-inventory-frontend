@@ -2,6 +2,7 @@ import React from 'react';
 import { Select } from 'antd';
 import styled from 'styled-components';
 import AddNew from './components/AddNew';
+import axios from 'axios';
 
 const StyledSelect = styled(Select)`
   .dropdown {
@@ -10,12 +11,10 @@ const StyledSelect = styled(Select)`
 `;
 
 const Dropdown = (options) => {
-  const { Option } = Select;
-
   return (
     <>
       {options}
-      <AddNew />
+      <AddNew onAdd={this.add}/>
     </>
   );
 };
@@ -27,13 +26,33 @@ class DropdownPicker extends React.Component {
     this.state = {
       data: [],
     };
+
+    this.add = this.add.bind(this);
+    this.dropdownRender = this.dropdownRender.bind(this);
   }
 
   async componentDidMount() {
-    const { dataSource } = this.props;
-    const { data } = await dataSource();
+    const { api } = this.props;
+    const { data } = await api.getAll();
     this.setState({ data });
   }
+
+  add(value) {
+    const { api } = this.props;
+    api.add({ name: value })
+      .then((res) => this.setState((prevState) => {
+        return { data: [...prevState.data, res.data] }
+      }));
+  }
+
+  dropdownRender(options) {
+    return (
+      <>
+        {options}
+        <AddNew maxLength={50} onAdd={this.add}/>
+      </>
+    );
+  };
 
   render() {
     const { Option } = Select;
@@ -48,11 +67,11 @@ class DropdownPicker extends React.Component {
         filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
-        dropdownRender={Dropdown}
+        dropdownRender={this.dropdownRender}
         {...selectProps}
       >
-        {data.map((brand) => (
-          <Option value={brand.name}>{brand.name}</Option>
+        {data.map((item) => (
+          <Option key={item.id} value={item.name}>{item.name}</Option>
         ))}
       </Select>
     );

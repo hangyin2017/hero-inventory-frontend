@@ -39,7 +39,7 @@ const CategoryInfo = () => {
           >
             <DropdownPicker
               placeholder="Select a manufacturer"
-              dataSource={manufacturers.getAll}
+              api={manufacturers}
             />
           </Form.Item>
         </Form.Col>
@@ -50,7 +50,7 @@ const CategoryInfo = () => {
           >
             <DropdownPicker
               placeholder="Select a brand"
-              dataSource={brands.getAll}
+              api={brands}
             />
           </Form.Item>
         </Form.Col>

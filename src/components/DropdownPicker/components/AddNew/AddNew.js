@@ -30,18 +30,49 @@ class AddNew extends React.Component {
     super(props);
 
     this.state = {
-      input: '',
-      addNewing: false,
+      value: '',
+      adding: false,
     };
+
+    this.onInputChange = this.onInputChange.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleEnterInput = this.handleEnterInput.bind(this);
+  }
+
+  onInputChange({ target: { value } }) {
+    this.setState({ value });
+  }
+
+  handleAdd() {
+    const { onAdd } = this.props;
+    const { value } = this.state;
+    
+    if(value === '') return;
+
+    this.setState({ value: '' });
+    
+    onAdd(value);
+    console.log('added', value);
+  }
+
+  handleEnterInput(e) {
+    e.stopPropagation();
+    this.handleAdd();
   }
 
   render() {
-    const { input } = this.state;
+    const { value } = this.state;
+    const { maxLength } = this.props;
     
     return (
       <Wrapper>
-        <StyledInput value={input}></StyledInput>
-        <Add>Add</Add>
+        <StyledInput
+          value={value}
+          maxLength={maxLength}
+          onChange={this.onInputChange}
+          onPressEnter={this.handleEnterInput}
+        />
+        <Add onClick={this.handleAdd}>Add</Add>
       </Wrapper>
     );
   }
