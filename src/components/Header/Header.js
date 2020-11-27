@@ -55,7 +55,7 @@ const Header = () => {
         <Left>
         </Left>
         <Right>
-          <Authentication />
+          {/* <Authentication /> */}
           <Avatar>
             A
           </Avatar>

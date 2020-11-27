@@ -3,7 +3,7 @@ import { Layout } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from 'styled-components';
 import Header from './components/Header';
-import Navbar from "./layout/Navbar";
+import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/Inventory";
 import Customers from "./pages/Customers";
@@ -15,6 +15,7 @@ import Authentication from "./pages/Authentication";
 import styles from "./App.module.less";
 
 const Main = styled.main`
+  width: 100%;
   position: relative;
   overflow: hidden;
 `;
