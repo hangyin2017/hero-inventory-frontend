@@ -44,7 +44,7 @@ const PrimaryInfo = () => {
             >
               <TextArea
                 showCount
-                maxLength={100}
+                maxLength={255}
                 allowClear
                 autoSize={{ minRows: 3 }}  
               />

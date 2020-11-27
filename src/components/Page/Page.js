@@ -1,6 +1,14 @@
 import React from 'react';
 import { Table } from 'antd';
 import Header from './components/Header';
+import styled from 'styled-components';
+
+const Content = styled.div`
+  width: 100%;
+  height: calc(100vh - 130px);
+  position: relative;
+  overflow-y: auto;
+`;
 
 const Page = ({
   children,
@@ -12,14 +20,20 @@ const Page = ({
   return (
     <>
       <Header
-        {...headerProps}
         searchBarProps={searchBarProps}
         newButtonProps={newButtonProps}
+        {...headerProps}
       />
-      {tableProps && (
-        <Table {...tableProps} />
-      )}
-      {children}
+      <Content>
+        {tableProps && (
+          <Table
+            // sticky={true}
+            // scroll={{ y: 700 }}
+            {...tableProps}
+          />
+        )}
+        {children}
+      </Content>
     </>
   );
 };

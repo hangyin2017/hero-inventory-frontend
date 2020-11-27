@@ -10,9 +10,10 @@ class NewOrderModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      data: {},
-    }
+    // this.state = {
+    //   brands: [],
+    //   manufacturers: [],
+    // }
   }
 
   // onFinish = values => {
@@ -32,7 +33,6 @@ class NewOrderModal extends React.Component {
         {...modalProps}
         onCancel={onCancel}
         footer={null}
-        destroyOnClose={true}
         width={1000}
       >
         <Form

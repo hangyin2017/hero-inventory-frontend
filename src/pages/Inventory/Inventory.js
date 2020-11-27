@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
-import itemApi from '../../apis/items';
+import items from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
 import columns from './columns';
@@ -12,7 +12,7 @@ class Inventory extends React.Component {
     this.state = {
       tableData: [],
       searchInput: '',
-      newItemModalVisible: false,
+      newItemModalVisible: true,
     }
 
     this.showNewItemModal = this.showNewItemModal.bind(this);
@@ -22,7 +22,7 @@ class Inventory extends React.Component {
   }
 
   async componentDidMount() {
-    const { data } = await itemApi.getAll();
+    const { data } = await items.getAll();
     this.setState({
       tableData: data
     });
@@ -46,7 +46,7 @@ class Inventory extends React.Component {
   }
 
   async handleSearch(input) {
-    const { data } = await itemApi.filter(input);
+    const { data } = await items.filter(input);
     this.setState({
       tableData: data
     });
@@ -73,18 +73,20 @@ class Inventory extends React.Component {
           dataSource: tableData,
           rowKey: 'id',
           pagination: {
-            position: ['topRight', 'bottomRight'],
-            defaultPageSize: 10,
+            // position: ['topRight', 'bottomRight'],
+            // defaultPageSize: 10,
           },
         }}
+        // style={newItemModalVisible && { overflow: hidden }}
+        style
       >
         <NewItemModal
           title="Add New Item"
           visible={newItemModalVisible}
-          maskClosable={false}
+          // maskClosable={false}
           onSave={this.hideNewItemModal}
           onCancel={this.hideNewItemModal}
-          destroyOnClose={true}
+          // destroyOnClose={true}
         />
       </Page>
     )

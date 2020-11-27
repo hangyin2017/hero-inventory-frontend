@@ -3,11 +3,6 @@ import styled from 'styled-components';
 import SearchBar from './components/SearchBar';
 import NewButton from './components/NewButton';
 
-const StyledHeader = styled.div`
-  border-bottom: 1px solid #dadada;
-  padding: 20px 14px 12px;
-`;
-
 const Layout = styled.div`
   display: flex;
   justify-content: space-between;
@@ -29,7 +24,13 @@ const Header = ({
   title,
   searchBarProps,
   newButtonProps,
+  height,
 }) => {
+  const StyledHeader = styled.div`
+    border-bottom: 1px solid #dadada;
+    padding: 10px 14px;
+  `;
+
   return (
     <StyledHeader>
       <Layout>
