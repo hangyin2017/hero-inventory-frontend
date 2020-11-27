@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import Form from '../../../../../../components/Form';
+import Form from '../../Form';
 
 const FormFooter = ({ onCancel }) => {
   return (

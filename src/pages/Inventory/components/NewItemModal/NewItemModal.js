@@ -1,6 +1,7 @@
 import React from 'react';
-import { Modal, Form, Divider } from 'antd';
-import Footer from './components/Footer';
+import { Modal, Divider } from 'antd';
+import Form from '../../../../components/Form';
+import SimpleFooter from '../../../../components/Form/components/SimpleFooter';
 import PrimaryInfo from './components/PrimaryInfo';
 import CategoryInfo from './components/CategoryInfo';
 import Pricing from './components/Pricing';
@@ -11,8 +12,6 @@ class NewOrderModal extends React.Component {
     super(props);
 
     // this.state = {
-    //   brands: [],
-    //   manufacturers: [],
     // }
   }
 
@@ -49,7 +48,7 @@ class NewOrderModal extends React.Component {
           <Pricing />
           <Divider />
           <Stock />
-          <Footer onCancel={onCancel}/>
+          <SimpleFooter onCancel={onCancel}/>
         </Form>
       </Modal>
     );
