@@ -31,7 +31,7 @@ class NewOrderModal extends React.Component {
     return (
       <Modal
         {...props}
-        title="Add New Sales Order"
+        title="Add New Purchase Order"
         onCancel={onCancel}
         width={1000}
       >

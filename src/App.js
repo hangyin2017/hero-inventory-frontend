@@ -3,7 +3,7 @@ import { Layout } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from 'styled-components';
 import Header from './components/Header';
-import Navbar from "./layout/Navbar";
+import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/Inventory";
 import Customers from "./pages/Customers";
@@ -12,9 +12,22 @@ import Suppliers from "./pages/Suppliers";
 import PurchaseOrders from "./pages/PurchaseOrders";
 import Users from "./pages/Users";
 import Authentication from "./pages/Authentication";
-import styles from "./App.module.less";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: auto;
+  background: #f0f2f5;
+`;
 
 const Main = styled.main`
+  width: 100%;
   position: relative;
   overflow: hidden;
 `;
@@ -24,10 +37,10 @@ const App = () => {
 
   return (
     <Router>
-      <div className={styles.app}>
+      <Container>
         <Header />
-        <Layout>
-          <Sider className={styles.sider}>
+        <Wrapper>
+          <Sider>
             <Navbar />
           </Sider>
           <Main>
@@ -43,8 +56,8 @@ const App = () => {
             </Switch>
             <Footer />
           </Main>
-        </Layout>
-      </div>
+        </Wrapper>
+      </Container>
     </Router>
   )
 };
