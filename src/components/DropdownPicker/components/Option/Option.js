@@ -1,8 +1,17 @@
 import React from 'react';
-import { EditOutlined } from '@ant-design/icons';
-import { DeleteOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
+import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { color } from '../../../../styles';
+
+const InlineInput = styled(Input)`
+  position: absolute;
+  top: 2px;
+  float: left;
+  width: 250px;
+  padding: 2px 3px;
+  margin-left: -4px;
+`;
 
 const Value = styled.span`
 `;
@@ -18,7 +27,7 @@ const Actions = styled.div`
   }
 
   .ant-select-item-option-active & {
-      visibility: visible;
+    visibility: visible;
   }
 `;
 
@@ -32,27 +41,71 @@ const Delete = styled(DeleteOutlined)`
   color: ${dangerous};
 `;
 
-const Option = ({
-  item,
-  onDelete,
-  active
-}) => {
-  const { id, name } = item;
+class Option extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <>
-      <Value>
-        {name}
-      </Value>
-      <Actions>
-        <Edit />
-        <Delete onClick={(e) => {
-          e.stopPropagation();
-          onDelete(id);
-        }}/>
-      </Actions>
-    </>
-  );
-};
+    this.state = {
+      // editing: false,
+      value: this.props.item.name,
+    }
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange({ target: { value } }) {
+    this.setState({ value });
+  }
+
+  // handleEditClick(e) {
+  //   e.stopPropagation();
+    // this.setState({ editing: true });
+  // }
+
+  render() {
+    const { item, editing, onEdit, onDelete } = this.props;
+    const { value } = this.state;
+    const { id, name } = item;
+
+    return (
+      <>
+        {editing === id ? (
+          <div onClick={(e) => e.stopPropagation()} style={{height: 23}}>
+            <InlineInput
+              value={value}
+              onChange={this.handleInputChange}
+              onPressEnter={(e) => {
+                e.stopPropagation();
+                onEdit(id);
+              }}
+              onFocus={() => console.log("focus")}
+              onBlur={() => console.log("blur")}
+            />
+            <Actions>
+              <CheckOutlined />
+              <CloseOutlined />
+            </Actions>
+          </div>
+        ) : (
+          <>
+            <Value>
+              {name}
+            </Value>
+            <Actions>
+              <Edit onClick={(e) => {
+                e.stopPropagation();
+                onEdit(id);
+              }}/>
+              <Delete onClick={(e) => {
+                e.stopPropagation();
+                onDelete(id);
+              }}/>
+            </Actions>
+          </>
+        )}
+      </>
+    );
+  }
+}
 
 export default Option;

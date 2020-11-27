@@ -11,9 +11,12 @@ class DropdownPicker extends React.Component {
     this.state = {
       data: [],
       value: null,
+      editing: null,
     };
 
+    this.setEditing = this.setEditing.bind(this);
     this.add = this.add.bind(this);
+    this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
     this.getData = this.getData.bind(this);
     this.dropdownRender = this.dropdownRender.bind(this);
@@ -29,9 +32,19 @@ class DropdownPicker extends React.Component {
     this.setState({ data });
   }
 
+  setEditing(id) {
+    this.setState({ editing: id });
+    console.log(this.state.editing);
+  }
+
   add(value) {
     const { api } = this.props;
     api.add({ name: value }).then(this.getData);
+  }
+
+  update(id, value) {
+    const { api } = this.props;
+    api.update(id, { name: value }).then(this.getData);
   }
 
   delete(id) {
@@ -50,7 +63,7 @@ class DropdownPicker extends React.Component {
 
   render() {
     const { placeholder, ...selectProps } = this.props;
-    const { data, value } = this.state;
+    const { data, editing } = this.state;
 
     return (
       <Select
@@ -67,8 +80,9 @@ class DropdownPicker extends React.Component {
           <Select.Option key={item.id} value={item.name} >
             <Option
               item={item}
+              onEdit={this.setEditing}
               onDelete={this.delete}
-              active={value}
+              editing={editing}
             />
           </Select.Option>
         ))}
