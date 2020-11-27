@@ -30,6 +30,7 @@ class NewOrderModal extends React.Component {
     return (
       <Modal
         {...props}
+        title="Add New Sales Order"
         onCancel={onCancel}
         footer={null}
         width={1000}

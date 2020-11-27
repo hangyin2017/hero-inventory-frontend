@@ -31,6 +31,7 @@ class NewOrderModal extends React.Component {
     return (
       <Modal
         {...modalProps}
+        title="Add New Item"
         onCancel={onCancel}
         footer={null}
         width={1000}

@@ -15,7 +15,8 @@ export const Customers = () => {
       newButtonProps={{
         // onClick: null,
       }}
-    />
+    >
+    </Page>
   );
 };
 

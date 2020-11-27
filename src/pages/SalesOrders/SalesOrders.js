@@ -49,15 +49,16 @@ class SalesOrders extends React.Component {
             defaultPageSize: 10,
           },
         }}
+        modalProps={{ Modal: NewOrderModal}}
       >
-        <NewOrderModal
+        {/* <NewOrderModal
           title="Add New Sales Order"
           visible={newOrderModalVisible}
           maskClosable={false}
           onSave={this.hideNewOrderModal}
           onCancel={this.hideNewOrderModal}
           destroyOnClose={true}
-        />
+        /> */}
       </Page>
     )
   }

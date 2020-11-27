@@ -12,11 +12,8 @@ class Inventory extends React.Component {
     this.state = {
       tableData: [],
       searchInput: '',
-      newItemModalVisible: true,
     }
 
-    this.showNewItemModal = this.showNewItemModal.bind(this);
-    this.hideNewItemModal = this.hideNewItemModal.bind(this);
     this.debouncedSearch = this.debouncedSearch.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
@@ -25,18 +22,6 @@ class Inventory extends React.Component {
     const { data } = await items.getAll();
     this.setState({
       tableData: data
-    });
-  }
-  
-  hideNewItemModal() {
-    this.setState({
-      newItemModalVisible: false,
-    });
-  }
-
-  showNewItemModal() {
-    this.setState({
-      newItemModalVisible: true,
     });
   }
 
@@ -53,7 +38,7 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { tableData, newItemModalVisible } = this.state;
+    const { tableData } = this.state;
 
     return (
       <Page
@@ -77,17 +62,16 @@ class Inventory extends React.Component {
             // defaultPageSize: 10,
           },
         }}
-        // style={newItemModalVisible && { overflow: hidden }}
-        style
+        modalProps={{ Modal: NewItemModal}}
       >
-        <NewItemModal
+        {/* <NewItemModal
           title="Add New Item"
           visible={newItemModalVisible}
-          // maskClosable={false}
+          maskClosable={false}
           onSave={this.hideNewItemModal}
           onCancel={this.hideNewItemModal}
-          // destroyOnClose={true}
-        />
+          destroyOnClose={true}
+        /> */}
       </Page>
     )
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'antd';
 import Header from './components/Header';
+import withModal from '../withModal';
 import styled from 'styled-components';
 
 const Content = styled.div`
@@ -16,6 +17,10 @@ const Page = ({
   searchBarProps,
   newButtonProps,
   tableProps,
+  modalProps,
+  modalVisible,
+  onModalSave,
+  onModalCancel,
 }) => {
   return (
     <>
@@ -32,10 +37,20 @@ const Page = ({
             {...tableProps}
           />
         )}
+        {modalProps && (
+          <modalProps.Modal
+            maskClosable={false}
+            destroyOnClose={true}
+            visible={modalVisible}
+            onSave={onModalSave}
+            onCancel={onModalCancel}
+            {...modalProps}
+          />
+        )}
         {children}
       </Content>
     </>
   );
 };
 
-export default Page;
+export default withModal(Page);
