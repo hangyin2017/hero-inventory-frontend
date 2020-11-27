@@ -43,6 +43,7 @@ class Inventory extends React.Component {
       <Page
         headerProps={{
           title: 'Inventory',
+          hasNewButton: true,
         }}
         searchBarProps={{
           placeholder: 'Search by item name or SKU',

@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 const Content = styled.div`
   width: 100%;
-  height: calc(100vh - 130px);
   position: relative;
   overflow-y: auto;
 `;
@@ -15,7 +14,6 @@ const Page = ({
   children,
   headerProps,
   searchBarProps,
-  newButtonProps,
   tableProps,
   Modal,
   modalVisible,
@@ -26,12 +24,9 @@ const Page = ({
   return (
     <>
       <Header
-        searchBarProps={searchBarProps}
-        newButtonProps={{
-          ...newButtonProps,
-          onClick: showModal,
-        }}
         {...headerProps}
+        searchBarProps={searchBarProps}
+        onNewButtonClick={showModal}
       />
       <Content>
         {tableProps && (

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'antd';
 import Page from '../../components/Page';
 import NewOrderModal from './components/NewOrderModal';
 
@@ -11,17 +10,6 @@ class SalesOrders extends React.Component {
       tableData: [],
       newOrderModalVisible: false,
     }
-
-    this.showNewOrderModal = this.showNewOrderModal.bind(this);
-    this.hideNewOrderModal = this.hideNewOrderModal.bind(this);
-  }
-
-  showNewOrderModal() {
-    this.setState({ newOrderModalVisible: true });
-  }
-
-  hideNewOrderModal() {
-    this.setState({ newOrderModalVisible: false });
   }
 
   render() {
@@ -31,6 +19,7 @@ class SalesOrders extends React.Component {
       <Page
         headerProps={{
           title: 'Sales Orders',
+          hasNewButton: true,
         }}
         searchBarProps={{
           placeholder: 'Search by order number',
@@ -50,16 +39,7 @@ class SalesOrders extends React.Component {
           },
         }}
         Modal={NewOrderModal}
-      >
-        {/* <NewOrderModal
-          title="Add New Sales Order"
-          visible={newOrderModalVisible}
-          maskClosable={false}
-          onSave={this.hideNewOrderModal}
-          onCancel={this.hideNewOrderModal}
-          destroyOnClose={true}
-        /> */}
-      </Page>
+      />
     )
   }
 }
