@@ -50,9 +50,6 @@ class Inventory extends React.Component {
           onChange: this.debouncedSearch,
           onSearch: this.handleSearch,
         }}
-        newButtonProps={{
-          onClick: this.showNewItemModal,
-        }}
         tableProps={{
           columns: columns,
           dataSource: tableData,

@@ -6,7 +6,7 @@ const withModal = (Component) => {
       super(props);
 
       this.state = {
-        visible: true,
+        visible: false,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -28,6 +28,7 @@ const withModal = (Component) => {
         <Component
           {...this.props}
           modalVisible={visible}
+          showModal={this.showModal}
           onModalSave={this.hideModal}
           onModalCancel={this.hideModal}
         />

@@ -19,6 +19,7 @@ const Page = ({
   tableProps,
   modalProps,
   modalVisible,
+  showModal,
   onModalSave,
   onModalCancel,
 }) => {
@@ -26,7 +27,10 @@ const Page = ({
     <>
       <Header
         searchBarProps={searchBarProps}
-        newButtonProps={newButtonProps}
+        newButtonProps={{
+          ...newButtonProps,
+          onClick: showModal,
+        }}
         {...headerProps}
       />
       <Content>

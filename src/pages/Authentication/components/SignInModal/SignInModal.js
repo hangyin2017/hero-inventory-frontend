@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import Modal from "../../../../components/Modal";
+import Modal from "../Modal";
 import FormItem from "../../../../components/FormItem"
 
 const Form = styled.form`
