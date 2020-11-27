@@ -10,36 +10,36 @@ class OrderedItemsTable extends React.Component {
     super(props);
     this.columns = [
       {
-        title: "ITEM DETAILS",
+        title: "Item Details",
         dataIndex: "DETAILS",
         width: 300,
         editable: true,
       },
       {
-        title: "QUANTITY",
+        title: "Quantity",
         dataIndex: "QUANTITY",
         width: 100,
         editable: true,
       },
       {
-        title: "RATE",
+        title: "Rate",
         dataIndex: "RATE",
         width: 100,
         editable: true,
       },
       {
-        title: "DISCOUNT",
+        title: "Discount",
         dataIndex: "DISCOUNT",
         width: 100,
         editable: true,
       },
       {
-        title: "AMOUNT",
+        title: "Amount",
         dataIndex: "AMOUNT",
         width: 100,
       },
       {
-        title: "OPERATION",
+        title: "Operation",
         width: 100,
         dataIndex: "OPERATION",
         render: (text, record) =>
@@ -96,11 +96,13 @@ class OrderedItemsTable extends React.Component {
       count: count + 1,
     });
   };
+  
   componentDidUpdate(prevProps,prevState){
     if(this.state.dataSource != prevState.dataSource){
       this.props.getSoldItems(this.state.dataSource)
     }
-  }
+  };
+
   handleSave = (row) => {
     const newData = [...this.state.dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -118,7 +120,7 @@ class OrderedItemsTable extends React.Component {
     });
   };
 
-  handleCancel = e => {
+  handleCancel = (e) => {
     this.setState({
       visible: false,
     });
@@ -151,7 +153,7 @@ class OrderedItemsTable extends React.Component {
     });
 
     return (
-      <div style={{ width: "80%", margin: "30px auto" }}>
+      <div style={{ width: "100%", margin: "30px auto" }}>
         <Table
           pagination={ false }
           components={ components }
@@ -166,22 +168,13 @@ class OrderedItemsTable extends React.Component {
               onClick={ this.handleAdd }
               style={{ marginTop: 16 }}
             >
-              Add another line
+              Add Another Line
           </button>
           </div>
           <div style={{ width: '50%' }}>
             <Total dataSource={ this.state.dataSource }/>
           </div>
         </div>
-        <Modal
-          title="Basic Modal"
-          visible={ this.state.visible }
-          onCancel={ this.handleCancel }
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
       </div>
     );
   }

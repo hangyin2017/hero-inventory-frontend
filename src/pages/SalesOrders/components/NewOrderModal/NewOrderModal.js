@@ -23,7 +23,7 @@ class NewOrderModal extends React.Component {
   }
 
   setStatus = (status) => {
-    this.setState({status})
+    this.setState({ status })
   }
   
   onFinish = async values => {
@@ -50,6 +50,7 @@ class NewOrderModal extends React.Component {
     const result = await salesOrders.add(data)
       if (result) {
         this.setState({ visible: false })
+        this.props.onCancel();
       }
   }; 
 
@@ -105,7 +106,7 @@ class NewOrderModal extends React.Component {
               />
             </Form.Item>
           </Form.Section>
-          <Footer onCancel={ onCancel } setStatus={this.setStatus}/>
+          <Footer onCancel={ onCancel } setStatus={ this.setStatus }/>
         </Form>
       </Modal>
     );

@@ -30,30 +30,30 @@ export default class Total extends Component {
       <div className="total">
         <div>
           <span>Sub Total</span>
-          <span>{sum.toFixed(2)}</span>
+          <span>{ sum.toFixed(2) }</span>
         </div>
         <div>
           <p>
             <span>Shipping Charges</span>
-            <Input className="inp" onChange={this.inputShipping} type="text" />
+            <Input className="inp" onChange={ this.inputShipping } type="text" />
           </p>
-          <span>{this.state.shipment.toFixed(2)}</span>
+          <span>{ this.state.shipment.toFixed(2) }</span>
         </div>
         <div>
           <p>
             <Input value={"Adjustment"} type="text" />
             <Input
               className="inp"
-              onChange={this.inputAdjust}
+              onChange={ this.inputAdjust }
               style={{ marginLeft: 64 }}
               type="text"
             />
           </p>
-          <span>{this.state.adjustment.toFixed(2)}</span>
+          <span>{ this.state.adjustment.toFixed(2) }</span>
         </div>
         <h2>
           <span>Total（$）</span>
-          <span>{(sum + this.state.shipment + this.state.adjustment).toFixed(2)}</span>
+          <span>{ (sum + this.state.shipment + this.state.adjustment).toFixed(2) }</span>
         </h2>
       </div>
     );

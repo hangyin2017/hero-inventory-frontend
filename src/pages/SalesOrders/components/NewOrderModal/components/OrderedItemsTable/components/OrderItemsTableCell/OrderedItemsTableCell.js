@@ -19,6 +19,7 @@ const OrderedItemsTableCell = ({
 }) => {
   const [allData, setAllData] = useState([]);
   const [data, setData] = useState([]);
+
   useEffect(() => {
     const fetchItem = async () => {
       const result = await items.getAll("items");
@@ -126,15 +127,15 @@ const OrderedItemsTableCell = ({
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
             <h2 style={{ display: "flex", justifyContent: "space-between" }}>
-              {record.data.name}
+              { record.data.name }
               <div
                 style={{ display: "flex", alignItems: "center", height: 30 }}
               >
                 <Popover
                   content={
                     <div>
-                      <p onClick={showModal}>Edit Item</p>
-                      <p onClick={showModal}>View Item Details</p>
+                      <p onClick={ showModal }>Edit Item</p>
+                      <p onClick={ showModal }>View Item Details</p>
                     </div>
                   }
                 >
@@ -143,7 +144,7 @@ const OrderedItemsTableCell = ({
                 <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
               </div>
             </h2>
-            <span>SKU:{record.data.sku}</span>
+            <span>SKU:{ record.data.sku }</span>
           </div>
         ) : null}
         <Form.Item
@@ -165,7 +166,7 @@ const OrderedItemsTableCell = ({
           />
         </Form.Item>
         {dataIndex === "DISCOUNT" ? (
-          <Select defaultValue={record.flag} style={{ marginLeft: 10 }}>
+          <Select defaultValue={ record.flag } style={{ marginLeft: 10 }}>
             <Option value="%">%</Option>
             <Option value="$">$</Option>
           </Select>
@@ -175,6 +176,8 @@ const OrderedItemsTableCell = ({
             style={{
               position: "absolute",
               zIndex: 9999,
+              height: 250,
+              overflow: 'auto',
               width: "300px",
               background: "#fff",
               marginLeft: "0px",
@@ -183,31 +186,25 @@ const OrderedItemsTableCell = ({
           >
             {data.map((item) => (
               <li
-                key={item.id}
+                key={ item.id }
                 onClick={() => {
                   save(item);
                   handleAdd();
                 }}
               >
                 <span style={{ fontSize: "15px", fontWeight: "bold" }}>
-                  {item.name}
+                  { item.name }
                 </span>
                 <div style={{ marginTop: "15px", marginBottom: "10px" }}>
-                  <span style={{ marginRight: "10px" }}> SKU:{item.sku}</span>
+                  <span style={{ marginRight: "10px" }}> SKU:{ item.sku }</span>
                   <span style={{ marginRight: "10px" }}>
                     {" "}
-                    Rate:{item.sellingPrice}
+                    Rate:{ item.sellingPrice }
                   </span>
-                  <span> Stock:{item.physicalStock}</span>
+                  <span> Stock:{ item.physicalStock }</span>
                 </div>
               </li>
             ))}
-            <a
-              onClick={showModal}
-              style={{ marginTop: "30px", marginLeft: "-18px" }}
-            >
-              +Add New Item
-            </a>
           </ul>
         ) : null}
       </div>
@@ -216,7 +213,7 @@ const OrderedItemsTableCell = ({
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
             <h2 style={{ display: "flex", justifyContent: "space-between" }}>
-              {record.data.name}
+              { record.data.name }
               <div
                 style={{ display: "flex", alignItems: "center", height: 30 }}
               >
@@ -233,7 +230,7 @@ const OrderedItemsTableCell = ({
                 <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
               </div>
             </h2>
-            <span>SKU:{record.data.sku}</span>
+            <span>SKU:{ record.data.sku }</span>
           </div>
         ) : null}
         <div
