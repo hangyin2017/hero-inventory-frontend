@@ -1,15 +1,8 @@
 import React from 'react';
 import { Select } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import AddNew from './components/AddNew';
 import Option from './components/Option';
-
-const StyledSelect = styled(Select)`
-  .dropdown {
-    position: absolute;
-  }
-`;
 
 class DropdownPicker extends React.Component {
   constructor(props) {
@@ -22,10 +15,15 @@ class DropdownPicker extends React.Component {
 
     this.add = this.add.bind(this);
     this.delete = this.delete.bind(this);
+    this.getData = this.getData.bind(this);
     this.dropdownRender = this.dropdownRender.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.getData();
+  }
+
+  async getData() {
     const { api } = this.props;
     const { data } = await api.getAll();
     this.setState({ data });
@@ -33,19 +31,12 @@ class DropdownPicker extends React.Component {
 
   add(value) {
     const { api } = this.props;
-    api.add({ name: value })
-      .then((res) => this.setState((prevState) => {
-        return { data: [...prevState.data, res.data] }
-      }));
+    api.add({ name: value }).then(this.getData);
   }
 
   delete(id) {
     const { api } = this.props;
-    api.delete(id)
-      .then((res) => this.setState((prevState) => {
-        data = prevState.data.filter();
-        return { data: [...prevState.data, res.data] };
-      }));
+    api.delete(id).then(this.getData);
   }
 
   dropdownRender(options) {
@@ -73,9 +64,7 @@ class DropdownPicker extends React.Component {
         defaultOpen={true}
       >
         {data.map((item) => (
-          <Select.Option key={item.id} value={item.name}
-            // onMouseOver={(e) => console.log(e.target.value)}
-          >
+          <Select.Option key={item.id} value={item.name} >
             <Option
               item={item}
               onDelete={this.delete}

@@ -4,12 +4,6 @@ import { DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { color } from '../../../../styles';
 
-const Wrapper = styled.div`
-  &:hover > div {
-      visibility: visible;
-  }
-`;
-
 const Value = styled.span`
 `;
 
@@ -21,6 +15,10 @@ const Actions = styled.div`
 
   & > span {
     margin: 0 3px;
+  }
+
+  .ant-select-item-option-active & {
+      visibility: visible;
   }
 `;
 
@@ -41,9 +39,8 @@ const Option = ({
 }) => {
   const { id, name } = item;
 
-  // console.log(active, name);
   return (
-    <Wrapper>
+    <>
       <Value>
         {name}
       </Value>
@@ -54,7 +51,7 @@ const Option = ({
           onDelete(id);
         }}/>
       </Actions>
-    </Wrapper>
+    </>
   );
 };
 

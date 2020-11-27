@@ -52,7 +52,6 @@ class AddNew extends React.Component {
     this.setState({ value: '' });
     
     onAdd(value);
-    console.log('added', value);
   }
 
   handleEnterInput(e) {
