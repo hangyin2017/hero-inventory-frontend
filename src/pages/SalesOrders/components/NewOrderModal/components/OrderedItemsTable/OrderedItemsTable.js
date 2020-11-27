@@ -53,10 +53,11 @@ class OrderedItemsTable extends React.Component {
           ) : "Can't not delete",
       },
     ];
-
+    
     this.state = {
       dataSource: [
         {
+          id:0,
           key: "0",
           DETAILS: "Type or click to select an item",
           QUANTITY: 1,
@@ -97,7 +98,6 @@ class OrderedItemsTable extends React.Component {
   };
   componentDidUpdate(prevProps,prevState){
     if(this.state.dataSource != prevState.dataSource){
-      // 关键在这个生命周期，只要商品数据一变，这个生命周期就会执行，执行传递过来的函数，将这些数据往上传递
       this.props.getSoldItems(this.state.dataSource)
     }
   }
@@ -151,7 +151,7 @@ class OrderedItemsTable extends React.Component {
     });
 
     return (
-      <div style={ { width: "80%", margin: "30px auto" } }>
+      <div style={{ width: "80%", margin: "30px auto" }}>
         <Table
           pagination={ false }
           components={ components }
@@ -159,18 +159,18 @@ class OrderedItemsTable extends React.Component {
           dataSource={ dataSource }
           columns={ columns }
         />
-        <div style={{display:'flex',justifyContent:'space-between',paddingTop:20}}>
+        <div style={{ display:'flex', justifyContent:'space-between', paddingTop:20 }}>
           <div>
             <button
               type='button'
               onClick={ this.handleAdd }
-              style={ { marginTop: 16 } }
+              style={{ marginTop: 16 }}
             >
               Add another line
           </button>
           </div>
-          <div style={{width: '50%'}}>
-            <Total dataSource={this.state.dataSource}/>
+          <div style={{ width: '50%' }}>
+            <Total dataSource={ this.state.dataSource }/>
           </div>
         </div>
         <Modal

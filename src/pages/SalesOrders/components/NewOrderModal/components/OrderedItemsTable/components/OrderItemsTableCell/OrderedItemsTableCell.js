@@ -22,7 +22,7 @@ const OrderedItemsTableCell = ({
   useEffect(() => {
     const fetchItem = async () => {
       const result = await items.getAll("items");
-      setData(result.data.slice(0, 2));
+      setData(result.data);
       setAllData(result.data);
     };
 
@@ -76,9 +76,10 @@ const OrderedItemsTableCell = ({
       });
     } else {
       handleSave({ ...record, ...values });
-      setData(allData.slice(0, 2));
+      setData(allData);
     }
   };
+
   const search = (e) => {
     if (dataIndex !== "DETAILS") {
       return null;
@@ -89,9 +90,11 @@ const OrderedItemsTableCell = ({
         new RegExp(e.target.value,'i').test(item.sku)
       );
     });
-    setData(result.slice(0, 5));
+    setData(result);
   };
+
   const save = async (data) => {
+
     try {
       const values = await form.validateFields();
       if (dataIndex === "DETAILS") {

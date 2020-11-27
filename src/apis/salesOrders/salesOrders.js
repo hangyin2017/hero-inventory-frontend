@@ -1,6 +1,6 @@
 import api from '../../lib/api';
 
-const TARGET = '/salesorders'; 
+const TARGET = '/salesorder'; 
 
 export default {
   getAll: () => api.get(TARGET),
@@ -13,7 +13,7 @@ export default {
 
   get: (id) => api.get(`${TARGET}/${id}`),
 
-  add: (payload) => api.post(TARGET),
+  add: (payload) => api.post(TARGET, payload),
 
   modify: (id, payload) => api.put(`${TARGET}/${id}`),
 

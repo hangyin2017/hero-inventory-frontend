@@ -7,17 +7,17 @@ const StyledButton = styled(Button)`
   margin: 0 8px;
 `;
 
-const FormFooter = ({ onCancel }) => {
+const FormFooter = ({ onCancel,setStatus }) => {
 
   return (
     <Form.Footer>
-      <StyledButton htmlType="submit">
+      <StyledButton htmlType="submit" onClick={ () => setStatus('draft') }>
         Save as Draft
       </StyledButton>
-      <StyledButton type="primary" htmlType="submit" >
+      <StyledButton type="primary" htmlType="submit" onClick={ () => setStatus('confirmed') }>
         Save and Confirm
       </StyledButton>
-      <StyledButton onClick={onCancel}>
+      <StyledButton onClick={ onCancel }>
         Cancel
       </StyledButton>
     </Form.Footer>
