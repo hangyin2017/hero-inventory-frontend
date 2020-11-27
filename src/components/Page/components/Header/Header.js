@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import SearchBar from './components/SearchBar';
 import NewButton from './components/NewButton';
+import ItemDetailButton from './components/ItemDetailButton';
 
 const StyledHeader = styled.div`
   border-bottom: 1px solid #dadada;
@@ -29,6 +30,7 @@ const Header = ({
   title,
   searchBarProps,
   newButtonProps,
+  itemDetailButtonProps,
 }) => {
   return (
     <StyledHeader>
@@ -42,6 +44,9 @@ const Header = ({
           )}
           {newButtonProps && (
             <NewButton {...newButtonProps} />
+          )}
+          {itemDetailButtonProps && (
+            <ItemDetailButton {...itemDetailButtonProps} />
           )}
         </Right>
       </Layout>

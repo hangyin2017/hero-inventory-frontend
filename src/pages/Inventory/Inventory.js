@@ -3,6 +3,7 @@ import { Table } from 'antd';
 import itemApi from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
+import ItemDetailModal from './components/ItemDetailModal';
 import columns from './columns';
 
 class Inventory extends React.Component {
@@ -13,12 +14,15 @@ class Inventory extends React.Component {
       tableData: [],
       searchInput: '',
       newItemModalVisible: false,
+      itemDetailModalVisible: false,
     }
 
     this.showNewItemModal = this.showNewItemModal.bind(this);
     this.hideNewItemModal = this.hideNewItemModal.bind(this);
     this.debouncedSearch = this.debouncedSearch.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.showItemDetailModal = this.showItemDetailModal.bind(this);
+    this.hideItemDetailModal = this.hideItemDetailModal.bind(this);
   }
 
   async componentDidMount() {
@@ -40,6 +44,18 @@ class Inventory extends React.Component {
     });
   }
 
+  hideItemDetailModal() {
+    this.setState({
+      itemDetailModalVisible: false,
+    });
+  }
+
+  showItemDetailModal() {
+    this.setState({
+      itemDetailModalVisible: true,
+    });
+  }
+
   async debouncedSearch({ target }) {
     if(target.timer) clearTimeout(target.timer);
     target.timer = setTimeout(() => this.handleSearch(target.value), 1000);
@@ -53,7 +69,7 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { tableData, newItemModalVisible } = this.state;
+    const { tableData, newItemModalVisible, itemDetailModalVisible } = this.state;
 
     return (
       <Page
@@ -67,6 +83,9 @@ class Inventory extends React.Component {
         }}
         newButtonProps={{
           onClick: this.showNewItemModal,
+        }}
+        itemDetailButtonProps={{
+          onClick: this.showItemDetailModal,
         }}
         tableProps={{
           columns: columns,
@@ -84,6 +103,13 @@ class Inventory extends React.Component {
           maskClosable={false}
           onSave={this.hideNewItemModal}
           onCancel={this.hideNewItemModal}
+          destroyOnClose={true}
+        />
+        <ItemDetailModal
+          title="Item Detail"
+          visible={itemDetailModalVisible}
+          maskClosable={false}
+          onCancel={this.hideItemDetailModal}
           destroyOnClose={true}
         />
       </Page>
