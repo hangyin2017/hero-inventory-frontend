@@ -17,7 +17,7 @@ const Page = ({
   searchBarProps,
   newButtonProps,
   tableProps,
-  modalProps,
+  Modal,
   modalVisible,
   showModal,
   onModalSave,
@@ -41,14 +41,14 @@ const Page = ({
             {...tableProps}
           />
         )}
-        {modalProps && (
-          <modalProps.Modal
+        {Modal && (
+          <Modal
+            footer={null}
             maskClosable={false}
             destroyOnClose={true}
             visible={modalVisible}
             onSave={onModalSave}
             onCancel={onModalCancel}
-            {...modalProps}
           />
         )}
         {children}

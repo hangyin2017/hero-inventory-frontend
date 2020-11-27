@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Form, Divider } from 'antd';
-import FormFooter from './components/FormFooter';
+import Footer from './components/Footer';
 import PrimaryInfo from './components/PrimaryInfo';
 import CategoryInfo from './components/CategoryInfo';
 import Pricing from './components/Pricing';
@@ -49,7 +49,7 @@ class NewOrderModal extends React.Component {
           <Pricing />
           <Divider />
           <Stock />
-          <FormFooter onCancel={onCancel}/>
+          <Footer onCancel={onCancel}/>
         </Form>
       </Modal>
     );

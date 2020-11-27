@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Divider, Input } from 'antd';
+import { Divider, Input } from 'antd';
+import Modal from '../../../../components/Modal';
 import Form from '../../../../components/Form';
 import OrderedItemsTable from './components/OrderedItemsTable/OrderedItemsTable';
 import Footer from './components/Footer';
@@ -32,7 +33,6 @@ class NewOrderModal extends React.Component {
         {...props}
         title="Add New Sales Order"
         onCancel={onCancel}
-        footer={null}
         width={1000}
       >
         <Form

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Table } from 'antd';
 import items from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
@@ -59,7 +58,7 @@ class Inventory extends React.Component {
             // defaultPageSize: 10,
           },
         }}
-        modalProps={{ Modal: NewItemModal}}
+        Modal={NewItemModal}
       >
         {/* <NewItemModal
           title="Add New Item"

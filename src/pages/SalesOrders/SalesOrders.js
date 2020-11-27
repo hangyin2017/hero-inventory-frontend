@@ -49,7 +49,7 @@ class SalesOrders extends React.Component {
             defaultPageSize: 10,
           },
         }}
-        modalProps={{ Modal: NewOrderModal}}
+        Modal={NewOrderModal}
       >
         {/* <NewOrderModal
           title="Add New Sales Order"
