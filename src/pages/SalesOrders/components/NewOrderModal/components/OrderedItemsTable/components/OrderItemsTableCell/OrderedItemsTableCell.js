@@ -157,7 +157,7 @@ const OrderedItemsTableCell = ({
 
   let childNode = children;
   if (editable) {
-    childNode = editing ? (
+    childNode = editing ? (//如果当前是可编辑状态，显示输入框(itemList)
       <div>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
@@ -227,7 +227,7 @@ const OrderedItemsTableCell = ({
           </ItemsList>
         ) : null}
       </div>
-    ) : (
+    ) : (//失去焦点，不可编辑状态，显示具体的数据
       <div style={{ paddingRight: 24 }}>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
