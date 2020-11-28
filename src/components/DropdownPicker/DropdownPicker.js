@@ -17,16 +17,16 @@ class DropdownPicker extends React.Component {
     this.setEditing = this.setEditing.bind(this);
     this.add = this.add.bind(this);
     this.update = this.update.bind(this);
-    this.delete = this.delete.bind(this);
-    this.getData = this.getData.bind(this);
+    this.remove = this.remove.bind(this);
+    this.refreshAll = this.refreshAll.bind(this);
     this.dropdownRender = this.dropdownRender.bind(this);
   }
 
   componentDidMount() {
-    this.getData();
+    this.refreshAll();
   }
 
-  async getData() {
+  async refreshAll() {
     const { api } = this.props;
     const { data } = await api.getAll();
     this.setState({ data });
@@ -34,22 +34,25 @@ class DropdownPicker extends React.Component {
 
   setEditing(id) {
     this.setState({ editing: id });
-    console.log(this.state.editing);
   }
 
   add(value) {
     const { api } = this.props;
-    api.add({ name: value }).then(this.getData);
+    api.add({ name: value }).then(this.refreshAll);
   }
 
-  update(id, value) {
+  async update(id, value) {
     const { api } = this.props;
-    api.update(id, { name: value }).then(this.getData);
+    await api.update(id, { name: value });
+    this.setState({
+      editing: null,
+    });
+    this.refreshAll();
   }
 
-  delete(id) {
+  remove(id) {
     const { api } = this.props;
-    api.delete(id).then(this.getData);
+    api.delete(id).then(this.refreshAll);
   }
 
   dropdownRender(options) {
@@ -62,7 +65,7 @@ class DropdownPicker extends React.Component {
   };
 
   render() {
-    const { placeholder, ...selectProps } = this.props;
+    const { api, placeholder, ...selectProps } = this.props;
     const { data, editing } = this.state;
 
     return (
@@ -80,9 +83,12 @@ class DropdownPicker extends React.Component {
           <Select.Option key={item.id} value={item.name} >
             <Option
               item={item}
-              onEdit={this.setEditing}
-              onDelete={this.delete}
+              setEditing={this.setEditing}
+              remove={this.remove}
               editing={editing}
+              update={this.update}
+            
+            // {editiong === item.id && onClick: {(e) => e.stopPropagation()}}
             />
           </Select.Option>
         ))}
