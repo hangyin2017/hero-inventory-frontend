@@ -1,6 +1,5 @@
 import React from 'react';
-import { Input } from 'antd';
-import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { color } from '../../../../styles';
 import Edit from './components/Edit';
@@ -40,10 +39,7 @@ class Option extends React.Component {
 
     this.state = {
     }
-
   }
-
-
 
   render() {
     const { item, selectRef, editing, setEditing, update, remove } = this.props;
@@ -73,7 +69,7 @@ class Option extends React.Component {
               }}/>
               <DeleteIcon onClick={(e) => {
                 e.stopPropagation();
-                remove(id);
+                remove(item);
               }}/>
             </Actions>
           </>

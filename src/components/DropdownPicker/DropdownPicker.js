@@ -54,10 +54,15 @@ class DropdownPicker extends React.Component {
     this.refreshAll();
   }
 
-  remove(id) {
+  remove(item) {
     const { api } = this.props;
-    api.delete(id).then(this.refreshAll);
-    this.setState({ value: null });
+    const { value } = this.state;
+
+    this.select.focus();
+
+    api.delete(item.id).then(this.refreshAll);
+
+    if(item.name == value) this.setState({ value: null });
   }
 
   dropdownRender(options) {
@@ -70,7 +75,7 @@ class DropdownPicker extends React.Component {
   };
 
   render() {
-    const { api, placeholder } = this.props;
+    const { placeholder } = this.props;
     const { data, value, editing } = this.state;
 
     return (
@@ -95,8 +100,6 @@ class DropdownPicker extends React.Component {
               remove={this.remove}
               editing={editing}
               update={this.update}
-            
-            // {editiong === item.id && onClick: {(e) => e.stopPropagation()}}
             />
           </Select.Option>
         ))}

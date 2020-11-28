@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input } from 'antd';
-import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 const InlineInput = styled(Input)`
@@ -42,11 +42,11 @@ class Edit extends React.Component {
   }
 
   render() {
-    const { item, selectRef, Actions, setEditing, update } = this.props;
+    const { Actions, setEditing } = this.props;
     const { value } = this.state;
 
     return (
-      <div onClick={(e) => e.stopPropagation()} style={{height: 23}}>
+      <div onClick={(e) => e.stopPropagation()}>
         <InlineInput
           value={value}
           ref={(el) => this.input = el}
@@ -56,7 +56,10 @@ class Edit extends React.Component {
         />
         <Actions>
           <CheckOutlined onClick={this.handleUpdate}/>
-          <CloseOutlined onClick={this.handleUpdate}/>
+          <CloseOutlined onClick={(e) => {
+            e.stopPropagation();
+            setEditing(null);
+          }}/>
         </Actions>
       </div>
     )

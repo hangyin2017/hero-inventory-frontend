@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-wrap: nowrap;
   margin-top: 4px;
-  padding: 8px 8px 4px;
+  padding: 4px 8px 0px;
   border-top: 1px solid ${lightGrey};
 `;
 
@@ -33,21 +33,28 @@ class AddNew extends React.Component {
       value: '',
     };
 
+    this.clear = this.clear.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  clear() {
+    const{ selectRef } = this.props;
+
+    this.setState({ value: '' });
+
+    selectRef.focus();
   }
 
   handleAdd(e) {
     e.stopPropagation();
 
-    const { selectRef, onAdd } = this.props;
+    const { onAdd } = this.props;
     const { value } = this.state;
     
-    selectRef.focus();
+    this.clear();
 
     if(value === '') return;
 
-    this.setState({ value: '' });
-    
     onAdd(value);
   }
 
