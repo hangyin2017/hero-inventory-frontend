@@ -117,7 +117,7 @@ const OrderedItemsTableCell = ({
       setData(allData);
     }
   };
-  
+
   const search = (e) => {
     if (dataIndex !== "DETAILS") {
       return null;
@@ -233,11 +233,9 @@ const OrderedItemsTableCell = ({
       <div style={{ paddingRight: 24 }}>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
-            <h2 style={{ display: "flex", justifyContent: "space-between" }}>
+            <SelectedItemName>
               { record.data.name }
-              <div
-                style={{ display: "flex", alignItems: "center", height: 30 }}
-              >
+              <SelectedItemModal>
                 <Popover
                   content={
                     <div>
@@ -249,8 +247,8 @@ const OrderedItemsTableCell = ({
                   <PlusCircleOutlined />
                 </Popover>
                 <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
-              </div>
-            </h2>
+              </SelectedItemModal>
+            </SelectedItemName>
             <span>SKU:{ record.data.sku }</span>
           </div>
         ) : null}
