@@ -25,19 +25,20 @@ export default class Total extends Component {
 
   render() {
     const { dataSource } = this.props;
+    const { shipment, adjustment} = this.state;
     let sum = dataSource.reduce((prev, cur) => prev + cur.AMOUNT, 0);
     return (
       <div className="total">
         <div>
           <span>Sub Total</span>
-          <span>{ sum.toFixed(2) }</span>
+          <span>{ sum }</span>
         </div>
         <div>
           <p>
             <span>Shipping Charges</span>
             <Input className="inp" onChange={ this.inputShipping } type="text" />
           </p>
-          <span>{ this.state.shipment.toFixed(2) }</span>
+          <span>{ shipment }</span>
         </div>
         <div>
           <p>
@@ -49,11 +50,11 @@ export default class Total extends Component {
               type="text"
             />
           </p>
-          <span>{ this.state.adjustment.toFixed(2) }</span>
+          <span>{ adjustment }</span>
         </div>
         <h2>
           <span>Total（$）</span>
-          <span>{ (sum + this.state.shipment + this.state.adjustment).toFixed(2) }</span>
+          <span>{ (sum + shipment + adjustment) }</span>
         </h2>
       </div>
     );

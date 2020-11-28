@@ -149,7 +149,7 @@ const OrderedItemsTableCell = ({
         ) : null}
         <Form.Item
           style={{ margin: 0 }}
-          name={dataIndex}
+          name={ dataIndex }
           rules={[
             {
               required: true,
@@ -158,11 +158,11 @@ const OrderedItemsTableCell = ({
           ]}
         >
           <Input
-            ref={inputRef}
+            ref={ inputRef }
             autocomplete="off"
-            onBlur={myblur}
-            onPressEnter={myblur}
-            onChange={search}
+            onBlur={ myblur }
+            onPressEnter={ myblur }
+            onChange={ search }
           />
         </Form.Item>
         {dataIndex === "DISCOUNT" ? (
@@ -220,8 +220,8 @@ const OrderedItemsTableCell = ({
                 <Popover
                   content={
                     <div>
-                      <p onClick={showModal}>Edit Item</p>
-                      <p onClick={showModal}>View Item Details</p>
+                      <p onClick={ showModal }>Edit Item</p>
+                      <p onClick={ showModal }>View Item Details</p>
                     </div>
                   }
                 >
@@ -240,7 +240,7 @@ const OrderedItemsTableCell = ({
             alignItems: "center",
           }}
         >
-          <div style={{ flex: 1 }} onClick={toggleEdit}>
+          <div style={{ flex: 1 }} onClick={ toggleEdit }>
             {children}
           </div>
           {dataIndex === "DISCOUNT" ? (

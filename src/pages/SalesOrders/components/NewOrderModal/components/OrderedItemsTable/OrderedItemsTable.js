@@ -96,12 +96,6 @@ class OrderedItemsTable extends React.Component {
       count: count + 1,
     });
   };
-  
-  componentDidUpdate(prevProps,prevState){
-    if(this.state.dataSource != prevState.dataSource){
-      this.props.getSoldItems(this.state.dataSource)
-    }
-  };
 
   handleSave = (row) => {
     const newData = [...this.state.dataSource];
@@ -114,16 +108,12 @@ class OrderedItemsTable extends React.Component {
     this.setState({ dataSource: newData });
   };
 
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleCancel = (e) => {
-    this.setState({
-      visible: false,
-    });
+  componentDidUpdate (prevProps,prevState) {
+    const { dataSource } = this.state;
+    const {getSoldItems} = this.props;
+    if(dataSource != prevState.dataSource){
+      getSoldItems(dataSource);
+    }
   };
 
   render() {
@@ -147,7 +137,6 @@ class OrderedItemsTable extends React.Component {
           title: col.title,
           handleSave: this.handleSave,
           handleAdd: this.handleAdd,
-          showModal: this.showModal
         }),
       };
     });
@@ -172,7 +161,7 @@ class OrderedItemsTable extends React.Component {
           </button>
           </div>
           <div style={{ width: '50%' }}>
-            <Total dataSource={ this.state.dataSource }/>
+            <Total dataSource={ dataSource }/>
           </div>
         </div>
       </div>
