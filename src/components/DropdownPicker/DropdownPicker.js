@@ -39,6 +39,7 @@ class DropdownPicker extends React.Component {
   add(value) {
     const { api } = this.props;
     api.add({ name: value }).then(this.refreshAll);
+    this.setState({ value });
   }
 
   async update(item, value) {
@@ -56,13 +57,14 @@ class DropdownPicker extends React.Component {
   remove(id) {
     const { api } = this.props;
     api.delete(id).then(this.refreshAll);
+    this.setState({ value: null });
   }
 
   dropdownRender(options) {
     return (
       <>
         {options}
-        <AddNew maxLength={50} onAdd={this.add}/>
+        <AddNew selectRef={this.select} maxLength={50} onAdd={this.add}/>
       </>
     );
   };
@@ -73,6 +75,7 @@ class DropdownPicker extends React.Component {
 
     return (
       <Select
+        ref={(el) => this.select = el}
         placeholder={placeholder}
         allowClear
         showSearch
@@ -87,6 +90,7 @@ class DropdownPicker extends React.Component {
           <Select.Option key={item.id} value={item.name} >
             <Option
               item={item}
+              selectRef={this.select}
               setEditing={this.setEditing}
               remove={this.remove}
               editing={editing}

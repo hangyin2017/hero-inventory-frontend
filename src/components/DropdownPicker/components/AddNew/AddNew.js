@@ -31,21 +31,19 @@ class AddNew extends React.Component {
 
     this.state = {
       value: '',
-      adding: false,
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
   }
 
-  handleInputChange({ target: { value } }) {
-    this.setState({ value });
-  }
+  handleAdd(e) {
+    e.stopPropagation();
 
-  handleAdd() {
-    const { onAdd } = this.props;
+    const { selectRef, onAdd } = this.props;
     const { value } = this.state;
     
+    selectRef.focus();
+
     if(value === '') return;
 
     this.setState({ value: '' });
@@ -62,11 +60,8 @@ class AddNew extends React.Component {
         <StyledInput
           value={value}
           maxLength={maxLength}
-          onChange={this.handleInputChange}
-          onPressEnter={(e) => {
-            e.stopPropagation();
-            this.handleAdd();
-          }}
+          onChange={(e) => this.setState({ value: e.target.value })}
+          onPressEnter={this.handleAdd}
         />
         <Add onClick={this.handleAdd}>Add</Add>
       </Wrapper>

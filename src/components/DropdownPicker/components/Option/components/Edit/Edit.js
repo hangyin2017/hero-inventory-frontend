@@ -35,13 +35,14 @@ class Edit extends React.Component {
   handleUpdate(e) {
     e.stopPropagation();
     const { value } = this.state;
-    const { item, setEditing, update } = this.props;
+    const { item, selectRef, setEditing, update } = this.props;
+    selectRef.focus();
     setEditing(null);
     value && (item.name != value) && update(item, value);
   }
 
   render() {
-    const { item, Actions, setEditing, update } = this.props;
+    const { item, selectRef, Actions, setEditing, update } = this.props;
     const { value } = this.state;
 
     return (
@@ -55,7 +56,7 @@ class Edit extends React.Component {
         />
         <Actions>
           <CheckOutlined onClick={this.handleUpdate}/>
-          <CloseOutlined onClick={() => setEditing(null)}/>
+          <CloseOutlined onClick={this.handleUpdate}/>
         </Actions>
       </div>
     )

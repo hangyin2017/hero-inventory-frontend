@@ -46,7 +46,7 @@ class Option extends React.Component {
 
 
   render() {
-    const { item, editing, setEditing, update, remove } = this.props;
+    const { item, selectRef, editing, setEditing, update, remove } = this.props;
     const { id, name } = item;
 
     return (
@@ -55,6 +55,7 @@ class Option extends React.Component {
           <Edit
             Actions={Actions}
             item={item}
+            selectRef={selectRef}
             onInputChange={this.handleInputChange}
             setEditing={setEditing}
             onClick={(e) => e.stopPropagation()}
