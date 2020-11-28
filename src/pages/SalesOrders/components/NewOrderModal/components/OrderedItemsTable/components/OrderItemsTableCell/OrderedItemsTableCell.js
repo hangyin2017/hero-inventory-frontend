@@ -3,8 +3,43 @@ import { Form, Input, Popover, Select } from 'antd';
 import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { EditableContext } from '../../OrderedItemsTable';
 import items from '../../../../../../../../apis/items';
+import styled from 'styled-components';
 
 const { Option } = Select;
+
+const SelectedItemName = styled.h2`
+  display: flex; 
+  justify-content: space-between;
+`;
+
+const SelectedItemModal = styled.div`
+  display: flex;
+  align-items: center;
+  height: 30px;
+`;
+
+const ItemsList = styled.ul`
+  position: absolute;
+  z-index: 9999;
+  height: 250px;
+  width: 300px;
+  overflow: auto;
+  background: #fff;
+  margin-left: 0px;
+  margin-top: 0px;
+`;
+
+const ItemsName = styled.span`
+  font-size: 15px; 
+  font-weight: bold;
+`;
+
+const ItemsDetail = styled.div`
+  margin-top: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const OrderedItemsTableCell = ({
   title,
@@ -126,11 +161,9 @@ const OrderedItemsTableCell = ({
       <div>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
-            <h2 style={{ display: "flex", justifyContent: "space-between" }}>
+            <SelectedItemName>
               { record.data.name }
-              <div
-                style={{ display: "flex", alignItems: "center", height: 30 }}
-              >
+              <SelectedItemModal>
                 <Popover
                   content={
                     <div>
@@ -142,8 +175,8 @@ const OrderedItemsTableCell = ({
                   <PlusCircleOutlined />
                 </Popover>
                 <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
-              </div>
-            </h2>
+              </SelectedItemModal>
+            </SelectedItemName>
             <span>SKU:{ record.data.sku }</span>
           </div>
         ) : null}
@@ -172,18 +205,7 @@ const OrderedItemsTableCell = ({
           </Select>
         ) : null}
         {dataIndex === "DETAILS" && !record.data?.name ? (
-          <ul
-            style={{
-              position: "absolute",
-              zIndex: 9999,
-              height: 250,
-              overflow: 'auto',
-              width: "300px",
-              background: "#fff",
-              marginLeft: "0px",
-              marginTop: "10px",
-            }}
-          >
+          <ItemsList>
             {data.map((item) => (
               <li
                 key={ item.id }
@@ -192,24 +214,21 @@ const OrderedItemsTableCell = ({
                   handleAdd();
                 }}
               >
-                <span style={{ fontSize: "15px", fontWeight: "bold" }}>
+                <ItemsName>
                   { item.name }
-                </span>
-                <div style={{ marginTop: "15px", marginBottom: "10px" }}>
-                  <span style={{ marginRight: "10px" }}> SKU:{ item.sku }</span>
-                  <span style={{ marginRight: "10px" }}>
-                    {" "}
-                    Rate:{ item.sellingPrice }
-                  </span>
+                </ItemsName>
+                <ItemsDetail>
+                  <span> SKU:{ item.sku }</span>
+                  <span> Rate:{ item.sellingPrice } </span>
                   <span> Stock:{ item.physicalStock }</span>
-                </div>
+                </ItemsDetail>
               </li>
             ))}
-          </ul>
+          </ItemsList>
         ) : null}
       </div>
     ) : (
-      <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }}>
+      <div style={{ paddingRight: 24 }}>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
             <h2 style={{ display: "flex", justifyContent: "space-between" }}>

@@ -25,7 +25,7 @@ export default class Total extends Component {
 
   render() {
     const { dataSource } = this.props;
-    const { shipment, adjustment} = this.state;
+    const { shipment, adjustment } = this.state;
     let sum = dataSource.reduce((prev, cur) => prev + cur.AMOUNT, 0);
     return (
       <div className="total">

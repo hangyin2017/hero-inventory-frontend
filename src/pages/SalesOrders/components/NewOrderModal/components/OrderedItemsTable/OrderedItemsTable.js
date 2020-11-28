@@ -3,8 +3,29 @@ import { Table, Popconfirm, Button, Modal } from 'antd';
 import OrderItemsTableRow from './components/OrderedItemsTableRow';
 import OrderedItemsTableCell from './components/OrderItemsTableCell';
 import Total from './components/Total';
+import styled from 'styled-components';
 
 export const EditableContext = React.createContext();
+
+const ItemTableWrapper = styled.div`
+  width: 100%;
+  margin: 30px auto;
+`;
+
+const BottomWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+`
+
+const StyledButton = styled.button`
+  margin-top: 16px;
+`;
+
+const TableAmountWrapper = styled.div`
+  width: 50%;
+`;
+
 class OrderedItemsTable extends React.Component {
   constructor(props) {
     super(props);
@@ -108,6 +129,7 @@ class OrderedItemsTable extends React.Component {
     this.setState({ dataSource: newData });
   };
 
+  //数据改变 就传数据
   componentDidUpdate (prevProps,prevState) {
     const { dataSource } = this.state;
     const {getSoldItems} = this.props;
@@ -142,7 +164,7 @@ class OrderedItemsTable extends React.Component {
     });
 
     return (
-      <div style={{ width: "100%", margin: "30px auto" }}>
+      <ItemTableWrapper>
         <Table
           pagination={ false }
           components={ components }
@@ -150,21 +172,20 @@ class OrderedItemsTable extends React.Component {
           dataSource={ dataSource }
           columns={ columns }
         />
-        <div style={{ display:'flex', justifyContent:'space-between', paddingTop:20 }}>
+        <BottomWrapper>
           <div>
-            <button
+            <StyledButton
               type='button'
               onClick={ this.handleAdd }
-              style={{ marginTop: 16 }}
             >
               Add Another Line
-          </button>
+            </StyledButton>
           </div>
-          <div style={{ width: '50%' }}>
-            <Total dataSource={ dataSource }/>
-          </div>
-        </div>
-      </div>
+          <TableAmountWrapper>
+            <Total dataSource={ dataSource } />
+          </TableAmountWrapper>
+        </BottomWrapper>
+      </ItemTableWrapper> 
     );
   }
 }

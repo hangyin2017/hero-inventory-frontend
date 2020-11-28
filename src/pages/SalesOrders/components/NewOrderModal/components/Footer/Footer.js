@@ -7,7 +7,7 @@ const StyledButton = styled(Button)`
   margin: 0 8px;
 `;
 
-const FormFooter = ({ onCancel,setStatus }) => {
+const FormFooter = ({ onCancel, setStatus }) => {
 
   return (
     <Form.Footer>
