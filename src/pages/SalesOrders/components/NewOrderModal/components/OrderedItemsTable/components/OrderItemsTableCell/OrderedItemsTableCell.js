@@ -69,12 +69,13 @@ const OrderedItemsTableCell = ({
   const inputRef = useRef();
   const form = useContext(EditableContext);
 
+  //设置edit时候这个框为焦点
   useEffect(() => {
     if (editing) {
       inputRef.current.focus();
     }
   }, [editing]);
-
+  
   const toggleEdit = () => {
     setEditing(!editing);
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
@@ -93,6 +94,7 @@ const OrderedItemsTableCell = ({
     toggleEdit();
   };
 
+  //失去焦点的时候 自动计算
   const myblur = async () => {
     const values = await form.validateFields();
     setTimeout(() => {
@@ -115,7 +117,7 @@ const OrderedItemsTableCell = ({
       setData(allData);
     }
   };
-
+  
   const search = (e) => {
     if (dataIndex !== "DETAILS") {
       return null;
