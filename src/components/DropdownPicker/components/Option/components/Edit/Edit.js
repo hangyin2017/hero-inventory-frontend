@@ -1,16 +1,7 @@
 import React from 'react';
-import { Input } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import styled from 'styled-components';
-
-const InlineInput = styled(Input)`
-  position: absolute;
-  top: 2px;
-  float: left;
-  width: 250px;
-  padding: 2px 3px;
-  margin-left: -4px;
-`;
+import InlineInput from '../../../InlineInput';
+import Actions from '../../../Actions';
 
 class Edit extends React.Component {
   constructor(props) {
@@ -42,7 +33,7 @@ class Edit extends React.Component {
   }
 
   render() {
-    const { Actions, setEditing } = this.props;
+    const { setEditing } = this.props;
     const { value } = this.state;
 
     return (

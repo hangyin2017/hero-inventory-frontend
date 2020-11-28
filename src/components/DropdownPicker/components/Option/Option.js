@@ -3,24 +3,10 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { color } from '../../../../styles';
 import Edit from './components/Edit';
+import Actions from '../Actions';
 
 
 const Value = styled.span`
-`;
-
-const Actions = styled.div`
-  visibility: hidden;
-  float: right;
-  font-size: 16px;
-  opacity: 0.7;
-
-  & > span {
-    margin: 0 3px;
-  }
-
-  .ant-select-item-option-active & {
-    visibility: visible;
-  }
 `;
 
 const { primary, dangerous } = color;
@@ -49,7 +35,6 @@ class Option extends React.Component {
       <>
         {editing === id ? (
           <Edit
-            Actions={Actions}
             item={item}
             selectRef={selectRef}
             onInputChange={this.handleInputChange}
