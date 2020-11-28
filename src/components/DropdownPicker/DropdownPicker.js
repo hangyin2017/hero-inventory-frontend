@@ -41,12 +41,15 @@ class DropdownPicker extends React.Component {
     api.add({ name: value }).then(this.refreshAll);
   }
 
-  async update(id, value) {
+  async update(item, value) {
     const { api } = this.props;
-    await api.update(id, { name: value });
-    this.setState({
-      editing: null,
-    });
+    const { editing } = this.state;
+    if(item.id === editing) {
+      this.setState({
+        value,
+      });
+    }
+    await api.update(item.id, { name: value });
     this.refreshAll();
   }
 
@@ -65,8 +68,8 @@ class DropdownPicker extends React.Component {
   };
 
   render() {
-    const { api, placeholder, ...selectProps } = this.props;
-    const { data, editing } = this.state;
+    const { api, placeholder } = this.props;
+    const { data, value, editing } = this.state;
 
     return (
       <Select
@@ -74,9 +77,10 @@ class DropdownPicker extends React.Component {
         allowClear
         showSearch
         optionLabelProp="value"
+        value={value}
+        onChange={(value) => this.setState({value})}
         filterOption={(input, option) => option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         dropdownRender={this.dropdownRender}
-        {...selectProps}
         defaultOpen={true}
       >
         {data.map((item) => (

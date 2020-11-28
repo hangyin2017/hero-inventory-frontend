@@ -21,6 +21,7 @@ class Edit extends React.Component {
     }
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +30,14 @@ class Edit extends React.Component {
 
   handleInputChange({ target: { value } }) {
     this.setState({ value });
+  }
+
+  handleUpdate(e) {
+    e.stopPropagation();
+    const { value } = this.state;
+    const { item, setEditing, update } = this.props;
+    setEditing(null);
+    value && (item.name != value) && update(item, value);
   }
 
   render() {
@@ -42,12 +51,10 @@ class Edit extends React.Component {
           ref={(el) => this.input = el}
           onBlur={() => setEditing(null)}
           onChange={this.handleInputChange}
-          // onPressEnter={(e) => {
-          //   setEditing(id);
-          // }}
+          onPressEnter={this.handleUpdate}
         />
         <Actions>
-          <CheckOutlined onClick={() => value && (item.name != value) && update(item.id, value)}/>
+          <CheckOutlined onClick={this.handleUpdate}/>
           <CloseOutlined onClick={() => setEditing(null)}/>
         </Actions>
       </div>
