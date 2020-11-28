@@ -53,9 +53,7 @@ class AddNew extends React.Component {
     
     this.clear();
 
-    if(value === '') return;
-
-    onAdd(value);
+    value && onAdd(value);
   }
 
   render() {
@@ -69,8 +67,14 @@ class AddNew extends React.Component {
           maxLength={maxLength}
           onChange={(e) => this.setState({ value: e.target.value })}
           onPressEnter={this.handleAdd}
+          onBlur={() => {this.setState({ value: '' })}}
         />
-        <Add onClick={this.handleAdd}>Add</Add>
+        <Add 
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={this.handleAdd}
+        >
+          Add
+        </Add>
       </Wrapper>
     );
   }

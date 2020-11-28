@@ -25,10 +25,13 @@ class Edit extends React.Component {
 
   handleUpdate(e) {
     e.stopPropagation();
+
     const { value } = this.state;
     const { item, selectRef, setEditing, update } = this.props;
+
     selectRef.focus();
     setEditing(null);
+    
     value && (item.name != value) && update(item, value);
   }
 
