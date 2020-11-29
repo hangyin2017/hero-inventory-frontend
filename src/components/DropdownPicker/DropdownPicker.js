@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select } from 'antd';
+import { Select, Spin } from 'antd';
 import styled from 'styled-components';
 import AddNew from './components/AddNew';
 import Option from './components/Option';
@@ -12,6 +12,7 @@ class DropdownPicker extends React.Component {
       data: [],
       value: null,
       editing: null,
+      loading: false,
     };
 
     this.setEditing = this.setEditing.bind(this);
@@ -26,18 +27,33 @@ class DropdownPicker extends React.Component {
     this.refreshAll();
   }
 
+  request(method) {
+    const { api } = this.props;
+    this.setState({ loading: true });
+
+    return async (...args) => {
+      await method(...args);
+      this.refreshAll();
+      this.setState({ loading: false });
+    }
+  }
+
   async refreshAll() {
     const { api } = this.props;
     const { data } = await api.getAll();
-    this.setState({ data });
+    this.setState({
+      data,
+      loading: false,
+    });
   }
 
   setEditing(id) {
     this.setState({ editing: id });
   }
 
-  add(value) {
+  async add(value) {
     const { api } = this.props;
+    this.setState({ loading: true });
     api.add({ name: value }).then(this.refreshAll);
     this.setState({ value });
   }
@@ -54,23 +70,25 @@ class DropdownPicker extends React.Component {
     this.refreshAll();
   }
 
-  remove(item) {
+  async remove(item) {
     const { api } = this.props;
     const { value } = this.state;
 
     this.select.focus();
 
-    api.delete(item.id).then(this.refreshAll);
+    api.remove(item.id).then(this.refreshAll);
 
     if(item.name == value) this.setState({ value: null });
   }
 
   dropdownRender(options) {
+    const { loading } = this.state;
+
     return (
-      <>
+      <Spin spinning={loading}>
         {options}
         <AddNew selectRef={this.select} maxLength={50} onAdd={this.add}/>
-      </>
+      </Spin>
     );
   };
 

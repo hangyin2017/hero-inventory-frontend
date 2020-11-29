@@ -9,5 +9,5 @@ export default {
 
   update: (id, payload) => api.put(`${URL}/${id}`, payload),
 
-  delete: (id) => api.delete(`${URL}/${id}`),
+  remove: (id) => api.delete(`${URL}/${id}`),
 };
