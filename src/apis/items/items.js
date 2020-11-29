@@ -15,7 +15,7 @@ export default {
 
   add: (payload) => api.post(TARGET),
 
-  modify: (id, payload) => api.put(`${TARGET}/${id}`),
+  update: (id, payload) => api.put(`${TARGET}/${id}`),
 
-  remove: (id) => api.delete(`${TARGET}/${id}`),
+  delete: (id) => api.delete(`${TARGET}/${id}`),
 };

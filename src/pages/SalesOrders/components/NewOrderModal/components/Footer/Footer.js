@@ -1,8 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Button } from 'antd';
 import Form from '../../../../../../components/Form';
 
+<<<<<<< HEAD
 const StyledButton = styled(Button)`
   margin: 0 8px;
 `;
@@ -18,8 +18,21 @@ const FormFooter = ({ onCancel, setStatus }) => {
         Save and Confirm
       </StyledButton>
       <StyledButton onClick={ onCancel }>
+=======
+const FormFooter = ({ onCancel }) => {
+
+  return (
+    <Form.Footer>
+      <Button htmlType="submit">
+        Save as Draft
+      </Button>
+      <Button type="primary" htmlType="submit" >
+        Save and Confirm
+      </Button>
+      <Button onClick={onCancel}>
+>>>>>>> origin/develop
         Cancel
-      </StyledButton>
+      </Button>
     </Form.Footer>
   )
 }

@@ -1,6 +1,8 @@
 import React from 'react';
-import { Modal, Form, Divider } from 'antd';
-import FormFooter from './components/FormFooter';
+import { Divider } from 'antd';
+import Modal from '../../../../components/Modal';
+import Form from '../../../../components/Form';
+import SimpleFooter from '../../../../components/Form/components/SimpleFooter';
 import PrimaryInfo from './components/PrimaryInfo';
 import CategoryInfo from './components/CategoryInfo';
 import Pricing from './components/Pricing';
@@ -10,9 +12,8 @@ class NewOrderModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      data: {},
-    }
+    // this.state = {
+    // }
   }
 
   // onFinish = values => {
@@ -24,15 +25,14 @@ class NewOrderModal extends React.Component {
   // };
 
   render() {
-    const { onCancel, ...modalProps } = this.props;
+    const { onCancel, ...props } = this.props;
     // const { } = this.state;
 
     return (
       <Modal
-        {...modalProps}
+        {...props}
+        title="Add New Item"
         onCancel={onCancel}
-        footer={null}
-        destroyOnClose={true}
         width={1000}
       >
         <Form
@@ -48,7 +48,7 @@ class NewOrderModal extends React.Component {
           <Pricing />
           <Divider />
           <Stock />
-          <FormFooter onCancel={onCancel}/>
+          <SimpleFooter onCancel={onCancel}/>
         </Form>
       </Modal>
     );
