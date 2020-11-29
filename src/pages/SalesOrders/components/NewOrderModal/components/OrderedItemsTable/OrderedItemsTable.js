@@ -3,43 +3,64 @@ import { Table, Popconfirm, Button, Modal } from 'antd';
 import OrderItemsTableRow from './components/OrderedItemsTableRow';
 import OrderedItemsTableCell from './components/OrderItemsTableCell';
 import Total from './components/Total';
+import styled from 'styled-components';
 
 export const EditableContext = React.createContext();
+
+const ItemTableWrapper = styled.div`
+  width: 100%;
+  margin: 30px auto;
+`;
+
+const BottomWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+`
+
+const StyledButton = styled.button`
+  margin-top: 16px;
+`;
+
+const TableAmountWrapper = styled.div`
+  width: 50%;
+`;
+
 class OrderedItemsTable extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [
       {
-        title: "ITEM DETAILS",
+        title: "Item Details",
         dataIndex: "DETAILS",
         width: 300,
         editable: true,
       },
       {
-        title: "QUANTITY",
+        title: "Quantity",
         dataIndex: "QUANTITY",
         width: 100,
         editable: true,
       },
       {
-        title: "RATE",
+        title: "Rate",
         dataIndex: "RATE",
         width: 100,
         editable: true,
       },
       {
-        title: "DISCOUNT",
+        title: "Discount",
         dataIndex: "DISCOUNT",
         width: 100,
         editable: true,
       },
       {
-        title: "AMOUNT",
+        title: "Amount",
         dataIndex: "AMOUNT",
         width: 100,
       },
       {
-        title: "OPERATION",
+        title: "Operation",
         width: 100,
         dataIndex: "OPERATION",
         render: (text, record) =>
@@ -53,10 +74,11 @@ class OrderedItemsTable extends React.Component {
           ) : "Can't not delete",
       },
     ];
-
+    
     this.state = {
       dataSource: [
         {
+          id:0,
           key: "0",
           DETAILS: "Type or click to select an item",
           QUANTITY: 1,
@@ -107,16 +129,13 @@ class OrderedItemsTable extends React.Component {
     this.setState({ dataSource: newData });
   };
 
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleCancel = e => {
-    this.setState({
-      visible: false,
-    });
+  //数据改变 就传数据
+  componentDidUpdate (prevProps,prevState) {
+    const { dataSource } = this.state;
+    const { getSoldItems } = this.props;
+    if(dataSource != prevState.dataSource){
+      getSoldItems(dataSource);
+    }
   };
 
   render() {
@@ -140,13 +159,12 @@ class OrderedItemsTable extends React.Component {
           title: col.title,
           handleSave: this.handleSave,
           handleAdd: this.handleAdd,
-          showModal: this.showModal
         }),
       };
     });
 
     return (
-      <div style={ { width: "80%", margin: "30px auto" } }>
+      <ItemTableWrapper>
         <Table
           pagination={ false }
           components={ components }
@@ -154,30 +172,20 @@ class OrderedItemsTable extends React.Component {
           dataSource={ dataSource }
           columns={ columns }
         />
-        <div style={{display:'flex',justifyContent:'space-between',paddingTop:20}}>
+        <BottomWrapper>
           <div>
-            <button
+            <StyledButton
+              type='button'
               onClick={ this.handleAdd }
-              type="primary"
-              style={ { marginTop: 16 } }
             >
-              Add another line
-          </button>
+              Add Another Line
+            </StyledButton>
           </div>
-          <div style={{width: '50%'}}>
-            <Total dataSource={this.state.dataSource}/>
-          </div>
-        </div>
-        <Modal
-          title="Basic Modal"
-          visible={ this.state.visible }
-          onCancel={ this.handleCancel }
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
-      </div>
+          <TableAmountWrapper>
+            <Total dataSource={ dataSource } />
+          </TableAmountWrapper>
+        </BottomWrapper>
+      </ItemTableWrapper> 
     );
   }
 }

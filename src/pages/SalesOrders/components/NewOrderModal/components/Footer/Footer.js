@@ -2,14 +2,13 @@ import React from 'react';
 import { Button } from 'antd';
 import Form from '../../../../../../components/Form';
 
-const FormFooter = ({ onCancel }) => {
-
+const Footer = ({ onCancel, setStatus }) => {
   return (
     <Form.Footer>
-      <Button htmlType="submit">
+      <Button htmlType="submit" onClick={() => setStatus('draft')}>
         Save as Draft
       </Button>
-      <Button type="primary" htmlType="submit" >
+      <Button type="primary" htmlType="submit" onClick={() => setStatus('confirmed')}>
         Save and Confirm
       </Button>
       <Button onClick={onCancel}>
@@ -19,4 +18,4 @@ const FormFooter = ({ onCancel }) => {
   )
 }
 
-export default FormFooter;
+export default Footer;
