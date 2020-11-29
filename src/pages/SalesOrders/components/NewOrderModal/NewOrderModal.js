@@ -1,10 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
 import { Modal, Divider, Input, Spin } from 'antd';
-=======
-import { Divider, Input } from 'antd';
-import Modal from '../../../../components/Modal';
->>>>>>> origin/develop
 import Form from '../../../../components/Form';
 import OrderedItemsTable from './components/OrderedItemsTable/OrderedItemsTable';
 import Footer from './components/Footer';
@@ -69,15 +64,12 @@ class NewOrderModal extends React.Component {
 
     return (
       <Modal
-<<<<<<< HEAD
         { ...props }
         onCancel={ onCancel }
         footer={ null }
-=======
         {...props}
         title="Add New Sales Order"
         onCancel={onCancel}
->>>>>>> origin/develop
         width={1000}
       >
         <Modal
