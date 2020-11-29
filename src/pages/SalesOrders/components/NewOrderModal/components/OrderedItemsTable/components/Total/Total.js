@@ -31,30 +31,30 @@ export default class Total extends Component {
       <div className="total">
         <div>
           <span>Sub Total</span>
-          <span>{ sum }</span>
+          <span>{sum}</span>
         </div>
         <div>
           <p>
             <span>Shipping Charges</span>
             <Input className="inp" onChange={ this.inputShipping } type="text" />
           </p>
-          <span>{ shipment }</span>
+          <span>{shipment}</span>
         </div>
         <div>
           <p>
             <Input value={"Adjustment"} type="text" />
             <Input
               className="inp"
-              onChange={ this.inputAdjust }
+              onChange={this.inputAdjust}
               style={{ marginLeft: 64 }}
               type="text"
             />
           </p>
-          <span>{ adjustment }</span>
+          <span>{adjustment}</span>
         </div>
         <h2>
           <span>Total（$）</span>
-          <span>{ (sum + shipment + adjustment) }</span>
+          <span>{sum + shipment + adjustment}</span>
         </h2>
       </div>
     );
