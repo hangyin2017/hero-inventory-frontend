@@ -1,26 +1,21 @@
 import React from 'react';
 import { Button } from 'antd';
 import Form from '../../../../../../components/Form';
-import styled from 'styled-components';
 
-const StyledButton = styled(Button)`
-  margin: 0 8px;
-`;
-
-const FormFooter = ({ onCancel, setStatus }) => {
+const Footer = ({ onCancel, setStatus }) => {
   return (
     <Form.Footer>
-      <StyledButton htmlType="submit" onClick={ () => setStatus('draft') }>
+      <Button htmlType="submit" onClick={ () => setStatus('draft') }>
         Save as Draft
-      </StyledButton>
-      <StyledButton type="primary" htmlType="submit" onClick={ () => setStatus('confirmed') }>
+      </Button>
+      <Button type="primary" htmlType="submit" onClick={ () => setStatus('confirmed') }>
         Save and Confirm
-      </StyledButton>
-      <StyledButton onClick={ onCancel }>
+      </Button>
+      <Button onClick={ onCancel }>
         Cancel
-      </StyledButton>
+      </Button>
     </Form.Footer>
   )
 }
 
-export default FormFooter;
+export default Footer;
