@@ -16,6 +16,7 @@ class DropdownPicker extends React.Component {
     };
 
     this.setEditing = this.setEditing.bind(this);
+    this.request = this.request.bind(this);
     this.add = this.add.bind(this);
     this.update = this.update.bind(this);
     this.remove = this.remove.bind(this);
@@ -27,13 +28,12 @@ class DropdownPicker extends React.Component {
     this.refreshAll();
   }
 
-  request(method) {
-    const { api } = this.props;
-    this.setState({ loading: true });
-
+  request(method) {  
     return async (...args) => {
-      await method(...args);
-      this.refreshAll();
+      this.setState({ loading: true });
+
+      await method(...args).then(this.refreshAll);
+
       this.setState({ loading: false });
     }
   }
@@ -41,10 +41,8 @@ class DropdownPicker extends React.Component {
   async refreshAll() {
     const { api } = this.props;
     const { data } = await api.getAll();
-    this.setState({
-      data,
-      loading: false,
-    });
+    
+    this.setState({ data });
   }
 
   setEditing(id) {
@@ -53,32 +51,29 @@ class DropdownPicker extends React.Component {
 
   async add(value) {
     const { api } = this.props;
+
     this.setState({ loading: true });
-    api.add({ name: value }).then(this.refreshAll);
+
+    await api.add({ name: value }).then(this.refreshAll);
+
     this.setState({ value });
   }
 
   async update(item, value) {
     const { api } = this.props;
-    const { editing } = this.state;
-    if(item.id === editing) {
-      this.setState({
-        value,
-      });
-    }
-    await api.update(item.id, { name: value });
-    this.refreshAll();
+
+    await api.update(item.id, { name: value }).then(this.refreshAll);
+    
+    this.setState({ value });
   }
 
   async remove(item) {
     const { api } = this.props;
     const { value } = this.state;
 
-    this.select.focus();
+    await api.remove(item.id).then(this.refreshAll);
 
-    api.remove(item.id).then(this.refreshAll);
-
-    if(item.name == value) this.setState({ value: null });
+    item.name == value && this.setState({ value: null });
   }
 
   dropdownRender(options) {
@@ -115,6 +110,7 @@ class DropdownPicker extends React.Component {
               item={item}
               selectRef={this.select}
               setEditing={this.setEditing}
+              request={this.request}
               remove={this.remove}
               editing={editing}
               update={this.update}
