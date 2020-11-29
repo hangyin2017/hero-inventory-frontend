@@ -120,7 +120,7 @@ const OrderedItemsTableCell = ({
 
   const search = (e) => {
     if (dataIndex !== "DETAILS") {
-      return null;
+      return;
     }
     let result = allData.filter((item) => {
       return (
