@@ -5,13 +5,13 @@ import Form from '../../../../../../components/Form';
 const Footer = ({ onCancel, setStatus }) => {
   return (
     <Form.Footer>
-      <Button htmlType="submit" onClick={ () => setStatus('draft') }>
+      <Button htmlType="submit" onClick={() => setStatus('draft')}>
         Save as Draft
       </Button>
-      <Button type="primary" htmlType="submit" onClick={ () => setStatus('confirmed') }>
+      <Button type="primary" htmlType="submit" onClick={() => setStatus('confirmed')}>
         Save and Confirm
       </Button>
-      <Button onClick={ onCancel }>
+      <Button onClick={onCancel}>
         Cancel
       </Button>
     </Form.Footer>
