@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import Form from '../../Form';
 
-const FormFooter = ({ onCancel }) => {
+const SimpleFooter = ({ onCancel }) => {
   return (
     <Form.Footer wrapperCol={{ span: 24 }}>
       <Button type="primary" htmlType="submit">
@@ -15,4 +15,4 @@ const FormFooter = ({ onCancel }) => {
   )
 }
 
-export default FormFooter;
+export default SimpleFooter;

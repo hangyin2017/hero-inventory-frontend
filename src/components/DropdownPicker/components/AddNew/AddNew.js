@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-wrap: nowrap;
   margin-top: 4px;
-  padding: 8px 8px 4px;
+  padding: 4px 8px 0px;
   border-top: 1px solid ${lightGrey};
 `;
 
@@ -31,32 +31,29 @@ class AddNew extends React.Component {
 
     this.state = {
       value: '',
-      adding: false,
     };
 
-    this.onInputChange = this.onInputChange.bind(this);
+    this.clear = this.clear.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
-    this.handleEnterInput = this.handleEnterInput.bind(this);
   }
 
-  onInputChange({ target: { value } }) {
-    this.setState({ value });
+  clear() {
+    const{ selectRef } = this.props;
+
+    this.setState({ value: '' });
+
+    selectRef.focus();
   }
 
-  handleAdd() {
+  handleAdd(e) {
+    e.stopPropagation();
+
     const { onAdd } = this.props;
     const { value } = this.state;
     
-    if(value === '') return;
+    this.clear();
 
-    this.setState({ value: '' });
-    
-    onAdd(value);
-  }
-
-  handleEnterInput(e) {
-    e.stopPropagation();
-    this.handleAdd();
+    value && onAdd(value);
   }
 
   render() {
@@ -68,10 +65,16 @@ class AddNew extends React.Component {
         <StyledInput
           value={value}
           maxLength={maxLength}
-          onChange={this.onInputChange}
-          onPressEnter={this.handleEnterInput}
+          onChange={(e) => this.setState({ value: e.target.value })}
+          onPressEnter={this.handleAdd}
+          onBlur={() => {this.setState({ value: '' })}}
         />
-        <Add onClick={this.handleAdd}>Add</Add>
+        <Add 
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={this.handleAdd}
+        >
+          Add
+        </Add>
       </Wrapper>
     );
   }

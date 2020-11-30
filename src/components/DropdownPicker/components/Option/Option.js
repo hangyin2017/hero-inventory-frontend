@@ -1,58 +1,67 @@
 import React from 'react';
-import { EditOutlined } from '@ant-design/icons';
-import { DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { color } from '../../../../styles';
+import Edit from './components/Edit';
+import Actions from '../Actions';
+
 
 const Value = styled.span`
 `;
 
-const Actions = styled.div`
-  visibility: hidden;
-  float: right;
-  font-size: 16px;
-  opacity: 0.7;
-
-  & > span {
-    margin: 0 3px;
-  }
-
-  .ant-select-item-option-active & {
-      visibility: visible;
-  }
-`;
-
 const { primary, dangerous } = color;
 
-const Edit = styled(EditOutlined)`
+const EditIcon = styled(EditOutlined)`
   color: ${primary};
 `;
 
-const Delete = styled(DeleteOutlined)`
+const DeleteIcon = styled(DeleteOutlined)`
   color: ${dangerous};
 `;
 
-const Option = ({
-  item,
-  onDelete,
-  active
-}) => {
-  const { id, name } = item;
+class Option extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <>
-      <Value>
-        {name}
-      </Value>
-      <Actions>
-        <Edit />
-        <Delete onClick={(e) => {
-          e.stopPropagation();
-          onDelete(id);
-        }}/>
-      </Actions>
-    </>
-  );
-};
+    this.state = {
+    }
+  }
+
+  render() {
+    const { item, selectRef, editing, setEditing, update, remove } = this.props;
+    const { id, name } = item;
+
+    return (
+      <>
+        {editing === id ? (
+          <Edit
+            item={item}
+            selectRef={selectRef}
+            onInputChange={this.handleInputChange}
+            setEditing={setEditing}
+            onClick={(e) => e.stopPropagation()}
+            update={update}
+          />
+        ) : (
+          <>
+            <Value>
+              {name}
+            </Value>
+            <Actions>
+              <EditIcon onClick={(e) => {
+                e.stopPropagation();
+                setEditing(id);
+              }}/>
+              <DeleteIcon onClick={(e) => {
+                e.stopPropagation();
+                remove(item);
+              }}/>
+            </Actions>
+          </>
+        )}
+      </>
+    );
+  }
+}
 
 export default Option;
