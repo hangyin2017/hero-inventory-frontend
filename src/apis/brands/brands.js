@@ -1,13 +1,13 @@
 import api from '../../lib/api';
 
-const URL = '/brands'; 
+const TARGET = '/brands'; 
 
 export default {
-  getAll: () => api.get(URL),
+  getAll: () => api.get(TARGET),
 
-  add: (payload) => api.post(URL, payload),
+  add: (payload) => api.post(TARGET, payload),
 
-  update: (id, payload) => api.put(`${URL}/${id}`, payload),
+  update: (id, payload) => api.put(`${TARGET}/${id}`),
 
-  delete: (id) => api.delete(`${URL}/${id}`),
+  delete: (id) => api.delete(`${TARGET}/${id}`),
 };
