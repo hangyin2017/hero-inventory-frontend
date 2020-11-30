@@ -32,7 +32,7 @@ class DropdownPicker extends React.Component {
     return async (...args) => {
       this.setState({ loading: true });
 
-      await method(...args).then(this.refreshAll);
+      await method(...args);
 
       this.setState({ loading: false });
     }
@@ -51,8 +51,6 @@ class DropdownPicker extends React.Component {
 
   async add(value) {
     const { api } = this.props;
-
-    this.setState({ loading: true });
 
     await api.add({ name: value }).then(this.refreshAll);
 
@@ -82,7 +80,7 @@ class DropdownPicker extends React.Component {
     return (
       <Spin spinning={loading}>
         {options}
-        <AddNew selectRef={this.select} maxLength={50} onAdd={this.add}/>
+        <AddNew selectRef={this.select} maxLength={50} request={this.request} onAdd={this.add}/>
       </Spin>
     );
   };

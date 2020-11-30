@@ -40,6 +40,7 @@ class Option extends React.Component {
             onInputChange={this.handleInputChange}
             setEditing={setEditing}
             onClick={(e) => e.stopPropagation()}
+            request={request}
             update={update}
           />
         ) : (

@@ -48,12 +48,12 @@ class AddNew extends React.Component {
   handleAdd(e) {
     e.stopPropagation();
 
-    const { onAdd } = this.props;
+    const { request, onAdd } = this.props;
     const { value } = this.state;
     
     this.clear();
 
-    value && onAdd(value);
+    value && request(onAdd)(value);
   }
 
   render() {
