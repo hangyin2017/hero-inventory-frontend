@@ -1,9 +1,14 @@
 import React from 'react';
-import { Select, Spin } from 'antd';
+import { Select, Spin, Alert } from 'antd';
 import styled from 'styled-components';
 import AddNew from './components/AddNew';
 import Option from './components/Option';
 
+const FloatingAlert = styled(Alert)`
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+`;
 class DropdownPicker extends React.Component {
   constructor(props) {
     super(props);
@@ -13,6 +18,7 @@ class DropdownPicker extends React.Component {
       value: null,
       editing: null,
       loading: false,
+      error: null,
     };
 
     this.setEditing = this.setEditing.bind(this);
@@ -21,21 +27,12 @@ class DropdownPicker extends React.Component {
     this.update = this.update.bind(this);
     this.remove = this.remove.bind(this);
     this.refreshAll = this.refreshAll.bind(this);
+    this.setError = this.setError.bind(this);
     this.dropdownRender = this.dropdownRender.bind(this);
   }
 
   componentDidMount() {
     this.refreshAll();
-  }
-
-  request(method) {  
-    return async (...args) => {
-      this.setState({ loading: true });
-
-      await method(...args);
-
-      this.setState({ loading: false });
-    }
   }
 
   async refreshAll() {
@@ -47,6 +44,23 @@ class DropdownPicker extends React.Component {
 
   setEditing(id) {
     this.setState({ editing: id });
+  }
+  
+  request(method) {  
+    return async (...args) => {
+      this.setState({
+        loading: true,
+        error: null,
+      });
+
+      await method(...args).catch((err) => this.setError(err.response.data.message));
+
+      this.setState({ loading: false });
+    }
+  }
+
+  setError(message) {
+    this.setState({ error: message });
   }
 
   async add(value) {
@@ -79,6 +93,15 @@ class DropdownPicker extends React.Component {
 
     return (
       <Spin spinning={loading}>
+        {this.state.error &&
+          <FloatingAlert
+            message={this.state.error}
+            type="error"
+            closable
+            showIcon
+            onClose={() => this.setError(null)}
+          />        
+        }
         {options}
         <AddNew selectRef={this.select} maxLength={50} request={this.request} onAdd={this.add}/>
       </Spin>
