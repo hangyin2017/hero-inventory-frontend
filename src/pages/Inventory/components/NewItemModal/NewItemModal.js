@@ -12,13 +12,14 @@ class NewOrderModal extends React.Component {
   constructor(props) {
     super(props);
 
+    this.formRef = React.createRef();
     // this.state = {
     // }
   }
 
-  // onFinish = values => {
-  //   console.log('Success:', values);
-  // };
+  onFinish = values => {
+    console.log('Success:', values);
+  };
 
   // onFinishFailed = (errorInfo) => {
   //   console.log('Failed:', errorInfo);
@@ -37,13 +38,14 @@ class NewOrderModal extends React.Component {
       >
         <Form
           labelCol={{ span: 6 }}
+          ref={this.formRef}
           preserve={false}
-          // onFinish={this.onFinish}
+          onFinish={this.onFinish}
           // onFinishFailed={this.onFinishFailed}
         >
           <PrimaryInfo />
           <Divider />
-          <CategoryInfo />
+          <CategoryInfo formRef={this.formRef} />
           <Divider />
           <Pricing />
           <Divider />

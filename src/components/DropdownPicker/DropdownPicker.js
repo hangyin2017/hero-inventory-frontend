@@ -15,7 +15,6 @@ class DropdownPicker extends React.Component {
 
     this.state = {
       data: [],
-      value: null,
       editing: null,
       loading: false,
       error: null,
@@ -80,12 +79,11 @@ class DropdownPicker extends React.Component {
   }
 
   async remove(item) {
-    const { api } = this.props;
-    const { value } = this.state;
+    const { name, api, formRef, value } = this.props;
 
     await api.remove(item.id).then(this.refreshAll);
 
-    item.name == value && this.setState({ value: null });
+    item.name == value && formRef.current.setFieldsValue({ [name]: null });
   }
 
   dropdownRender(options) {
@@ -109,8 +107,8 @@ class DropdownPicker extends React.Component {
   };
 
   render() {
-    const { placeholder } = this.props;
-    const { data, value, editing } = this.state;
+    const { placeholder, value, onChange } = this.props;
+    const { data, editing } = this.state;
 
     return (
       <Select
@@ -120,7 +118,8 @@ class DropdownPicker extends React.Component {
         showSearch
         optionLabelProp="value"
         value={value}
-        onChange={(value) => this.setState({value})}
+        // onChange={(value) => this.setState({value})}
+        onChange={onChange}
         filterOption={(input, option) => option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         dropdownRender={this.dropdownRender}
       >
