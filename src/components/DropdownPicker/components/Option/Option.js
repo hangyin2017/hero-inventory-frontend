@@ -28,7 +28,7 @@ class Option extends React.Component {
   }
 
   render() {
-    const { item, selectRef, editing, setEditing, request, update, remove } = this.props;
+    const { item, selectRef, editing, setEditing, request, onUpdate, onRemove } = this.props;
     const { id, name } = item;
 
     return (
@@ -41,7 +41,7 @@ class Option extends React.Component {
             setEditing={setEditing}
             onClick={(e) => e.stopPropagation()}
             request={request}
-            update={update}
+            onUpdate={onUpdate}
           />
         ) : (
           <>
@@ -56,7 +56,7 @@ class Option extends React.Component {
               <DeleteIcon onClick={(e) => {
                 e.stopPropagation();
                 selectRef.focus();
-                request(remove)(item);
+                request(onRemove)(item);
               }}/>
             </Actions>
           </>

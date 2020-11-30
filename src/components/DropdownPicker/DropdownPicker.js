@@ -107,11 +107,11 @@ class DropdownPicker extends React.Component {
             <Option
               item={item}
               selectRef={this.select}
+              editing={editing}
               setEditing={this.setEditing}
               request={this.request}
-              remove={this.remove}
-              editing={editing}
-              update={this.update}
+              onRemove={this.remove}
+              onUpdate={this.update}
             />
           </Select.Option>
         ))}
