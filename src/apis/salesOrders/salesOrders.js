@@ -13,7 +13,7 @@ export default {
 
   get: (id) => api.get(`${URL}/${id}`),
 
-  add: (payload) => api.post(URL),
+  add: (payload) => api.post(URL, payload),
 
   modify: (id, payload) => api.put(`${URL}/${id}`),
 
