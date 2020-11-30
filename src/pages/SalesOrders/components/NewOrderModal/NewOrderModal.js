@@ -11,15 +11,13 @@ class NewOrderModal extends React.Component {
     super(props);
     this.state = {
       soldItems: [],
-      visible: false,
+      loading: false,
       status:''
     }
   }
 
   getSoldItems = (soldItems) => {
-    this.setState({
-      soldItems
-    })
+    this.setState({ soldItems })
   }
 
   setStatus = (status) => {
@@ -44,12 +42,12 @@ class NewOrderModal extends React.Component {
     }
     
     //加载状态的显示
-    this.setState({ visible: true })
-    //setTimeout(() => { this.setState({ visible: false }) }, 1000)
+    this.setState({ loading: true })
+    //setTimeout(() => { this.setState({ loading: false }) }, 1000)
 
     const result = await salesOrders.add(data)
       if (result) {
-        this.setState({ visible: false })
+        this.setState({ loading: false })
         this.props.onCancel();
       }
   }; 
@@ -64,19 +62,19 @@ class NewOrderModal extends React.Component {
 
     return (
       <Modal
-        { ...props }
-        onCancel={ onCancel }
-        footer={ null }
+        {...props}
+        onCancel={onCancel}
+        footer={null}
         {...props}
         title="Add New Sales Order"
         onCancel={onCancel}
         width={1000}
       >
         <Modal
-          closable={ false }
-          footer={ null }
-          visible={ this.state.visible }
-          mask={ false }
+          closable={false}
+          footer={null}
+          loading={this.state.loading}
+          mask={false}
           width={0}
         >
           <Spin size="large" />
@@ -85,18 +83,18 @@ class NewOrderModal extends React.Component {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
-          preserve={ false }
-          onFinish={ this.onFinish }
-          onFinishFailed={ this.onFinishFailed }
+          preserve={false}
+          onFinish={this.onFinish}
+          onFinishFailed={this.onFinishFailed}
         >
           <Form.Section>
-            { fields.map((field) => (
-              <Form.Item key={ field.name } { ...field } />
-            )) }
+            {fields.map((field) => (
+              <Form.Item key={field.name} {...field} />
+            ))}
           </Form.Section>
           <Divider />
           <Form.Section>
-            <OrderedItemsTable getSoldItems={ this.getSoldItems } />
+            <OrderedItemsTable getSoldItems={this.getSoldItems} />
           </Form.Section>
           <Divider />
           <Form.Section>
@@ -109,7 +107,7 @@ class NewOrderModal extends React.Component {
               />
             </Form.Item>
           </Form.Section>
-          <Footer onCancel={ onCancel } setStatus={ this.setStatus }/>
+          <Footer onCancel={onCancel} setStatus={this.setStatus}/>
         </Form>
       </Modal>
     );
