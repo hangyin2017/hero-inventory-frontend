@@ -123,7 +123,6 @@ class DropdownPicker extends React.Component {
         onChange={(value) => this.setState({value})}
         filterOption={(input, option) => option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         dropdownRender={this.dropdownRender}
-        defaultOpen={true}
       >
         {data.map((item) => (
           <Select.Option key={item.id} value={item.name} >

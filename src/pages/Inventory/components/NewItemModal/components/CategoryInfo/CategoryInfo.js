@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, Row } from 'antd';
+import { Input, Select, Row } from 'antd';
 import Form from '../../../../../../components/Form';
 import DropdownPicker from '../../../../../../components/DropdownPicker';
 import manufacturers from '../../../../../../apis/manufacturers';
@@ -16,18 +16,7 @@ const CategoryInfo = () => {
               label="Category"
               name="category"
             >
-              <Select
-                placeholder="Select a category"
-                allowClear
-                showSearch
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-              >
-                <Option value="male">Health Product</Option>
-                <Option value="female">Gift</Option>
-                <Option value="other">other</Option>
-              </Select>
+              <Input />
             </Form.Item>
         </Form.Col>
       </Row>
