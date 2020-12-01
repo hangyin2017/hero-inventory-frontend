@@ -15,7 +15,7 @@ class Inventory extends React.Component {
       searchInput: '',
       newItemModalVisible: false,
       itemDetailModalVisible: false,
-      rowId: 0,
+      rowId: '',
     }
 
     this.showNewItemModal = this.showNewItemModal.bind(this);
@@ -59,10 +59,13 @@ class Inventory extends React.Component {
   }
 
 
-  setRowId(id) {
+  setRowId = (id) => {
     this.setState({
-      rowId: id,
-    });
+      rowId: id}, ()=>{
+        console.log(this.state.rowId);
+        this.showItemDetailModal();
+      }
+    );
   }
 
   async debouncedSearch({ target }) {
@@ -78,7 +81,7 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { tableData, newItemModalVisible, itemDetailModalVisible } = this.state;
+    const { tableData, newItemModalVisible, itemDetailModalVisible, rowId } = this.state;
 
     return (
       <Page
@@ -105,10 +108,9 @@ class Inventory extends React.Component {
             return {
               onClick: () => {
                 this.setRowId(record.id);
-                const { rowId } = this.state.rowId;
-                this.showItemDetailModal();
-                console.log(record.id);
-                console.log(rowId);
+                console.log(record);
+                console.log(this.state.rowId);
+                // this.showItemDetailModal();
               }
             };
           }

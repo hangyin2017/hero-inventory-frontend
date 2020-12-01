@@ -14,9 +14,9 @@ class ItemDetailModal extends React.Component {
     };
   }
 
-  async componentDidMount() {
-		const { rowId } = this.props;
-    const { data } = await itemApi.get(rowId);
+  async componentWillReceiveProps() {
+		console.log(this.props.rowId);
+    const { data } = await itemApi.get(this.props.rowId);
     this.setState({
       descriptionData: data,
     });
