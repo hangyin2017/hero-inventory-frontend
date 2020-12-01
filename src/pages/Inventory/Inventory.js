@@ -2,6 +2,7 @@ import React from 'react';
 import items from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
+import ItemDetailModal from './components/ItemDetailModal';
 import columns from './columns';
 
 class Inventory extends React.Component {
@@ -12,20 +13,60 @@ class Inventory extends React.Component {
       tableData: [],
       searchInput: '',
       data: null,
+      newItemModalVisible: false,
+      itemDetailModalVisible: false,
+      rowId: '',
     }
 
     this.debouncedSearch = this.debouncedSearch.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.setRowId = this.setRowId.bind(this);
+    this.showItemDetailModal = this.showItemDetailModal.bind(this);
+    this.hideItemDetailModal = this.hideItemDetailModal.bind(this);
   }
 
   async componentDidMount() {
     const { data } = await items.getAll();
     this.setState({
-      tableData: data
+      tableData: data,
+    });
+  }
+
+  hideNewItemModal() {
+    this.setState({
+      newItemModalVisible: false,
+    });
+  }
+
+  showNewItemModal() {
+    this.setState({
+      newItemModalVisible: true,
+    });
+  }
+
+  hideItemDetailModal() {
+    this.setState({
+      itemDetailModalVisible: false,
+    });
+  }
+
+  showItemDetailModal() {
+    this.setState({
+      itemDetailModalVisible: true,
     });
 
     const itemData = await items.get(1);
     this.setState({ data: itemData.data });
+  }
+
+
+  setRowId = (id) => {
+    this.setState({
+      rowId: id}, ()=>{
+        console.log(this.state.rowId);
+        this.showItemDetailModal();
+      }
+    );
   }
 
   async debouncedSearch({ target }) {
@@ -41,7 +82,7 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { tableData } = this.state;
+    const { tableData, newItemModalVisible, itemDetailModalVisible, rowId } = this.state;
 
     return (
       <Page
@@ -54,6 +95,9 @@ class Inventory extends React.Component {
           onChange: this.debouncedSearch,
           onSearch: this.handleSearch,
         }}
+        newButtonProps={{
+          onClick: this.showNewItemModal,
+        }}
         tableProps={{
           columns: columns,
           dataSource: tableData,
@@ -62,6 +106,16 @@ class Inventory extends React.Component {
             position: ['bottomRight'],
             defaultPageSize: 10,
           },
+          onRow: (record) => {
+            return {
+              onClick: () => {
+                this.setRowId(record.id);
+                console.log(record);
+                console.log(this.state.rowId);
+                // this.showItemDetailModal();
+              }
+            };
+          }
         }}
         Modal={NewItemModal}
       >
@@ -74,6 +128,22 @@ class Inventory extends React.Component {
           // hideModal={hideModal}
           editing
           data={this.state.data}
+        />
+        {/* <NewItemModal
+          title="Add New Item"
+          visible={newItemModalVisible}
+          maskClosable={false}
+          onSave={this.hideNewItemModal}
+          onCancel={this.hideNewItemModal}
+          destroyOnClose={true}
+        /> */}
+        <ItemDetailModal
+          title="Item Detail"
+          visible={itemDetailModalVisible}
+          maskClosable={false}
+          onCancel={this.hideItemDetailModal}
+          destroyOnClose={true}
+          rowId={this.state.rowId}
         />
       </Page>
     )
