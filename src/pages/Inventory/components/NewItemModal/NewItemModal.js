@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, message } from 'antd';
+import { Input, Divider, message } from 'antd';
 import items from '../../../../apis/items';
 import Modal from '../../../../components/Modal';
 import Form from '../../../../components/Form';
@@ -8,6 +8,26 @@ import PrimaryInfo from './components/PrimaryInfo';
 import CategoryInfo from './components/CategoryInfo';
 import Pricing from './components/Pricing';
 import Stock from './components/Stock';
+import fields from './fields';
+
+const formItems = Object
+  .keys(fields)
+  .reduce((obj, key) => {
+    const { label, component, ...restProps } = fields[key];
+
+    return ({
+      ...obj,
+      [key]: (
+        <Form.Item
+          label={label}
+          name={key}
+          {...restProps}
+        >
+          {component || <Input />}
+        </Form.Item>
+      ),
+    });
+  }, {});
 
 class NewOrderModal extends React.Component {
   constructor(props) {
@@ -87,7 +107,7 @@ class NewOrderModal extends React.Component {
           ref={this.formRef}
           onFinish={editing ? this.update : this.add}
         >
-          <PrimaryInfo />
+          <PrimaryInfo formItems={formItems} />
           <Divider />
           <CategoryInfo formRef={this.formRef} />
           <Divider />

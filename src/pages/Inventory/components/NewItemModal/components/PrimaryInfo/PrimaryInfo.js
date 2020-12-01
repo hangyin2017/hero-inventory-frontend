@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Row } from 'antd';
 import Form from '../../../../../../components/Form';
 
-const PrimaryInfo = () => {
+const PrimaryInfo = ({ formItems }) => {
   const { TextArea } = Input;
 
   return (
@@ -24,12 +24,13 @@ const PrimaryInfo = () => {
       </Row>
       <Row>
         <Form.Col>
-          <Form.Item
+          {formItems.sku}
+          {/* <Form.Item
             label="SKU"
             name="sku"  
           >
             <Input />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             label="UPC"
             name="upc"  
