@@ -1,13 +1,11 @@
 import React from 'react';
-import { Select, Row } from 'antd';
+import { Input, Row } from 'antd';
 import Form from '../../../../../../components/Form';
 import DropdownPicker from '../../../../../../components/DropdownPicker';
 import manufacturers from '../../../../../../apis/manufacturers';
 import brands from '../../../../../../apis/brands';
 
-const CategoryInfo = () => {
-  const { Option } = Select;
-
+const CategoryInfo = ({ formRef }) => {
   return (
     <section>
       <Row>
@@ -16,18 +14,7 @@ const CategoryInfo = () => {
               label="Category"
               name="category"
             >
-              <Select
-                placeholder="Select a category"
-                allowClear
-                showSearch
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-              >
-                <Option value="male">Health Product</Option>
-                <Option value="female">Gift</Option>
-                <Option value="other">other</Option>
-              </Select>
+              <Input />
             </Form.Item>
         </Form.Col>
       </Row>
@@ -38,8 +25,10 @@ const CategoryInfo = () => {
             name="manufacturer"  
           >
             <DropdownPicker
+              name="manufacturer"
               placeholder="Select a manufacturer"
               api={manufacturers}
+              formRef={formRef}
             />
           </Form.Item>
         </Form.Col>
@@ -49,8 +38,10 @@ const CategoryInfo = () => {
             name="brand"  
           >
             <DropdownPicker
+              name="brand"  
               placeholder="Select a brand"
               api={brands}
+              formRef={formRef}
             />
           </Form.Item>
         </Form.Col>

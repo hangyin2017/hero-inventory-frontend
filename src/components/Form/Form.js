@@ -32,7 +32,13 @@ const Footer = styled.div`
   }
 `;
 
-const Form = styled(AntdForm)`
+const validateMessages = {
+  required: "'${label}' is required",
+};
+
+const Form = styled(AntdForm).attrs({
+  validateMessages: validateMessages,
+})`
   margin-bottom: 50px;
 `;
 

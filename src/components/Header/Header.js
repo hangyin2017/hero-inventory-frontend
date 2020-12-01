@@ -3,9 +3,6 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;
-  /* position: sticky; */
-  z-index: 3;
-  top: 0;
   width: 100%;
   border-bottom: 1px solid #eee;
   background-color: #f7f7f7;

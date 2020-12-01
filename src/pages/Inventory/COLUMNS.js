@@ -9,11 +9,11 @@ export default [
     dataIndex: "name",
     key: "name",
   },
-  {
-    title: "Description",
-    dataIndex: "description",
-    key: "description",
-  },
+  // {
+  //   title: "Description",
+  //   dataIndex: "description",
+  //   key: "description",
+  // },
   {
     title: "Categary",
     dataIndex: "category",

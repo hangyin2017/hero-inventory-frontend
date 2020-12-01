@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 const Content = styled.div`
   width: 100%;
+  height: 100%;
   position: relative;
   overflow-y: auto;
 `;
@@ -18,8 +19,7 @@ const Page = ({
   Modal,
   modalVisible,
   showModal,
-  onModalSave,
-  onModalCancel,
+  hideModal,
 }) => {
   return (
     <>
@@ -42,8 +42,8 @@ const Page = ({
             maskClosable={false}
             destroyOnClose={true}
             visible={modalVisible}
-            onSave={onModalSave}
-            onCancel={onModalCancel}
+            showModal={showModal}
+            hideModal={hideModal}
           />
         )}
         {children}

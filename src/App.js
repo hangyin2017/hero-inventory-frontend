@@ -24,11 +24,14 @@ const Wrapper = styled.div`
   flex-direction: row;
   flex: auto;
   background: #f0f2f5;
+  overflow: hidden;
 `;
 
 const Main = styled.main`
-  width: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   overflow: hidden;
 `;
 
