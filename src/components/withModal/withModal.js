@@ -29,8 +29,7 @@ const withModal = (Component) => {
           {...this.props}
           modalVisible={visible}
           showModal={this.showModal}
-          onModalSave={this.hideModal}
-          onModalCancel={this.hideModal}
+          hideModal={this.hideModal}
         />
       );
     }

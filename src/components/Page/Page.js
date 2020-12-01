@@ -18,8 +18,7 @@ const Page = ({
   Modal,
   modalVisible,
   showModal,
-  onModalSave,
-  onModalCancel,
+  hideModal,
 }) => {
   return (
     <>
@@ -42,8 +41,8 @@ const Page = ({
             maskClosable={false}
             destroyOnClose={true}
             visible={modalVisible}
-            onSave={onModalSave}
-            onCancel={onModalCancel}
+            showModal={showModal}
+            hideModal={hideModal}
           />
         )}
         {children}

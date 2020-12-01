@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider } from 'antd';
+import { Divider, Spin } from 'antd';
 import items from '../../../../apis/items';
 import Modal from '../../../../components/Modal';
 import Form from '../../../../components/Form';
@@ -14,35 +14,43 @@ class NewOrderModal extends React.Component {
     super(props);
 
     this.formRef = React.createRef();
-    // this.state = {
-    // }
+
+    this.state = {
+      loading: false,
+    }
+
+    this.submit = this.submit.bind(this);
   }
 
-  onFinish(values) {
+  async submit(values) {
+    const { hideModal } = this.props;
+    
     values.createdTime = new Date();
-    items.add(values);
+
+    this.setState({ loading: true });
+
+    await items.add(values);
+
+    this.setState({ loading: false });
+    hideModal();
   };
 
-  // onFinishFailed = (errorInfo) => {
-  //   console.log('Failed:', errorInfo);
-  // };
-
   render() {
-    const { onCancel, ...props } = this.props;
-    // const { } = this.state;
+    const { hideModal, ...props } = this.props;
+    const { loading } = this.state;
 
     return (
       <Modal
         {...props}
         title="Add New Item"
-        onCancel={onCancel}
         width={1000}
+        hideModal={hideModal}
       >
         <Form
           labelCol={{ span: 6 }}
           ref={this.formRef}
-          preserve={false}
-          onFinish={this.onFinish}
+          // preserve={false}
+          onFinish={this.submit}
         >
           <PrimaryInfo />
           <Divider />
@@ -51,7 +59,7 @@ class NewOrderModal extends React.Component {
           <Pricing />
           <Divider />
           <Stock />
-          <SimpleFooter onCancel={onCancel}/>
+          <SimpleFooter loading={loading} onCancel={hideModal} />
         </Form>
       </Modal>
     );
