@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Spin } from 'antd';
+import { Divider, message } from 'antd';
 import items from '../../../../apis/items';
 import Modal from '../../../../components/Modal';
 import Form from '../../../../components/Form';
@@ -29,10 +29,17 @@ class NewOrderModal extends React.Component {
 
     this.setState({ loading: true });
 
-    await items.add(values);
+    try {
+      await items.add(values);
 
-    this.setState({ loading: false });
-    hideModal();
+      // this.setState({ loading: false });
+      message.success(`Item ${values.name} has been added`);
+      hideModal();
+    } catch(err) {
+      message.error(`Something went wrong while adding item ${values.name}`);
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
@@ -49,7 +56,6 @@ class NewOrderModal extends React.Component {
         <Form
           labelCol={{ span: 6 }}
           ref={this.formRef}
-          // preserve={false}
           onFinish={this.submit}
         >
           <PrimaryInfo />
