@@ -19,10 +19,19 @@ class NewOrderModal extends React.Component {
       loading: false,
     }
 
-    this.submit = this.submit.bind(this);
+    this.add = this.add.bind(this);
+    this.update = this.update.bind(this);
   }
 
-  async submit(values) {
+  componentDidUpdate(prevProps) {
+    const { editing, data } = this.props;
+    if(editing && data !== prevProps.data) {
+      console.log(data);
+      this.formRef.current.setFieldsValue(data);
+    }
+  }
+
+  async add(values) {
     const { hideModal } = this.props;
     
     values.createdTime = new Date();
@@ -32,7 +41,6 @@ class NewOrderModal extends React.Component {
     try {
       await items.add(values);
 
-      // this.setState({ loading: false });
       message.success(`Item ${values.name} has been added`);
       hideModal();
     } catch(err) {
@@ -42,29 +50,54 @@ class NewOrderModal extends React.Component {
     }
   };
 
+  async update(values) {
+    const { data, hideModal } = this.props;
+    
+    values.lastModifiedTime = new Date();
+
+    this.setState({ loading: true });
+
+    try {
+      await items.update(data.id, values);
+
+      message.success(`Item ${values.name} has been updated`);
+      // hideModal();
+    } catch(err) {
+      message.error(`Something went wrong while updating item ${values.name}`);
+    } finally {
+      this.setState({ loading: false });
+    }
+  }
+
   render() {
-    const { hideModal, ...props } = this.props;
+    const { editing, data, hideModal, ...props } = this.props;
     const { loading } = this.state;
+
+    const title = `${editing ? "Edit" : "Add New"} Item`;
 
     return (
       <Modal
         {...props}
-        title="Add New Item"
+        title={title}
         width={1000}
         hideModal={hideModal}
       >
         <Form
           labelCol={{ span: 6 }}
           ref={this.formRef}
-          onFinish={this.submit}
+          onFinish={editing ? this.update : this.add}
         >
           <PrimaryInfo />
           <Divider />
           <CategoryInfo formRef={this.formRef} />
           <Divider />
           <Pricing />
-          <Divider />
-          <Stock />
+          {editing ? (null) : (
+            <>
+              <Divider />
+              <Stock />
+            </>            
+          )}
           <SimpleFooter loading={loading} onCancel={hideModal} />
         </Form>
       </Modal>

@@ -11,6 +11,7 @@ class Inventory extends React.Component {
     this.state = {
       tableData: [],
       searchInput: '',
+      data: null,
     }
 
     this.debouncedSearch = this.debouncedSearch.bind(this);
@@ -22,6 +23,9 @@ class Inventory extends React.Component {
     this.setState({
       tableData: data
     });
+
+    const itemData = await items.get(1);
+    this.setState({ data: itemData.data });
   }
 
   async debouncedSearch({ target }) {
@@ -61,6 +65,16 @@ class Inventory extends React.Component {
         }}
         Modal={NewItemModal}
       >
+        <NewItemModal 
+          footer={null}
+          maskClosable={false}
+          destroyOnClose={true}
+          visible={true}
+          // showModal={showModal}
+          // hideModal={hideModal}
+          editing
+          data={this.state.data}
+        />
       </Page>
     )
   }
