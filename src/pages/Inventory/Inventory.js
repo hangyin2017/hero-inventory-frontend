@@ -2,6 +2,7 @@ import React from 'react';
 import items from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
+import ItemDetailModal from './components/ItemDetailModal';
 import columns from './columns';
 
 class Inventory extends React.Component {
@@ -27,6 +28,30 @@ class Inventory extends React.Component {
     const { data } = await items.getAll();
     this.setState({
       tableData: data,
+    });
+  }
+
+  hideNewItemModal() {
+    this.setState({
+      newItemModalVisible: false,
+    });
+  }
+
+  showNewItemModal() {
+    this.setState({
+      newItemModalVisible: true,
+    });
+  }
+
+  hideItemDetailModal() {
+    this.setState({
+      itemDetailModalVisible: false,
+    });
+  }
+
+  showItemDetailModal() {
+    this.setState({
+      itemDetailModalVisible: true,
     });
   }
 
