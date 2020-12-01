@@ -45,9 +45,6 @@ const Header = ({
           {newButtonProps && (
             <NewButton {...newButtonProps} />
           )}
-          {itemDetailButtonProps && (
-            <ItemDetailButton {...itemDetailButtonProps} />
-          )}
         </Right>
       </Layout>
     </StyledHeader>

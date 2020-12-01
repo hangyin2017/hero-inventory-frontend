@@ -7,7 +7,6 @@ const Page = ({
   headerProps,
   searchBarProps,
   newButtonProps,
-  itemDetailButtonProps,
   tableProps,
 }) => {
   return (
@@ -16,7 +15,6 @@ const Page = ({
         {...headerProps}
         searchBarProps={searchBarProps}
         newButtonProps={newButtonProps}
-        itemDetailButtonProps={itemDetailButtonProps}
       />
       {tableProps && (
         <Table {...tableProps} />

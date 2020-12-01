@@ -15,12 +15,14 @@ class Inventory extends React.Component {
       searchInput: '',
       newItemModalVisible: false,
       itemDetailModalVisible: false,
+      rowId: 0,
     }
 
     this.showNewItemModal = this.showNewItemModal.bind(this);
     this.hideNewItemModal = this.hideNewItemModal.bind(this);
     this.debouncedSearch = this.debouncedSearch.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.setRowId = this.setRowId.bind(this);
     this.showItemDetailModal = this.showItemDetailModal.bind(this);
     this.hideItemDetailModal = this.hideItemDetailModal.bind(this);
   }
@@ -28,7 +30,7 @@ class Inventory extends React.Component {
   async componentDidMount() {
     const { data } = await itemApi.getAll();
     this.setState({
-      tableData: data
+      tableData: data,
     });
   }
   
@@ -53,6 +55,13 @@ class Inventory extends React.Component {
   showItemDetailModal() {
     this.setState({
       itemDetailModalVisible: true,
+    });
+  }
+
+
+  setRowId(id) {
+    this.setState({
+      rowId: id,
     });
   }
 
@@ -84,9 +93,6 @@ class Inventory extends React.Component {
         newButtonProps={{
           onClick: this.showNewItemModal,
         }}
-        itemDetailButtonProps={{
-          onClick: this.showItemDetailModal,
-        }}
         tableProps={{
           columns: columns,
           dataSource: tableData,
@@ -95,6 +101,17 @@ class Inventory extends React.Component {
             position: ['topRight', 'bottomRight'],
             defaultPageSize: 10,
           },
+          onRow: (record) => {
+            return {
+              onClick: () => {
+                this.setRowId(record.id);
+                const { rowId } = this.state.rowId;
+                this.showItemDetailModal();
+                console.log(record.id);
+                console.log(rowId);
+              }
+            };
+          }
         }}
       >
         <NewItemModal
@@ -111,6 +128,7 @@ class Inventory extends React.Component {
           maskClosable={false}
           onCancel={this.hideItemDetailModal}
           destroyOnClose={true}
+          rowId={this.state.rowId}
         />
       </Page>
     )
