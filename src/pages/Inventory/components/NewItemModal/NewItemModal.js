@@ -17,8 +17,9 @@ class NewOrderModal extends React.Component {
     // }
   }
 
-  onFinish = values => {
-    console.log('Success:', values);
+  onFinish(values) {
+    values.createdTime = new Date();
+    console.log(values);
   };
 
   // onFinishFailed = (errorInfo) => {
