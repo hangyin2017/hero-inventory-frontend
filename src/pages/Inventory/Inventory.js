@@ -1,9 +1,7 @@
 import React from 'react';
-import { Table } from 'antd';
-import itemApi from '../../apis/items';
+import items from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
-import ItemDetailModal from './components/ItemDetailModal';
 import columns from './columns';
 
 class Inventory extends React.Component {
@@ -18,8 +16,6 @@ class Inventory extends React.Component {
       rowId: '',
     }
 
-    this.showNewItemModal = this.showNewItemModal.bind(this);
-    this.hideNewItemModal = this.hideNewItemModal.bind(this);
     this.debouncedSearch = this.debouncedSearch.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.setRowId = this.setRowId.bind(this);
@@ -28,33 +24,9 @@ class Inventory extends React.Component {
   }
 
   async componentDidMount() {
-    const { data } = await itemApi.getAll();
+    const { data } = await items.getAll();
     this.setState({
       tableData: data,
-    });
-  }
-  
-  hideNewItemModal() {
-    this.setState({
-      newItemModalVisible: false,
-    });
-  }
-
-  showNewItemModal() {
-    this.setState({
-      newItemModalVisible: true,
-    });
-  }
-
-  hideItemDetailModal() {
-    this.setState({
-      itemDetailModalVisible: false,
-    });
-  }
-
-  showItemDetailModal() {
-    this.setState({
-      itemDetailModalVisible: true,
     });
   }
 
@@ -74,7 +46,7 @@ class Inventory extends React.Component {
   }
 
   async handleSearch(input) {
-    const { data } = await itemApi.filter(input);
+    const { data } = await items.filter(input);
     this.setState({
       tableData: data
     });
@@ -87,6 +59,7 @@ class Inventory extends React.Component {
       <Page
         headerProps={{
           title: 'Inventory',
+          hasNewButton: true,
         }}
         searchBarProps={{
           placeholder: 'Search by item name or SKU',
@@ -101,7 +74,7 @@ class Inventory extends React.Component {
           dataSource: tableData,
           rowKey: 'id',
           pagination: {
-            position: ['topRight', 'bottomRight'],
+            position: ['bottomRight'],
             defaultPageSize: 10,
           },
           onRow: (record) => {
@@ -115,6 +88,7 @@ class Inventory extends React.Component {
             };
           }
         }}
+        Modal={NewItemModal}
       >
         <NewItemModal
           title="Add New Item"

@@ -41,14 +41,14 @@ const PrimaryInfo = () => {
           <Form.Item
               label="Description"
               name="description"  
-            >
-              <TextArea
-                showCount
-                maxLength={100}
-                allowClear
-                autoSize={{ minRows: 3 }}  
-              />
-            </Form.Item>
+          >
+            <TextArea
+              showCount
+              maxLength={255}
+              allowClear
+              autoSize={{ minRows: 3 }}  
+            />
+          </Form.Item>
         </Form.Col>
       </Row>
     </section>

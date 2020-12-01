@@ -2,11 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import SearchBar from './components/SearchBar';
 import NewButton from './components/NewButton';
-import ItemDetailButton from './components/ItemDetailButton';
 
 const StyledHeader = styled.div`
-  border-bottom: 1px solid #dadada;
-  padding: 20px 14px 12px;
+border-bottom: 1px solid #dadada;
+padding: 10px 14px;
 `;
 
 const Layout = styled.div`
@@ -28,10 +27,11 @@ const Right = styled.div`
 
 const Header = ({
   title,
+  hasNewButton,
   searchBarProps,
-  newButtonProps,
-  itemDetailButtonProps,
+  onNewButtonClick,
 }) => {
+
   return (
     <StyledHeader>
       <Layout>
@@ -42,8 +42,8 @@ const Header = ({
           {searchBarProps && (
             <SearchBar {...searchBarProps} />
           )}
-          {newButtonProps && (
-            <NewButton {...newButtonProps} />
+          {hasNewButton && (
+            <NewButton onClick={onNewButtonClick} />
           )}
         </Right>
       </Layout>

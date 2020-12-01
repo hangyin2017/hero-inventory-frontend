@@ -1,26 +1,20 @@
 import React from 'react';
-import { Select, Row } from 'antd';
+import { Input, Row } from 'antd';
 import Form from '../../../../../../components/Form';
+import DropdownPicker from '../../../../../../components/DropdownPicker';
+import manufacturers from '../../../../../../apis/manufacturers';
+import brands from '../../../../../../apis/brands';
 
-const CategoryInfo = () => {
-  const { Option } = Select;
-
+const CategoryInfo = ({ formRef }) => {
   return (
     <section>
       <Row>
         <Form.Col>
           <Form.Item
               label="Category"
-              name="category"  
+              name="category"
             >
-              <Select
-                placeholder="Select a category"
-                allowClear
-              >
-                <Option value="male">Health Product</Option>
-                <Option value="female">Gift</Option>
-                <Option value="other">other</Option>
-              </Select>
+              <Input />
             </Form.Item>
         </Form.Col>
       </Row>
@@ -30,14 +24,12 @@ const CategoryInfo = () => {
             label="Manufacturer"
             name="manufacturer"  
           >
-            <Select
+            <DropdownPicker
+              name="manufacturer"
               placeholder="Select a manufacturer"
-              allowClear
-            >
-              <Option value="male">Sanofi</Option>
-              <Option value="female">Lifespace</Option>
-              <Option value="other">other</Option>
-            </Select>
+              api={manufacturers}
+              formRef={formRef}
+            />
           </Form.Item>
         </Form.Col>
         <Form.Col>
@@ -45,14 +37,12 @@ const CategoryInfo = () => {
             label="Brand"
             name="brand"  
           >
-            <Select
+            <DropdownPicker
+              name="brand"  
               placeholder="Select a brand"
-              allowClear
-            >
-              <Option value="male">A2</Option>
-              <Option value="female">Sanofi</Option>
-              <Option value="other">other</Option>
-            </Select>
+              api={brands}
+              formRef={formRef}
+            />
           </Form.Item>
         </Form.Col>
       </Row>

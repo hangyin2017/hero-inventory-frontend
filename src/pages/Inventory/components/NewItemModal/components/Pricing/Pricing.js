@@ -28,7 +28,8 @@ const Pricing = () => {
           <Form.Item
             label=" "
             name="applyGst" 
-            colon={false} 
+            colon={false}
+            valuePropName="checked"
           >
             <Checkbox>Apply GST</Checkbox>
           </Form.Item>
