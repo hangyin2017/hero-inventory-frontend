@@ -1,5 +1,6 @@
 import React from 'react';
 import { Divider } from 'antd';
+import items from '../../../../apis/items';
 import Modal from '../../../../components/Modal';
 import Form from '../../../../components/Form';
 import SimpleFooter from '../../../../components/Form/components/SimpleFooter';
@@ -19,7 +20,7 @@ class NewOrderModal extends React.Component {
 
   onFinish(values) {
     values.createdTime = new Date();
-    console.log(values);
+    items.add(values);
   };
 
   // onFinishFailed = (errorInfo) => {
@@ -42,7 +43,6 @@ class NewOrderModal extends React.Component {
           ref={this.formRef}
           preserve={false}
           onFinish={this.onFinish}
-          // onFinishFailed={this.onFinishFailed}
         >
           <PrimaryInfo />
           <Divider />
