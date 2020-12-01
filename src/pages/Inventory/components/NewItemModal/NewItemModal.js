@@ -13,7 +13,8 @@ import fields from './fields';
 const formItems = Object
   .keys(fields)
   .reduce((obj, key) => {
-    const { label, component, ...restProps } = fields[key];
+    const { label, component, required, ...restProps } = fields[key];
+    const rules = required && [{ required: true }];
 
     return ({
       ...obj,
@@ -21,6 +22,7 @@ const formItems = Object
         <Form.Item
           label={label}
           name={key}
+          rules={rules}
           {...restProps}
         >
           {component || <Input />}
@@ -109,13 +111,13 @@ class NewOrderModal extends React.Component {
         >
           <PrimaryInfo formItems={formItems} />
           <Divider />
-          <CategoryInfo formRef={this.formRef} />
+          <CategoryInfo formRef={this.formRef} formItems={formItems} />
           <Divider />
-          <Pricing />
+          <Pricing formItems={formItems} />
           {editing ? (null) : (
             <>
               <Divider />
-              <Stock />
+              <Stock formItems={formItems} />
             </>            
           )}
           <SimpleFooter loading={loading} onCancel={hideModal} />

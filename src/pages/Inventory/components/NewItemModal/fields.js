@@ -1,3 +1,8 @@
+import React from 'react';
+import { Input, Checkbox } from 'antd';
+
+const { TextArea } = Input;
+
 export default {
   sku: {
     label: 'SKU',
@@ -11,6 +16,14 @@ export default {
   },
   description: {
     label: "Description",
+    component: (
+      <TextArea
+        showCount
+        maxLength={255}
+        allowClear
+        autoSize={{ minRows: 3 }}  
+      />
+    ),
   },
   category: {
     label: "Categary",
@@ -31,6 +44,9 @@ export default {
     label: " ",
     colon: false,
     valuePropName: "checked",
+    component: (
+      <Checkbox>Apply GST</Checkbox>
+    ),
   },
   weight: {
     label: "Weight",
@@ -42,7 +58,7 @@ export default {
     label: "Created Time",
   },
   physicalStock: {
-    label: "Physical Stock",
+    label: "Opening Stock",
   },
   lockedStock: {
     label: "Locked Stock",
