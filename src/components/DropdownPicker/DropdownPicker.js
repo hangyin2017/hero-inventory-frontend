@@ -118,7 +118,6 @@ class DropdownPicker extends React.Component {
         showSearch
         optionLabelProp="value"
         value={value}
-        // onChange={(value) => this.setState({value})}
         onChange={onChange}
         filterOption={(input, option) => option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         dropdownRender={this.dropdownRender}
