@@ -15,6 +15,7 @@ const Page = ({
   children,
   headerProps,
   searchBarProps,
+  newButtonProps,
   tableProps,
   Modal,
   modalVisible,

@@ -1,44 +1,48 @@
-import { Descriptions, Modal, Statistic, Row, Col } from "antd";
+import { Descriptions, Modal, Statistic } from "antd";
 import DescriptionsItem from "antd/lib/descriptions/Item";
 import React from "react";
 import styled from "styled-components";
 import itemApi from "../../../../apis/items";
+
 
 class ItemDetailModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      descriptionData: [],
+			descriptionData: [],
     };
   }
 
-  async componentDidMount() {
-    const { data } = await itemApi.get(24);
-    this.setState({
-      descriptionData: data,
-    });
-    console.log(data);
+  async componentDidUpdate(prevProps, prevState) {
+    if(prevProps.rowId !== this.props.rowId){
+      const { data } = await itemApi.get(this.props.rowId);
+      this.setState({
+        descriptionData: data,
+      });
+    }
   }
 
   render() {
     const { onCancel, ...modalProps } = this.props;
-    const { descriptionData } = this.state;
+		const { descriptionData } = this.state;
+		const { sku, upc, name, description, category, brand, manufacturer, costPrice, sellingPrice, applyGst} = this.state.descriptionData;
+
 
     return (
       <Modal {...modalProps} onCancel={onCancel} footer={null} destroyOnClose={true} width={1000}>
         <div style={{ display: "flex" }}>
           <Descriptions title="Item Information" layout="vertical" column="24" style={{ width: "50%" }} bordered>
-            <DescriptionsItem label="SKU">{descriptionData.sku}</DescriptionsItem>
-            <DescriptionsItem label="UPC">{descriptionData.upc}</DescriptionsItem>
-            <DescriptionsItem label="Name">{descriptionData.name}</DescriptionsItem>
-            <DescriptionsItem label="Description">{descriptionData.description}</DescriptionsItem>
-            <DescriptionsItem label="Category">{descriptionData.category}</DescriptionsItem>
-            <DescriptionsItem label="Brand">{descriptionData.brand}</DescriptionsItem>
-            <DescriptionsItem label="Manufacturer">{descriptionData.manufacturer}</DescriptionsItem>
-            <DescriptionsItem label="cost price">{descriptionData.costPrice}</DescriptionsItem>
-            <DescriptionsItem label="selling price">{descriptionData.sellingPrice}</DescriptionsItem>
-            <DescriptionsItem label="apply GST">{String(descriptionData.applyGst)}</DescriptionsItem>
+            <DescriptionsItem label="SKU">{sku}</DescriptionsItem>
+            <DescriptionsItem label="UPC">{upc}</DescriptionsItem>
+            <DescriptionsItem label="Name">{name}</DescriptionsItem>
+            <DescriptionsItem label="Description">{description}</DescriptionsItem>
+            <DescriptionsItem label="Category">{category}</DescriptionsItem>
+            <DescriptionsItem label="Brand">{brand}</DescriptionsItem>
+            <DescriptionsItem label="Manufacturer">{manufacturer}</DescriptionsItem>
+            <DescriptionsItem label="cost price">{costPrice}</DescriptionsItem>
+            <DescriptionsItem label="selling price">{sellingPrice}</DescriptionsItem>
+            <DescriptionsItem label="apply GST">{String(applyGst)}</DescriptionsItem>
           </Descriptions>
           <div
             style={{
