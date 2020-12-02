@@ -19,7 +19,7 @@ class Page extends React.Component {
       // visibleModals: [],
       modal: null,
       // editing: false,
-      rowId: '',
+      // rowId: '',
       itemData: null,
     };
   
@@ -60,14 +60,14 @@ class Page extends React.Component {
 
     this.showModal('details')();
 
-    // if (!!id) {
-    //   const { data } = await api.get(id);
-    //   this.setState({ itemData: data });
-    // }
+    if (!!id) {
+      const { data } = await api.get(id);
+      this.setState({ itemData: data });
+    }
     
-    this.setState({
-      rowId: id
-    }, this.showModal('details'));
+    // this.setState({
+    //   rowId: id
+    // }, this.showModal('details'));
   }
 
   render() {
@@ -120,7 +120,7 @@ class Page extends React.Component {
               // visible
               onEditButtonClick={this.showModal('newItem')}
               onCancel={this.hideModal}
-              // data={itemData}
+              data={itemData}
               // rowId={this.state.rowId}
             />
           )}
