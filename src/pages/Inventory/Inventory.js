@@ -63,7 +63,6 @@ class Inventory extends React.Component {
   setRowId = (id) => {
     this.setState({
       rowId: id}, ()=>{
-        console.log(this.state.rowId);
         this.showItemDetailModal();
       }
     );
@@ -110,9 +109,6 @@ class Inventory extends React.Component {
             return {
               onClick: () => {
                 this.setRowId(record.id);
-                console.log(record);
-                console.log(this.state.rowId);
-                // this.showItemDetailModal();
               }
             };
           }

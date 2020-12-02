@@ -15,12 +15,13 @@ class ItemDetailModal extends React.Component {
     };
   }
 
-  async componentWillReceiveProps() {
-		console.log(this.props.rowId);
-    const { data } = await itemApi.get(this.props.rowId);
-    this.setState({
-      descriptionData: data,
-    });
+  async componentDidUpdate(prevProps, prevState) {
+    if(prevProps.rowId !== this.props.rowId){
+      const { data } = await itemApi.get(this.props.rowId);
+      this.setState({
+        descriptionData: data,
+      });
+    }
   }
 
   render() {
