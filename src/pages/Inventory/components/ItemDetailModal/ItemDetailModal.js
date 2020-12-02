@@ -1,8 +1,9 @@
-import { Descriptions, Modal, Statistic } from "antd";
+import { Descriptions, Modal, Statistic, Button } from "antd";
 import DescriptionsItem from "antd/lib/descriptions/Item";
 import React from "react";
 import styled from "styled-components";
 import itemApi from "../../../../apis/items";
+import Header from './components/Header';
 
 
 class ItemDetailModal extends React.Component {
@@ -29,7 +30,10 @@ class ItemDetailModal extends React.Component {
 
 
     return (
-      <Modal {...modalProps} onCancel={onCancel} footer={null} destroyOnClose={true} width={1000}>
+      <Modal
+        title={<Header />}
+        {...modalProps} onCancel={onCancel} footer={null} destroyOnClose={true} width={1000}
+      >
         <div style={{ display: "flex" }}>
           <Descriptions title="Item Information" layout="vertical" column="24" style={{ width: "50%" }} bordered>
             <DescriptionsItem label="SKU">{sku}</DescriptionsItem>

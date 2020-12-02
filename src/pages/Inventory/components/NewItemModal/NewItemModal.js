@@ -31,7 +31,7 @@ const formItems = Object
     });
   }, {});
 
-class NewOrderModal extends React.Component {
+class NewItemModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -47,10 +47,9 @@ class NewOrderModal extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { editing, data } = this.props;
-    if(editing && data !== prevProps.data) {
-      console.log(data);
-      this.formRef.current.setFieldsValue(data);
-    }
+    // if(editing && data !== prevProps.data) {
+      // this.formRef.current.setFieldsValue(data);
+    // }
   }
 
   async add(values) {
@@ -127,4 +126,4 @@ class NewOrderModal extends React.Component {
   }
 }
 
-export default NewOrderModal;
+export default NewItemModal;

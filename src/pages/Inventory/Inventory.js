@@ -12,7 +12,7 @@ class Inventory extends React.Component {
     this.state = {
       tableData: [],
       searchInput: '',
-      data: null,
+      // data: null,
       newItemModalVisible: false,
       itemDetailModalVisible: false,
       rowId: '',
@@ -30,6 +30,9 @@ class Inventory extends React.Component {
     this.setState({
       tableData: data,
     });
+    
+    // const itemData = await items.get(1);
+    // this.setState({ data: itemData.data });
   }
 
   hideNewItemModal() {
@@ -54,9 +57,6 @@ class Inventory extends React.Component {
     this.setState({
       itemDetailModalVisible: true,
     });
-
-    const itemData = await items.get(1);
-    this.setState({ data: itemData.data });
   }
 
 
@@ -123,7 +123,7 @@ class Inventory extends React.Component {
           footer={null}
           maskClosable={false}
           destroyOnClose={true}
-          visible={true}
+          // visible={true}
           // showModal={showModal}
           // hideModal={hideModal}
           editing
@@ -138,8 +138,9 @@ class Inventory extends React.Component {
           destroyOnClose={true}
         /> */}
         <ItemDetailModal
-          title="Item Detail"
-          visible={itemDetailModalVisible}
+          // title="Item Detail"
+          // visible={itemDetailModalVisible}
+          visible
           maskClosable={false}
           onCancel={this.hideItemDetailModal}
           destroyOnClose={true}
