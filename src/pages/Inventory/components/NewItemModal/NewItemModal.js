@@ -91,7 +91,7 @@ class NewItemModal extends React.Component {
   }
 
   render() {
-    const { editing, data, hideModal, ...props } = this.props;
+    const { editing, data, onCancel, ...props } = this.props;
     const { loading } = this.state;
 
     const title = `${editing ? "Edit" : "Add New"} Item`;
@@ -101,7 +101,7 @@ class NewItemModal extends React.Component {
         {...props}
         title={title}
         width={1000}
-        hideModal={hideModal}
+        onCancel={onCancel}
       >
         <Form
           labelCol={{ span: 6 }}
@@ -119,7 +119,7 @@ class NewItemModal extends React.Component {
               <Stock formItems={formItems} />
             </>            
           )}
-          <SimpleFooter loading={loading} onCancel={hideModal} />
+          <SimpleFooter loading={loading} onCancel={onCancel} />
         </Form>
       </Modal>
     );

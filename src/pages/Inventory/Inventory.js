@@ -11,8 +11,7 @@ class Inventory extends React.Component {
 
     this.state = {
       tableData: [],
-      searchInput: '',
-      // data: null,
+      editing: false,
       newItemModalVisible: false,
       itemDetailModalVisible: false,
       rowId: '',
@@ -23,6 +22,8 @@ class Inventory extends React.Component {
     this.setRowId = this.setRowId.bind(this);
     this.showItemDetailModal = this.showItemDetailModal.bind(this);
     this.hideItemDetailModal = this.hideItemDetailModal.bind(this);
+    this.hideNewItemModal = this.hideNewItemModal.bind(this);
+    this.setEditing = this.setEditing.bind(this);
   }
 
   async componentDidMount() {
@@ -68,6 +69,13 @@ class Inventory extends React.Component {
     );
   }
 
+  setEditing = (editing) => {
+    this.setState({
+      editing,
+      newItemModalVisible: true,
+    });
+  }
+
   async debouncedSearch({ target }) {
     if(target.timer) clearTimeout(target.timer);
     target.timer = setTimeout(() => this.handleSearch(target.value), 1000);
@@ -81,7 +89,7 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { tableData, newItemModalVisible, itemDetailModalVisible, rowId } = this.state;
+    const { tableData, newItemModalVisible, itemDetailModalVisible, rowId, editing } = this.state;
 
     return (
       <Page
@@ -105,24 +113,24 @@ class Inventory extends React.Component {
             position: ['bottomRight'],
             defaultPageSize: 10,
           },
-          onRow: (record) => {
-            return {
-              onClick: () => {
-                this.setRowId(record.id);
-              }
-            };
-          }
+          // onRow: (record) => {
+          //   return {
+          //     onClick: () => {
+          //       this.setRowId(record.id);
+          //     }
+          //   };
+          // }
         }}
-        Modal={NewItemModal}
+        NewItemModal={NewItemModal}
+        DetailsModal={ItemDetailModal}
       >
         <NewItemModal 
           footer={null}
           maskClosable={false}
-          destroyOnClose={true}
-          // visible={true}
+          visible={newItemModalVisible}
           // showModal={showModal}
-          // hideModal={hideModal}
-          editing
+          hideModal={this.hideNewItemModal}
+          editing={editing}
           data={this.state.data}
         />
         {/* <NewItemModal
@@ -133,15 +141,13 @@ class Inventory extends React.Component {
           onCancel={this.hideNewItemModal}
           destroyOnClose={true}
         /> */}
-        <ItemDetailModal
-          // title="Item Detail"
-          // visible={itemDetailModalVisible}
-          visible
-          maskClosable={false}
+        {/* <ItemDetailModal
+          visible={itemDetailModalVisible}
+          // visible
           onCancel={this.hideItemDetailModal}
-          destroyOnClose={true}
           rowId={this.state.rowId}
-        />
+          setEditing={this.setEditing}
+        /> */}
       </Page>
     )
   }

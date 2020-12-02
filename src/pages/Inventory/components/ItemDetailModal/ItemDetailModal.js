@@ -25,14 +25,14 @@ class ItemDetailModal extends React.Component {
   }
 
   render() {
-    const { onCancel, ...modalProps } = this.props;
+    const { onCancel, onEditButtonClick, ...modalProps } = this.props;
 		const { descriptionData } = this.state;
 		const { sku, upc, name, description, category, brand, manufacturer, costPrice, sellingPrice, applyGst} = this.state.descriptionData;
 
 
     return (
       <Modal
-        title={<Header />}
+        title={<Header onEditButtonClick={onEditButtonClick} />}
         {...modalProps} onCancel={onCancel} footer={null} destroyOnClose={true} width={1000}
       >
         <div style={{ display: "flex" }}>

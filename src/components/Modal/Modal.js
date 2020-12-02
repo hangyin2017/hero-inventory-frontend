@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Modal = ({
   title,
-  hideModal,
+  onCancel,
   ...restProps
 }) => {
   return (
@@ -12,7 +12,7 @@ const Modal = ({
       maskClosable={false}
       destroyOnClose={true}
       title={title}
-      onCancel={hideModal}
+      onCancel={onCancel}
       {...restProps}
     />
   )

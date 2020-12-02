@@ -9,28 +9,20 @@ const Wrapper = styled.div`
   align-items: center;
   padding-right: 30px;
 
-  & > h2 {
-    margin: 0;
-  }
 
   & > button {
+    width: 35px;
     padding: 0;
     font-size: 18px;
   }
 `;
 
-const EditIcon = styled(EditOutlined)`
-  width: 40px;
-  height: 35px;
-  padding: 0;
-`;
-
-const Header = () => {
+const Header = ({ onEditButtonClick }) => {
   return (
     <Wrapper>
-      <h2>Item Details</h2>
-      <Button >
-        <EditIcon />
+      <span>Item Details</span>
+      <Button onClick={onEditButtonClick}>
+        <EditOutlined />
       </Button>
     </Wrapper>
   );
