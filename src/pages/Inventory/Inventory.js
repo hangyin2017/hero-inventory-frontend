@@ -123,8 +123,9 @@ class Inventory extends React.Component {
         }}
         NewItemModal={NewItemModal}
         DetailsModal={ItemDetailModal}
+        api={items}
       >
-        <NewItemModal 
+        {/* <NewItemModal 
           footer={null}
           maskClosable={false}
           visible={newItemModalVisible}
@@ -132,7 +133,7 @@ class Inventory extends React.Component {
           hideModal={this.hideNewItemModal}
           editing={editing}
           data={this.state.data}
-        />
+        /> */}
         {/* <NewItemModal
           title="Add New Item"
           visible={newItemModalVisible}

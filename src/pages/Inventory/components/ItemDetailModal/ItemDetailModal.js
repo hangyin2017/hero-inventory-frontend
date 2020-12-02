@@ -1,17 +1,19 @@
-import { Descriptions, Modal, Statistic, Button } from "antd";
+import { Descriptions, Statistic, Button } from "antd";
 import DescriptionsItem from "antd/lib/descriptions/Item";
 import React from "react";
 import styled from "styled-components";
 import itemApi from "../../../../apis/items";
+import Modal from '../../../../components/Modal';
+import NewItemModal from '../NewItemModal';
 import Header from './components/Header';
-
 
 class ItemDetailModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-			descriptionData: [],
+      descriptionData: [],
+      editing: false,
     };
   }
 
@@ -26,13 +28,13 @@ class ItemDetailModal extends React.Component {
 
   render() {
     const { onCancel, onEditButtonClick, ...modalProps } = this.props;
-		const { descriptionData } = this.state;
+		const { descriptionData, editing } = this.state;
 		const { sku, upc, name, description, category, brand, manufacturer, costPrice, sellingPrice, applyGst} = this.state.descriptionData;
 
 
     return (
       <Modal
-        title={<Header onEditButtonClick={onEditButtonClick} />}
+        title={<Header onEditButtonClick={()=> this.setState({ editing: true })} />}
         {...modalProps} onCancel={onCancel} footer={null} destroyOnClose={true} width={1000}
       >
         <div style={{ display: "flex" }}>
@@ -75,6 +77,11 @@ class ItemDetailModal extends React.Component {
             ></Statistic>
           </div>
         </div>
+        <NewItemModal
+          visible={editing}
+          initialData={descriptionData}
+          onCancel={()=>this.setState({editing:false})}
+        />
       </Modal>
     );
   }

@@ -16,9 +16,11 @@ class Page extends React.Component {
     super(props);
 
     this.state = {
-      visibleModals: [],
-      editing: false,
+      // visibleModals: [],
+      modal: null,
+      // editing: false,
       rowId: '',
+      itemData: null,
     };
   
     this.showModal = this.showModal.bind(this);
@@ -33,14 +35,12 @@ class Page extends React.Component {
         event.preventDefault();
       }
 
-      const visibleModals = [...this.state.visibleModals, modal];
-      this.setState({ visibleModals });
+      this.setState({ modal });
     };
   }
 
   hideModal() {
-    const visibleModals = this.state.visibleModals.slice(0, -1);
-    this.setState({ visibleModals });
+    this.setState({ modal: null });
   }
 
   setEditing(editing) {
@@ -55,7 +55,16 @@ class Page extends React.Component {
     }
   }
 
-  setRowId(id) {
+  async setRowId(id) {
+    const { api } = this.props;
+
+    this.showModal('details')();
+
+    // if (!!id) {
+    //   const { data } = await api.get(id);
+    //   this.setState({ itemData: data });
+    // }
+    
     this.setState({
       rowId: id
     }, this.showModal('details'));
@@ -70,12 +79,13 @@ class Page extends React.Component {
       tableProps,
       NewItemModal,
       DetailsModal,
+      api,
       // modalVisible,
       // showModal,
       // hideModal,
     } = this.props;
 
-    const { visibleModals, editing } = this.state;
+    const { modal, itemData } = this.state;
 
     return (
       <>
@@ -99,21 +109,19 @@ class Page extends React.Component {
           )}
           {NewItemModal && (
             <NewItemModal
-              footer={null}
-              maskClosable={false}
-              destroyOnClose={true}
-              visible={visibleModals.find((modal) => modal == 'newItem')}
-              editing={editing}
+              visible={modal == 'newItem'}
+              // initialData={itemData}
               onCancel={this.hideModal}
             />
           )}
           {DetailsModal && (
             <DetailsModal
-              visible={visibleModals.find((modal) => modal == 'details')}
+              visible={modal == 'details'}
               // visible
-              onEditButtonClick={this.setEditing(true)}
+              onEditButtonClick={this.showModal('newItem')}
               onCancel={this.hideModal}
-              rowId={this.state.rowId}
+              // data={itemData}
+              // rowId={this.state.rowId}
             />
           )}
           {children}

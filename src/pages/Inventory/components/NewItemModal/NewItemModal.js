@@ -45,11 +45,9 @@ class NewItemModal extends React.Component {
     this.update = this.update.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const { editing, data } = this.props;
-    // if(editing && data !== prevProps.data) {
-      // this.formRef.current.setFieldsValue(data);
-    // }
+  setInitialValues() {
+    const { initialData } = this.props;
+    this.formRef.current.setFieldsValue(initialData);
   }
 
   async add(values) {
@@ -72,7 +70,7 @@ class NewItemModal extends React.Component {
   };
 
   async update(values) {
-    const { data, hideModal } = this.props;
+    const { initialData, hideModal } = this.props;
     
     values.lastModifiedTime = new Date();
 
@@ -91,29 +89,31 @@ class NewItemModal extends React.Component {
   }
 
   render() {
-    const { editing, data, onCancel, ...props } = this.props;
+    const { initialData, onCancel, ...props } = this.props;
     const { loading } = this.state;
 
-    const title = `${editing ? "Edit" : "Add New"} Item`;
-
+    const title = `${initialData ? "Edit" : "Add New"} Item`;
+    console.log(initialData);
     return (
       <Modal
         {...props}
         title={title}
         width={1000}
+        footer={null}
         onCancel={onCancel}
       >
         <Form
           labelCol={{ span: 6 }}
           ref={this.formRef}
-          onFinish={editing ? this.update : this.add}
+          initialValues={initialData}
+          onFinish={initialData ? this.update : this.add}
         >
           <PrimaryInfo formItems={formItems} />
           <Divider />
           <CategoryInfo formRef={this.formRef} formItems={formItems} />
           <Divider />
           <Pricing formItems={formItems} />
-          {editing ? (null) : (
+          {initialData ? (null) : (
             <>
               <Divider />
               <Stock formItems={formItems} />
