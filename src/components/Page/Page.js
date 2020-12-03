@@ -17,7 +17,7 @@ class Page extends React.Component {
 
     this.state = {
       modal: null,
-      itemData: null,
+      itemData: {},
     };
   
     this.showModal = this.showModal.bind(this);
@@ -101,7 +101,6 @@ class Page extends React.Component {
           {DetailsModal && (
             <DetailsModal
               visible={modal == 'details'}
-              // visible
               onCancel={this.hideModal}
               data={itemData}
             />

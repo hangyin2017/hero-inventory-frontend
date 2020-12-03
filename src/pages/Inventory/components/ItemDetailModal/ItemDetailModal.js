@@ -1,12 +1,16 @@
 import React from 'react';
-import { Row, Col, Statistic, Spin } from 'antd';
+import { Row, Col, Spin } from 'antd';
 import styled from 'styled-components';
 import Modal from '../../../../components/Modal';
 import NewItemModal from '../NewItemModal';
-import Header from './components/Header';
+import Header from './components/Header/Header';
 import DescriptionList from '../../../../components/DescriptionList';
+import StockData from './components/StockData';
 import fields from '../../fields';
-import { color } from '../../../../styles';
+
+const Content = styled(Row)`
+  min-height: 60vh;
+`;
 
 const ModalSpin = styled(Spin).attrs({
   size: 'large',
@@ -19,11 +23,6 @@ const Meta = styled(Col).attrs({ span: 24, md: 18 })`
 `;
 
 const Stock = styled(Col).attrs({ span: 24, md: 6 })`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-content: space-between;
-  background-color: ${color.lightGrey};
 `;
 
 class ItemDetailModal extends React.Component {
@@ -55,7 +54,7 @@ class ItemDetailModal extends React.Component {
   render() {
     const { data, onCancel, ...modalProps } = this.props;
     const { loading, editing } = this.state;
-		// const { sku, upc, name, description, category, brand, manufacturer, costPrice, sellingPrice, applyGst} = this.state.descriptionData;
+		const { physicalStock, lockedStock, arrivingQuantity } = data;
 
     return (
       <Modal
@@ -65,10 +64,8 @@ class ItemDetailModal extends React.Component {
         width={1000}
         {...modalProps}   
       >
-        {loading ? (
-          <ModalSpin></ModalSpin>
-        ) : (
-          <Row>
+        <Spin size="large" spinning={loading}>
+          <Content>
             <Meta>
               <DescriptionList
                 data={Object.keys(data)
@@ -81,24 +78,14 @@ class ItemDetailModal extends React.Component {
               />
             </Meta>
             <Stock>
-              <Statistic
-                title="Accounting Stock"
-                value={data.physicalStock + data.arrivingQuantity - data.lockedStock}
-                style={{ textAlign: "center" }}
-              />
-              <Statistic
-                title="Physical Stock"
-                value={data.physicalStock}
-                style={{ textAlign: "center" }}
-              />
-              <Statistic
-                title="Locked Stock"
-                value={data.lockedStock}
-                style={{ textAlign: "center" }}
+              <StockData
+                physicalStock={physicalStock}
+                lockedStock={lockedStock}
+                arrivingQuantity={arrivingQuantity}
               />
             </Stock>
-          </Row>
-        )}
+          </Content>
+        </Spin>
         <NewItemModal
           visible={editing}
           initialData={data}
