@@ -10,7 +10,7 @@ const Modal = ({
   return (
     <AntdModal
       maskClosable={false}
-      // destroyOnClose={true}
+      destroyOnClose={true}
       title={title}
       onCancel={onCancel}
       {...restProps}

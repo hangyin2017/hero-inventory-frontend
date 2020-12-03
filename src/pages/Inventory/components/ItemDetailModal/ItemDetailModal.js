@@ -2,7 +2,6 @@ import { Descriptions, Statistic, Spin } from "antd";
 import DescriptionsItem from "antd/lib/descriptions/Item";
 import React from "react";
 import styled from "styled-components";
-import itemApi from "../../../../apis/items";
 import Modal from '../../../../components/Modal';
 import NewItemModal from '../NewItemModal';
 import Header from './components/Header';
@@ -38,24 +37,33 @@ class ItemDetailModal extends React.Component {
   }
 
   async componentDidUpdate(prevProps) {
-    const { data } = this.props;
+    this.setLoading(prevProps);
+  }
+
+  setLoading(prevProps) {
+    const { data, visible } = this.props;
+
     if(!!data && data != prevProps.data){
-      this.setState({
-        loading: false,
-      });
+      this.setState({ loading: false });
+    }
+
+    if(!!visible && !prevProps.visible) {
+      this.setState({ loading: true });
     }
   }
 
   render() {
-    const { data, onCancel, onEditButtonClick, ...modalProps } = this.props;
+    const { data, onCancel, ...modalProps } = this.props;
     const { loading, editing } = this.state;
 		// const { sku, upc, name, description, category, brand, manufacturer, costPrice, sellingPrice, applyGst} = this.state.descriptionData;
-    console.log(data);
 
     return (
       <Modal
-        title={<Header onEditButtonClick={()=> this.setState({ editing: true })} />}
-        {...modalProps} onCancel={onCancel} footer={null} destroyOnClose={true} width={1000}
+        title={<Header onEditButtonClick={()=> this.setState({ editing: true })} loading={loading} />}
+        footer={null}
+        onCancel={onCancel}
+        width={1000}
+        {...modalProps}   
       >
         {loading ? (
           <ModalSpin></ModalSpin>

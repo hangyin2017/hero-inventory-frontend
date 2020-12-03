@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   align-items: center;
   padding-right: 30px;
 
-
   & > button {
     width: 35px;
     padding: 0;
@@ -17,13 +16,18 @@ const Wrapper = styled.div`
   }
 `;
 
-const Header = ({ onEditButtonClick }) => {
+const Header = ({
+  onEditButtonClick,
+  loading,
+}) => {
   return (
     <Wrapper>
       <span>Item Details</span>
-      <Button onClick={onEditButtonClick}>
-        <EditOutlined />
-      </Button>
+      <Button
+        loading={loading}
+        icon={<EditOutlined />}
+        onClick={onEditButtonClick}
+      />
     </Wrapper>
   );
 };

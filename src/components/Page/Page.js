@@ -25,8 +25,9 @@ class Page extends React.Component {
   
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
-    this.setRowId = this.setRowId.bind(this);
+    this.handleRowClick = this.handleRowClick.bind(this);
     this.setEditing = this.setEditing.bind(this);
+    this.closeDetailsModal = this.closeDetailsModal.bind(this);
   }
 
   showModal(modal) {
@@ -43,6 +44,15 @@ class Page extends React.Component {
     this.setState({ modal: null });
   }
 
+  closeDetailsModal() {
+    this.hideModal();
+    // this.clearItemData();
+  }
+
+  clearItemData() {
+    this.setState({ itemData: null });
+  }
+
   setEditing(editing) {
     return (event) => {
       event && event.preventDefault();
@@ -55,7 +65,7 @@ class Page extends React.Component {
     }
   }
 
-  async setRowId(id) {
+  async handleRowClick(id) {
     const { api } = this.props;
 
     this.showModal('details')();
@@ -64,10 +74,6 @@ class Page extends React.Component {
       const { data } = await api.get(id);
       this.setState({ itemData: data });
     }
-    
-    // this.setState({
-    //   rowId: id
-    // }, this.showModal('details'));
   }
 
   render() {
@@ -75,11 +81,9 @@ class Page extends React.Component {
       children,
       headerProps,
       searchBarProps,
-      newButtonProps,
       tableProps,
       NewItemModal,
       DetailsModal,
-      api,
       // modalVisible,
       // showModal,
       // hideModal,
@@ -101,7 +105,7 @@ class Page extends React.Component {
               // scroll={{ y: 700 }}
               onRow={(record) => {
                 return {
-                  onClick: () => this.setRowId(record.id)
+                  onClick: () => this.handleRowClick(record.id)
                 };
               }}
               {...tableProps}
@@ -110,7 +114,6 @@ class Page extends React.Component {
           {NewItemModal && (
             <NewItemModal
               visible={modal == 'newItem'}
-              // initialData={itemData}
               onCancel={this.hideModal}
             />
           )}
@@ -118,10 +121,8 @@ class Page extends React.Component {
             <DetailsModal
               visible={modal == 'details'}
               // visible
-              onEditButtonClick={this.showModal('newItem')}
-              onCancel={this.hideModal}
+              onCancel={this.closeDetailsModal}
               data={itemData}
-              // rowId={this.state.rowId}
             />
           )}
           {children}
