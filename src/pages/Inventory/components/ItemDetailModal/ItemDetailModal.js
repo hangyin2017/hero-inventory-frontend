@@ -12,13 +12,6 @@ const Content = styled(Row)`
   min-height: 60vh;
 `;
 
-const ModalSpin = styled(Spin).attrs({
-  size: 'large',
-})`
-  width: 100%;
-  height: 60vh;
-`;
-
 const Meta = styled(Col).attrs({ span: 24, md: 18 })`
 `;
 
@@ -33,6 +26,8 @@ class ItemDetailModal extends React.Component {
       loading: true,
       editing: false,
     };
+
+    this.setEditing = this.setEditing.bind(this);
   }
 
   async componentDidUpdate(prevProps) {
@@ -51,6 +46,12 @@ class ItemDetailModal extends React.Component {
     }
   }
 
+  setEditing(editing) {
+    return (e) => {
+      this.setState({ editing });
+    }
+  }
+
   render() {
     const { data, onCancel, ...modalProps } = this.props;
     const { loading, editing } = this.state;
@@ -58,7 +59,7 @@ class ItemDetailModal extends React.Component {
 
     return (
       <Modal
-        title={<Header onEditButtonClick={()=> this.setState({ editing: true })} loading={loading} />}
+        title={<Header onEditButtonClick={this.setEditing(true)} loading={loading} />}
         footer={null}
         onCancel={onCancel}
         width={1000}
@@ -89,7 +90,7 @@ class ItemDetailModal extends React.Component {
         <NewItemModal
           visible={editing}
           initialData={data}
-          onCancel={()=>this.setState({editing:false})}
+          onCancel={this.setEditing(false)}
         />
       </Modal>
     );
