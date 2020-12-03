@@ -18,68 +18,16 @@ class Inventory extends React.Component {
 
     this.state = {
       tableData: [],
-      editing: false,
-      newItemModalVisible: false,
-      itemDetailModalVisible: false,
-      rowId: '',
     }
 
     this.debouncedSearch = this.debouncedSearch.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.setRowId = this.setRowId.bind(this);
-    this.showItemDetailModal = this.showItemDetailModal.bind(this);
-    this.hideItemDetailModal = this.hideItemDetailModal.bind(this);
-    this.hideNewItemModal = this.hideNewItemModal.bind(this);
-    this.setEditing = this.setEditing.bind(this);
   }
 
   async componentDidMount() {
     const { data } = await items.getAll();
     this.setState({
       tableData: data,
-    });
-    
-    // const itemData = await items.get(1);
-    // this.setState({ data: itemData.data });
-  }
-
-  hideNewItemModal() {
-    this.setState({
-      newItemModalVisible: false,
-    });
-  }
-
-  showNewItemModal() {
-    this.setState({
-      newItemModalVisible: true,
-    });
-  }
-
-  hideItemDetailModal() {
-    this.setState({
-      itemDetailModalVisible: false,
-    });
-  }
-
-  showItemDetailModal() {
-    this.setState({
-      itemDetailModalVisible: true,
-    });
-  }
-
-
-  setRowId = (id) => {
-    this.setState({
-      rowId: id}, ()=>{
-        this.showItemDetailModal();
-      }
-    );
-  }
-
-  setEditing = (editing) => {
-    this.setState({
-      editing,
-      newItemModalVisible: true,
     });
   }
 
@@ -96,7 +44,7 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { tableData, newItemModalVisible, itemDetailModalVisible, rowId, editing } = this.state;
+    const { tableData } = this.state;
 
     return (
       <Page
@@ -120,43 +68,11 @@ class Inventory extends React.Component {
             position: ['bottomRight'],
             defaultPageSize: 10,
           },
-          // onRow: (record) => {
-          //   return {
-          //     onClick: () => {
-          //       this.setRowId(record.id);
-          //     }
-          //   };
-          // }
         }}
         NewItemModal={NewItemModal}
         DetailsModal={ItemDetailModal}
         api={items}
-      >
-        {/* <NewItemModal 
-          footer={null}
-          maskClosable={false}
-          visible={newItemModalVisible}
-          // showModal={showModal}
-          hideModal={this.hideNewItemModal}
-          editing={editing}
-          data={this.state.data}
-        /> */}
-        {/* <NewItemModal
-          title="Add New Item"
-          visible={newItemModalVisible}
-          maskClosable={false}
-          onSave={this.hideNewItemModal}
-          onCancel={this.hideNewItemModal}
-          destroyOnClose={true}
-        /> */}
-        {/* <ItemDetailModal
-          visible={itemDetailModalVisible}
-          // visible
-          onCancel={this.hideItemDetailModal}
-          rowId={this.state.rowId}
-          setEditing={this.setEditing}
-        /> */}
-      </Page>
+      />
     )
   }
 }
