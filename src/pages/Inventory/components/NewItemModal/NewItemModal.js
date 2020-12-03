@@ -45,13 +45,8 @@ class NewItemModal extends React.Component {
     this.update = this.update.bind(this);
   }
 
-  setInitialValues() {
-    const { initialData } = this.props;
-    this.formRef.current.setFieldsValue(initialData);
-  }
-
   async add(values) {
-    const { hideModal } = this.props;
+    const { onCancel } = this.props;
     
     values.createdTime = new Date();
 
@@ -61,7 +56,7 @@ class NewItemModal extends React.Component {
       await items.add(values);
 
       message.success(`Item ${values.name} has been added`);
-      hideModal();
+      onCancel();
     } catch(err) {
       message.error(`Something went wrong while adding item ${values.name}`);
     } finally {
@@ -70,17 +65,18 @@ class NewItemModal extends React.Component {
   };
 
   async update(values) {
-    const { initialData, hideModal } = this.props;
+    const { initialData, onCancel } = this.props;
     
     values.lastModifiedTime = new Date();
+    values = {...initialData, ...values};
 
     this.setState({ loading: true });
 
     try {
-      await items.update(data.id, values);
+      await items.update(initialData.id, values);
 
       message.success(`Item ${values.name} has been updated`);
-      // hideModal();
+      onCancel();
     } catch(err) {
       message.error(`Something went wrong while updating item ${values.name}`);
     } finally {
