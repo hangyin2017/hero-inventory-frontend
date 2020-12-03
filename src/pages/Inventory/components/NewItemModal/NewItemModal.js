@@ -46,7 +46,7 @@ class NewItemModal extends React.Component {
   }
 
   async add(values) {
-    const { onCancel } = this.props;
+    const { onCancel, refreshTableData } = this.props;
     
     values.createdTime = new Date();
 
@@ -55,6 +55,7 @@ class NewItemModal extends React.Component {
     try {
       await items.add(values);
 
+      refreshTableData();
       message.success(`Item ${values.name} has been added`);
       onCancel();
     } catch(err) {
@@ -65,7 +66,8 @@ class NewItemModal extends React.Component {
   };
 
   async update(values) {
-    const { initialData, onCancel } = this.props;
+    const { initialData, onCancel, refreshTableData, refreshDetailsData } = this.props;
+    const { id } = initialData;
     
     values.lastModifiedTime = new Date();
     values = {...initialData, ...values};
@@ -73,8 +75,10 @@ class NewItemModal extends React.Component {
     this.setState({ loading: true });
 
     try {
-      await items.update(initialData.id, values);
+      await items.update(id, values);
 
+      refreshDetailsData();
+      refreshTableData();
       message.success(`Item ${values.name} has been updated`);
       onCancel();
     } catch(err) {

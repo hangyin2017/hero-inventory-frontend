@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, message } from 'antd';
+import { Table, Spin, message } from 'antd';
 import Header from './components/Header';
 import withModal from '../withModal';
 import styled from 'styled-components';
@@ -17,29 +17,29 @@ class Page extends React.Component {
 
     this.state = {
       modal: null,
-      tableData: [],
+      data: [],
       loading: false,
-      itemData: {},
+      rowId: '',
     };
   
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
-    this.handleRowClick = this.handleRowClick.bind(this);
-    this.refreshTableData = this.refreshTableData.bind(this);
+    this.setRowId = this.setRowId.bind(this);
+    this.refreshData = this.refreshData.bind(this);
   }
 
   componentDidMount() {
-    this.refreshTableData();
+    this.refreshData();
   }
 
-  async refreshTableData() {
+  async refreshData() {
     const { api } = this.props;
 
     this.setState({ loading: true });
 
     try {
       const { data } = await api.getAll();
-      this.setState({ tableData: data });
+      this.setState({ data });
     } catch(err) {
       message.error(`Something went wrong while fetching data`);
     } finally {
@@ -59,23 +59,11 @@ class Page extends React.Component {
     this.setState({ modal: null });
   }
 
-  handleRowClick(id) {
+  setRowId(rowId) {
     return async (e) => {
       e && e.preventDefault();
-
-      const { api } = this.props;
-      
-      if (!!id) {
-        this.showModal('details')();
-
-        try {
-          const { data } = await api.get(id);
-          this.setState({ itemData: data });
-        } catch(err) {
-          message.error(`Something went wrong while fetching details for item ${id}`);
-          this.hideModal();
-        }
-      }
+      this.setState({ rowId });
+      this.showModal('details')();
     }
   }
 
@@ -92,7 +80,7 @@ class Page extends React.Component {
       // hideModal,
     } = this.props;
 
-    const { modal, tableData, itemData } = this.state;
+    const { modal, data, loading, rowId } = this.state;
 
     return (
       <>
@@ -102,37 +90,41 @@ class Page extends React.Component {
           onNewButtonClick={this.showModal('newItem')}
         />
         <Content>
-          {tableProps && (
-            <Table
-              // sticky={true}
-              // scroll={{ y: 700 }}
-              dataSource={tableData}
-              pagination= {{
-                position: ['bottomRight'],
-                defaultPageSize: 10,
-              }}
-              onRow={(record) => {
-                return {
-                  onClick: this.handleRowClick(record.id)
-                };
-              }}
-              {...tableProps}
-            />
-          )}
-          {NewItemModal && (
-            <NewItemModal
-              visible={modal == 'newItem'}
-              onCancel={this.hideModal}
-            />
-          )}
-          {DetailsModal && (
-            <DetailsModal
-              visible={modal == 'details'}
-              onCancel={this.hideModal}
-              data={itemData}
-            />
-          )}
-          {children}
+          <Spin size="large" spinning={loading}>
+            {tableProps && (
+              <Table
+                // sticky={true}
+                // scroll={{ y: 700 }}
+                dataSource={data}
+                pagination= {{
+                  position: ['bottomRight'],
+                  defaultPageSize: 10,
+                }}
+                onRow={(record) => {
+                  return {
+                    onClick: this.setRowId(record.id)
+                  };
+                }}
+                {...tableProps}
+              />
+            )}
+            {NewItemModal && (
+              <NewItemModal
+                visible={modal == 'newItem'}
+                onCancel={this.hideModal}
+                refreshTableData={this.refreshData}
+              />
+            )}
+            {DetailsModal && (
+              <DetailsModal
+                visible={modal == 'details'}
+                onCancel={this.hideModal}
+                id={rowId}
+                refreshTableData={this.refreshData}
+              />
+            )}
+            {children}
+          </Spin>
         </Content>
       </>
     );

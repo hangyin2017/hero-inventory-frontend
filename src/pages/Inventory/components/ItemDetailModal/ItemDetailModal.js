@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, Spin } from 'antd';
 import styled from 'styled-components';
+import items from '../../../../apis/items';
 import Modal from '../../../../components/Modal';
 import NewItemModal from '../NewItemModal';
 import Header from './components/Header/Header';
@@ -23,26 +24,39 @@ class ItemDetailModal extends React.Component {
     super(props);
 
     this.state = {
+      data: {},
       loading: true,
       editing: false,
     };
 
     this.setEditing = this.setEditing.bind(this);
+    this.refreshData = this.refreshData.bind(this);
   }
 
   async componentDidUpdate(prevProps) {
-    this.setLoading(prevProps);
+    const { id } = this.props;
+
+    if(!!id && id != prevProps.id){
+      this.refreshData();
+    }
   }
 
-  setLoading(prevProps) {
-    const { data, visible } = this.props;
+  async refreshData() {
+    const { id } = this.props;
 
-    if(!!data && data != prevProps.data){
-      this.setState({ loading: false });
-    }
-
-    if(!!visible && !prevProps.visible) {
-      this.setState({ loading: true });
+    this.setState({ loading: true });
+    
+    if (!!id) {
+      try {
+        const { data } = await items.get(id);
+        console.log(data);
+        this.setState({ data });
+      } catch(err) {
+        message.error(`Something went wrong while fetching details for item ${id}`);
+        this.hideModal();
+      } finally {
+        this.setState({ loading: false });
+      }
     }
   }
 
@@ -53,8 +67,8 @@ class ItemDetailModal extends React.Component {
   }
 
   render() {
-    const { data, onCancel, ...modalProps } = this.props;
-    const { loading, editing } = this.state;
+    const { onCancel, refreshTableData, refreshDetailsData, ...modalProps } = this.props;
+    const { data, loading, editing } = this.state;
 		const { physicalStock, lockedStock, arrivingQuantity } = data;
 
     return (
@@ -91,6 +105,8 @@ class ItemDetailModal extends React.Component {
           visible={editing}
           initialData={data}
           onCancel={this.setEditing(false)}
+          refreshTableData={refreshTableData}
+          refreshDetailsData={this.refreshData}
         />
       </Modal>
     );
