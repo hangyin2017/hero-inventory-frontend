@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, message } from 'antd';
 import Header from './components/Header';
 import withModal from '../withModal';
 import styled from 'styled-components';
@@ -16,25 +16,18 @@ class Page extends React.Component {
     super(props);
 
     this.state = {
-      // visibleModals: [],
       modal: null,
-      // editing: false,
-      // rowId: '',
       itemData: null,
     };
   
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
-    this.setEditing = this.setEditing.bind(this);
-    this.closeDetailsModal = this.closeDetailsModal.bind(this);
   }
 
   showModal(modal) {
-    return (event) => {
-      if (event) {
-        event.preventDefault();
-      }
+    return (e) => {
+      e && e.preventDefault();
 
       this.setState({ modal });
     };
@@ -44,35 +37,23 @@ class Page extends React.Component {
     this.setState({ modal: null });
   }
 
-  closeDetailsModal() {
-    this.hideModal();
-    // this.clearItemData();
-  }
+  handleRowClick(id) {
+    return async (e) => {
+      e && e.preventDefault();
 
-  clearItemData() {
-    this.setState({ itemData: null });
-  }
+      const { api } = this.props;
+      
+      if (!!id) {
+        this.showModal('details')();
 
-  setEditing(editing) {
-    return (event) => {
-      event && event.preventDefault();
-
-      editing ? this.showModal('newItem')() : this.hideModal('newItem')();
-
-      this.setState({
-        editing,
-      });
-    }
-  }
-
-  async handleRowClick(id) {
-    const { api } = this.props;
-
-    this.showModal('details')();
-
-    if (!!id) {
-      const { data } = await api.get(id);
-      this.setState({ itemData: data });
+        try {
+          const { data } = await api.get(id);
+          this.setState({ itemData: data });
+        } catch(err) {
+          message.error(`Something went wrong while fetching details for item ${id}`);
+          this.hideModal();
+        }
+      }
     }
   }
 
@@ -105,7 +86,7 @@ class Page extends React.Component {
               // scroll={{ y: 700 }}
               onRow={(record) => {
                 return {
-                  onClick: () => this.handleRowClick(record.id)
+                  onClick: this.handleRowClick(record.id)
                 };
               }}
               {...tableProps}
@@ -121,7 +102,7 @@ class Page extends React.Component {
             <DetailsModal
               visible={modal == 'details'}
               // visible
-              onCancel={this.closeDetailsModal}
+              onCancel={this.hideModal}
               data={itemData}
             />
           )}
@@ -131,48 +112,6 @@ class Page extends React.Component {
     );
   }
 }
-
-// const Page = ({
-//   children,
-//   headerProps,
-//   searchBarProps,
-//   newButtonProps,
-//   tableProps,
-//   Modal,
-//   modalVisible,
-//   showModal,
-//   hideModal,
-// }) => {
-//   return (
-//     <>
-//       <Header
-//         {...headerProps}
-//         searchBarProps={searchBarProps}
-//         onNewButtonClick={showModal}
-//       />
-//       <Content>
-//         {tableProps && (
-//           <Table
-//             // sticky={true}
-//             // scroll={{ y: 700 }}
-//             {...tableProps}
-//           />
-//         )}
-//         {Modal && (
-//           <Modal
-//             footer={null}
-//             maskClosable={false}
-//             destroyOnClose={true}
-//             visible={modalVisible}
-//             showModal={showModal}
-//             hideModal={hideModal}
-//           />
-//         )}
-//         {children}
-//       </Content>
-//     </>
-//   );
-// };
 
 export default Page;
 // export default withModal(Page);
