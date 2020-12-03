@@ -17,12 +17,34 @@ class Page extends React.Component {
 
     this.state = {
       modal: null,
+      tableData: [],
+      loading: false,
       itemData: {},
     };
   
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
+    this.refreshTableData = this.refreshTableData.bind(this);
+  }
+
+  componentDidMount() {
+    this.refreshTableData();
+  }
+
+  async refreshTableData() {
+    const { api } = this.props;
+
+    this.setState({ loading: true });
+
+    try {
+      const { data } = await api.getAll();
+      this.setState({ tableData: data });
+    } catch(err) {
+      message.error(`Something went wrong while fetching data`);
+    } finally {
+      this.setState({ loading: false });
+    }
   }
 
   showModal(modal) {
@@ -70,7 +92,7 @@ class Page extends React.Component {
       // hideModal,
     } = this.props;
 
-    const { modal, itemData } = this.state;
+    const { modal, tableData, itemData } = this.state;
 
     return (
       <>
@@ -84,6 +106,11 @@ class Page extends React.Component {
             <Table
               // sticky={true}
               // scroll={{ y: 700 }}
+              dataSource={tableData}
+              pagination= {{
+                position: ['bottomRight'],
+                defaultPageSize: 10,
+              }}
               onRow={(record) => {
                 return {
                   onClick: this.handleRowClick(record.id)

@@ -17,18 +17,10 @@ class Inventory extends React.Component {
     super(props);
 
     this.state = {
-      tableData: [],
     }
 
     this.debouncedSearch = this.debouncedSearch.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-  }
-
-  async componentDidMount() {
-    const { data } = await items.getAll();
-    this.setState({
-      tableData: data,
-    });
   }
 
   async debouncedSearch({ target }) {
@@ -44,8 +36,6 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { tableData } = this.state;
-
     return (
       <Page
         headerProps={{
@@ -62,12 +52,7 @@ class Inventory extends React.Component {
         }}
         tableProps={{
           columns: columns,
-          dataSource: tableData,
           rowKey: 'id',
-          pagination: {
-            position: ['bottomRight'],
-            defaultPageSize: 10,
-          },
         }}
         NewItemModal={NewItemModal}
         DetailsModal={ItemDetailModal}
