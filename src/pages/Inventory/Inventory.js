@@ -3,7 +3,14 @@ import items from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
 import ItemDetailModal from './components/ItemDetailModal';
-import columns from './columns';
+import fields from './fields';
+
+const DEFAULT_COLUMNS = Object.keys(fields).filter((key) => fields[key].inTable);
+
+const columns = DEFAULT_COLUMNS.map((key) => ({
+  title: fields[key].title || fields[key].label,
+  dataIndex: key,
+}));
 
 class Inventory extends React.Component {
   constructor(props) {

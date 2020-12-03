@@ -6,16 +6,19 @@ const { TextArea } = Input;
 export default {
   sku: {
     label: 'SKU',
+    inTable: true,
   },
   upc: {
     label: 'UPC',
+    inTable: true,
   },
   name: {
-    label: "Name",
+    label: 'Name',
     required: true,
+    inTable: true,
   },
   description: {
-    label: "Description",
+    label: 'Description',
     component: (
       <TextArea
         showCount
@@ -26,44 +29,52 @@ export default {
     ),
   },
   category: {
-    label: "Categary",
+    label: 'Categary',
+    inTable: true,
   },
   brand: {
-    label: "Brand",
+    label: 'Brand',
+    inTable: true,
   },
   manufacturer: {
-    label: "Manufacturer",
+    label: 'Manufacturer',
+    inTable: true,
   },
   sellingPrice: {
-    label: "Selling Price",
+    label: 'Selling Price',
+    inTable: true,
   },
   costPrice: {
-    label: "Cost Price",
+    label: 'Cost Price',
+    inTable: true,
   },
   applyGst: {
-    label: " ",
+    title: 'Apply GST',
+    label: ' ',
     colon: false,
-    valuePropName: "checked",
+    valuePropName: 'checked',
     component: (
       <Checkbox>Apply GST</Checkbox>
     ),
   },
   weight: {
-    label: "Weight",
+    label: 'Weight',
   },
   unit: {
-    label: "Unit",
+    label: 'Unit',
   },
   createdTime: {
-    label: "Created Time",
+    label: 'Created Time',
+    inTable: true,
   },
   physicalStock: {
-    label: "Opening Stock",
+    label: 'Opening Stock',
+    inTable: true,
   },
   lockedStock: {
-    label: "Locked Stock",
+    label: 'Locked Stock',
   },
   arrivingQuantity: {
-    label: "Arriving Quantity",
+    label: 'Arriving Quantity',
   },
 };

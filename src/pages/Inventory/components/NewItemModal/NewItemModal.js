@@ -8,7 +8,7 @@ import PrimaryInfo from './components/PrimaryInfo';
 import CategoryInfo from './components/CategoryInfo';
 import Pricing from './components/Pricing';
 import Stock from './components/Stock';
-import fields from './fields';
+import fields from '../../fields';
 
 const formItems = Object
   .keys(fields)
@@ -91,9 +91,8 @@ class NewItemModal extends React.Component {
   render() {
     const { initialData, onCancel, ...props } = this.props;
     const { loading } = this.state;
-
     const title = `${initialData ? "Edit" : "Add New"} Item`;
-    console.log(initialData);
+
     return (
       <Modal
         {...props}
