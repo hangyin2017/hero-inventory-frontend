@@ -1,10 +1,12 @@
-import { Descriptions, Statistic, Spin } from "antd";
-import DescriptionsItem from "antd/lib/descriptions/Item";
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import { Row, Col, Statistic, Spin } from 'antd';
+import styled from 'styled-components';
 import Modal from '../../../../components/Modal';
 import NewItemModal from '../NewItemModal';
 import Header from './components/Header';
+import DescriptionList from '../../../../components/DescriptionList';
+import fields from '../../fields';
+import { color } from '../../../../styles';
 
 const ModalSpin = styled(Spin).attrs({
   size: 'large',
@@ -13,17 +15,15 @@ const ModalSpin = styled(Spin).attrs({
   height: 60vh;
 `;
 
-const Container = styled.div`
-  display: flex;
+const Meta = styled(Col).attrs({ span: 24, md: 18 })`
 `;
 
-const Stock = styled.div`
-  width: 50%;
+const Stock = styled(Col).attrs({ span: 24, md: 6 })`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-content: space-between;
-  background-color: #e0e0e0;
+  background-color: ${color.lightGrey};
 `;
 
 class ItemDetailModal extends React.Component {
@@ -68,22 +68,18 @@ class ItemDetailModal extends React.Component {
         {loading ? (
           <ModalSpin></ModalSpin>
         ) : (
-          <Container>
-            <Descriptions title="Item Information" layout="vertical" column="24" style={{ width: "50%" }} bordered>
-              {Object.keys(data).map((key) => (
-                <DescriptionsItem label={key}>{data[key]}</DescriptionsItem>
-              ))}
-              {/* <DescriptionsItem label="SKU">{data.sku}</DescriptionsItem>
-              <DescriptionsItem label="UPC">{data.upc}</DescriptionsItem>
-              <DescriptionsItem label="Name">{data.name}</DescriptionsItem>
-              <DescriptionsItem label="Description">{data.description}</DescriptionsItem>
-              <DescriptionsItem label="Category">{data.category}</DescriptionsItem>
-              <DescriptionsItem label="Brand">{data.brand}</DescriptionsItem>
-              <DescriptionsItem label="Manufacturer">{data.manufacturer}</DescriptionsItem>
-              <DescriptionsItem label="cost price">{data.costPrice}</DescriptionsItem>
-              <DescriptionsItem label="selling price">{data.sellingPrice}</DescriptionsItem>
-              <DescriptionsItem label="apply GST">{String(data.applyGst)}</DescriptionsItem> */}
-            </Descriptions>
+          <Row>
+            <Meta>
+              <DescriptionList
+                data={Object.keys(data)
+                  .filter((key) =>  fields[key].inDetails && !!data[key])
+                  .map((key) => ({
+                    title: fields[key].title || fields[key].label,
+                    value: data[key]
+                  }))
+                }
+              />
+            </Meta>
             <Stock>
               <Statistic
                 title="Accounting Stock"
@@ -101,7 +97,7 @@ class ItemDetailModal extends React.Component {
                 style={{ textAlign: "center" }}
               />
             </Stock>
-          </Container>
+          </Row>
         )}
         <NewItemModal
           visible={editing}
