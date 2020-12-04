@@ -50,7 +50,7 @@ const App = () => {
               ))}
               <Redirect path='/' to={HOMEPAGE.path} />
             </Switch>
-            <Footer />
+            {/* <Footer /> */}
           </Main>
         </Wrapper>
       </Container>
