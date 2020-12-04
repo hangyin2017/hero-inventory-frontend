@@ -19,7 +19,6 @@ class Inventory extends React.Component {
 
     this.state = {
     }
-
   }
 
   render() {
