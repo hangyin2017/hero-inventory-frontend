@@ -1,17 +1,10 @@
-import React from "react";
-import { Layout } from "antd";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from 'react';
+import { Layout } from 'antd';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header';
-import Navbar from "./components/Navbar";
-import Dashboard from "./pages/Dashboard";
-import Inventory from "./pages/Inventory";
-import Customers from "./pages/Customers";
-import SalesOrders from "./pages/SalesOrders";
-import Suppliers from "./pages/Suppliers";
-import PurchaseOrders from "./pages/PurchaseOrders";
-import Users from "./pages/Users";
-import Authentication from "./pages/Authentication";
+import Navbar from './components/Navbar';
+import pages from './pages';
 
 const Container = styled.div`
   display: flex;
@@ -48,14 +41,14 @@ const App = () => {
           </Sider>
           <Main>
             <Switch>
-              <Route exact path="/inventory" component={Inventory} />
-              <Route exact path="/customers" component={Customers} />
-              <Route exact path="/salesorders" component={SalesOrders} />
-              <Route exact path="/suppliers" component={Suppliers} />
-              <Route exact path="/purchaseorders" component={PurchaseOrders} />
-              <Route exact path="/users" component={Users} />
-              <Route exact path="/authentication" component={Authentication} />
-              <Route path="/" component={Dashboard} />
+              {pages.map((page) => (
+                <Route
+                  exact={page.exact}
+                  path={page.path}
+                  component={page.component}
+                />
+              ))}
+              <Redirect path='/' to="/dashboard" />
             </Switch>
             <Footer />
           </Main>
