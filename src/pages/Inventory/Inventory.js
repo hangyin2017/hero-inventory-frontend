@@ -19,20 +19,6 @@ class Inventory extends React.Component {
     this.state = {
     }
 
-    this.debouncedSearch = this.debouncedSearch.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-  }
-
-  async debouncedSearch({ target }) {
-    if(target.timer) clearTimeout(target.timer);
-    target.timer = setTimeout(() => this.handleSearch(target.value), 1000);
-  }
-
-  async handleSearch(input) {
-    const { data } = await items.filter(input);
-    this.setState({
-      tableData: data
-    });
   }
 
   render() {
@@ -44,8 +30,6 @@ class Inventory extends React.Component {
         }}
         searchBarProps={{
           placeholder: 'Search by item name or SKU',
-          onChange: this.debouncedSearch,
-          onSearch: this.handleSearch,
         }}
         tableProps={{
           columns: columns,

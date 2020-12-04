@@ -1,8 +1,10 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Table, Spin, message } from 'antd';
 import Header from './components/Header';
 import withModal from '../withModal';
-import styled from 'styled-components';
+import debounce from '../../utils/debounce';
+import throttle from '../../utils/throttle';
 
 const Content = styled.div`
   width: 100%;
@@ -26,6 +28,8 @@ class Page extends React.Component {
     this.hideModal = this.hideModal.bind(this);
     this.setRowId = this.setRowId.bind(this);
     this.refreshData = this.refreshData.bind(this);
+    this.debouncedSearch = this.debouncedSearch.bind(this);
+    this.throttledSearch = this.throttledSearch.bind(this);
   }
 
   componentDidMount() {
@@ -67,6 +71,23 @@ class Page extends React.Component {
     }
   }
 
+  async search(input) {
+    const { api } = this.props;
+    
+    this.setState({ loading: true });
+
+    const { data } = await api.filter(input);
+
+    this.setState({
+      data,
+      loading: false,
+    });
+  }
+
+  debouncedSearch = debounce((e) => this.search(e.target.value), 1000);
+
+  throttledSearch = throttle((input) => this.search(input), 1000);
+
   render() {
     const {
       children,
@@ -86,7 +107,11 @@ class Page extends React.Component {
       <>
         <Header
           {...headerProps}
-          searchBarProps={searchBarProps}
+          searchBarProps={{
+            onChange: this.debouncedSearch,
+            onSearch: this.throttledSearch,
+            ...searchBarProps,
+          }}
           onNewButtonClick={this.showModal('newItem')}
         />
         <Content>
