@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, message } from 'antd';
+import { Input, Divider, message } from 'antd';
 import items from '../../../../apis/items';
 import Modal from '../../../../components/Modal';
 import Form from '../../../../components/Form';
@@ -8,8 +8,30 @@ import PrimaryInfo from './components/PrimaryInfo';
 import CategoryInfo from './components/CategoryInfo';
 import Pricing from './components/Pricing';
 import Stock from './components/Stock';
+import fields from '../../fields';
 
-class NewOrderModal extends React.Component {
+const formItems = Object
+  .keys(fields)
+  .reduce((obj, key) => {
+    const { label, component, required, ...restProps } = fields[key];
+    const rules = required && [{ required: true }];
+
+    return ({
+      ...obj,
+      [key]: (
+        <Form.Item
+          label={label}
+          name={key}
+          rules={rules}
+          {...restProps}
+        >
+          {component || <Input />}
+        </Form.Item>
+      ),
+    });
+  }, {});
+
+class NewItemModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -19,11 +41,17 @@ class NewOrderModal extends React.Component {
       loading: false,
     }
 
-    this.submit = this.submit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.add = this.add.bind(this);
+    this.update = this.update.bind(this);
   }
 
-  async submit(values) {
-    const { hideModal } = this.props;
+  onSubmit() {
+    this.formRef.current.submit();
+  }
+
+  async add(values) {
+    const { onCancel, refreshTableData } = this.props;
     
     values.createdTime = new Date();
 
@@ -32,9 +60,9 @@ class NewOrderModal extends React.Component {
     try {
       await items.add(values);
 
-      // this.setState({ loading: false });
+      refreshTableData();
       message.success(`Item ${values.name} has been added`);
-      hideModal();
+      onCancel();
     } catch(err) {
       message.error(`Something went wrong while adding item ${values.name}`);
     } finally {
@@ -42,34 +70,64 @@ class NewOrderModal extends React.Component {
     }
   };
 
+  async update(values) {
+    const { initialData, onCancel, refreshTableData, refreshDetailsData } = this.props;
+    const { id } = initialData;
+    
+    values.lastModifiedTime = new Date();
+    values = {...initialData, ...values};
+
+    this.setState({ loading: true });
+
+    try {
+      await items.update(id, values);
+
+      refreshDetailsData();
+      refreshTableData();
+      message.success(`Item ${values.name} has been updated`);
+      onCancel();
+    } catch(err) {
+      message.error(`Something went wrong while updating item ${values.name}`);
+    } finally {
+      this.setState({ loading: false });
+    }
+  }
+
   render() {
-    const { hideModal, ...props } = this.props;
+    const { initialData, onCancel, ...props } = this.props;
     const { loading } = this.state;
+    const title = `${initialData ? "Edit" : "Add New"} Item`;
 
     return (
       <Modal
         {...props}
-        title="Add New Item"
+        title={title}
         width={1000}
-        hideModal={hideModal}
+        footer={null}
+        onCancel={onCancel}
       >
         <Form
           labelCol={{ span: 6 }}
           ref={this.formRef}
-          onFinish={this.submit}
+          initialValues={initialData}
+          onFinish={initialData ? this.update : this.add}
         >
-          <PrimaryInfo />
+          <PrimaryInfo formItems={formItems} />
           <Divider />
-          <CategoryInfo formRef={this.formRef} />
+          <CategoryInfo formRef={this.formRef} formItems={formItems} />
           <Divider />
-          <Pricing />
-          <Divider />
-          <Stock />
-          <SimpleFooter loading={loading} onCancel={hideModal} />
+          <Pricing formItems={formItems} />
+          {initialData ? (null) : (
+            <>
+              <Divider />
+              <Stock formItems={formItems} />
+            </>            
+          )}
+          <SimpleFooter loading={loading} onCancel={onCancel} onSubmit={this.onSubmit} />
         </Form>
       </Modal>
     );
   }
 }
 
-export default NewOrderModal;
+export default NewItemModal;

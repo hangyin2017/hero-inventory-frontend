@@ -1,21 +1,16 @@
 import React from 'react';
-import { Input, Row } from 'antd';
+import { Row } from 'antd';
 import Form from '../../../../../../components/Form';
 
-const Stock = () => {
+const Stock = ({ formItems }) => {
   return (
-    <section>
+    <Form.Section>
       <Row>
         <Form.Col>
-          <Form.Item
-            label="Opening Stock"
-            name="openingStock"
-          >
-            <Input />
-          </Form.Item>
+          {formItems.physicalStock}
         </Form.Col>
       </Row>
-    </section>
+    </Form.Section>
   );
 };
 

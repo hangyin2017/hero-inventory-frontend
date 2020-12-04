@@ -1,7 +1,7 @@
 import React from 'react';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import InlineInput from '../../../InlineInput';
-import Actions from '../../../Actions';
+import InlineInput from '../InlineInput';
+import Actions from '../Actions';
 
 class Edit extends React.Component {
   constructor(props) {
@@ -24,6 +24,7 @@ class Edit extends React.Component {
   }
 
   handleUpdate(e) {
+    e.preventDefault();
     e.stopPropagation();
 
     const { value } = this.state;

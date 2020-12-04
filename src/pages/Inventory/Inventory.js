@@ -3,65 +3,24 @@ import items from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
 import ItemDetailModal from './components/ItemDetailModal';
-import columns from './columns';
+import fields from './fields';
+
+const DEFAULT_COLUMNS = Object.keys(fields).filter((key) => fields[key].inTable);
+
+const columns = DEFAULT_COLUMNS.map((key) => ({
+  title: fields[key].title || fields[key].label,
+  dataIndex: key,
+}));
 
 class Inventory extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      tableData: [],
-      searchInput: '',
-      newItemModalVisible: false,
-      itemDetailModalVisible: false,
-      rowId: '',
     }
 
     this.debouncedSearch = this.debouncedSearch.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.setRowId = this.setRowId.bind(this);
-    this.showItemDetailModal = this.showItemDetailModal.bind(this);
-    this.hideItemDetailModal = this.hideItemDetailModal.bind(this);
-  }
-
-  async componentDidMount() {
-    const { data } = await items.getAll();
-    this.setState({
-      tableData: data,
-    });
-  }
-
-  hideNewItemModal() {
-    this.setState({
-      newItemModalVisible: false,
-    });
-  }
-
-  showNewItemModal() {
-    this.setState({
-      newItemModalVisible: true,
-    });
-  }
-
-  hideItemDetailModal() {
-    this.setState({
-      itemDetailModalVisible: false,
-    });
-  }
-
-  showItemDetailModal() {
-    this.setState({
-      itemDetailModalVisible: true,
-    });
-  }
-
-
-  setRowId = (id) => {
-    this.setState({
-      rowId: id}, ()=>{
-        this.showItemDetailModal();
-      }
-    );
   }
 
   async debouncedSearch({ target }) {
@@ -77,8 +36,6 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { tableData, newItemModalVisible, itemDetailModalVisible, rowId } = this.state;
-
     return (
       <Page
         headerProps={{
@@ -95,39 +52,12 @@ class Inventory extends React.Component {
         }}
         tableProps={{
           columns: columns,
-          dataSource: tableData,
           rowKey: 'id',
-          pagination: {
-            position: ['bottomRight'],
-            defaultPageSize: 10,
-          },
-          onRow: (record) => {
-            return {
-              onClick: () => {
-                this.setRowId(record.id);
-              }
-            };
-          }
         }}
-        Modal={NewItemModal}
-      >
-        <NewItemModal
-          title="Add New Item"
-          visible={newItemModalVisible}
-          maskClosable={false}
-          onSave={this.hideNewItemModal}
-          onCancel={this.hideNewItemModal}
-          destroyOnClose={true}
-        />
-        <ItemDetailModal
-          title="Item Detail"
-          visible={itemDetailModalVisible}
-          maskClosable={false}
-          onCancel={this.hideItemDetailModal}
-          destroyOnClose={true}
-          rowId={this.state.rowId}
-        />
-      </Page>
+        NewItemModal={NewItemModal}
+        DetailsModal={ItemDetailModal}
+        api={items}
+      />
     )
   }
 }

@@ -1,21 +1,16 @@
 import React from 'react';
-import { Input, Row } from 'antd';
+import { Row } from 'antd';
 import Form from '../../../../../../components/Form';
 import DropdownPicker from '../../../../../../components/DropdownPicker';
 import manufacturers from '../../../../../../apis/manufacturers';
 import brands from '../../../../../../apis/brands';
 
-const CategoryInfo = ({ formRef }) => {
+const CategoryInfo = ({ formRef, formItems }) => {
   return (
-    <section>
+    <Form.Section>
       <Row>
         <Form.Col>
-          <Form.Item
-              label="Category"
-              name="category"
-            >
-              <Input />
-            </Form.Item>
+          {formItems.category}
         </Form.Col>
       </Row>
       <Row>
@@ -46,7 +41,7 @@ const CategoryInfo = ({ formRef }) => {
           </Form.Item>
         </Form.Col>
       </Row>
-    </section>
+    </Form.Section>
   );
 };
 

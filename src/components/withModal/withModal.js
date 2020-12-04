@@ -1,12 +1,12 @@
 import React from 'react';
 
-const withModal = (Component) => {
+const withModal = (Component) => (modals) => {
   class Wrapper extends React.Component {
     constructor(props) {
       super(props);
 
       this.state = {
-        visible: false,
+        visible: [],
       };
 
       this.showModal = this.showModal.bind(this);
@@ -14,7 +14,7 @@ const withModal = (Component) => {
     }
 
     showModal() {
-      this.setState({ visible: true });
+      this.setState(({ visible: true }));
     }
   
     hideModal() {
