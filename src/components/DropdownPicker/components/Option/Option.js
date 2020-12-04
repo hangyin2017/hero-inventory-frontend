@@ -3,7 +3,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { color } from '../../../../styles';
 import Edit from './components/Edit';
-import Actions from '../Actions';
+import Actions from './components/Actions';
 
 
 const Value = styled.span`

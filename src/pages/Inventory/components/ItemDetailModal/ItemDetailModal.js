@@ -49,7 +49,6 @@ class ItemDetailModal extends React.Component {
     if (!!id) {
       try {
         const { data } = await items.get(id);
-        console.log(data);
         this.setState({ data });
       } catch(err) {
         message.error(`Something went wrong while fetching details for item ${id}`);

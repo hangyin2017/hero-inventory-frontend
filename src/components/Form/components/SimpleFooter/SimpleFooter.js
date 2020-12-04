@@ -5,10 +5,11 @@ import Form from '../../Form';
 const SimpleFooter = ({
   loading,
   onCancel,
+  onSubmit,
 }) => {
   return (
     <Form.Footer wrapperCol={{ span: 24 }}>
-      <Button type="primary" htmlType="submit" loading={loading}>
+      <Button type="primary" loading={loading} onClick={onSubmit}>
         Save
       </Button>
       <Button onClick={onCancel}>

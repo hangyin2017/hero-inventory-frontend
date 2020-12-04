@@ -41,8 +41,13 @@ class NewItemModal extends React.Component {
       loading: false,
     }
 
+    this.onSubmit = this.onSubmit.bind(this);
     this.add = this.add.bind(this);
     this.update = this.update.bind(this);
+  }
+
+  onSubmit() {
+    this.formRef.current.submit();
   }
 
   async add(values) {
@@ -118,7 +123,7 @@ class NewItemModal extends React.Component {
               <Stock formItems={formItems} />
             </>            
           )}
-          <SimpleFooter loading={loading} onCancel={onCancel} />
+          <SimpleFooter loading={loading} onCancel={onCancel} onSubmit={this.onSubmit} />
         </Form>
       </Modal>
     );
