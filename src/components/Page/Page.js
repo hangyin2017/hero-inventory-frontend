@@ -124,11 +124,6 @@ class Page extends React.Component {
               />
             )}
             {children}
-            {/* <Modal
-              title='test'
-              width={1000}
-              visible
-            > */}
           </Spin>
         </Content>
       </>
