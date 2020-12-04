@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal as AntdModal } from 'antd';
 import styled from 'styled-components';
+import Header from './components/Header';
 
 const Modal = ({
   title,
@@ -17,5 +18,7 @@ const Modal = ({
     />
   )
 };
+
+Modal.Header = Header;
 
 export default Modal;

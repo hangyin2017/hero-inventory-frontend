@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Spin } from 'antd';
+import { Row, Col, Spin, message } from 'antd';
 import styled from 'styled-components';
 import items from '../../../../apis/items';
 import Modal from '../../../../components/Modal';
@@ -31,6 +31,7 @@ class ItemDetailModal extends React.Component {
 
     this.setEditing = this.setEditing.bind(this);
     this.refreshData = this.refreshData.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   async componentDidUpdate(prevProps) {
@@ -43,16 +44,15 @@ class ItemDetailModal extends React.Component {
 
   async refreshData() {
     const { id } = this.props;
-
-    this.setState({ loading: true });
     
     if (!!id) {
+      this.setState({ loading: true });
+
       try {
         const { data } = await items.get(id);
         this.setState({ data });
       } catch(err) {
         message.error(`Something went wrong while fetching details for item ${id}`);
-        this.hideModal();
       } finally {
         this.setState({ loading: false });
       }
@@ -65,6 +65,25 @@ class ItemDetailModal extends React.Component {
     }
   }
 
+  async delete() {
+    const { id, onCancel, refreshTableData } = this.props;
+    
+    if (!!id) {
+      this.setState({ loading: true });
+
+      try {
+        await items.remove(id);
+        onCancel();
+        refreshTableData();
+        message.success(`Successfully deleted item ${id}`);
+      } catch(err) {
+        message.error(`Something went wrong while deleting item ${id}`);
+      } finally {
+        this.setState({ loading: false });
+      }
+    }
+  }
+
   render() {
     const { onCancel, refreshTableData, refreshDetailsData, ...modalProps } = this.props;
     const { data, loading, editing } = this.state;
@@ -72,7 +91,7 @@ class ItemDetailModal extends React.Component {
 
     return (
       <Modal
-        title={<Header onEditButtonClick={this.setEditing(true)} loading={loading} />}
+        title={<Header onEdit={this.setEditing(true)} loading={loading} onDelete={this.delete} />}
         footer={null}
         onCancel={onCancel}
         width={1000}

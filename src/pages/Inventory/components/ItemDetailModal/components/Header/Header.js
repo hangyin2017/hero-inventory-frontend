@@ -1,34 +1,37 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "antd";
-import { EditOutlined } from '@ant-design/icons';
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 30px;
-
-  & > button {
-    width: 35px;
-    padding: 0;
-    font-size: 18px;
-  }
-`;
+import { Menu, Button, Dropdown } from "antd";
+import { EditOutlined, DownOutlined } from '@ant-design/icons';
+import Modal from '../../../../../../components/Modal';
 
 const Header = ({
-  onEditButtonClick,
+  onEdit,
   loading,
+  onDelete,
 }) => {
   return (
-    <Wrapper>
-      <span>Item Details</span>
+    <Modal.Header title="Item Details">
       <Button
-        loading={loading}
+        disabled={loading}
         icon={<EditOutlined />}
-        onClick={onEditButtonClick}
+        onClick={onEdit}
       />
-    </Wrapper>
+      <Dropdown
+        disabled={loading}
+        trigger={['click']}
+        overlay={
+          <Menu>
+            <Menu.Item key="delete" onClick={onDelete}>
+              Delete
+            </Menu.Item>
+          </Menu>
+        }
+      >
+        <Button>
+          More <DownOutlined />
+        </Button>          
+      </Dropdown>
+    </Modal.Header>
   );
 };
 
