@@ -1,21 +1,21 @@
 import api from '../../lib/api';
 
-const TARGET = '/items'; 
+const URL = '/items'; 
 
 export default {
-  getAll: () => api.get(TARGET),
+  getAll: () => api.get(URL),
 
-  filter: (searchInput) => api.get(`${TARGET}/filter`, {
+  filter: (searchInput) => api.get(`${URL}/filter`, {
     params: {
       searchInput,
     }
   }),
 
-  get: (id) => api.get(`${TARGET}/${id}`),
+  get: (id) => api.get(`${URL}/${id}`),
 
-  add: (payload) => api.post(TARGET),
+  add: (payload) => api.post(URL, payload),
 
-  update: (id, payload) => api.put(`${TARGET}/${id}`),
+  update: (id, payload) => api.put(`${URL}/${id}`, payload),
 
-  delete: (id) => api.delete(`${TARGET}/${id}`),
+  remove: (id) => api.delete(`${URL}/${id}`),
 };

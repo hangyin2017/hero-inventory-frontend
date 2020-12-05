@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form as AntdForm, Col as AntdCol } from 'antd';
+import SimpleFooter from './components/SimpleFooter';
 import styled from 'styled-components';
 
 const Section = styled.section`
@@ -25,9 +26,19 @@ const Footer = styled.div`
   box-shadow: 0 -4px 5px -3px rgba(0,0,0,.1);
   background-color: #fff;
   padding: 15px;
+
+  & > button {
+    margin: 0 8px;
+  }
 `;
 
-const Form = styled(AntdForm)`
+const validateMessages = {
+  required: "'${label}' is required",
+};
+
+const Form = styled(AntdForm).attrs({
+  validateMessages: validateMessages,
+})`
   margin-bottom: 50px;
 `;
 
@@ -35,5 +46,6 @@ Form.Section = Section;
 Form.Col = Col;
 Form.Item = Item;
 Form.Footer = Footer;
+// Form.SimpleFooter = SimpleFooter;
 
 export default Form;

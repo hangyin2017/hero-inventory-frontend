@@ -3,8 +3,43 @@ import { Form, Input, Popover, Select } from 'antd';
 import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { EditableContext } from '../../OrderedItemsTable';
 import items from '../../../../../../../../apis/items';
+import styled from 'styled-components';
 
 const { Option } = Select;
+
+const SelectedItemName = styled.h2`
+  display: flex; 
+  justify-content: space-between;
+`;
+
+const SelectedItemModal = styled.div`
+  display: flex;
+  align-items: center;
+  height: 30px;
+`;
+
+const ItemsList = styled.ul`
+  position: absolute;
+  z-index: 9999;
+  height: 250px;
+  width: 300px;
+  overflow: auto;
+  background: #fff;
+  margin-left: 0px;
+  margin-top: 0px;
+`;
+
+const ItemsName = styled.span`
+  font-size: 15px; 
+  font-weight: bold;
+`;
+
+const ItemsDetail = styled.div`
+  margin-top: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const OrderedItemsTableCell = ({
   title,
@@ -19,10 +54,11 @@ const OrderedItemsTableCell = ({
 }) => {
   const [allData, setAllData] = useState([]);
   const [data, setData] = useState([]);
+
   useEffect(() => {
     const fetchItem = async () => {
       const result = await items.getAll("items");
-      setData(result.data.slice(0, 2));
+      setData(result.data);
       setAllData(result.data);
     };
 
@@ -33,12 +69,13 @@ const OrderedItemsTableCell = ({
   const inputRef = useRef();
   const form = useContext(EditableContext);
 
+  //设置edit时候这个框为焦点
   useEffect(() => {
     if (editing) {
       inputRef.current.focus();
     }
   }, [editing]);
-
+  
   const toggleEdit = () => {
     setEditing(!editing);
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
@@ -57,6 +94,7 @@ const OrderedItemsTableCell = ({
     toggleEdit();
   };
 
+  //失去焦点的时候 自动计算
   const myblur = async () => {
     const values = await form.validateFields();
     setTimeout(() => {
@@ -76,12 +114,13 @@ const OrderedItemsTableCell = ({
       });
     } else {
       handleSave({ ...record, ...values });
-      setData(allData.slice(0, 2));
+      setData(allData);
     }
   };
+
   const search = (e) => {
     if (dataIndex !== "DETAILS") {
-      return null;
+      return;
     }
     let result = allData.filter((item) => {
       return (
@@ -89,9 +128,11 @@ const OrderedItemsTableCell = ({
         new RegExp(e.target.value,'i').test(item.sku)
       );
     });
-    setData(result.slice(0, 5));
+    setData(result);
   };
+
   const save = async (data) => {
+
     try {
       const values = await form.validateFields();
       if (dataIndex === "DETAILS") {
@@ -118,34 +159,32 @@ const OrderedItemsTableCell = ({
 
   let childNode = children;
   if (editable) {
-    childNode = editing ? (
+    childNode = editing ? (//如果当前是可编辑状态，显示输入框(itemList)
       <div>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
-            <h2 style={{ display: "flex", justifyContent: "space-between" }}>
-              {record.data.name}
-              <div
-                style={{ display: "flex", alignItems: "center", height: 30 }}
-              >
+            <SelectedItemName>
+              { record.data.name }
+              <SelectedItemModal>
                 <Popover
                   content={
                     <div>
-                      <p onClick={showModal}>Edit Item</p>
-                      <p onClick={showModal}>View Item Details</p>
+                      <p onClick={ showModal }>Edit Item</p>
+                      <p onClick={ showModal }>View Item Details</p>
                     </div>
                   }
                 >
                   <PlusCircleOutlined />
                 </Popover>
                 <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
-              </div>
-            </h2>
-            <span>SKU:{record.data.sku}</span>
+              </SelectedItemModal>
+            </SelectedItemName>
+            <span>SKU:{ record.data.sku }</span>
           </div>
         ) : null}
         <Form.Item
           style={{ margin: 0 }}
-          name={dataIndex}
+          name={ dataIndex }
           rules={[
             {
               required: true,
@@ -154,83 +193,63 @@ const OrderedItemsTableCell = ({
           ]}
         >
           <Input
-            ref={inputRef}
+            ref={ inputRef }
             autocomplete="off"
-            onBlur={myblur}
-            onPressEnter={myblur}
-            onChange={search}
+            onBlur={ myblur }
+            onPressEnter={ myblur }
+            onChange={ search }
           />
         </Form.Item>
         {dataIndex === "DISCOUNT" ? (
-          <Select defaultValue={record.flag} style={{ marginLeft: 10 }}>
+          <Select defaultValue={ record.flag } style={{ marginLeft: 10 }}>
             <Option value="%">%</Option>
             <Option value="$">$</Option>
           </Select>
         ) : null}
         {dataIndex === "DETAILS" && !record.data?.name ? (
-          <ul
-            style={{
-              position: "absolute",
-              zIndex: 9999,
-              width: "300px",
-              background: "#fff",
-              marginLeft: "0px",
-              marginTop: "10px",
-            }}
-          >
+          <ItemsList>
             {data.map((item) => (
               <li
-                key={item.id}
+                key={ item.id }
                 onClick={() => {
                   save(item);
                   handleAdd();
                 }}
               >
-                <span style={{ fontSize: "15px", fontWeight: "bold" }}>
-                  {item.name}
-                </span>
-                <div style={{ marginTop: "15px", marginBottom: "10px" }}>
-                  <span style={{ marginRight: "10px" }}> SKU:{item.sku}</span>
-                  <span style={{ marginRight: "10px" }}>
-                    {" "}
-                    Rate:{item.sellingPrice}
-                  </span>
-                  <span> Stock:{item.physicalStock}</span>
-                </div>
+                <ItemsName>
+                  { item.name }
+                </ItemsName>
+                <ItemsDetail>
+                  <span> SKU:{ item.sku }</span>
+                  <span> Rate:{ item.sellingPrice } </span>
+                  <span> Stock:{ item.physicalStock }</span>
+                </ItemsDetail>
               </li>
             ))}
-            <a
-              onClick={showModal}
-              style={{ marginTop: "30px", marginLeft: "-18px" }}
-            >
-              +Add New Item
-            </a>
-          </ul>
+          </ItemsList>
         ) : null}
       </div>
-    ) : (
-      <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }}>
+    ) : (//失去焦点，不可编辑状态，显示具体的数据
+      <div style={{ paddingRight: 24 }}>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
-            <h2 style={{ display: "flex", justifyContent: "space-between" }}>
-              {record.data.name}
-              <div
-                style={{ display: "flex", alignItems: "center", height: 30 }}
-              >
+            <SelectedItemName>
+              { record.data.name }
+              <SelectedItemModal>
                 <Popover
                   content={
                     <div>
-                      <p onClick={showModal}>Edit Item</p>
-                      <p onClick={showModal}>View Item Details</p>
+                      <p onClick={ showModal }>Edit Item</p>
+                      <p onClick={ showModal }>View Item Details</p>
                     </div>
                   }
                 >
                   <PlusCircleOutlined />
                 </Popover>
                 <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
-              </div>
-            </h2>
-            <span>SKU:{record.data.sku}</span>
+              </SelectedItemModal>
+            </SelectedItemName>
+            <span>SKU:{ record.data.sku }</span>
           </div>
         ) : null}
         <div
@@ -240,7 +259,7 @@ const OrderedItemsTableCell = ({
             alignItems: "center",
           }}
         >
-          <div style={{ flex: 1 }} onClick={toggleEdit}>
+          <div style={{ flex: 1 }} onClick={ toggleEdit }>
             {children}
           </div>
           {dataIndex === "DISCOUNT" ? (

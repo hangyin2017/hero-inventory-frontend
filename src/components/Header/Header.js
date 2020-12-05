@@ -1,12 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Authentication from './components/Authentication';
 
 const Wrapper = styled.div`
   display: flex;
-  position: sticky;
-  z-index: 3;
-  top: 0;
   width: 100%;
   border-bottom: 1px solid #eee;
   background-color: #f7f7f7;
@@ -55,7 +51,7 @@ const Header = () => {
         <Left>
         </Left>
         <Right>
-          <Authentication />
+          {/* <Authentication /> */}
           <Avatar>
             A
           </Avatar>

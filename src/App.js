@@ -1,21 +1,30 @@
-import React from "react";
-import { Layout } from "antd";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from 'react';
+import { Layout } from 'antd';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header';
-import Navbar from "./layout/Navbar";
-import Dashboard from "./pages/Dashboard";
-import Inventory from "./pages/Inventory";
-import Customers from "./pages/Customers";
-import SalesOrders from "./pages/SalesOrders";
-import Suppliers from "./pages/Suppliers";
-import PurchaseOrders from "./pages/PurchaseOrders";
-import Users from "./pages/Users";
-import Authentication from "./pages/Authentication";
-import styles from "./App.module.less";
+import Navbar from './components/Navbar';
+import PAGES, { HOMEPAGE } from './pages';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: auto;
+  background: #f0f2f5;
+  overflow: hidden;
+`;
 
 const Main = styled.main`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   overflow: hidden;
 `;
 
@@ -24,27 +33,27 @@ const App = () => {
 
   return (
     <Router>
-      <div className={styles.app}>
+      <Container>
         <Header />
-        <Layout>
-          <Sider className={styles.sider}>
+        <Wrapper>
+          <Sider>
             <Navbar />
           </Sider>
           <Main>
             <Switch>
-              <Route exact path="/inventory" component={Inventory} />
-              <Route exact path="/customers" component={Customers} />
-              <Route exact path="/salesorders" component={SalesOrders} />
-              <Route exact path="/suppliers" component={Suppliers} />
-              <Route exact path="/purchaseorders" component={PurchaseOrders} />
-              <Route exact path="/users" component={Users} />
-              <Route exact path="/authentication" component={Authentication} />
-              <Route path="/" component={Dashboard} />
+              {Object.keys(PAGES).map((key) => (
+                <Route
+                  exact={PAGES[key].exact}
+                  path={PAGES[key].path}
+                  component={PAGES[key].component}
+                />
+              ))}
+              <Redirect path='/' to={HOMEPAGE.path} />
             </Switch>
-            <Footer />
+            {/* <Footer /> */}
           </Main>
-        </Layout>
-      </div>
+        </Wrapper>
+      </Container>
     </Router>
   )
 };

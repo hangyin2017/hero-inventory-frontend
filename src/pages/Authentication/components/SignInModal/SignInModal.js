@@ -7,7 +7,6 @@ import Modal from "../../../../components/Modal";
 import FormItem from "../../../../components/FormItem";
 import ErrorMessage from "../../../../components/ErrorMessage";
 
-
 const Form = styled.form`
   padding: 16px 0;
 `;
