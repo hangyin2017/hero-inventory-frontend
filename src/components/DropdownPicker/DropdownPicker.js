@@ -3,6 +3,7 @@ import { Select, Spin, Alert } from 'antd';
 import styled from 'styled-components';
 import AddNew from './components/AddNew';
 import Option from './components/Option';
+import withFetch from '../withFetch';
 
 const FloatingAlert = styled(Alert)`
   position: absolute;
@@ -16,17 +17,13 @@ class DropdownPicker extends React.Component {
     this.state = {
       data: [],
       editing: null,
-      loading: false,
-      error: null,
     };
 
     this.setEditing = this.setEditing.bind(this);
-    this.request = this.request.bind(this);
     this.add = this.add.bind(this);
     this.update = this.update.bind(this);
     this.remove = this.remove.bind(this);
     this.refreshAll = this.refreshAll.bind(this);
-    this.setError = this.setError.bind(this);
     this.dropdownRender = this.dropdownRender.bind(this);
   }
 
@@ -39,69 +36,57 @@ class DropdownPicker extends React.Component {
     const { data } = await api.getAll();
     
     this.setState({ data });
+    return data;
   }
 
   setEditing(id) {
     this.setState({ editing: id });
   }
-  
-  request(method) {  
-    return async (...args) => {
-      this.setState({
-        loading: true,
-        error: null,
-      });
 
-      await method(...args).catch((err) => this.setError(err.response.data.message));
+  add(value) {
+    const { api, fetch } = this.props;
 
-      this.setState({ loading: false });
-    }
+    try {
+      fetch(() => api.add({ name: value }).then(this.refreshAll));
+    } catch(err) {}
   }
 
-  setError(message) {
-    this.setState({ error: message });
-  }
+  update(item, value) {
+    const { api, fetch } = this.props;
+    const { id, name, ...rest } = item;
 
-  async add(value) {
-    const { api } = this.props;
-
-    await api.add({ name: value }).then(this.refreshAll);
-
-    this.setState({ value });
-  }
-
-  async update(item, value) {
-    const { api } = this.props;
-
-    await api.update(item.id, { name: value }).then(this.refreshAll);
-    
-    this.setState({ value });
+    try {
+      fetch(() => api.update(id, {
+        ...rest,
+        name: value,
+      }).then(this.refreshAll));
+    } catch(err) {}
   }
 
   async remove(item) {
-    const { name, api, formRef, value } = this.props;
+    const { name, api, fetch, formRef, value } = this.props;
 
-    await api.remove(item.id).then(this.refreshAll);
-
-    item.name == value && formRef.current.setFieldsValue({ [name]: null });
+    try {
+      await fetch(() => api.remove(item.id).then(this.refreshAll));
+      item.name == value && formRef.current.setFieldsValue({ [name]: null });
+    } catch(err) {}
   }
 
   dropdownRender(options) {
-    const { loading } = this.state;
+    const { loading, error } = this.props;
 
     return (
       <Spin spinning={loading}>
-        {this.state.error &&
+        {error ? (
           <FloatingAlert
-            message={this.state.error}
+            message={error}
             type="error"
             closable
             showIcon
-            onClose={() => this.setError(null)}
-          />        
-        }
+          />
+        ) : null}
         {options}
-        <AddNew selectRef={this.select} maxLength={50} request={this.request} onAdd={this.add}/>
+        <AddNew selectRef={this.select} maxLength={50} onAdd={this.add}/>
       </Spin>
     );
   };
@@ -129,7 +114,6 @@ class DropdownPicker extends React.Component {
               selectRef={this.select}
               editing={editing}
               setEditing={this.setEditing}
-              request={this.request}
               onRemove={this.remove}
               onUpdate={this.update}
             />
@@ -140,4 +124,4 @@ class DropdownPicker extends React.Component {
   }
 }
 
-export default DropdownPicker;
+export default withFetch(DropdownPicker);

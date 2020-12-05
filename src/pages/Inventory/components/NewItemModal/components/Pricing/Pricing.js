@@ -1,38 +1,21 @@
 import React from 'react';
-import { Input, Row, Checkbox } from 'antd';
+import { Row } from 'antd';
 import Form from '../../../../../../components/Form';
 
-const Pricing = () => {
+const Pricing = ({ formItems }) => {
   return (
     <Form.Section>
       <Row>
         <Form.Col>
-          <Form.Item
-            label="Selling Price"
-            name="sellingPrice"
-          >
-            <Input />
-          </Form.Item>
+          {formItems.sellingPrice}
         </Form.Col>
         <Form.Col>
-          <Form.Item
-            label="Cost Price"
-            name="costPrice"  
-          >
-            <Input />
-          </Form.Item>          
+          {formItems.costPrice}        
         </Form.Col>
       </Row>
       <Row>
         <Form.Col>          
-          <Form.Item
-            label=" "
-            name="applyGst" 
-            colon={false}
-            valuePropName="checked"
-          >
-            <Checkbox>Apply GST</Checkbox>
-          </Form.Item>
+          {formItems.applyGst}
         </Form.Col>
       </Row>
     </Form.Section>

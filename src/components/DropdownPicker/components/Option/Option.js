@@ -3,7 +3,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { color } from '../../../../styles';
 import Edit from './components/Edit';
-import Actions from '../Actions';
+import Actions from './components/Actions';
 
 
 const Value = styled.span`
@@ -28,7 +28,7 @@ class Option extends React.Component {
   }
 
   render() {
-    const { item, selectRef, editing, setEditing, request, onUpdate, onRemove } = this.props;
+    const { item, selectRef, editing, setEditing, onUpdate, onRemove } = this.props;
     const { id, name } = item;
 
     return (
@@ -37,10 +37,8 @@ class Option extends React.Component {
           <Edit
             item={item}
             selectRef={selectRef}
-            onInputChange={this.handleInputChange}
             setEditing={setEditing}
             onClick={(e) => e.stopPropagation()}
-            request={request}
             onUpdate={onUpdate}
           />
         ) : (
@@ -56,7 +54,7 @@ class Option extends React.Component {
               <DeleteIcon onClick={(e) => {
                 e.stopPropagation();
                 selectRef.focus();
-                request(onRemove)(item);
+                onRemove(item);
               }}/>
             </Actions>
           </>

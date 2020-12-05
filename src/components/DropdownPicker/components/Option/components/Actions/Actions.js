@@ -7,7 +7,7 @@ const Actions = styled.div`
   opacity: 0.7;
 
   & > span {
-    margin: 0 3px;
+    padding: 3px 4px;
   }
 
   .ant-select-item-option-active & {

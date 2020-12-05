@@ -15,7 +15,7 @@ export default {
 
   add: (payload) => api.post(URL, payload),
 
-  update: (id, payload) => api.put(`${URL}/${id}`),
+  update: (id, payload) => api.put(`${URL}/${id}`, payload),
 
   remove: (id) => api.delete(`${URL}/${id}`),
 };

@@ -2,56 +2,24 @@ import React from 'react';
 import { Input, Row } from 'antd';
 import Form from '../../../../../../components/Form';
 
-const PrimaryInfo = () => {
-  const { TextArea } = Input;
-
+const PrimaryInfo = ({ formItems }) => {
   return (
-    <section>
+    <Form.Section>
       <Row>
         <Form.Col>
-          <Form.Item
-            label="Name"
-            name="name"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
+          {formItems.name}
         </Form.Col>
       </Row>
       <Row>
         <Form.Col>
-          <Form.Item
-            label="SKU"
-            name="sku"  
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="UPC"
-            name="upc"  
-          >
-            <Input />
-          </Form.Item>
+          {formItems.sku}
+          {formItems.upc}
         </Form.Col>
         <Form.Col>
-          <Form.Item
-              label="Description"
-              name="description"  
-          >
-            <TextArea
-              showCount
-              maxLength={255}
-              allowClear
-              autoSize={{ minRows: 3 }}  
-            />
-          </Form.Item>
+          {formItems.description}
         </Form.Col>
       </Row>
-    </section>
+    </Form.Section>
   );
 };
 

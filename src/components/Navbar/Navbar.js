@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { withRouter, NavLink } from 'react-router-dom';
 import { Menu } from 'antd';
-import pages from './pages';
-
+import PAGES from '../../pages';
 
 const SideMenu = styled(Menu)`
   font-size: 16px;
@@ -30,11 +29,14 @@ class Navbar extends React.Component {
 
     return (
       <SideMenu theme="dark" selectedKeys={[selectedKey]}>
-        {pages.map(({ to, name }) => (
-          <Menu.Item key={to}>
-            <NavLink to={to}>{name}</NavLink>
-          </Menu.Item>
-        ))}
+        {Object.keys(PAGES)
+          .filter((key) => PAGES[key].inNavbar)
+          .map((key) => (
+            <Menu.Item key={PAGES[key].path}>
+              <NavLink to={PAGES[key].path}>{PAGES[key].title}</NavLink>
+            </Menu.Item>
+          ))
+        }
       </SideMenu>
     );
   }
