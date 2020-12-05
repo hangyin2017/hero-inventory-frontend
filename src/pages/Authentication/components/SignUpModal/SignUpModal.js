@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import validator from "validator";
+import signUp from '../../../../apis/signUp';
 import PropTypes from "prop-types";
 import Modal from "../../../../components/Modal";
 import FormItem from "../../../../components/FormItem";
@@ -13,29 +15,51 @@ const FORM = [
     key: "email",
     label: "Email",
     type: "text",
-    getErrorMessage: (value) => {
-      if (!value) {
-        return "Please enter your password";
-      }
-      if (!/^[\w-.]+@([\w-]+\.)+[\w.]{2,4}$/.test(value)) {
-        return "Please enter valid email address";
-      }
-      return null;
-    },
+    validations: [{
+      message: 'Please enter your email address',
+      validator: (value) => !validator.isEmpty(value),
+    },{
+      message: 'Please enter a valid email address',
+      validator: (value) => validator.isEmail(value),
+    }],
+  
+
+    // getErrorMessage: (value) => {
+    //   if (!value) {
+    //     return "Please enter your password";
+    //   }
+    //   if (!validator.isEmail(value)) {
+    //     return "Please enter a valid email address";
+    //   }
+    //   return null;
   },
+  
   {
     key: "password",
     label: "Password",
     type: "password",
-    getErrorMessage: () => {},
+    validations: [{
+      message: 'Please enter your password',
+      validator: (value) => !validator.isEmpty(value),
+    },{
+      message: 'Password must be at least 8 characters',
+      validator: (value) => validator.isLength(value, { min:8 }),
+    }]
   },
   {
     key: "confirmPassword",
-    label: "Confirm password",
+    label: "Confirm Password",
     type: "password",
-    getErrorMessage: () => {},
-  },
-];
+    validations: [{
+      message: 'Please confirm your password',
+      validator: (value) => !validator.isEmpty(value),
+    },{
+      message: 'Confirmed password does not match the password',
+      validator: (value, formData) => value === formData.password.value,
+    }
+  ]
+ 
+  }];
 
 const Input = styled.input`
   display: block;
@@ -67,13 +91,14 @@ class SignUpModal extends React.Component {
         password: "",
         confirmPassword: "",
       },
+      errorMessage:
     };
 
     this.handleFormDataChange = this.handleFormDataChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
-  handleFormDataChange(target) {
+  handleFormDataChange(key) {
     return (event) => {
       const { value } = event.target;
       event.preventDefault();
@@ -81,16 +106,41 @@ class SignUpModal extends React.Component {
       this.setState((prevState) => ({
         formData: {
           ...prevState.formData,
-          [target]: value,
+          [key]: value, 
         },
       }));
     };
   }
 
+  valid() {
+    const formHasErrorMessage = FORM.find((f) => this.getErrorMessage(f));
+    return !formHasErrorMessage;
+
+  }
   handleFormSubmit(event) {
     const { formData } = this.state;
     event.preventDefault();
-    console.log(formData);
+    if (!this.valid()){
+      return;
+    }
+
+    signUp({
+      email: formData.email.value,
+      password: formData.password.value
+    })
+    .then(() => onClose());
+  }
+
+  getErrorMessage(form){
+    const { formData } = this.state;
+    const { key, validations} = form;
+    const value = formData[key];
+    const invalidValidation = validations.find((v) => !v.validator(value, formData));
+
+    if(!invalidValidation){
+      return null;
+    }
+    return invalidValidation.message;
   }
   render() {
     const { onClose, onSignIn } = this.props;
@@ -99,16 +149,16 @@ class SignUpModal extends React.Component {
     return (
       <Modal onClose={onClose}>
         <Modal.Header>Sign Up</Modal.Header>
-        <Modal.Body>
+        <Modal.Body> 
           <Form onSubmit={this.handleFormSubmit}>
-            {FORM.map(({ key, label, type, getErrorMessage }) => (
-              <FormItem key={key} htmlFor={key} label={label}>
+            {FORM.map((f) => (
+              <FormItem key={f.key} htmlFor={f.key} label={f.label}>
                 <Input
-                  onChange={this.handleFormDataChange(key)}
-                  id={key}
-                  type={key}
+                  onChange={this.handleFormDataChange(f.key)}
+                  id={f.key}
+                  type={f.type}
                 />
-                {getErrorMessage(formData[key])}
+                {this.getErrorMessage(f)}
               </FormItem>
             ))}
             <FormItem>
@@ -121,7 +171,7 @@ class SignUpModal extends React.Component {
           <SignInButton onClick={onSignIn}>Sign In Now</SignInButton>
         </Modal.Footer>
       </Modal>
-    );
+    ); 
   }
 }
 
