@@ -43,28 +43,33 @@ class DropdownPicker extends React.Component {
     this.setState({ editing: id });
   }
 
-  async add(value) {
+  add(value) {
     const { api, fetch } = this.props;
 
-    await fetch(() => api.add({ name: value }).then(this.refreshAll));
+    try {
+      fetch(() => api.add({ name: value }).then(this.refreshAll));
+    } catch(err) {}
   }
 
-  async update(item, value) {
+  update(item, value) {
     const { api, fetch } = this.props;
     const { id, name, ...rest } = item;
 
-    await fetch(() => api.update(id, {
-      ...rest,
-      name: value,
-    }).then(this.refreshAll));
+    try {
+      fetch(() => api.update(id, {
+        ...rest,
+        name: value,
+      }).then(this.refreshAll));
+    } catch(err) {}
   }
 
   async remove(item) {
     const { name, api, fetch, formRef, value } = this.props;
 
-    await fetch(() => api.remove(item.id).then(this.refreshAll));
-
-    item.name == value && formRef.current.setFieldsValue({ [name]: null });
+    try {
+      await fetch(() => api.remove(item.id).then(this.refreshAll));
+      item.name == value && formRef.current.setFieldsValue({ [name]: null });
+    } catch(err) {}
   }
 
   dropdownRender(options) {

@@ -20,19 +20,12 @@ const withFetch = (Component) => {
       });
 
       return fetcher()
-        .then((res) => {
-          this.setState({ loading: false });
-          return res?.data;
-        })
+        .then((res) => res?.data)
         .catch((err) => {
-          this.setState({
-            error: err.response.data.message,
-            loading: false,
-          })
-
+          this.setState({ error: err.response.data.message });
           throw err;
-        });
-        // .finally(this.setState({ loading: false }));
+        })
+        .finally(() => this.setState({ loading: false }));
     }
 
     render() {

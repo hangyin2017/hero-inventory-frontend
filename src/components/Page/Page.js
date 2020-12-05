@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Table, Spin, message } from 'antd';
 import Header from './components/Header';
 import withModal from '../withModal';
+import withFetch from '../withFetch';
 import debounce from '../../utils/debounce';
 import throttle from '../../utils/throttle';
 
@@ -20,7 +21,6 @@ class Page extends React.Component {
     this.state = {
       modal: null,
       data: [],
-      loading: false,
       rowId: '',
     };
   
@@ -36,18 +36,14 @@ class Page extends React.Component {
     this.refreshData();
   }
 
-  async refreshData() {
-    const { api } = this.props;
-
-    this.setState({ loading: true });
+  refreshData() {
+    const { api, fetch } = this.props;
 
     try {
-      const { data } = await api.getAll();
-      this.setState({ data });
+      fetch(() => api.getAll())
+        .then((data) => this.setState({ data }));
     } catch(err) {
       message.error(`Something went wrong while fetching data`);
-    } finally {
-      this.setState({ loading: false });
     }
   }
 
@@ -71,17 +67,15 @@ class Page extends React.Component {
     }
   }
 
-  async search(input) {
-    const { api } = this.props;
+  search(input) {
+    const { api, fetch } = this.props;
     
-    this.setState({ loading: true });
-
-    const { data } = await api.filter(input);
-
-    this.setState({
-      data,
-      loading: false,
-    });
+    try {
+      fetch(() => api.filter(input))
+        .then(() => this.setState({ data }));
+    } catch(err) {
+      message.error(`Something went wrong while fetching data`);
+    }
   }
 
   debouncedSearch = debounce((e) => this.search(e.target.value), 1000);
@@ -99,9 +93,12 @@ class Page extends React.Component {
       // modalVisible,
       // showModal,
       // hideModal,
+      loading,
+      error,
+      fetch,
     } = this.props;
 
-    const { modal, data, loading, rowId } = this.state;
+    const { modal, data, rowId } = this.state;
 
     return (
       <>
@@ -156,5 +153,7 @@ class Page extends React.Component {
   }
 }
 
-export default Page;
+const PageWithFetch = withFetch(Page);
+
+export default PageWithFetch;
 // export default withModal(Page);
