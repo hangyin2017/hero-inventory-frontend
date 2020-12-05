@@ -1,21 +1,21 @@
-import api from '../../lib/api';
+import instance from '../../lib/instance';
 
 const URL = '/salesorders'; 
 
 export default {
-  getAll: () => api.get(URL),
+  getAll: () => instance.get(URL),
 
-  filter: (searchInput) => api.get(`${URL}/filter`, {
+  filter: (searchInput) => instance.get(`${URL}/filter`, {
     params: {
       searchInput,
     }
   }),
 
-  get: (id) => api.get(`${URL}/${id}`),
+  get: (id) => instance.get(`${URL}/${id}`),
 
-  add: (payload) => api.post(URL, payload),
+  add: (payload) => instance.post(URL, payload),
 
-  modify: (id, payload) => api.put(`${URL}/${id}`),
+  update: (id, payload) => instance.put(`${URL}/${id}`),
 
-  remove: (id) => api.delete(`${URL}/${id}`),
+  remove: (id) => instance.delete(`${URL}/${id}`),
 };

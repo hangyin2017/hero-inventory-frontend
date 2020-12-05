@@ -1,13 +1,13 @@
-import api from '../../lib/api';
+import instance from '../../lib/instance';
 
 const URL = '/brands'; 
 
 export default {
-  getAll: () => api.get(URL),
+  getAll: () => instance.get(URL),
 
-  add: (payload) => api.post(URL, payload),
+  add: (payload) => instance.post(URL, payload),
 
-  update: (id, payload) => api.put(`${URL}/${id}`, payload),
+  update: (id, payload) => instance.put(`${URL}/${id}`, payload),
 
-  remove: (id) => api.delete(`${URL}/${id}`),
+  remove: (id) => instance.delete(`${URL}/${id}`),
 };

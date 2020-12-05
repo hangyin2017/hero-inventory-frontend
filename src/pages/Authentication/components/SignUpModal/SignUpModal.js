@@ -3,8 +3,8 @@ import styled from "styled-components";
 import validator from "validator";
 import signUp from '../../../../apis/signUp';
 import PropTypes from "prop-types";
-import Modal from "../../../../components/Modal";
-import FormItem from "../../../../components/FormItem";
+import Modal from "../Modal";
+import FormItem from "../FormItem";
 import ErrorMessage from "../../../../components/ErrorMessage";
 
 const Form = styled.form`
