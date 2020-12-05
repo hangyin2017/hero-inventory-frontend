@@ -43,11 +43,17 @@ class Authentication extends React.Component {
 
     this.state = {
       showModal: MODAL.SIGN_IN,
+      user: null,
     };
 
     this.showModal = this.showModal.bind(this);
   }
 
+  setUser(value){
+    this.setState({
+      user: value
+    })
+  }
   showModal(target) {
     return (event) => {
       event.preventDefault();
