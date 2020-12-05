@@ -8,6 +8,7 @@ import Header from './components/Header/Header';
 import DescriptionList from '../../../../components/DescriptionList';
 import StockData from './components/StockData';
 import fields from '../../fields';
+import withFetch from '../../../../components/withFetch';
 
 const Content = styled(Row)`
   min-height: 60vh;
@@ -25,7 +26,6 @@ class ItemDetailModal extends React.Component {
 
     this.state = {
       data: {},
-      loading: true,
       editing: false,
     };
 
@@ -43,18 +43,14 @@ class ItemDetailModal extends React.Component {
   }
 
   async refreshData() {
-    const { id } = this.props;
+    const { id, fetch } = this.props;
     
     if (!!id) {
-      this.setState({ loading: true });
-
       try {
-        const { data } = await items.get(id);
+        const data = await fetch(() => items.get(id));
         this.setState({ data });
       } catch(err) {
         message.error(`Something went wrong while fetching details for item ${id}`);
-      } finally {
-        this.setState({ loading: false });
       }
     }
   }
@@ -66,27 +62,24 @@ class ItemDetailModal extends React.Component {
   }
 
   async delete() {
-    const { id, onCancel, refreshTableData } = this.props;
+    const { id, onCancel, refreshTableData, fetch } = this.props;
     
     if (!!id) {
-      this.setState({ loading: true });
-
       try {
-        await items.remove(id);
+        await fetch(() => items.remove(id));
+
         onCancel();
         refreshTableData();
         message.success(`Successfully deleted item ${id}`);
       } catch(err) {
         message.error(`Something went wrong while deleting item ${id}`);
-      } finally {
-        this.setState({ loading: false });
       }
     }
   }
 
   render() {
-    const { onCancel, refreshTableData, refreshDetailsData, ...modalProps } = this.props;
-    const { data, loading, editing } = this.state;
+    const { onCancel, refreshTableData, refreshDetailsData, loading, error, fetch, ...modalProps } = this.props;
+    const { data, editing } = this.state;
 		const { physicalStock, lockedStock, arrivingQuantity } = data;
 
     return (
@@ -131,4 +124,4 @@ class ItemDetailModal extends React.Component {
   }
 }
 
-export default ItemDetailModal;
+export default withFetch(ItemDetailModal);

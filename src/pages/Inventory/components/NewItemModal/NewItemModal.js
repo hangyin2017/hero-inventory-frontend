@@ -9,6 +9,7 @@ import CategoryInfo from './components/CategoryInfo';
 import Pricing from './components/Pricing';
 import Stock from './components/Stock';
 import fields from '../../fields';
+import withFetch from '../../../../components/withFetch';
 
 const formItems = Object
   .keys(fields)
@@ -38,7 +39,6 @@ class NewItemModal extends React.Component {
     this.formRef = React.createRef();
 
     this.state = {
-      loading: false,
     }
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -51,36 +51,30 @@ class NewItemModal extends React.Component {
   }
 
   async add(values) {
-    const { onCancel, refreshTableData } = this.props;
+    const { onCancel, refreshTableData, fetch } = this.props;
     
     values.createdTime = new Date();
 
-    this.setState({ loading: true });
-
     try {
-      await items.add(values);
+      await fetch(() => items.add(values));
 
       refreshTableData();
       message.success(`Item ${values.name} has been added`);
       onCancel();
     } catch(err) {
       message.error(`Something went wrong while adding item ${values.name}`);
-    } finally {
-      this.setState({ loading: false });
     }
   };
 
   async update(values) {
-    const { initialData, onCancel, refreshTableData, refreshDetailsData } = this.props;
+    const { initialData, onCancel, refreshTableData, refreshDetailsData, fetch } = this.props;
     const { id } = initialData;
     
     values.lastModifiedTime = new Date();
     values = {...initialData, ...values};
 
-    this.setState({ loading: true });
-
     try {
-      await items.update(id, values);
+      await fetch(() => items.update(id, values));
 
       refreshDetailsData();
       refreshTableData();
@@ -88,14 +82,11 @@ class NewItemModal extends React.Component {
       onCancel();
     } catch(err) {
       message.error(`Something went wrong while updating item ${values.name}`);
-    } finally {
-      this.setState({ loading: false });
     }
   }
 
   render() {
-    const { initialData, onCancel, ...props } = this.props;
-    const { loading } = this.state;
+    const { initialData, onCancel, loading, error, fetch, ...props } = this.props;
     const title = `${initialData ? "Edit" : "Add New"} Item`;
 
     return (
@@ -130,4 +121,4 @@ class NewItemModal extends React.Component {
   }
 }
 
-export default NewItemModal;
+export default withFetch(NewItemModal);
