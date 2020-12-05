@@ -3,7 +3,7 @@ import Modal from '../../../../components/Modal';
 import Form from '../../../../components/Form';
 import SimpleFooter from '../../../../components/Form/components/SimpleFooter';
 
-class NewOrderModal extends React.Component {
+class NewCustomerModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -20,14 +20,14 @@ class NewOrderModal extends React.Component {
   // };
 
   render() {
-    const { onCancel, ...modalProps } = this.props;
+    const { hideModal, ...props } = this.props;
     // const { } = this.state;
 
     return (
       <Modal
-        {...modalProps}
+        {...props}
         title="Add New Customer"
-        onCancel={onCancel}
+        hideModal={hideModal}
         width={1000}
       >
         <Form
@@ -36,11 +36,11 @@ class NewOrderModal extends React.Component {
           // onFinish={this.onFinish}
           // onFinishFailed={this.onFinishFailed}
         >
-          <SimpleFooter onCancel={onCancel}/>
+          <SimpleFooter onCancel={hideModal}/>
         </Form>
       </Modal>
     );
   }
 }
 
-export default NewOrderModal;
+export default NewCustomerModal;
