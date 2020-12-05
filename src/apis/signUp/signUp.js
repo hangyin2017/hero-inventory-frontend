@@ -1,7 +1,7 @@
-import axios from 'axios';
+import instance from '../../lib/instance';
 
-const signUp = (data) => axios
-  .post('http://localhost:8000/authentication/sign-up', data)
+const signUp = (data) => instance
+  .post('authentication/sign-up', data)
   .then((response) => response.data);
 
   export default signUp;

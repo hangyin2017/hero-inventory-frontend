@@ -5,6 +5,7 @@ import signUp from '../../../../apis/signUp';
 import PropTypes from "prop-types";
 import Modal from "../../../../components/Modal";
 import FormItem from "../../../../components/FormItem";
+import ErrorMessage from "../../../../components/ErrorMessage";
 
 const Form = styled.form`
   padding: 16px 0;
@@ -22,16 +23,6 @@ const FORM = [
       message: 'Please enter a valid email address',
       validator: (value) => validator.isEmail(value),
     }],
-  
-
-    // getErrorMessage: (value) => {
-    //   if (!value) {
-    //     return "Please enter your password";
-    //   }
-    //   if (!validator.isEmail(value)) {
-    //     return "Please enter a valid email address";
-    //   }
-    //   return null;
   },
   
   {
@@ -91,13 +82,17 @@ class SignUpModal extends React.Component {
         password: "",
         confirmPassword: "",
       },
-      errorMessage:
+      errorMessage: null,
     };
-
     this.handleFormDataChange = this.handleFormDataChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
+  setErrorMessage(message){
+    this.setState({
+      errorMessage:message,
+    });
+  }
   handleFormDataChange(key) {
     return (event) => {
       const { value } = event.target;
@@ -123,16 +118,23 @@ class SignUpModal extends React.Component {
     if (!this.valid()){
       return;
     }
-
     signUp({
       email: formData.email.value,
       password: formData.password.value
     })
-    .then(() => onClose());
+    .then(() => onClose())
+    .catch((error) => {
+      const message = error.response && {
+      409: 'This email address has already been taken, please choose another one'
+    }[error.response.status];
+
+    this.setErrorMessage(message || 'Something went wrong, please try again later')
+  });
   }
 
+
   getErrorMessage(form){
-    const { formData } = this.state;
+    const { formData, errorMessage } = this.state;
     const { key, validations} = form;
     const value = formData[key];
     const invalidValidation = validations.find((v) => !v.validator(value, formData));
@@ -144,13 +146,21 @@ class SignUpModal extends React.Component {
   }
   render() {
     const { onClose, onSignIn } = this.props;
-    const { formData } = this.state;
+    const { formData,errorMessage } = this.state;
 
     return (
       <Modal onClose={onClose}>
         <Modal.Header>Sign Up</Modal.Header>
         <Modal.Body> 
           <Form onSubmit={this.handleFormSubmit}>
+          {errorMessage && (
+            <FormItem>
+              <ErrorMessage>{errorMessage}</ErrorMessage>
+            </FormItem>
+          )} 
+          <FormItem>
+            {errorMessage}
+          </FormItem> 
             {FORM.map((f) => (
               <FormItem key={f.key} htmlFor={f.key} label={f.label}>
                 <Input
