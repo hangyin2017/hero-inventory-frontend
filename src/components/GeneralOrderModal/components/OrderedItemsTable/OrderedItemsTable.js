@@ -132,9 +132,9 @@ class OrderedItemsTable extends React.Component {
   //数据改变 就传数据
   componentDidUpdate (prevProps,prevState) {
     const { dataSource } = this.state;
-    const { getSoldItems } = this.props;
+    const { getItems } = this.props;
     if(dataSource != prevState.dataSource){
-      getSoldItems(dataSource);
+      getItems(dataSource);
     }
   };
 

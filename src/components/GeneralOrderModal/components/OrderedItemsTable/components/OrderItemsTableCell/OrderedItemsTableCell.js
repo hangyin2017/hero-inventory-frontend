@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Form, Input, Popover, Select } from 'antd';
 import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { EditableContext } from '../../OrderedItemsTable';
-import items from '../../../../../../../../apis/items';
+import items from '../../../../../../apis/items';
 import styled from 'styled-components';
 
 const { Option } = Select;

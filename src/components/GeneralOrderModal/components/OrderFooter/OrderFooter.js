@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from 'antd';
-import Form from '../../../../../../components/Form';
+import Form from '../../../Form';
 
-const Footer = ({ onCancel, setStatus }) => {
+const OrderFooter = ({ onCancel, setStatus }) => {
   return (
     <Form.Footer>
       <Button htmlType="submit" onClick={() => setStatus('draft')}>
@@ -18,4 +18,4 @@ const Footer = ({ onCancel, setStatus }) => {
   )
 }
 
-export default Footer;
+export default OrderFooter;

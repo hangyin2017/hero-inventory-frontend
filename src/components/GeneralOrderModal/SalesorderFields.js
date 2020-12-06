@@ -4,39 +4,39 @@ import moment from 'moment';
 
 export default [
   {
-    label: "Supplier Name",
-    name: "supplierName",
+    label: "Customer Name",
+    name: "username",
     rules: [
       {
         required: true,
-        message: 'Please input supplier name',
+        message: 'Please input customer name',
       },
     ],
     children: <Input />,
   },
   {
-    label: "Purchase Order#",
-    name: "purchaseOrder",
+    label: "Sales Order#",
+    name: "salesOrder",
     rules: [
       {
         required: true,
-        message: 'Please input purchase order number',
+        message: 'Please input sales order number',
       },
     ],
     children: <Input />,
   },
   {
     label: "Reference#",
-    name: "reference",
+    name: "salesReference",
     children: <Input />,
   },
   {
-    label: "Purchase Order Date",
-    name: "purchaseOrderDate",
+    label: "Sales Order Date",
+    name: "salesOrderDate",
     rules: [
       {
         required: true,
-        message: 'Please pick a purchase order date',
+        message: 'Please pick a sales order date',
       },
     ],
     children: <DatePicker initialValue={moment()} format="DD/MM/YYYY" />
