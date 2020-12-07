@@ -1,28 +1,34 @@
 import React from 'react';
+import { Input, Divider, message } from 'antd';
 import Modal from '../../../../components/Modal';
 import Form from '../../../../components/Form';
+import fields from '../../fields';
+import CustomerInfo from '../NewCustomerModal/components/CustomerInfo';
+import ContactInfo from '../NewCustomerModal/components/ContactInfo';
+import ActiveInfo from '../NewCustomerModal/components/ActiveInfo';
 import SimpleFooter from '../../../../components/Form/components/SimpleFooter';
+import withFetch from '../../../../components/withFetch';
 
-// const formItems = Object
-//   .keys(fields)
-//   .reduce((obj, key) => {
-//     const { label, component, required, ...restProps } = fields[key];
-//     const rules = required && [{ required: true }];
+const formItems = Object
+  .keys(fields)
+  .reduce((obj, key) => {
+    const { label, component, required, ...restProps } = fields[key];
+    const rules = required && [{ required: true }];
 
-//     return ({
-//       ...obj,
-//       [key]: (
-//         <Form.Item
-//           label={label}
-//           name={key}
-//           rules={rules}
-//           {...restProps}
-//         >
-//           {component || <Input />}
-//         </Form.Item>
-//       ),
-//     });
-//   }, {});
+    return ({
+      ...obj,
+      [key]: (
+        <Form.Item
+          label={label}
+          name={key}
+          rules={rules}
+          {...restProps}
+        >
+          {component || <Input />}
+        </Form.Item>
+      ),
+    });
+  }, {});
 
 class NewCustomerModal extends React.Component {
   constructor(props) {
@@ -60,10 +66,10 @@ class NewCustomerModal extends React.Component {
       await fetch(() => items.add(values));
 
       refreshTableData();
-      message.success(`Item ${values.name} has been added`);
+      message.success(`Customer ${values.name} has been added`);
       onCancel();
     } catch(err) {
-      message.error(`Something went wrong while adding item ${values.name}`);
+      message.error(`Something went wrong while adding customer ${values.name}`);
     }
   };
 
@@ -100,10 +106,16 @@ class NewCustomerModal extends React.Component {
         footer={null}
       >
         <Form
-          labelCol={{ span: 6 }}
-          // onFinish={this.onFinish}
-          // onFinishFailed={this.onFinishFailed}
+          labelCol={{ span: 7 }}
+          ref={this.formRef}
+          initialValues={initialData}
+          onFinish={initialData ? this.update : this.add}
         >
+          <CustomerInfo formItems={formItems} />
+          <Divider />
+          <ContactInfo formItems={formItems} />
+          {/* <Divider />
+          <ActiveInfo formItems={formItems} /> */}
           <SimpleFooter loading={loading} onCancel={onCancel} onSubmit={this.onSubmit}/>
         </Form>
       </Modal>
@@ -111,4 +123,4 @@ class NewCustomerModal extends React.Component {
   }
 }
 
-export default NewCustomerModal;
+export default withFetch(NewCustomerModal);
