@@ -29,7 +29,7 @@ class Customers extends React.Component {
         //   columns: columns,
         //   rowKey: 'id',
         // }}
-        NewItemModal={NewCustomerModal}
+        NewModal={NewCustomerModal}
         // api={customers}
       />
     )
