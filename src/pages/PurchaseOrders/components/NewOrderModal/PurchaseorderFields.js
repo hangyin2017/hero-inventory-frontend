@@ -2,8 +2,8 @@ import React from 'react';
 import { Input, DatePicker } from 'antd';
 import moment from 'moment';
 
-export default [
-  {
+export default {
+  supplierName: {
     label: "Supplier Name",
     name: "username",
     rules: [
@@ -14,7 +14,7 @@ export default [
     ],
     children: <Input />,
   },
-  {
+  purchaseorderNumber: {
     label: "Purchase Order#",
     name: "purchaseOrder",
     rules: [
@@ -25,12 +25,12 @@ export default [
     ],
     children: <Input />,
   },
-  {
+  referenceNumber: {
     label: "Reference#",
     name: "purchaseReference",
     children: <Input />,
   },
-  {
+  date: {
     label: "Purchase Order Date",
     name: "purchaseOrderDate",
     rules: [
@@ -41,4 +41,4 @@ export default [
     ],
     children: <DatePicker initialValue={moment()} format="DD/MM/YYYY" />
   },
-];
+};
