@@ -5,7 +5,6 @@ import Form from '../../../../components/Form';
 import fields from '../../fields';
 import CustomerInfo from '../NewCustomerModal/components/CustomerInfo';
 import ContactInfo from '../NewCustomerModal/components/ContactInfo';
-import ActiveInfo from '../NewCustomerModal/components/ActiveInfo';
 import SimpleFooter from '../../../../components/Form/components/SimpleFooter';
 import withFetch from '../../../../components/withFetch';
 
@@ -114,8 +113,6 @@ class NewCustomerModal extends React.Component {
           <CustomerInfo formItems={formItems} />
           <Divider />
           <ContactInfo formItems={formItems} />
-          {/* <Divider />
-          <ActiveInfo formItems={formItems} /> */}
           <SimpleFooter loading={loading} onCancel={onCancel} onSubmit={this.onSubmit}/>
         </Form>
       </Modal>
