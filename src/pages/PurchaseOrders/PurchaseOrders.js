@@ -2,6 +2,7 @@ import React from "react";
 import Page from '../../components/Page';
 import PAGES from "../../pages";
 import NewOrderModal from './components/NewOrderModal';
+import purchaseOrder from '../../apis/purchaseOrders';
 
 class PurchaseOrders extends React.Component {
   constructor(props) {
@@ -36,7 +37,8 @@ class PurchaseOrders extends React.Component {
             defaultPageSize: 10,
           },
         }}
-        Modal={NewOrderModal}
+        NewItemModal={NewOrderModal}
+        api={purchaseOrder}
       />
     )
   }
