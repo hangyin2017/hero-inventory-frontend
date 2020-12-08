@@ -66,10 +66,11 @@ class NewCustomerModal extends React.Component {
       await fetch(() => customers.add(values));
 
       refreshTableData();
-      message.success(`Customer ${values.name} has been added`);
+      message.success(`Customer ${values.customerName} has been added`);
       onCancel();
     } catch(err) {
-      message.error(`Something went wrong while adding customer ${values.name}`);
+      console.log(err);
+      message.error(`Something went wrong while adding customer ${values.customerName}`);
     }
   };
 
@@ -81,14 +82,14 @@ class NewCustomerModal extends React.Component {
     values = {...initialData, ...values};
 
     try {
-      await fetch(() => items.update(id, values));
+      await fetch(() => customers.update(id, values));
 
       refreshDetailsData();
       refreshTableData();
-      message.success(`Item ${values.name} has been updated`);
+      message.success(`Customer ${values.customerName} has been updated`);
       onCancel();
     } catch(err) {
-      message.error(`Something went wrong while updating item ${values.name}`);
+      message.error(`Something went wrong while updating customer ${values.customerName}`);
     }
   }
 
