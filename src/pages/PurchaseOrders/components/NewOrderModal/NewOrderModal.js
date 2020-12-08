@@ -21,21 +21,13 @@ class NewOrderModal extends React.Component {
         onCancel={onCancel}
         width={1000}
       >
-        <Modal
-          closable={false}
-          footer={null}
-          mask={false}
-          width={0}
-        >
-          <Spin size="large" />
-        </Modal>
-        <GeneralOrderModal 
-          onCancel={onCancel} 
+        <GeneralOrderModal
+          onCancel={onCancel}
           fields={PurchaseorderFields}
           orderAPI={purchaseOrder}
         />
       </Modal>
-    )
+    );
   }
 
 }

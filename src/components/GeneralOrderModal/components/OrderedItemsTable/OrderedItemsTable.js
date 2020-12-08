@@ -67,18 +67,18 @@ class OrderedItemsTable extends React.Component {
           this.state.dataSource.length > 1 ? (
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={ () => this.handleDelete(record.key) }
+              onConfirm={() => this.handleDelete(record.key)}
             >
               <Button>Delete</Button>
             </Popconfirm>
           ) : "Can't not delete",
       },
     ];
-    
+
     this.state = {
       dataSource: [
         {
-          id:0,
+          id: 0,
           key: "0",
           DETAILS: "Type or click to select an item",
           QUANTITY: 1,
@@ -130,10 +130,10 @@ class OrderedItemsTable extends React.Component {
   };
 
   //数据改变 就传数据
-  componentDidUpdate (prevProps,prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const { dataSource } = this.state;
     const { getItems } = this.props;
-    if(dataSource != prevState.dataSource){
+    if (dataSource != prevState.dataSource) {
       getItems(dataSource);
     }
   };
@@ -166,26 +166,26 @@ class OrderedItemsTable extends React.Component {
     return (
       <ItemTableWrapper>
         <Table
-          pagination={ false }
-          components={ components }
+          pagination={false}
+          components={components}
           bordered
-          dataSource={ dataSource }
-          columns={ columns }
+          dataSource={dataSource}
+          columns={columns}
         />
         <BottomWrapper>
           <div>
             <StyledButton
               type='button'
-              onClick={ this.handleAdd }
+              onClick={this.handleAdd}
             >
               Add Another Line
             </StyledButton>
           </div>
           <TableAmountWrapper>
-            <Total dataSource={ dataSource } />
+            <Total dataSource={dataSource} />
           </TableAmountWrapper>
         </BottomWrapper>
-      </ItemTableWrapper> 
+      </ItemTableWrapper>
     );
   }
 }

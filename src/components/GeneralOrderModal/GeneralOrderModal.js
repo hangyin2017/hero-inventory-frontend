@@ -1,8 +1,8 @@
 import React from 'react';
-import { Divider, Input, message } from 'antd';
+import { Divider, Input, message, Spin } from 'antd';
 import Form from '../Form';
 import OrderedItemsTable from './components/OrderedItemsTable';
-import OrderFooter from './components/OrderFooter';
+import Footer from './components/Footer';
 import withFetch from '../withFetch';
 import salesOrder from '../../apis/salesOrders';
 
@@ -13,7 +13,6 @@ class GeneralOrderModal extends React.Component {
     this.state = {
       Items: [],
       visible: false,
-      status: '',
     }
   }
 
@@ -23,31 +22,25 @@ class GeneralOrderModal extends React.Component {
     })
   }
 
-  setStatus = (status) => {
-    this.setState({ status })
-  }
 
   onFinish = async values => {
-    const { status, Items } = this.state;
+    const { Items } = this.state;
     const { onCancel, fetch, orderAPI } = this.props;
 
     values.createdTime = new Date();
-    values.status = status;
     values.totalQuantity = Items.reduce((total, cur) => total + parseInt(cur.QUANTITY), 0);
     if (orderAPI == salesOrder) {
       values.soldItems = Items.map((val) => ({ itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     } else {
       values.purchasedItems = Items.map((val) => ({ itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     }
-
-    values = { ...values };
-
+    
     try {
       await fetch(() => orderAPI.add(values));
 
       message.success(`This Order has been added`);
       onCancel();
-    } catch(err) {
+    } catch (err) {
       message.error(`Something went wrong while adding this order`)
     }
   }
@@ -64,7 +57,7 @@ class GeneralOrderModal extends React.Component {
       >
         <Form.Section>
           {Object.keys(fields).map((key) => (
-            <Form.Item key={fields[key].name} { ...fields[key] } />
+            <Form.Item key={fields[key]} {...fields[key]} name={key} />
           ))}
         </Form.Section>
         <Divider />
@@ -82,7 +75,7 @@ class GeneralOrderModal extends React.Component {
             />
           </Form.Item>
         </Form.Section>
-        <OrderFooter onCancel={onCancel} setStatus={this.setStatus} />
+        <Footer onCancel={onCancel} />
       </Form>
     );
   }
