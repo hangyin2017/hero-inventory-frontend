@@ -35,7 +35,7 @@ class Inventory extends React.Component {
           columns: columns,
           rowKey: 'id',
         }}
-        NewItemModal={NewItemModal}
+        NewModal={NewItemModal}
         DetailsModal={ItemDetailModal}
         api={items}
       />

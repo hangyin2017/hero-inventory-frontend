@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input, Divider, message } from 'antd';
+import customers from '../../../../apis/customers';
 import Modal from '../../../../components/Modal';
 import Form from '../../../../components/Form';
 import fields from '../../fields';
@@ -62,7 +63,7 @@ class NewCustomerModal extends React.Component {
     values.createdTime = new Date();
 
     try {
-      await fetch(() => items.add(values));
+      await fetch(() => customers.add(values));
 
       refreshTableData();
       message.success(`Customer ${values.name} has been added`);

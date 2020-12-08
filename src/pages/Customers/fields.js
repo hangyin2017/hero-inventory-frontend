@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Checkbox, Select } from "antd";
+import { Input, Select } from "antd";
 
 const { TextArea } = Input;
 
@@ -10,18 +10,23 @@ export default {
   name: {
     label: "Customer Name",
     required: true,
+    inTable: true,
   },
   companyName: {
     label: "Company Name",
+    inTable: true,
   },
   website: {
     label: "Website",
+    inTable: true,
   },
   active: {
     label: "Active",
+    inTable: true,
   },
   salutation: {
     label: "Salutation",
+    inTable: true,
     component:(
       <Select 
         placeholder="Salutation"
@@ -37,9 +42,11 @@ export default {
   },
   firstName: {
     label: "First Name",
+    inTable: true,
   },
   lastName: {
     label: "Last Name",
+    inTable: true,
   },
   email: {
     label: "Email",
