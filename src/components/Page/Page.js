@@ -72,7 +72,7 @@ class Page extends React.Component {
     
     try {
       fetch(() => api.filter(input))
-        .then(() => this.setState({ data }));
+        .then((data) => this.setState({ data }));
     } catch(err) {
       message.error(`Something went wrong while fetching data`);
     }
@@ -88,7 +88,7 @@ class Page extends React.Component {
       headerProps,
       searchBarProps,
       tableProps,
-      NewItemModal,
+      NewModal,
       DetailsModal,
       // modalVisible,
       // showModal,
@@ -109,7 +109,7 @@ class Page extends React.Component {
             onSearch: this.throttledSearch,
             ...searchBarProps,
           }}
-          onNewButtonClick={this.showModal('newItem')}
+          onNewButtonClick={this.showModal('new')}
         />
         <Content>
           <Spin size="large" spinning={loading}>
@@ -130,9 +130,9 @@ class Page extends React.Component {
                 {...tableProps}
               />
             )}
-            {NewItemModal && (
-              <NewItemModal
-                visible={modal == 'newItem'}
+            {NewModal && (
+              <NewModal
+                visible={modal == 'new'}
                 onCancel={this.hideModal}
                 refreshTableData={this.refreshData}
               />
