@@ -72,7 +72,7 @@ class Page extends React.Component {
     
     try {
       fetch(() => api.filter(input))
-        .then(() => this.setState({ data }));
+        .then((data) => this.setState({ data }));
     } catch(err) {
       message.error(`Something went wrong while fetching data`);
     }

@@ -22,7 +22,7 @@ const withFetch = (Component) => {
       return fetcher()
         .then((res) => res?.data)
         .catch((err) => {
-          this.setState({ error: err.response.data.message });
+          this.setState({ error: err.response?.data?.message });
           throw err;
         })
         .finally(() => this.setState({ loading: false }));
