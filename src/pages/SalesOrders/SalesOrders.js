@@ -36,7 +36,7 @@ class SalesOrders extends React.Component {
             defaultPageSize: 10,
           },
         }}
-        NewItemModal={NewOrderModal}
+        NewModal={NewOrderModal}
         api={salesOrders}
       />
     )
