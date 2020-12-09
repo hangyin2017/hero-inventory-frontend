@@ -2,6 +2,7 @@ import React from "react";
 import Page from '../../components/Page';
 import customers from '../../apis/customers';
 import NewCustomerModal from './components/NewCustomerModal';
+import CustomerDetailModal from './components/CustomerDetailModal';
 import PAGES from "../../pages";
 import fields from './fields';
 
@@ -36,6 +37,7 @@ class Customers extends React.Component {
           rowKey: 'id',
         }}
         NewModal={NewCustomerModal}
+        DetailsModal={CustomerDetailModal}
         api={customers}
       />
     )
