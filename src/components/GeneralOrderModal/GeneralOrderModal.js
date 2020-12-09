@@ -1,18 +1,16 @@
 import React from 'react';
-import { Divider, Input, message, Spin } from 'antd';
+import { Divider, Input, message, Modal } from 'antd';
 import Form from '../Form';
 import OrderedItemsTable from './components/OrderedItemsTable';
 import Footer from './components/Footer';
 import withFetch from '../withFetch';
 import salesOrder from '../../apis/salesOrders';
 
-
 class GeneralOrderModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       Items: [],
-      visible: false,
     }
   }
 
@@ -21,7 +19,6 @@ class GeneralOrderModal extends React.Component {
       Items
     })
   }
-
 
   onFinish = async values => {
     const { Items } = this.state;
@@ -34,7 +31,7 @@ class GeneralOrderModal extends React.Component {
     } else {
       values.purchasedItems = Items.map((val) => ({ itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     }
-    
+
     try {
       await fetch(() => orderAPI.add(values));
 
@@ -46,37 +43,46 @@ class GeneralOrderModal extends React.Component {
   }
 
   render() {
-    const { onCancel, fields } = this.props;
+    const { onCancel, loading, error, fetch, fields, ...props } = this.props;
     const { TextArea } = Input;
+
     return (
-      <Form
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 12 }}
-        preserve={false}
-        onFinish={this.onFinish}
+      <Modal
+        {...props}
+        onCancel={onCancel}
+        footer={null}
+        title={'Add New Order'}
+        width={1000}
       >
-        <Form.Section>
-          {Object.keys(fields).map((key) => (
-            <Form.Item key={fields[key]} {...fields[key]} name={key} />
-          ))}
-        </Form.Section>
-        <Divider />
-        <Form.Section>
-          <OrderedItemsTable getItems={this.getItems} />
-        </Form.Section>
-        <Divider />
-        <Form.Section>
-          <Form.Item label="Comments" name="comments">
-            <TextArea
-              allowClear
-              autoSize={{ minRows: 3 }}
-              maxLength={255}
-              showCount
-            />
-          </Form.Item>
-        </Form.Section>
-        <Footer onCancel={onCancel} />
-      </Form>
+        <Form
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 12 }}
+          preserve={false}
+          onFinish={this.onFinish}
+        >
+          <Form.Section>
+            {Object.keys(fields).map((key) => (
+              <Form.Item key={fields[key]} {...fields[key]} name={key} />
+            ))}
+          </Form.Section>
+          <Divider />
+          <Form.Section>
+            <OrderedItemsTable getItems={this.getItems} />
+          </Form.Section>
+          <Divider />
+          <Form.Section>
+            <Form.Item label="Comments" name="comments">
+              <TextArea
+                allowClear
+                autoSize={{ minRows: 3 }}
+                maxLength={255}
+                showCount
+              />
+            </Form.Item>
+          </Form.Section>
+          <Footer onCancel={onCancel} />
+        </Form>
+      </Modal>
     );
   }
 }
