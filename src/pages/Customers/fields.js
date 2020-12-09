@@ -25,7 +25,6 @@ export default {
   },
   active: {
     label: "Active",
-    inTable: true,
     inDetails: true,
   },
   salutation: {
