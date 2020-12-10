@@ -11,22 +11,26 @@ export default {
     label: "Customer Name",
     required: true,
     inTable: true,
+    inDetails: true,
   },
   companyName: {
     label: "Company Name",
     inTable: true,
+    inDetails: true,
   },
   website: {
     label: "Website",
     inTable: true,
+    inDetails: true,
   },
   active: {
     label: "Active",
-    inTable: true,
+    inDetails: true,
   },
   salutation: {
     label: "Salutation",
     inTable: true,
+    inDetails: true,
     component:(
       <Select 
         placeholder="Salutation"
@@ -43,25 +47,32 @@ export default {
   firstName: {
     label: "First Name",
     inTable: true,
+    inDetails: true,
   },
   lastName: {
     label: "Last Name",
     inTable: true,
+    inDetails: true,
   },
   email: {
     label: "Email",
+    inDetails: true,
   },
   phone: {
     label: "Phone",
+    inDetails: true,
   },
   createdTime: {
     label: "Created Time",
+    inDetails: true,
   },
   lastModifiedTime: {
     label: "Last Modified Time",
+    inDetails: true,
   },
   comments: {
-	label: "Comments",
+  label: "Comments",
+  inDetails: true,
   component: (
     <TextArea
       showCount
