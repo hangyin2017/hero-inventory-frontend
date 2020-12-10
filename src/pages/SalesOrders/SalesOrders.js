@@ -1,6 +1,8 @@
 import React from 'react';
 import Page from '../../components/Page';
 import NewOrderModal from './components/NewOrderModal';
+import PAGES from '../../pages';
+import salesOrders from '../../apis/salesOrders';
 
 class SalesOrders extends React.Component {
   constructor(props) {
@@ -8,26 +10,22 @@ class SalesOrders extends React.Component {
 
     this.state = {
       tableData: [],
-      newOrderModalVisible: false,
     }
   }
 
   render() {
-    const { tableData, newOrderModalVisible } = this.state;
+    const { tableData } = this.state;
 
     return (
       <Page
         headerProps={{
-          title: 'Sales Orders',
+          title: PAGES.salesorders.title,
           hasNewButton: true,
         }}
         searchBarProps={{
           placeholder: 'Search by order number',
           // onChange: this.debouncedSearch,
           // onSearch: this.handleSearch,
-        }}
-        newButtonProps={{
-          onClick: this.showNewOrderModal,
         }}
         tableProps={{
           // columns: columns,
@@ -38,7 +36,8 @@ class SalesOrders extends React.Component {
             defaultPageSize: 10,
           },
         }}
-        Modal={NewOrderModal}
+        NewModal={NewOrderModal}
+        api={salesOrders}
       />
     )
   }

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Form, Input, Popover, Select } from 'antd';
 import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { EditableContext } from '../../OrderedItemsTable';
-import items from '../../../../../../../../apis/items';
+import items from '../../../../../../apis/items';
 import styled from 'styled-components';
 
 const { Option } = Select;
@@ -75,7 +75,7 @@ const OrderedItemsTableCell = ({
       inputRef.current.focus();
     }
   }, [editing]);
-  
+
   const toggleEdit = () => {
     setEditing(!editing);
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
@@ -124,8 +124,8 @@ const OrderedItemsTableCell = ({
     }
     let result = allData.filter((item) => {
       return (
-        new RegExp(e.target.value,'i').test(item.name) || 
-        new RegExp(e.target.value,'i').test(item.sku)
+        new RegExp(e.target.value, 'i').test(item.name) ||
+        new RegExp(e.target.value, 'i').test(item.sku)
       );
     });
     setData(result);
@@ -164,13 +164,13 @@ const OrderedItemsTableCell = ({
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
             <SelectedItemName>
-              { record.data.name }
+              {record.data.name}
               <SelectedItemModal>
                 <Popover
                   content={
                     <div>
-                      <p onClick={ showModal }>Edit Item</p>
-                      <p onClick={ showModal }>View Item Details</p>
+                      <p onClick={showModal}>Edit Item</p>
+                      <p onClick={showModal}>View Item Details</p>
                     </div>
                   }
                 >
@@ -179,12 +179,12 @@ const OrderedItemsTableCell = ({
                 <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
               </SelectedItemModal>
             </SelectedItemName>
-            <span>SKU:{ record.data.sku }</span>
+            <span>SKU:{record.data.sku}</span>
           </div>
         ) : null}
         <Form.Item
           style={{ margin: 0 }}
-          name={ dataIndex }
+          name={dataIndex}
           rules={[
             {
               required: true,
@@ -193,15 +193,15 @@ const OrderedItemsTableCell = ({
           ]}
         >
           <Input
-            ref={ inputRef }
+            ref={inputRef}
             autocomplete="off"
-            onBlur={ myblur }
-            onPressEnter={ myblur }
-            onChange={ search }
+            onBlur={myblur}
+            onPressEnter={myblur}
+            onChange={search}
           />
         </Form.Item>
         {dataIndex === "DISCOUNT" ? (
-          <Select defaultValue={ record.flag } style={{ marginLeft: 10 }}>
+          <Select defaultValue={record.flag} style={{ marginLeft: 10 }}>
             <Option value="%">%</Option>
             <Option value="$">$</Option>
           </Select>
@@ -210,19 +210,19 @@ const OrderedItemsTableCell = ({
           <ItemsList>
             {data.map((item) => (
               <li
-                key={ item.id }
+                key={item.id}
                 onClick={() => {
                   save(item);
                   handleAdd();
                 }}
               >
                 <ItemsName>
-                  { item.name }
+                  {item.name}
                 </ItemsName>
                 <ItemsDetail>
-                  <span> SKU:{ item.sku }</span>
-                  <span> Rate:{ item.sellingPrice } </span>
-                  <span> Stock:{ item.physicalStock }</span>
+                  <span> SKU:{item.sku}</span>
+                  <span> Rate:{item.sellingPrice} </span>
+                  <span> Stock:{item.physicalStock}</span>
                 </ItemsDetail>
               </li>
             ))}
@@ -230,66 +230,66 @@ const OrderedItemsTableCell = ({
         ) : null}
       </div>
     ) : (//失去焦点，不可编辑状态，显示具体的数据
-      <div style={{ paddingRight: 24 }}>
-        {dataIndex === "DETAILS" && record.data?.name ? (
-          <div>
-            <SelectedItemName>
-              { record.data.name }
-              <SelectedItemModal>
-                <Popover
-                  content={
-                    <div>
-                      <p onClick={ showModal }>Edit Item</p>
-                      <p onClick={ showModal }>View Item Details</p>
-                    </div>
-                  }
-                >
-                  <PlusCircleOutlined />
-                </Popover>
-                <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
-              </SelectedItemModal>
-            </SelectedItemName>
-            <span>SKU:{ record.data.sku }</span>
-          </div>
-        ) : null}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ flex: 1 }} onClick={ toggleEdit }>
-            {children}
-          </div>
-          {dataIndex === "DISCOUNT" ? (
-            <Select
-              onClick={() => setEditing(false)}
-              defaultValue={record.flag}
-              style={{ width: 60, marginLeft: 10 }}
-              onChange={(val) => {
-                let data = { ...record };
-                let amount = 0;
-                if (val === "%") {
-                  amount =
-                    data.QUANTITY * data.RATE * (1 - data.DISCOUNT / 100);
-                } else {
-                  amount = data.QUANTITY * data.RATE - data.DISCOUNT;
-                }
-                handleSave({
-                  ...data,
-                  AMOUNT: amount,
-                  flag: val,
-                });
-              }}
-            >
-              <Option value="%">%</Option>
-              <Option value="$">$</Option>
-            </Select>
+        <div style={{ paddingRight: 24 }}>
+          {dataIndex === "DETAILS" && record.data?.name ? (
+            <div>
+              <SelectedItemName>
+                {record.data.name}
+                <SelectedItemModal>
+                  <Popover
+                    content={
+                      <div>
+                        <p onClick={showModal}>Edit Item</p>
+                        <p onClick={showModal}>View Item Details</p>
+                      </div>
+                    }
+                  >
+                    <PlusCircleOutlined />
+                  </Popover>
+                  <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
+                </SelectedItemModal>
+              </SelectedItemName>
+              <span>SKU:{record.data.sku}</span>
+            </div>
           ) : null}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ flex: 1 }} onClick={toggleEdit}>
+              {children}
+            </div>
+            {dataIndex === "DISCOUNT" ? (
+              <Select
+                onClick={() => setEditing(false)}
+                defaultValue={record.flag}
+                style={{ width: 60, marginLeft: 10 }}
+                onChange={(val) => {
+                  let data = { ...record };
+                  let amount = 0;
+                  if (val === "%") {
+                    amount =
+                      data.QUANTITY * data.RATE * (1 - data.DISCOUNT / 100);
+                  } else {
+                    amount = data.QUANTITY * data.RATE - data.DISCOUNT;
+                  }
+                  handleSave({
+                    ...data,
+                    AMOUNT: amount,
+                    flag: val,
+                  });
+                }}
+              >
+                <Option value="%">%</Option>
+                <Option value="$">$</Option>
+              </Select>
+            ) : null}
+          </div>
         </div>
-      </div>
-    );
+      );
   }
 
   return <td {...restProps}>{childNode}</td>;

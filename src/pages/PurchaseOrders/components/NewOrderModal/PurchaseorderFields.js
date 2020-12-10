@@ -2,43 +2,36 @@ import React from 'react';
 import { Input, DatePicker } from 'antd';
 import moment from 'moment';
 
-export default [
-  {
-    label: "Customer Name",
-    name: "username",
+export default {
+  supplierName: {
+    label: "Supplier Name",
     rules: [
       {
         required: true,
-        message: 'Please input customer name',
       },
     ],
     children: <Input />,
   },
-  {
-    label: "Sales Order#",
-    name: "salesOrder",
+  purchaseorderNumber: {
+    label: "Purchase Order#",
     rules: [
       {
         required: true,
-        message: 'Please input sales order number',
       },
     ],
     children: <Input />,
   },
-  {
+  referenceNumber: {
     label: "Reference#",
-    name: "reference",
     children: <Input />,
   },
-  {
-    label: "Sales Order Date",
-    name: "salesOrderDate",
+  date: {
+    label: "Purchase Order Date",
     rules: [
       {
         required: true,
-        message: 'Please pick a sales order date',
       },
     ],
     children: <DatePicker initialValue={moment()} format="DD/MM/YYYY" />
   },
-];
+};
