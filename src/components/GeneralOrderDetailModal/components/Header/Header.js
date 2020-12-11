@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, Button, Dropdown } from "antd";
 import { EditOutlined, DownOutlined } from '@ant-design/icons';
-import Modal from '../../../../../../components/Modal';
+import Modal from '../../../../components/Modal';
 
 const Header = ({
   onEdit,
@@ -9,7 +9,7 @@ const Header = ({
   onDelete,
 }) => {
   return (
-    <Modal.Header title="Item Details">
+    <Modal.Header title="Order Details">
       <Button
         disabled={loading}
         icon={<EditOutlined />}

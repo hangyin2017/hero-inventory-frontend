@@ -3,6 +3,14 @@ import Page from '../../components/Page';
 import PAGES from "../../pages";
 import NewOrderModal from './components/NewOrderModal';
 import purchaseOrder from '../../apis/purchaseOrders';
+import fields from './fields';
+
+const DEFAULT_COLUMNS = Object.keys(fields).filter(key => fields[key].inTable);
+
+const columns = DEFAULT_COLUMNS.map((key) => ({
+  title: fields[key].title || fields[key].label,
+  dataIndex: key,
+}));
 
 class PurchaseOrders extends React.Component {
   constructor(props) {
@@ -29,13 +37,8 @@ class PurchaseOrders extends React.Component {
           // onSearch: this.handleSearch,
         }}
         tableProps={{
-          // columns: columns,
-          dataSource: tableData,
-          // rowKey: 'id',
-          pagination: {
-            position: ['topRight', 'bottomRight'],
-            defaultPageSize: 10,
-          },
+          columns: columns,
+          rowKey: 'id',
         }}
         NewModal={NewOrderModal}
         api={purchaseOrder}

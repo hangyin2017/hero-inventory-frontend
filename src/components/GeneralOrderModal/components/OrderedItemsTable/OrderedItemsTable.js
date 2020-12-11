@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Popconfirm, Button, Modal } from 'antd';
+import { Table, Popconfirm, Button } from 'antd';
 import OrderItemsTableRow from './components/OrderedItemsTableRow';
 import OrderedItemsTableCell from './components/OrderItemsTableCell';
 import Total from './components/Total';
