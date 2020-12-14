@@ -4,7 +4,7 @@ import Form from '../Form';
 import OrderedItemsTable from './components/OrderedItemsTable';
 import Footer from './components/Footer';
 import withFetch from '../withFetch';
-import salesOrder from '../../apis/salesOrders';
+import salesOrders from '../../apis/salesOrders';
 
 class GeneralOrderModal extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class GeneralOrderModal extends React.Component {
     values.createdTime = new Date();
     values.totalQuantity = Items.reduce((total, cur) => total + parseInt(cur.QUANTITY), 0);
     values.totalPrice = totalPrice;
-    if (orderAPI == salesOrder) {
+    if (orderAPI == salesOrders) {
       values.soldItems = Items.map((val) => ({ itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     } else {
       values.purchasedItems = Items.map((val) => ({ itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
@@ -76,8 +76,8 @@ class GeneralOrderModal extends React.Component {
           </Form.Section>
           <Divider />
           <Form.Section>
-            <OrderedItemsTable
-              initialData={initialData ? initialData.soldItems : null}
+            <OrderedItemsTable 
+              initialData={initialData ? initialData.purchasedItems || initialData.soldItems : null}
               getItems={this.getItems}
               getTotalPrice={this.getTotalPrice} />
           </Form.Section>

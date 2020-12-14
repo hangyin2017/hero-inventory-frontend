@@ -1,10 +1,9 @@
 import React from 'react';
-import { Modal } from 'antd';
 import GeneralOrderModal from '../../../../components/GeneralOrderModal';
 import SalesorderFields from './SalesorderFields';
-import salesOrder from '../../../../apis/salesOrders';
+import salesOrders from '../../../../apis/salesOrders';
 
-class NewOrderModal extends React.Component {
+class NewSalesOrderModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -16,10 +15,10 @@ class NewOrderModal extends React.Component {
         {...props}
         onCancel={onCancel}
         fields={SalesorderFields}
-        orderAPI={salesOrder}
+        orderAPI={salesOrders}
       />
     );
   }
 }
 
-export default NewOrderModal;
+export default NewSalesOrderModal;

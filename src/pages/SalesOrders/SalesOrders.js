@@ -1,6 +1,6 @@
 import React from 'react';
 import Page from '../../components/Page';
-import NewOrderModal from './components/NewOrderModal';
+import NewSalesOrderModal from './components/NewSalesOrderModal';
 import PAGES from '../../pages';
 import salesOrders from '../../apis/salesOrders';
 import fields from './fields';
@@ -39,7 +39,7 @@ class SalesOrders extends React.Component {
           columns: columns,
           rowKey: 'id',
         }}
-        NewModal={NewOrderModal}
+        NewModal={NewSalesOrderModal}
         DetailsModal={OrderDetailModal}
         api={salesOrders}
       />

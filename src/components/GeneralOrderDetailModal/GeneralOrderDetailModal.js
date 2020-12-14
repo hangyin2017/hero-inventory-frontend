@@ -1,13 +1,13 @@
 import React from 'react';
 import { message, Row, Col, Spin, Button } from 'antd';
 import styled from 'styled-components';
-import salesOrder from '../../apis/salesOrders';
+import salesOrders from '../../apis/salesOrders';
 import withFetch from '../../components/withFetch';
 import Modal from '../../components/Modal';
 import Header from './components/Header';
 import DescriptionList from '../../components/DescriptionList';
-import NewOrderModal from '../../pages/SalesOrders/components/NewOrderModal';
-import fields from '../../pages/SalesOrders/fields';
+import NewSalesOrderModal from '../../pages/SalesOrders/components/NewSalesOrderModal';
+import NewPurchaseOrderModal from '../../pages/PurchaseOrders/components/NewPurchaseOrderModal';
 import ItemTable from './components/ItemTable';
 import moment from 'moment';
 
@@ -42,14 +42,21 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   async refreshData() {
-    const { id, fetch } = this.props;
+    const { id, fetch, orderAPI } = this.props;
 
     if (!!id) {
       try {
-        const data = await fetch(() => salesOrder.get(id));
-        data.date = moment(data.date);
-        this.setState({ data });
-        console.log(data);
+        if (orderAPI == salesOrders) {
+          const data = await fetch(() => orderAPI.get(id));
+          data.date = moment(data.date);
+          this.setState({ data });
+          console.log(data);
+        } else {
+          const data = await fetch(() => orderAPI.get(id));
+          data.date = moment(data.date);
+          this.setState({ data });
+          console.log(data);
+        }
       } catch (err) {
         message.error(`Something went wrong while fetching details for order ${id}`);
       }
@@ -66,15 +73,21 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   async delete() {
-    const { id, onCancel, refreshTableData, fetch } = this.props;
+    const { id, onCancel, refreshTableData, fetch, orderAPI } = this.props;
 
     if (!!id) {
       try {
-        await fetch(() => salesOrder.remove(id));
-
-        onCancel();
-        refreshTableData();
-        message.success(`Successfully deleted order ${id}`);
+        if (orderAPI == salesOrders) {
+          await fetch(() => orderAPI.remove(id));
+          onCancel();
+          refreshTableData();
+          message.success(`Successfully deleted order ${id}`);
+        } else {
+          await fetch(() => orderAPI.remove(id));
+          onCancel();
+          refreshTableData();
+          message.success(`Successfully deleted order ${id}`);
+        }
       } catch (err) {
         message.error(`Something went wrong while deleting order ${id}`);
       }
@@ -82,7 +95,7 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   render() {
-    const { onCancel, refreshTableData, refreshDetailsData, loading, error, fetch, id, ...modalProps } = this.props;
+    const { onCancel, refreshTableData, refreshDetailsData, loading, error, fetch, id, fields, orderAPI, ...modalProps } = this.props;
     const { data, editing } = this.state;
 
     return (
@@ -107,13 +120,23 @@ class GeneralOrderDetailModal extends React.Component {
               />
             </Meta>
           </Content>
-          <ItemTable id={id} />
+          <ItemTable
+            id={id}
+            orderAPI={orderAPI}
+          />
         </Spin>
-        <NewOrderModal
+        {<NewSalesOrderModal
           visible={editing}
           initialData={data}
           onCancel={this.onCancel}
         />
+          &&
+          <NewPurchaseOrderModal
+            visible={editing}
+            initialData={data}
+            onCancel={this.onCancel}
+          />
+        }
         <Button onClick={onCancel}>Cancel</Button>
       </Modal>
     )

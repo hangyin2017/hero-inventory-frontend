@@ -118,9 +118,9 @@ class OrderedItemsTable extends React.Component {
     });
   };
 
-  componentDidMount(){
-    if(this.props.initialData){
-      let dataSource = this.props.initialData.map(val=>({
+  componentDidMount() {
+    if (this.props.initialData) {
+      let dataSource = this.props.initialData.map(val => ({
         id: val.itemId,
         key: val.itemId,
         DETAILS: "Type or click to select an item",
@@ -129,8 +129,8 @@ class OrderedItemsTable extends React.Component {
         DISCOUNT: 0,
         AMOUNT: val.quantity * val.rate,
         flag: '%'
-    }))
-      this.setState({dataSource})
+      }))
+      this.setState({ dataSource })
     }
   }
 
@@ -199,8 +199,8 @@ class OrderedItemsTable extends React.Component {
             </StyledButton>
           </div>
           <TableAmountWrapper>
-            <Total 
-              dataSource={dataSource} 
+            <Total
+              dataSource={dataSource}
               getTotalPrice={getTotalPrice}
             />
           </TableAmountWrapper>

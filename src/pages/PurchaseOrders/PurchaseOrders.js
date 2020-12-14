@@ -1,9 +1,10 @@
 import React from "react";
 import Page from '../../components/Page';
 import PAGES from "../../pages";
-import NewOrderModal from './components/NewOrderModal';
+import NewPurchaseOrderModal from './components/NewPurchaseOrderModal';
 import purchaseOrder from '../../apis/purchaseOrders';
 import fields from './fields';
+import OrderDetailModal from './components/OrderDetailModal';
 
 const DEFAULT_COLUMNS = Object.keys(fields).filter(key => fields[key].inTable);
 
@@ -40,7 +41,8 @@ class PurchaseOrders extends React.Component {
           columns: columns,
           rowKey: 'id',
         }}
-        NewModal={NewOrderModal}
+        NewModal={NewPurchaseOrderModal}
+        DetailsModal={OrderDetailModal}
         api={purchaseOrder}
       />
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
-import salesOrder from '../../../../apis/salesOrders';
+import salesOrders from '../../../../apis/salesOrders';
 import styled from 'styled-components';
 
 const DetailsTableContainer = styled.div`
@@ -12,13 +12,7 @@ const TotalAmountContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const columns = [
-  {
-    title: "Sold Item Id",
-    dataIndex: "soldItemId",
-    width: 300,
-    sorter: (a, b) => a.soldItemId - b.soldItemId,
-  },
+/* const columns = [
   {
     title: "Item Id",
     dataIndex: "itemId",
@@ -34,7 +28,7 @@ const columns = [
     dataIndex: "rate",
     width: 100,
   },
-];
+]; */
 
 class ItemTable extends React.Component {
   constructor(props) {
@@ -42,20 +36,66 @@ class ItemTable extends React.Component {
     this.state = {
       dataSource: [],
       totalPrice: 0,
+      columns: [
+        {
+          title: "Item Id",
+          dataIndex: "itemId",
+          width: 100,
+        },
+        {
+          title: "Quantity",
+          dataIndex: "quantity",
+          width: 100,
+        },
+        {
+          title: "Rate",
+          dataIndex: "rate",
+          width: 100,
+        },
+      ]
     }
   }
 
-    async componentDidMount() {
-    const { id } = this.props;
-    const result = await salesOrder.get(id);
-    const soldItems = result.data.soldItems;
-    this.setState({
-      dataSource: soldItems,
-      totalPrice: result.data.totalPrice,
-    });
+  async componentDidMount() {
+    const { id, orderAPI } = this.props;
+    const { columns } = this.state;
+    if (orderAPI == salesOrders) {
+      const result = await orderAPI.get(id);
+      const soldItems = result.data.soldItems;
+      this.setState({
+        dataSource: soldItems,
+        totalPrice: result.data.totalPrice,
+        columns: [
+          {
+            title: "Sold Item Id",
+            dataIndex: "soldItemId",
+            width: 300,
+            sorter: (a, b) => a.soldItemId - b.soldItemId,
+          },
+          ...columns,
+        ]
+      });
+    } else {
+      const result = await orderAPI.get(id);
+      const purchasedItems = result.data.purchasedItems;
+      this.setState({
+        dataSource: purchasedItems,
+        totalPrice: result.data.totalPrice,
+        columns: [
+          {
+            title: "Purchased Item Id",
+            dataIndex: "purchasedItemId",
+            width: 300,
+            sorter: (a, b) => a.purchasedItemId - b.purchasedItemId,
+          },
+          ...columns,
+        ]
+      });
+    }
   }
+
   render() {
-    const { dataSource, totalPrice } = this.state;
+    const { dataSource, totalPrice, columns } = this.state;
 
     return (
       <DetailsTableContainer>
