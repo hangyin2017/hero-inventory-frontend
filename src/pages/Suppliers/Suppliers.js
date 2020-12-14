@@ -2,7 +2,7 @@ import React from "react";
 import Page from '../../components/Page';
 import suppliers from '../../apis/suppliers';
 import NewSupplierModal from './components/NewSupplierModal';
-// import SupplierDetailModal from './components/SupplierDetailModal';
+import SupplierDetailModal from './components/SupplierDetailModal';
 import PAGES from '../../pages';
 import fields from './fields';
 
@@ -37,7 +37,7 @@ class Suppliers extends React.Component {
           rowKey: 'id',
         }}
         NewModal={NewSupplierModal}
-        // DetailsModal={SupplierDetailModal}
+        DetailsModal={SupplierDetailModal}
         api={suppliers}
       />
     )
