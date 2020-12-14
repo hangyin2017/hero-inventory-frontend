@@ -55,7 +55,6 @@ class GeneralOrderDetailModal extends React.Component {
           const data = await fetch(() => orderAPI.get(id));
           data.date = moment(data.date);
           this.setState({ data });
-          console.log(data);
         }
       } catch (err) {
         message.error(`Something went wrong while fetching details for order ${id}`);
@@ -125,12 +124,14 @@ class GeneralOrderDetailModal extends React.Component {
             orderAPI={orderAPI}
           />
         </Spin>
-        {<NewSalesOrderModal
-          visible={editing}
-          initialData={data}
-          onCancel={this.onCancel}
-        />
-          &&
+        { orderAPI == salesOrders
+          ?
+          <NewSalesOrderModal
+            visible={editing}
+            initialData={data}
+            onCancel={this.onCancel}
+          />
+          :
           <NewPurchaseOrderModal
             visible={editing}
             initialData={data}

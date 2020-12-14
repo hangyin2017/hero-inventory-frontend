@@ -11,25 +11,6 @@ const TotalAmountContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
-
-/* const columns = [
-  {
-    title: "Item Id",
-    dataIndex: "itemId",
-    width: 100,
-  },
-  {
-    title: "Quantity",
-    dataIndex: "quantity",
-    width: 100,
-  },
-  {
-    title: "Rate",
-    dataIndex: "rate",
-    width: 100,
-  },
-]; */
-
 class ItemTable extends React.Component {
   constructor(props) {
     super(props);
