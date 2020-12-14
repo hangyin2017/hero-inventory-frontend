@@ -4,7 +4,7 @@ import { Input, Select } from "antd";
 const { TextArea } = Input;
 
 export default {
-  supplierId: {
+  id: {
     label: "ID",
   },
   supplierName: {
