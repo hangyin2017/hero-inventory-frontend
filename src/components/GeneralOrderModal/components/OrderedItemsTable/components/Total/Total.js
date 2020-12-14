@@ -3,8 +3,8 @@ import { Input } from 'antd';
 import './total.less';
 
 export default class Total extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       shipment: 0,
       adjustment: 0,
@@ -23,20 +23,31 @@ export default class Total extends Component {
     });
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.dataSource != this.props.dataSource || prevState.shipment != this.state.shipment || prevState.adjustment != this.state.adjustment) {
+      let subTotal = this.props.dataSource.reduce((prev, cur) => prev + cur.AMOUNT, 0);
+      let total = subTotal + this.state.shipment + this.state.adjustment;
+      this.props.getTotalPrice(total)
+    } else {
+      return false;
+    }
+  }
+
   render() {
     const { dataSource } = this.props;
     const { shipment, adjustment } = this.state;
-    let sum = dataSource.reduce((prev, cur) => prev + cur.AMOUNT, 0);
+    let subTotal = dataSource.reduce((prev, cur) => prev + cur.AMOUNT, 0);
+    let total = subTotal + shipment + adjustment;
     return (
       <div className="total">
         <div>
           <span>Sub Total</span>
-          <span>{sum}</span>
+          <span>{subTotal}</span>
         </div>
         <div>
           <p>
             <span>Shipping Charges</span>
-            <Input className="inp" onChange={ this.inputShipping } type="text" />
+            <Input className="inp" onChange={this.inputShipping} type="text" />
           </p>
           <span>{shipment}</span>
         </div>
@@ -53,8 +64,8 @@ export default class Total extends Component {
           <span>{adjustment}</span>
         </div>
         <h2>
-          <span>Total（$）</span>
-          <span>{sum + shipment + adjustment}</span>
+          <span>Total</span>
+          <span>{total}</span>
         </h2>
       </div>
     );

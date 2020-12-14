@@ -39,6 +39,11 @@ export default {
     inTable: true,
     inDetails: true,
   },
+  totalPrice: {
+    label: 'Total Price',
+    inTable: true,
+    inDetails: true,
+  },
   customer: {
     label: 'Customer',
     inTable: true,

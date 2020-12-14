@@ -1,26 +1,37 @@
 import React from 'react';
 import { Table } from 'antd';
 import salesOrder from '../../../../apis/salesOrders';
+import styled from 'styled-components';
+
+const DetailsTableContainer = styled.div`
+  margin-top: -120px;
+`;
+
+const TotalAmountContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 
 const columns = [
   {
-    title: "Items & Description",
-    dataIndex: "DETAILS",
+    title: "Sold Item Id",
+    dataIndex: "soldItemId",
     width: 300,
+    sorter: (a, b) => a.soldItemId - b.soldItemId,
+  },
+  {
+    title: "Item Id",
+    dataIndex: "itemId",
+    width: 100,
   },
   {
     title: "Quantity",
-    dataIndex: "QUANTITY",
+    dataIndex: "quantity",
     width: 100,
   },
   {
     title: "Rate",
-    dataIndex: "RATE",
-    width: 100,
-  },
-  {
-    title: "Amount",
-    dataIndex: "AMOUNT",
+    dataIndex: "rate",
     width: 100,
   },
 ];
@@ -29,48 +40,37 @@ class ItemTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: [
-        {
-          DETAILS: "",
-          QUANTITY: "",
-          RATE: "",
-          AMOUNT: "",
-        },
-      ],
+      dataSource: [],
+      totalPrice: 0,
     }
   }
 
-  async componentDidMount() {
+    async componentDidMount() {
     const { id } = this.props;
     const result = await salesOrder.get(id);
-    const orderedItems = result.data.soldItems;
-    const itemId = orderedItems.map((key) => key['itemId']);
-    const quantity = orderedItems.map((key) => key['quantity']);
-    const rate = orderedItems.map((key) => key['rate']);
-
+    const soldItems = result.data.soldItems;
     this.setState({
-      dataSource: [
-        {
-          DETAILS: itemId[0],
-          QUANTITY: quantity[0],
-          RATE: rate[0],
-          AMOUNT: quantity[0] * rate[0],
-        }
-      ],
+      dataSource: soldItems,
+      totalPrice: result.data.totalPrice,
     });
   }
-
   render() {
-    const { dataSource } = this.state;
+    const { dataSource, totalPrice } = this.state;
 
     return (
-      <Table
-        columns={columns}
-        dataSource={dataSource}
-        bordered
-        pagination={false}
-        scroll={true}
-      />
+      <DetailsTableContainer>
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          bordered
+          pagination={false}
+          scroll={true}
+        />
+        <TotalAmountContainer>
+          <h2>Total（$）</h2>
+          <h2>{totalPrice}</h2>
+        </TotalAmountContainer>
+      </DetailsTableContainer>
     )
   }
 }

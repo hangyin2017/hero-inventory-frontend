@@ -4,13 +4,14 @@ import GeneralOrderDetailModal from '../../../../components/GeneralOrderDetailMo
 class OrderDetailModal extends React.Component {
 
   render() {
-    const { onCancel, id, ...modalProps } = this.props;
+    const { onCancel, id, refreshTableData, ...modalProps } = this.props;
 
     return (
       <GeneralOrderDetailModal 
         {...modalProps}
         onCancel={onCancel}
         id={id}
+        refreshTableData={refreshTableData}
       />
     )
   }

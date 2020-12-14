@@ -23,18 +23,6 @@ export default {
     inTable: true,
     inDetails: true,
   },
-  description: {
-    label: 'Description',
-    component: (
-      <TextArea
-        showCount
-        maxLength={255}
-        allowClear
-        autoSize={{ minRows: 3 }}
-      />
-    ),
-    inDetails: true,
-  },
   paidStatus: {
     label: 'Paid Status',
     inTable: true,
@@ -47,6 +35,16 @@ export default {
   },
   createdTime: {
     label: 'Created Time',
+    inTable: true,
+    inDetails: true,
+  },
+  totalQuantity: {
+    label: 'Total Quantity',
+    inTable: true,
+    inDetails: true,
+  },
+  totalPrice: {
+    label: 'Total Price',
     inTable: true,
     inDetails: true,
   },

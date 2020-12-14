@@ -118,6 +118,22 @@ class OrderedItemsTable extends React.Component {
     });
   };
 
+  componentDidMount(){
+    if(this.props.initialData){
+      let dataSource = this.props.initialData.map(val=>({
+        id: val.itemId,
+        key: val.itemId,
+        DETAILS: "Type or click to select an item",
+        QUANTITY: val.quantity,
+        RATE: val.rate,
+        DISCOUNT: 0,
+        AMOUNT: val.quantity * val.rate,
+        flag: '%'
+    }))
+      this.setState({dataSource})
+    }
+  }
+
   handleSave = (row) => {
     const newData = [...this.state.dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -140,6 +156,7 @@ class OrderedItemsTable extends React.Component {
 
   render() {
     const { dataSource } = this.state;
+    const { getTotalPrice } = this.props;
     const components = {
       body: {
         row: OrderItemsTableRow,
@@ -182,7 +199,10 @@ class OrderedItemsTable extends React.Component {
             </StyledButton>
           </div>
           <TableAmountWrapper>
-            <Total dataSource={dataSource} />
+            <Total 
+              dataSource={dataSource} 
+              getTotalPrice={getTotalPrice}
+            />
           </TableAmountWrapper>
         </BottomWrapper>
       </ItemTableWrapper>

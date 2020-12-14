@@ -11,6 +11,7 @@ class GeneralOrderModal extends React.Component {
     super(props);
     this.state = {
       Items: [],
+      totalPrice: 0,
     }
   }
 
@@ -21,11 +22,12 @@ class GeneralOrderModal extends React.Component {
   }
 
   onFinish = async values => {
-    const { Items } = this.state;
+    const { Items, totalPrice } = this.state;
     const { onCancel, fetch, orderAPI } = this.props;
 
     values.createdTime = new Date();
     values.totalQuantity = Items.reduce((total, cur) => total + parseInt(cur.QUANTITY), 0);
+    values.totalPrice = totalPrice;
     if (orderAPI == salesOrder) {
       values.soldItems = Items.map((val) => ({ itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     } else {
@@ -42,8 +44,14 @@ class GeneralOrderModal extends React.Component {
     }
   }
 
+  getTotalPrice = (totalPrice) => {
+    this.setState({
+      totalPrice
+    })
+  }
+
   render() {
-    const { onCancel, loading, error, fetch, fields, ...props } = this.props;
+    const { onCancel, loading, error, initialData, fetch, fields, ...props } = this.props;
     const { TextArea } = Input;
 
     return (
@@ -51,12 +59,13 @@ class GeneralOrderModal extends React.Component {
         {...props}
         onCancel={onCancel}
         footer={null}
-        title={'Add New Order'}
+        title={initialData ? 'Edit Order' : 'Add New Order'}
         width={1000}
       >
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
+          initialValues={initialData ? initialData : null}
           preserve={false}
           onFinish={this.onFinish}
         >
@@ -67,7 +76,10 @@ class GeneralOrderModal extends React.Component {
           </Form.Section>
           <Divider />
           <Form.Section>
-            <OrderedItemsTable getItems={this.getItems} />
+            <OrderedItemsTable
+              initialData={initialData ? initialData.soldItems : null}
+              getItems={this.getItems}
+              getTotalPrice={this.getTotalPrice} />
           </Form.Section>
           <Divider />
           <Form.Section>
@@ -86,6 +98,5 @@ class GeneralOrderModal extends React.Component {
     );
   }
 }
-
 
 export default withFetch(GeneralOrderModal);

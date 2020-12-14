@@ -9,6 +9,7 @@ import DescriptionList from '../../components/DescriptionList';
 import NewOrderModal from '../../pages/SalesOrders/components/NewOrderModal';
 import fields from '../../pages/SalesOrders/fields';
 import ItemTable from './components/ItemTable';
+import moment from 'moment';
 
 
 const Content = styled(Row)`
@@ -46,6 +47,7 @@ class GeneralOrderDetailModal extends React.Component {
     if (!!id) {
       try {
         const data = await fetch(() => salesOrder.get(id));
+        data.date = moment(data.date);
         this.setState({ data });
         console.log(data);
       } catch (err) {
@@ -56,6 +58,11 @@ class GeneralOrderDetailModal extends React.Component {
 
   setEditing(editing) {
     return (e) => { this.setState({ editing }) };
+  }
+
+  onCancel = () => {
+    this.setState({ editing: false });
+    this.props.onCancel();
   }
 
   async delete() {
@@ -102,6 +109,11 @@ class GeneralOrderDetailModal extends React.Component {
           </Content>
           <ItemTable id={id} />
         </Spin>
+        <NewOrderModal
+          visible={editing}
+          initialData={data}
+          onCancel={this.onCancel}
+        />
         <Button onClick={onCancel}>Cancel</Button>
       </Modal>
     )
