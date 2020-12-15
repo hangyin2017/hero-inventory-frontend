@@ -48,11 +48,12 @@ class GeneralOrderDetailModal extends React.Component {
       try {
         if (orderAPI == salesOrders) {
           const data = await fetch(() => orderAPI.get(id));
+          console.log(data);
           data.date = moment(data.date);
           this.setState({ data });
-          console.log(data);
         } else {
           const data = await fetch(() => orderAPI.get(id));
+          console.log(data);
           data.date = moment(data.date);
           this.setState({ data });
         }

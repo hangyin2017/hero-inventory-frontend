@@ -123,7 +123,7 @@ class OrderedItemsTable extends React.Component {
       let dataSource = this.props.initialData.map(val => ({
         id: val.itemId,
         key: val.itemId,
-        DETAILS: "Type or click to select an item",
+        DETAILS: val.itemName,
         QUANTITY: val.quantity,
         RATE: val.rate,
         DISCOUNT: 0,

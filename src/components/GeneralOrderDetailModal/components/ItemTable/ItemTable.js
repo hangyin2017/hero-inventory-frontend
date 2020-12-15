@@ -19,6 +19,11 @@ class ItemTable extends React.Component {
       totalPrice: 0,
       columns: [
         {
+          title: "Item Name",
+          dataIndex: "itemName",
+          width: 300,
+        },
+        {
           title: "Item Id",
           dataIndex: "itemId",
           width: 100,
@@ -50,7 +55,7 @@ class ItemTable extends React.Component {
           {
             title: "Sold Item Id",
             dataIndex: "soldItemId",
-            width: 300,
+            width: 100,
             sorter: (a, b) => a.soldItemId - b.soldItemId,
           },
           ...columns,
