@@ -103,9 +103,11 @@ class GeneralOrderDetailModal extends React.Component {
         if (orderAPI == salesOrders) {
           await fetch(() => orderAPI.confirm(id));
           this.onCancel();
+          this.refreshData();
         } else {
           await fetch(() => orderAPI.confirm(id));
           this.onCancel();
+          this.refreshData();
         }
       } catch (err) {
         message.error(`Something went wrong while confirming order ${id}`);
@@ -121,9 +123,11 @@ class GeneralOrderDetailModal extends React.Component {
         if (orderAPI == salesOrders) {
           await fetch(() => orderAPI.send(id));
           this.onCancel();
+          this.refreshData();
         } else {
           await fetch(() => orderAPI.receive(id));
           this.onCancel();
+          this.refreshData();
         }
       } catch (err) {
         message.error(`Something went wrong while sending order ${id}`)
