@@ -79,16 +79,13 @@ class GeneralOrderDetailModal extends React.Component {
     if (!!id) {
       try {
         if (orderAPI == salesOrders) {
-          await fetch(() => orderAPI.remove(id));
-          onCancel();
-          refreshTableData();
-          message.success(`Successfully deleted order ${id}`);
+          await fetch(() => orderAPI.remove(id));        
         } else {
           await fetch(() => orderAPI.remove(id));
-          onCancel();
-          refreshTableData();
-          message.success(`Successfully deleted order ${id}`);
         }
+        onCancel();
+        refreshTableData();
+        message.success(`Successfully deleted order ${id}`);
       } catch (err) {
         message.error(`Something went wrong while deleting order ${id}`);
       }
@@ -102,13 +99,11 @@ class GeneralOrderDetailModal extends React.Component {
       try {
         if (orderAPI == salesOrders) {
           await fetch(() => orderAPI.confirm(id));
-          this.onCancel();
-          this.refreshData();
         } else {
           await fetch(() => orderAPI.confirm(id));
-          this.onCancel();
-          this.refreshData();
         }
+        this.onCancel();
+        this.refreshData();
       } catch (err) {
         message.error(`Something went wrong while confirming order ${id}`);
       }
@@ -122,13 +117,11 @@ class GeneralOrderDetailModal extends React.Component {
       try {
         if (orderAPI == salesOrders) {
           await fetch(() => orderAPI.send(id));
-          this.onCancel();
-          this.refreshData();
         } else {
           await fetch(() => orderAPI.receive(id));
-          this.onCancel();
-          this.refreshData();
         }
+        this.onCancel();
+        this.refreshData();
       } catch (err) {
         message.error(`Something went wrong while sending order ${id}`)
       }

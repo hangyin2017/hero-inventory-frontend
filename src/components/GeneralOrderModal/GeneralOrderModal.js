@@ -13,6 +13,11 @@ class GeneralOrderModal extends React.Component {
       Items: [],
       totalPrice: 0,
     }
+
+    this.getItems = this.getItems.bind(this);
+    this.getTotalPrice = this.getTotalPrice.bind(this);
+    this.add = this.add.bind(this);
+    this.update = this.update.bind(this);
   }
 
   getItems = (Items) => {
@@ -21,7 +26,7 @@ class GeneralOrderModal extends React.Component {
     })
   }
 
-  onFinish = async values => {
+  add = async values => {
     const { Items, totalPrice } = this.state;
     const { onCancel, fetch, orderAPI } = this.props;
 
@@ -31,10 +36,9 @@ class GeneralOrderModal extends React.Component {
     if (orderAPI == salesOrders) {
       values.soldItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     } else {
-      values.purchasedItems = Items.map((val) => ({ temName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
+      values.purchasedItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     }
 
-    console.log(values);
     try {
       await fetch(() => orderAPI.add(values));
 
@@ -44,6 +48,35 @@ class GeneralOrderModal extends React.Component {
       message.error(`Something went wrong while adding this order`)
     }
   }
+
+  update = async values => {    
+    const { Items, totalPrice } = this.state;
+    const { onCancel, fetch, orderAPI, initialData } = this.props;
+    const { id } = initialData;
+
+    values.totalQuantity = Items.reduce((total, cur) => total + parseInt(cur.QUANTITY), 0);
+    values.totalPrice = totalPrice;
+    if (orderAPI == salesOrders) {
+      values.soldItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
+    } else {
+      values.purchasedItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
+    }
+
+    values = {...initialData, ...values};
+
+    try {
+      if (orderAPI == salesOrders) {
+        await fetch(() => orderAPI.update(id, values));
+      } else {
+        await fetch(() => orderAPI.update(id, values));
+      }
+      message.success(`Order ${id} has been updated`);
+      onCancel();
+    } catch (err) {
+      message.error(`Something went wrong while updating order ${id}`);
+    }
+  }
+
 
   getTotalPrice = (totalPrice) => {
     this.setState({
@@ -66,9 +99,9 @@ class GeneralOrderModal extends React.Component {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
-          initialValues={initialData ? initialData : null}
+          initialValues={initialData}
           preserve={false}
-          onFinish={this.onFinish}
+          onFinish={initialData ? this.update : this.add}
         >
           <Form.Section>
             {Object.keys(fields).map((key) => (
@@ -77,7 +110,7 @@ class GeneralOrderModal extends React.Component {
           </Form.Section>
           <Divider />
           <Form.Section>
-            <OrderedItemsTable 
+            <OrderedItemsTable
               initialData={initialData ? initialData.purchasedItems || initialData.soldItems : null}
               getItems={this.getItems}
               getTotalPrice={this.getTotalPrice} />

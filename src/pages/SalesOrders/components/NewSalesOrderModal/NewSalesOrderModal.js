@@ -9,13 +9,15 @@ class NewSalesOrderModal extends React.Component {
     this.state = {};
   }
   render() {
-    const { onCancel, ...props } = this.props;
+    const { onCancel, refreshTableData, refreshDetailsData, ...props } = this.props;
     return (
       <GeneralOrderModal
         {...props}
         onCancel={onCancel}
         fields={SalesorderFields}
         orderAPI={salesOrders}
+        refreshTableData={refreshTableData}
+        refreshDetailsData={refreshDetailsData}
       />
     );
   }
