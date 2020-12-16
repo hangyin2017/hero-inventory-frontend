@@ -7,6 +7,7 @@ const Header = ({
   onEdit,
   loading,
   onDelete,
+  onConfirm,
 }) => {
   return (
     <Modal.Header title="Order Details">
@@ -15,6 +16,10 @@ const Header = ({
         icon={<EditOutlined />}
         onClick={onEdit}
       />
+      <Button 
+        disabled={loading} 
+        onClick={onConfirm} 
+      > Mark As Confirmed</Button>
       <Dropdown
         disabled={loading}
         trigger={['click']}

@@ -10,6 +10,11 @@ const DetailsTableContainer = styled.div`
 const TotalAmountContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-top: 30px;
+`;
+
+const TotalAmountText = styled.h2`
+  margin-right: 100px;
 `;
 class ItemTable extends React.Component {
   constructor(props) {
@@ -22,11 +27,6 @@ class ItemTable extends React.Component {
           title: "Item Name",
           dataIndex: "itemName",
           width: 300,
-        },
-        {
-          title: "Item Id",
-          dataIndex: "itemId",
-          width: 100,
         },
         {
           title: "Quantity",
@@ -51,15 +51,6 @@ class ItemTable extends React.Component {
       this.setState({
         dataSource: soldItems,
         totalPrice: result.data.totalPrice,
-        columns: [
-          {
-            title: "Sold Item Id",
-            dataIndex: "soldItemId",
-            width: 100,
-            sorter: (a, b) => a.soldItemId - b.soldItemId,
-          },
-          ...columns,
-        ]
       });
     } else {
       const result = await orderAPI.get(id);
@@ -67,15 +58,6 @@ class ItemTable extends React.Component {
       this.setState({
         dataSource: purchasedItems,
         totalPrice: result.data.totalPrice,
-        columns: [
-          {
-            title: "Purchased Item Id",
-            dataIndex: "purchasedItemId",
-            width: 300,
-            sorter: (a, b) => a.purchasedItemId - b.purchasedItemId,
-          },
-          ...columns,
-        ]
       });
     }
   }
@@ -93,8 +75,8 @@ class ItemTable extends React.Component {
           scroll={true}
         />
         <TotalAmountContainer>
-          <h2>Total（$）</h2>
-          <h2>{totalPrice}</h2>
+          <TotalAmountText>Total</TotalAmountText>
+          <h2>${totalPrice}</h2>
         </TotalAmountContainer>
       </DetailsTableContainer>
     )

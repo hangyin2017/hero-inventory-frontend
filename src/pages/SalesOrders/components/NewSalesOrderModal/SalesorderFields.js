@@ -3,7 +3,7 @@ import { Input, DatePicker } from 'antd';
 import moment from 'moment';
 
 export default {
-  customerName: {
+  customer: {
     label: "Customer Name",
     rules: [
       {

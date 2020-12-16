@@ -18,4 +18,6 @@ export default {
   update: (id, payload) => instance.put(`${URL}/${id}`),
 
   remove: (id) => instance.delete(`${URL}/${id}`),
+
+  confirm: (id) => instance.get(`${URL}/${id}/confirm`),
 };

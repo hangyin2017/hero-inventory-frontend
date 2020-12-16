@@ -34,6 +34,7 @@ class GeneralOrderModal extends React.Component {
       values.purchasedItems = Items.map((val) => ({ temName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     }
 
+    console.log(values);
     try {
       await fetch(() => orderAPI.add(values));
 
