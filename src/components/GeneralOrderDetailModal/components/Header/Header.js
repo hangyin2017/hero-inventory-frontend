@@ -8,6 +8,8 @@ const Header = ({
   loading,
   onDelete,
   onConfirm,
+  onSend,
+  status,
 }) => {
   return (
     <Modal.Header title="Order Details">
@@ -16,10 +18,15 @@ const Header = ({
         icon={<EditOutlined />}
         onClick={onEdit}
       />
-      <Button 
-        disabled={loading} 
-        onClick={onConfirm} 
-      > Mark As Confirmed</Button>
+      {status == "confirmed" ?
+        <Button
+          disabled={loading}
+          onClick={onSend}
+        >Mark As Send</Button>
+        : <Button
+          disabled={loading}
+          onClick={onConfirm}
+        > Mark As Confirmed</Button>}
       <Dropdown
         disabled={loading}
         trigger={['click']}
@@ -33,7 +40,7 @@ const Header = ({
       >
         <Button>
           More <DownOutlined />
-        </Button>          
+        </Button>
       </Dropdown>
     </Modal.Header>
   );

@@ -20,4 +20,6 @@ export default {
   remove: (id) => instance.delete(`${URL}/${id}`),
 
   confirm: (id) => instance.get(`${URL}/${id}/confirm`),
+
+  send: (id) => instance.get(`${URL}/${id}/send`),
 };

@@ -25,12 +25,15 @@ class GeneralOrderDetailModal extends React.Component {
 
     this.state = {
       data: {},
-      editing: false
+      editing: false,
+      status: '',
     }
 
     this.setEditing = this.setEditing.bind(this);
     this.refreshData = this.refreshData.bind(this);
     this.delete = this.delete.bind(this);
+    this.confirmOrder = this.confirmOrder.bind(this);
+    this.sendOrder = this.sendOrder.bind(this);
   }
 
   async componentDidUpdate(prevProps) {
@@ -49,7 +52,7 @@ class GeneralOrderDetailModal extends React.Component {
         if (orderAPI == salesOrders) {
           const data = await fetch(() => orderAPI.get(id));
           data.date = moment(data.date);
-          this.setState({ data });
+          this.setState({ data: data, status: data.status });
         } else {
           const data = await fetch(() => orderAPI.get(id));
           data.date = moment(data.date);
@@ -98,33 +101,51 @@ class GeneralOrderDetailModal extends React.Component {
     if (!!id) {
       try {
         if (orderAPI == salesOrders) {
-          const data = await fetch(() => orderAPI.confirm(id));
-          data.date = moment(data.date);
-          this.setState({ data });
+          await fetch(() => orderAPI.confirm(id));
+          this.onCancel();
         } else {
-          const data = await fetch(() => orderAPI.confirm(id));
-          data.date = moment(data.date);
-          this.setState({ data });
+          await fetch(() => orderAPI.confirm(id));
+          this.onCancel();
         }
       } catch (err) {
-        message.error(`Something went wrong while confirming order ${id}`)
+        message.error(`Something went wrong while confirming order ${id}`);
+      }
+    }
+  }
+
+  async sendOrder() {
+    const { id, fetch, orderAPI } = this.props;
+
+    if (!!id) {
+      try {
+        if (orderAPI == salesOrders) {
+          await fetch(() => orderAPI.send(id));
+          this.onCancel();
+        } else {
+          await fetch(() => orderAPI.send(id));
+          this.onCancel();
+        }
+      } catch (err) {
+        message.error(`Something went wrong while sending order ${id}`)
       }
     }
   }
 
   render() {
     const { onCancel, refreshTableData, refreshDetailsData, loading, error, fetch, id, fields, orderAPI, ...modalProps } = this.props;
-    const { data, editing } = this.state;
+    const { data, editing, status } = this.state;
 
     return (
       <Modal
-        title={
-          <Header
-            onEdit={this.setEditing(true)}
-            loading={loading}
-            onDelete={this.delete}
-            onConfirm={this.confirmOrder}
-          />}
+        title=
+        {<Header
+          onEdit={this.setEditing(true)}
+          loading={loading}
+          onDelete={this.delete}
+          onConfirm={this.confirmOrder}
+          onSend={this.sendOrder}
+          status={status}
+        />}
         footer={null}
         onCancel={onCancel}
         width={1000}
@@ -149,20 +170,17 @@ class GeneralOrderDetailModal extends React.Component {
             orderAPI={orderAPI}
           />
         </Spin>
-        { orderAPI == salesOrders
-          ?
+        {orderAPI == salesOrders ?
           <NewSalesOrderModal
             visible={editing}
             initialData={data}
             onCancel={this.onCancel}
-          />
-          :
+          /> :
           <NewPurchaseOrderModal
             visible={editing}
             initialData={data}
             onCancel={this.onCancel}
-          />
-        }
+          />}
       </Modal>
     )
   }
