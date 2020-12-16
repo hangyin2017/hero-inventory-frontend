@@ -14,7 +14,7 @@ const TotalAmountContainer = styled.div`
 `;
 
 const TotalAmountText = styled.h2`
-  margin-right: 100px;
+  margin-right: 30px;
 `;
 class ItemTable extends React.Component {
   constructor(props) {
@@ -44,7 +44,6 @@ class ItemTable extends React.Component {
 
   async componentDidMount() {
     const { id, orderAPI } = this.props;
-    const { columns } = this.state;
     if (orderAPI == salesOrders) {
       const result = await orderAPI.get(id);
       const soldItems = result.data.soldItems;

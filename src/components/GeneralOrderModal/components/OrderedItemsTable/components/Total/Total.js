@@ -13,13 +13,13 @@ export default class Total extends Component {
 
   inputShipping = (e) => {
     this.setState({
-      shipment: parseInt(e.target.value),
+      shipment: parseFloat(e.target.value),
     });
   };
 
   inputAdjust = (e) => {
     this.setState({
-      adjustment: parseInt(e.target.value),
+      adjustment: parseFloat(e.target.value),
     });
   };
 

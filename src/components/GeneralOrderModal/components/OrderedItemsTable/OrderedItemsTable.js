@@ -128,7 +128,7 @@ class OrderedItemsTable extends React.Component {
         RATE: val.rate,
         DISCOUNT: 0,
         AMOUNT: val.quantity * val.rate,
-        flag: '%'
+        flag: '%',
       }))
       this.setState({ dataSource })
     }

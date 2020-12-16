@@ -31,8 +31,8 @@ class GeneralOrderModal extends React.Component {
     const { onCancel, fetch, orderAPI } = this.props;
 
     values.createdTime = new Date();
-    values.totalQuantity = Items.reduce((total, cur) => total + parseInt(cur.QUANTITY), 0);
-    values.totalPrice = totalPrice;
+    values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.QUANTITY), 0);
+    values.totalPrice = parseFloat(totalPrice);
     if (orderAPI == salesOrders) {
       values.soldItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     } else {
@@ -54,7 +54,7 @@ class GeneralOrderModal extends React.Component {
     const { onCancel, fetch, orderAPI, initialData } = this.props;
     const { id } = initialData;
 
-    values.totalQuantity = Items.reduce((total, cur) => total + parseInt(cur.QUANTITY), 0);
+    values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.QUANTITY), 0);
     values.totalPrice = totalPrice;
     if (orderAPI == salesOrders) {
       values.soldItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
