@@ -18,7 +18,7 @@ const Header = ({
       <Button
         disabled={loading}
         icon={<EditOutlined />}
-        onClick={onEdit}
+        onClick={status == "closed" ? null : onEdit}
       />
       {status == "confirmed" ?
         <Button
