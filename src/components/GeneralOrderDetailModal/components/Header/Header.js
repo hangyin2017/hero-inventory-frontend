@@ -21,11 +21,11 @@ const Header = ({
       {status == "confirmed" ?
         <Button
           disabled={loading}
-          onClick={onCloseOrder}
+          onClick={status == "confirmed" ? onCloseOrder : null}
         >Mark As Send</Button>
         : <Button
           disabled={loading}
-          onClick={onCloseOrder}
+          onClick={status == "draft" ? onConfirm : null}
         > {status == "closed" ? 'Order Closed' : 'Mark As Confirmed'}</Button>}
       <Dropdown
         disabled={loading}
