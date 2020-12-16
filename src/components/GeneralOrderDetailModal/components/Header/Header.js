@@ -8,7 +8,7 @@ const Header = ({
   loading,
   onDelete,
   onConfirm,
-  onSend,
+  onCloseOrder,
   status,
 }) => {
   return (
@@ -21,12 +21,12 @@ const Header = ({
       {status == "confirmed" ?
         <Button
           disabled={loading}
-          onClick={onSend}
+          onClick={onCloseOrder}
         >Mark As Send</Button>
         : <Button
           disabled={loading}
-          onClick={onConfirm}
-        > Mark As Confirmed</Button>}
+          onClick={onCloseOrder}
+        > {status == "closed" ? 'Order Closed' : 'Mark As Confirmed'}</Button>}
       <Dropdown
         disabled={loading}
         trigger={['click']}

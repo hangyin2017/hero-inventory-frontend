@@ -33,7 +33,7 @@ class GeneralOrderDetailModal extends React.Component {
     this.refreshData = this.refreshData.bind(this);
     this.delete = this.delete.bind(this);
     this.confirmOrder = this.confirmOrder.bind(this);
-    this.sendOrder = this.sendOrder.bind(this);
+    this.closeOrder = this.closeOrder.bind(this);
   }
 
   async componentDidUpdate(prevProps) {
@@ -56,7 +56,7 @@ class GeneralOrderDetailModal extends React.Component {
         } else {
           const data = await fetch(() => orderAPI.get(id));
           data.date = moment(data.date);
-          this.setState({ data });
+          this.setState({ data: data, status: data.status });
         }
       } catch (err) {
         message.error(`Something went wrong while fetching details for order ${id}`);
@@ -113,7 +113,7 @@ class GeneralOrderDetailModal extends React.Component {
     }
   }
 
-  async sendOrder() {
+  async closeOrder() {
     const { id, fetch, orderAPI } = this.props;
 
     if (!!id) {
@@ -122,7 +122,7 @@ class GeneralOrderDetailModal extends React.Component {
           await fetch(() => orderAPI.send(id));
           this.onCancel();
         } else {
-          await fetch(() => orderAPI.send(id));
+          await fetch(() => orderAPI.receive(id));
           this.onCancel();
         }
       } catch (err) {
@@ -143,7 +143,7 @@ class GeneralOrderDetailModal extends React.Component {
           loading={loading}
           onDelete={this.delete}
           onConfirm={this.confirmOrder}
-          onSend={this.sendOrder}
+          onCloseOrder={this.closeOrder}
           status={status}
         />}
         footer={null}
