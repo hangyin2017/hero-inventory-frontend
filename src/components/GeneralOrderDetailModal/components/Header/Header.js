@@ -2,6 +2,7 @@ import React from "react";
 import { Menu, Button, Dropdown } from "antd";
 import { EditOutlined, DownOutlined } from '@ant-design/icons';
 import Modal from '../../../../components/Modal';
+import salesOrders from '../../../../apis/salesOrders';
 
 const Header = ({
   onEdit,
@@ -10,6 +11,7 @@ const Header = ({
   onConfirm,
   onCloseOrder,
   status,
+  orderAPI,
 }) => {
   return (
     <Modal.Header title="Order Details">
@@ -22,7 +24,7 @@ const Header = ({
         <Button
           disabled={loading}
           onClick={status == "confirmed" ? onCloseOrder : null}
-        >Mark As Send</Button>
+        >{orderAPI == salesOrders ? "Mark As Send" : "Mark as Receive"}</Button>
         : <Button
           disabled={loading}
           onClick={status == "draft" ? onConfirm : null}

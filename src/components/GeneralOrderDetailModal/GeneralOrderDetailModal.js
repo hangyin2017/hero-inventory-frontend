@@ -149,6 +149,7 @@ class GeneralOrderDetailModal extends React.Component {
           onConfirm={this.confirmOrder}
           onCloseOrder={this.closeOrder}
           status={status}
+          orderAPI={orderAPI}
         />}
         footer={null}
         onCancel={onCancel}
