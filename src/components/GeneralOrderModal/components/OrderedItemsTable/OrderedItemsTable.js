@@ -4,6 +4,7 @@ import OrderItemsTableRow from './components/OrderedItemsTableRow';
 import OrderedItemsTableCell from './components/OrderItemsTableCell';
 import Total from './components/Total';
 import styled from 'styled-components';
+import { CloseCircleOutlined } from '@ant-design/icons';
 
 export const EditableContext = React.createContext();
 
@@ -18,9 +19,6 @@ const BottomWrapper = styled.div`
   padding-top: 20px;
 `
 
-const StyledButton = styled.button`
-  margin-top: 16px;
-`;
 
 const TableAmountWrapper = styled.div`
   width: 50%;
@@ -51,7 +49,7 @@ class OrderedItemsTable extends React.Component {
       {
         title: "Discount",
         dataIndex: "DISCOUNT",
-        width: 100,
+        width: 150,
         editable: true,
       },
       {
@@ -60,18 +58,18 @@ class OrderedItemsTable extends React.Component {
         width: 100,
       },
       {
-        title: "Operation",
-        width: 100,
+        title: "Action",
+        width: 20,
         dataIndex: "OPERATION",
         render: (text, record) =>
-          this.state.dataSource.length > 1 ? (
-            <Popconfirm
-              title="Sure to delete?"
-              onConfirm={() => this.handleDelete(record.key)}
-            >
-              <Button>Delete</Button>
-            </Popconfirm>
-          ) : "Can't not delete",
+        (
+          <Popconfirm
+            title="Sure to delete?"
+            onConfirm={() => this.handleDelete(record.key)}
+          >
+            <CloseCircleOutlined style={{ fontSize: '20px' }} />
+          </Popconfirm>
+        )
       },
     ];
 
@@ -190,14 +188,9 @@ class OrderedItemsTable extends React.Component {
           columns={columns}
         />
         <BottomWrapper>
-          <div>
-            <StyledButton
-              type='button'
-              onClick={this.handleAdd}
-            >
-              Add Another Line
-            </StyledButton>
-          </div>
+          <Button onClick={this.handleAdd}>
+            Add Another Line
+          </Button>
           <TableAmountWrapper>
             <Total
               dataSource={dataSource}

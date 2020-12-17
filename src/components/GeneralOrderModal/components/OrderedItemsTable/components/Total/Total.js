@@ -1,7 +1,23 @@
 import React, { Component } from 'react';
 import { Input } from 'antd';
+import styled from 'styled-components';
 import './total.less';
 
+
+const ShippingWrapper = styled.div`
+  margin-top: 20px;
+`;
+
+const AdjustmentWrapper = styled.div`
+  margin-top: 15px;
+`
+const TotalWrapper = styled.h2`
+  margin-top: 20px;
+`;
+
+const TextWrapper = styled.span`
+  font-size: 15px;
+`;
 export default class Total extends Component {
   constructor(props) {
     super(props);
@@ -41,32 +57,28 @@ export default class Total extends Component {
     return (
       <div className="total">
         <div>
-          <span>Sub Total</span>
+          <TextWrapper>Sub Total</TextWrapper>
           <span>{subTotal}</span>
         </div>
-        <div>
-          <p>
-            <span>Shipping Charges</span>
-            <Input className="inp" onChange={this.inputShipping} type="text" />
-          </p>
+        <ShippingWrapper>
+          <TextWrapper>Shipping Charges</TextWrapper>
+          <Input className="inp" onChange={this.inputShipping} type="text" />
           <span>{shipment}</span>
-        </div>
-        <div>
-          <p>
-            <Input value={"Adjustment"} type="text" />
-            <Input
-              className="inp"
-              onChange={this.inputAdjust}
-              style={{ marginLeft: 64 }}
-              type="text"
-            />
-          </p>
+        </ShippingWrapper>
+        <AdjustmentWrapper>
+          <TextWrapper>Adjustment</TextWrapper>
+          <Input
+            className="inp"
+            onChange={this.inputAdjust}
+            style={{ marginLeft: 92 }}
+            type="text"
+          />
           <span>{adjustment}</span>
-        </div>
-        <h2>
+        </AdjustmentWrapper>
+        <TotalWrapper>
           <span>Total</span>
           <span>{total}</span>
-        </h2>
+        </TotalWrapper>
       </div>
     );
   }
