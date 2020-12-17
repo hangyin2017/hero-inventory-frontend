@@ -157,7 +157,7 @@ const OrderedItemsTableCell = ({
   let childNode = children;
   if (editable) {
     childNode = editing ? (//如果当前是可编辑状态，显示输入框(itemList)
-      <div>
+      <div style={{ display: 'flex' }}>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
             <SelectedItemName>
@@ -190,6 +190,7 @@ const OrderedItemsTableCell = ({
           ]}
         >
           <Input
+            style={{ width: '100ox' }}
             ref={inputRef}
             autocomplete="off"
             onBlur={myblur}
