@@ -119,9 +119,6 @@ const OrderedItemsTableCell = ({
   };
 
   const search = (e) => {
-    if (dataIndex !== "DETAILS") {
-      return;
-    }
     let result = allData.filter((item) => {
       return (
         new RegExp(e.target.value, 'i').test(item.name) ||
@@ -160,7 +157,7 @@ const OrderedItemsTableCell = ({
   let childNode = children;
   if (editable) {
     childNode = editing ? (//如果当前是可编辑状态，显示输入框(itemList)
-      <div>
+      <div style={{ display: 'flex' }}>
         {dataIndex === "DETAILS" && record.data?.name ? (
           <div>
             <SelectedItemName>
@@ -193,6 +190,7 @@ const OrderedItemsTableCell = ({
           ]}
         >
           <Input
+            style={{ width: '100ox' }}
             ref={inputRef}
             autocomplete="off"
             onBlur={myblur}
@@ -201,7 +199,7 @@ const OrderedItemsTableCell = ({
           />
         </Form.Item>
         {dataIndex === "DISCOUNT" ? (
-          <Select defaultValue={record.flag} style={{ marginLeft: 10 }}>
+          <Select defaultValue={record.flag} style={{ marginLeft: 10, flex: 1 }}>
             <Option value="%">%</Option>
             <Option value="$">$</Option>
           </Select>
@@ -239,8 +237,8 @@ const OrderedItemsTableCell = ({
                   <Popover
                     content={
                       <div>
-                        <p onClick={showModal}>Edit Item</p>
-                        <p onClick={showModal}>View Item Details</p>
+                        <p>Edit Item</p>
+                        <p>View Item Details</p>
                       </div>
                     }
                   >
@@ -259,14 +257,14 @@ const OrderedItemsTableCell = ({
               alignItems: "center",
             }}
           >
-            <div style={{ flex: 1 }} onClick={toggleEdit}>
+            <span style={{ flex: 1 }} onClick={toggleEdit}>
               {children}
-            </div>
+            </span>
             {dataIndex === "DISCOUNT" ? (
               <Select
                 onClick={() => setEditing(false)}
                 defaultValue={record.flag}
-                style={{ width: 60, marginLeft: 10 }}
+                style={{ width: 60, marginLeft: 10, flex: 1 }}
                 onChange={(val) => {
                   let data = { ...record };
                   let amount = 0;

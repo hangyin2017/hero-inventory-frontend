@@ -6,7 +6,7 @@ const Footer = ({ onCancel }) => {
   return (
     <Form.Footer>
       <Button htmlType="submit">
-        Save as Draft
+        Save
       </Button>
       <Button onClick={onCancel}>
         Cancel
