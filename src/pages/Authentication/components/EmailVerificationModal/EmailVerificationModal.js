@@ -1,6 +1,7 @@
 import React from 'react';
 import { Result, Spin } from 'antd';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 import Modal from '../Modal';
 import withFetch from '../../../../components/withFetch';
 import authApi from '../../../../apis/auth';
@@ -26,10 +27,12 @@ class EmailVerificationModal extends React.Component {
   }
 
   async verifyEmail() {
-    const { fetch } = this.props;
+    const { history, fetch } = this.props;
+    const request = history.location.search;
+    const token = request.replace('?token=', '');
 
     try {
-      await fetch(() => authApi.verifyEmail("HKbV41QilSLxqcq2-_SFGFBqJ2Ae1OTixL5QB8Gb0y8z65K7gizESkQF3w"));
+      await fetch(() => authApi.verifyEmail(token));
       this.setState({ result: "success" });
     } catch(err) {
       this.setState({ result: "fail" });
@@ -64,4 +67,7 @@ class EmailVerificationModal extends React.Component {
   }
 }
 
-export default withFetch(EmailVerificationModal);
+const EmailVerificationWithFetch = withFetch(EmailVerificationModal);
+const EmailVerificationWithRoute = withRouter(EmailVerificationWithFetch)
+
+export default withFetch(EmailVerificationWithRoute);
