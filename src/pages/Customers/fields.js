@@ -7,7 +7,7 @@ export default {
   id: {
     label: "ID",
   },
-  customerName: {
+  name: {
     label: "Customer Name",
     required: true,
     inTable: true,
