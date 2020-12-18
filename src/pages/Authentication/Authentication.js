@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import SignInModal from "./components/SignInModal";
 import SignUpModal from "./components/SignUpModal";
+import ROUTES from './routes';
 
 const Layout = styled.div`
   height: 80vh;
@@ -67,25 +69,36 @@ class Authentication extends React.Component {
     const { showModal } = this.state;
 
     return (
-      <Layout>
-        <Left showModal={showModal}>
-          {showModal === MODAL.SIGN_IN && (
-            <SignInModal onSignUp={this.showModal(MODAL.SIGN_UP)} 
-            />)}
-          {showModal === MODAL.SIGN_UP && (
-            <SignUpModal onSignIn={this.showModal(MODAL.SIGN_IN)} 
-            />)}
-        </Left>
-        <Right>
-          <Shield>
-            <ShieldTitle>KEEP YOUR ACCOUNT SECURE</ShieldTitle>
-            <div>
-              OneAuth is our new in-house multi-factor authentication app.
-              Shield your account with OneAuth now.
-            </div>
-          </Shield>
-        </Right>
-      </Layout>
+      <Router>
+        <Layout>
+          <Left showModal={showModal}>
+            {/* {showModal === MODAL.SIGN_IN && (
+              <SignInModal onSignUp={this.showModal(MODAL.SIGN_UP)} 
+              />)}
+            {showModal === MODAL.SIGN_UP && (
+              <SignUpModal onSignIn={this.showModal(MODAL.SIGN_IN)} 
+              />)} */}
+              <Switch>
+                {Object.keys(ROUTES).map((key) => (
+                  <Route
+                    exact={ROUTES[key].exact}
+                    path={ROUTES[key].path}
+                    component={ROUTES[key].component}
+                  />
+                ))}
+              </Switch>
+          </Left>
+          <Right>
+            <Shield>
+              <ShieldTitle>KEEP YOUR ACCOUNT SECURE</ShieldTitle>
+              <div>
+                OneAuth is our new in-house multi-factor authentication app.
+                Shield your account with OneAuth now.
+              </div>
+            </Shield>
+          </Right>
+        </Layout>
+      </Router>
     );
   }
 }
