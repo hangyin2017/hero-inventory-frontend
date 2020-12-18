@@ -23,16 +23,6 @@ export default {
     inTable: true,
     inDetails: true,
   },
-  paidStatus: {
-    label: 'Paid Status',
-    inTable: true,
-    inDetails: true,
-  },
-  invoicedStatus: {
-    label: 'Invoiced Status',
-    inTable: true,
-    inDetails: true,
-  },
   createdTime: {
     label: 'Created Time',
     inTable: true,
@@ -52,5 +42,5 @@ export default {
     label: 'Supplier',
     inTable: true,
     inDetails: true,
-  }
+  },
 }
