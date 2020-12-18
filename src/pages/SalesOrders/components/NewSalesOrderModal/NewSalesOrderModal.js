@@ -1,25 +1,26 @@
 import React from 'react';
-import { Modal } from 'antd';
 import GeneralOrderModal from '../../../../components/GeneralOrderModal';
 import SalesorderFields from './SalesorderFields';
-import salesOrder from '../../../../apis/salesOrders';
+import salesOrders from '../../../../apis/salesOrders';
 
-class NewOrderModal extends React.Component {
+class NewSalesOrderModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   render() {
-    const { onCancel, ...props } = this.props;
+    const { onCancel, refreshTableData, refreshDetailsData, ...props } = this.props;
     return (
       <GeneralOrderModal
         {...props}
         onCancel={onCancel}
         fields={SalesorderFields}
-        orderAPI={salesOrder}
+        orderAPI={salesOrders}
+        refreshTableData={refreshTableData}
+        refreshDetailsData={refreshDetailsData}
       />
     );
   }
 }
 
-export default NewOrderModal;
+export default NewSalesOrderModal;

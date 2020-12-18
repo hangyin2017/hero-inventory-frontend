@@ -1,8 +1,17 @@
 import React from 'react';
 import Page from '../../components/Page';
-import NewOrderModal from './components/NewOrderModal';
+import NewSalesOrderModal from './components/NewSalesOrderModal';
 import PAGES from '../../pages';
 import salesOrders from '../../apis/salesOrders';
+import fields from './fields';
+import OrderDetailModal from './components/OrderDetailModal';
+
+const DEFAULT_COLUMNS = Object.keys(fields).filter(key => fields[key].inTable);
+
+const columns = DEFAULT_COLUMNS.map((key) => ({
+  title: fields[key].title || fields[key].label,
+  dataIndex: key,
+}));
 
 class SalesOrders extends React.Component {
   constructor(props) {
@@ -14,7 +23,6 @@ class SalesOrders extends React.Component {
   }
 
   render() {
-    const { tableData } = this.state;
 
     return (
       <Page
@@ -28,15 +36,11 @@ class SalesOrders extends React.Component {
           // onSearch: this.handleSearch,
         }}
         tableProps={{
-          // columns: columns,
-          dataSource: tableData,
-          // rowKey: 'id',
-          pagination: {
-            position: ['topRight', 'bottomRight'],
-            defaultPageSize: 10,
-          },
+          columns: columns,
+          rowKey: 'id',
         }}
-        NewModal={NewOrderModal}
+        NewModal={NewSalesOrderModal}
+        DetailsModal={OrderDetailModal}
         api={salesOrders}
       />
     )

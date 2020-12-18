@@ -36,7 +36,6 @@ class ItemDetailModal extends React.Component {
 
   async componentDidUpdate(prevProps) {
     const { id } = this.props;
-
     if(!!id && id != prevProps.id){
       this.refreshData();
     }

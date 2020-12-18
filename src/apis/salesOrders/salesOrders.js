@@ -15,7 +15,11 @@ export default {
 
   add: (payload) => instance.post(URL, payload),
 
-  update: (id, payload) => instance.put(`${URL}/${id}`),
+  update: (id, payload) => instance.put(`${URL}/${id}`, payload),
 
   remove: (id) => instance.delete(`${URL}/${id}`),
+
+  confirm: (id) => instance.get(`${URL}/${id}/confirm`),
+
+  send: (id) => instance.get(`${URL}/${id}/send`),
 };
