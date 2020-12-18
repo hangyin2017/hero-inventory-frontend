@@ -7,8 +7,8 @@ export default {
   id: {
     label: "ID",
   },
-  customerName: {
-    label: "Customer Name",
+  supplierName: {
+    label: "Supplier Name",
     required: true,
     inTable: true,
     inDetails: true,
@@ -31,17 +31,14 @@ export default {
     label: "Salutation",
     inTable: true,
     inDetails: true,
-    component:(
-      <Select 
-        placeholder="Salutation"
-        allowClear
-        >
-          <Option value="Mr.">Mr.</Option>
-          <Option value="Mrs.">Mrs.</Option>
-          <Option value="Ms.">Ms.</Option>
-          <Option value="Miss.">Miss.</Option>
-          <Option value="Dr.">Dr.</Option>
-        </Select>
+    component: (
+      <Select placeholder="Salutation" allowClear>
+        <Option value="Mr.">Mr.</Option>
+        <Option value="Mrs.">Mrs.</Option>
+        <Option value="Ms.">Ms.</Option>
+        <Option value="Miss.">Miss.</Option>
+        <Option value="Dr.">Dr.</Option>
+      </Select>
     ),
   },
   firstName: {
@@ -71,15 +68,8 @@ export default {
     inDetails: true,
   },
   comments: {
-  label: "Comments",
-  inDetails: true,
-  component: (
-    <TextArea
-      showCount
-      maxLength={255}
-      allowClear
-      autoSize={{ minRows: 3 }}  
-    />
-  ),
+    label: "Comments",
+    inDetails: true,
+    component: <TextArea showCount maxLength={255} allowClear autoSize={{ minRows: 3 }} />,
   },
 };
