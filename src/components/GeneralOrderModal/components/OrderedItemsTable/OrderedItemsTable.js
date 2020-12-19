@@ -23,11 +23,15 @@ const TableAmountWrapper = styled.div`
   width: 50%;
 `;
 
-const defaultData = Object.keys(COLUMNS).reduce((obj, key) => ({
+let defaultData = Object.keys(COLUMNS).reduce((obj, key) => ({
     ...obj,
     [key]: COLUMNS[key].default,
   }), {});
-defaultData.key = 1;
+defaultData = {
+  ...defaultData,
+  key: 0,
+  flag: '%',
+};
 
 class OrderedItemsTable extends React.Component {
   constructor(props) {
@@ -51,14 +55,8 @@ class OrderedItemsTable extends React.Component {
   handleAdd = () => {
     const { count, dataSource } = this.state;
     const newData = {
+      ...defaultData,
       key: count,
-      DETAILS: "Type or click to select an item",
-      QUANTITY: 1,
-      data: {},
-      RATE: 0.0,
-      DISCOUNT: 0,
-      AMOUNT: 0,
-      flag: '%'
     };
     this.setState({
       dataSource: [...dataSource, newData],
@@ -67,18 +65,21 @@ class OrderedItemsTable extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.initialData) {
-      let dataSource = this.props.initialData.map(val => ({
-        id: val.itemId,
-        key: val.itemId,
-        DETAILS: val.itemName,
-        QUANTITY: val.quantity,
-        RATE: val.rate,
-        DISCOUNT: 0,
-        AMOUNT: val.quantity * val.rate,
+    this.initialize();
+  }
+
+  initialize() {
+    const { initialData } = this.props;
+    if (initialData) {
+      const dataSource = initialData.map(val => ({
+        ...val,
+        key: val.soldItemId,
+        discount: 0,
         flag: '%',
-      }))
-      this.setState({ dataSource })
+        amount: val.quantity * val.rate,
+      }));
+
+      this.setState({ dataSource });
     }
   }
 
