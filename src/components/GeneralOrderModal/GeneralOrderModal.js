@@ -34,9 +34,11 @@ class GeneralOrderModal extends React.Component {
     values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.QUANTITY), 0);
     values.totalPrice = parseFloat(totalPrice);
     if (orderAPI == salesOrders) {
-      values.soldItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
+      values.soldItems = Items.filter((item) => !!item.data.id)
+        .map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     } else {
-      values.purchasedItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
+      values.purchasedItems = Items.filter((item) => !!item.data.id)
+        .map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     }
 
     try {
