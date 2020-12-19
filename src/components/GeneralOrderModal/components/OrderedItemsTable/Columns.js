@@ -35,15 +35,15 @@ const COLUMNS =  {
   action: {
     title: "Action",
     width: 20,
-    render: (text, record) =>
-    (
-      <Popconfirm
-        title="Sure to delete?"
-        onConfirm={() => this.handleDelete(record.key)}
-      >
-        <CloseCircleOutlined style={{ fontSize: '20px' }} />
-      </Popconfirm>
-    )
+    // render: (text, record) =>
+    // (
+    //   <Popconfirm
+    //     title="Sure to delete?"
+    //     onConfirm={() => this.handleDelete(record.key)}
+    //   >
+    //     <CloseCircleOutlined style={{ fontSize: '20px' }} />
+    //   </Popconfirm>
+    // )
   },
 }
 

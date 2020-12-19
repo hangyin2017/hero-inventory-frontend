@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Form, Input, Popover, Select } from 'antd';
+import { Form, Input, Popover, Select, Popconfirm } from 'antd';
 import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { EditableContext } from '../../OrderedItemsTable';
 import items from '../../../../../../apis/items';
@@ -10,12 +10,6 @@ const { Option } = Select;
 const SelectedItemName = styled.h2`
   display: flex; 
   justify-content: space-between;
-`;
-
-const SelectedItemModal = styled.div`
-  display: flex;
-  align-items: center;
-  height: 30px;
 `;
 
 const ItemsList = styled.ul`
@@ -47,8 +41,10 @@ const OrderedItemsTableCell = ({
   children,
   dataIndex,
   record,
+  rowCount,
   handleSave,
   handleAdd,
+  handleDelete,
   showModal,
   ...restProps
 }) => {
@@ -81,36 +77,23 @@ const OrderedItemsTableCell = ({
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
   };
 
-  const del = async () => {
-    handleSave({
-      ...record,
-      data: {},
-      RATE: 0,
-      DISCOUNT: 0,
-      QUANTITY: 1,
-      DETAILS: "Type or click to select an item",
-      AMOUNT: 0,
-    });
-    toggleEdit();
-  };
-
   //失去焦点的时候 自动计算
   const myblur = async () => {
     const values = await form.validateFields();
     setTimeout(() => {
       toggleEdit();
     }, 300);
-    if (dataIndex !== "DETAILS") {
+    if (dataIndex !== "itemName") {
       let data = { ...record, ...values };
       let amount = 0;
-      if (record.flag === "%") {
+      if (record.flag == "%") {
         amount = data.QUANTITY * data.RATE * (1 - data.DISCOUNT / 100);
       } else {
         amount = data.QUANTITY * data.RATE - data.DISCOUNT;
       }
       handleSave({
         ...data,
-        AMOUNT: amount,
+        amount: amount,
       });
     } else {
       handleSave({ ...record, ...values });
@@ -132,16 +115,17 @@ const OrderedItemsTableCell = ({
 
     try {
       const values = await form.validateFields();
-      if (dataIndex === "DETAILS") {
+      if (dataIndex == "itemName") {
         handleSave({
           ...record,
           data: data,
-          RATE: data.sellingPrice,
-          DETAILS:
-            data.sellingPrice === 0
-              ? "Type or click to select an item"
-              : "Add description to your item",
-          AMOUNT: data.sellingPrice,
+          rate: data.sellingPrice,
+          // itemName: data.name,
+          // DETAILS:
+          //   data.sellingPrice === 0
+          //     ? "Type or click to select an item"
+          //     : "Add description to your item",
+          amount: data.sellingPrice,
         });
       } else {
         handleSave({ ...record, ...values });
@@ -149,32 +133,28 @@ const OrderedItemsTableCell = ({
       setTimeout(() => {
         toggleEdit();
       }, 300);
-    } catch (errInfo) {
-      console.log("Save failed:", errInfo);
-    }
+    } catch (errInfo) { }
   };
 
   let childNode = children;
+  if(dataIndex == 'action') {
+    childNode = rowCount > 1 ? (
+      <Popconfirm
+        title="Sure to delete?"
+        onConfirm={() => handleDelete(record.key)}
+      >
+        <CloseCircleOutlined style={{ fontSize: '20px' }} />
+      </Popconfirm>
+    ) : (null);
+  }
+
   if (editable) {
     childNode = editing ? (//如果当前是可编辑状态，显示输入框(itemList)
       <div style={{ display: 'flex' }}>
-        {dataIndex === "DETAILS" && record.data?.name ? (
+        {dataIndex == "itemName" && record.data?.name ? (
           <div>
             <SelectedItemName>
               {record.data.name}
-              <SelectedItemModal>
-                <Popover
-                  content={
-                    <div>
-                      <p onClick={showModal}>Edit Item</p>
-                      <p onClick={showModal}>View Item Details</p>
-                    </div>
-                  }
-                >
-                  <PlusCircleOutlined />
-                </Popover>
-                <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
-              </SelectedItemModal>
             </SelectedItemName>
             <span>SKU:{record.data.sku}</span>
           </div>
@@ -198,13 +178,13 @@ const OrderedItemsTableCell = ({
             onChange={search}
           />
         </Form.Item>
-        {dataIndex === "DISCOUNT" ? (
+        {dataIndex == "discount" ? (
           <Select defaultValue={record.flag} style={{ marginLeft: 10, flex: 1 }}>
             <Option value="%">%</Option>
             <Option value="$">$</Option>
           </Select>
         ) : null}
-        {dataIndex === "DETAILS" && !record.data?.name ? (
+        {dataIndex == "itemName" && !record.data?.name ? (
           <ItemsList>
             {data.map((item) => (
               <li
@@ -229,23 +209,10 @@ const OrderedItemsTableCell = ({
       </div>
     ) : (//失去焦点，不可编辑状态，显示具体的数据
         <div style={{ paddingRight: 24 }}>
-          {dataIndex === "DETAILS" && record.data?.name ? (
+          {dataIndex == "itemName" && record.data?.name ? (
             <div>
               <SelectedItemName>
                 {record.data.name}
-                <SelectedItemModal>
-                  <Popover
-                    content={
-                      <div>
-                        <p>Edit Item</p>
-                        <p>View Item Details</p>
-                      </div>
-                    }
-                  >
-                    <PlusCircleOutlined />
-                  </Popover>
-                  <CloseCircleOutlined style={{ marginLeft: 10 }} onClick={del} />
-                </SelectedItemModal>
               </SelectedItemName>
               <span>SKU:{record.data.sku}</span>
             </div>
@@ -260,7 +227,7 @@ const OrderedItemsTableCell = ({
             <span style={{ flex: 1 }} onClick={toggleEdit}>
               {children}
             </span>
-            {dataIndex === "DISCOUNT" ? (
+            {dataIndex == "discount" ? (
               <Select
                 onClick={() => setEditing(false)}
                 defaultValue={record.flag}
@@ -268,15 +235,15 @@ const OrderedItemsTableCell = ({
                 onChange={(val) => {
                   let data = { ...record };
                   let amount = 0;
-                  if (val === "%") {
+                  if (val == "%") {
                     amount =
-                      data.QUANTITY * data.RATE * (1 - data.DISCOUNT / 100);
+                      data.QUANTITY * data.RATE * (1 - data.discount / 100);
                   } else {
-                    amount = data.QUANTITY * data.RATE - data.DISCOUNT;
+                    amount = data.QUANTITY * data.RATE - data.discount;
                   }
                   handleSave({
                     ...data,
-                    AMOUNT: amount,
+                    amount: amount,
                     flag: val,
                   });
                 }}

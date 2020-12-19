@@ -43,10 +43,13 @@ class OrderedItemsTable extends React.Component {
       visible: false,
       count: 1,
     };
+
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleDelete = (key) => {
     const dataSource = [...this.state.dataSource];
+
     this.setState({
       dataSource: dataSource.filter((item) => item.key !== key),
     });
@@ -106,19 +109,21 @@ class OrderedItemsTable extends React.Component {
   render() {
     const { dataSource } = this.state;
     const { getTotalPrice } = this.props;
+
     const components = {
       body: {
         row: OrderItemsTableRow,
         cell: OrderedItemsTableCell,
       },
     };
+
     const columns = Object.keys(COLUMNS).map((key) => {
-      if (!COLUMNS[key].editable) {
-        return {
-          ...COLUMNS[key],
-          dataIndex: key,
-        };
-      }
+      // if (!COLUMNS[key].editable) {
+      //   return {
+      //     ...COLUMNS[key],
+      //     dataIndex: key,
+      //   };
+      // }
       return {
         ...COLUMNS[key],
         dataIndex: key,
@@ -127,8 +132,10 @@ class OrderedItemsTable extends React.Component {
           editable: COLUMNS[key].editable,
           dataIndex: key,
           title: COLUMNS[key].title,
+          rowCount: dataSource.length,
           handleSave: this.handleSave,
           handleAdd: this.handleAdd,
+          handleDelete: this.handleDelete,
         }),
       };
     });
