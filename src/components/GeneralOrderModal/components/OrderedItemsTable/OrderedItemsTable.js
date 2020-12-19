@@ -4,7 +4,7 @@ import OrderItemsTableRow from './components/OrderedItemsTableRow';
 import OrderedItemsTableCell from './components/OrderItemsTableCell';
 import Total from './components/Total';
 import styled from 'styled-components';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import COLUMNS from './Columns';
 
 export const EditableContext = React.createContext();
 
@@ -17,75 +17,25 @@ const BottomWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
-`
-
+`;
 
 const TableAmountWrapper = styled.div`
   width: 50%;
 `;
 
+const defaultData = Object.keys(COLUMNS).reduce((obj, key) => ({
+    ...obj,
+    [key]: COLUMNS[key].default,
+  }), {});
+defaultData.key = 1;
+
 class OrderedItemsTable extends React.Component {
   constructor(props) {
     super(props);
-    this.columns = [
-      {
-        title: "Item Details",
-        dataIndex: "DETAILS",
-        width: 300,
-        editable: true,
-      },
-      {
-        title: "Quantity",
-        dataIndex: "QUANTITY",
-        width: 100,
-        editable: true,
-      },
-      {
-        title: "Rate",
-        dataIndex: "RATE",
-        width: 100,
-        editable: true,
-      },
-      {
-        title: "Discount",
-        dataIndex: "DISCOUNT",
-        width: 150,
-        editable: true,
-      },
-      {
-        title: "Amount",
-        dataIndex: "AMOUNT",
-        width: 100,
-      },
-      {
-        title: "Action",
-        width: 20,
-        dataIndex: "OPERATION",
-        render: (text, record) =>
-        (
-          <Popconfirm
-            title="Sure to delete?"
-            onConfirm={() => this.handleDelete(record.key)}
-          >
-            <CloseCircleOutlined style={{ fontSize: '20px' }} />
-          </Popconfirm>
-        )
-      },
-    ];
 
+    console.log(defaultData);
     this.state = {
-      dataSource: [
-        {
-          id: 0,
-          key: "0",
-          DETAILS: "Type or click to select an item",
-          QUANTITY: 1,
-          RATE: 0.0,
-          DISCOUNT: 0,
-          AMOUNT: 0,
-          flag: '%'
-        },
-      ],
+      dataSource: [defaultData],
       visible: false,
       count: 1,
     };
@@ -161,17 +111,21 @@ class OrderedItemsTable extends React.Component {
         cell: OrderedItemsTableCell,
       },
     };
-    const columns = this.columns.map((col) => {
-      if (!col.editable) {
-        return col;
+    const columns = Object.keys(COLUMNS).map((key) => {
+      if (!COLUMNS[key].editable) {
+        return {
+          ...COLUMNS[key],
+          dataIndex: key,
+        };
       }
       return {
-        ...col,
+        ...COLUMNS[key],
+        dataIndex: key,
         onCell: (record) => ({
           record,
-          editable: col.editable,
-          dataIndex: col.dataIndex,
-          title: col.title,
+          editable: COLUMNS[key].editable,
+          dataIndex: key,
+          title: COLUMNS[key].title,
           handleSave: this.handleSave,
           handleAdd: this.handleAdd,
         }),
