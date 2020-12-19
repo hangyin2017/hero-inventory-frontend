@@ -7,7 +7,7 @@ export default {
   id: {
     label: "ID",
   },
-  supplierName: {
+  name: {
     label: "Supplier Name",
     required: true,
     inTable: true,
@@ -70,6 +70,13 @@ export default {
   comments: {
     label: "Comments",
     inDetails: true,
-    component: <TextArea showCount maxLength={255} allowClear autoSize={{ minRows: 3 }} />,
+    component: (
+      <TextArea 
+        showCount 
+        maxLength={255} 
+        allowClear 
+        utoSize={{ minRows: 3 }} 
+      />
+    ),
   },
 };

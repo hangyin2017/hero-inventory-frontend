@@ -66,11 +66,11 @@ class NewSupplierModal extends React.Component {
       await fetch(() => suppliers.add(values));
 
       refreshTableData();
-      message.success(`Supplier ${values.supplierName} has been added`);
+      message.success(`Supplier ${values.name} has been added`);
       onCancel();
     } catch(err) {
       console.log(err);
-      message.error(`Something went wrong while adding supplier ${values.supplierName}`);
+      message.error(`Something went wrong while adding supplier ${values.name}`);
     }
   };
 
@@ -86,10 +86,10 @@ class NewSupplierModal extends React.Component {
 
       refreshDetailsData();
       refreshTableData();
-      message.success(`Supplier ${values.supplierName} has been updated`);
+      message.success(`Supplier ${values.name} has been updated`);
       onCancel();
     } catch(err) {
-      message.error(`Something went wrong while updating supplier ${values.supplierName}`);
+      message.error(`Something went wrong while updating supplier ${values.name}`);
     }
   }
 
