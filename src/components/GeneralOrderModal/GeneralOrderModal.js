@@ -5,7 +5,9 @@ import OrderedItemsTable from './components/OrderedItemsTable';
 import Footer from './components/Footer';
 import withFetch from '../withFetch';
 import salesOrders from '../../apis/salesOrders';
-
+import DropdownPicker from '../DropdownPicker';
+import customers from '../../apis/customers';
+import suppliers from '../../apis/suppliers';
 class GeneralOrderModal extends React.Component {
   constructor(props) {
     super(props);
@@ -13,6 +15,8 @@ class GeneralOrderModal extends React.Component {
       Items: [],
       totalPrice: 0,
     }
+
+    this.formRef = React.createRef();
 
     this.getItems = this.getItems.bind(this);
     this.getTotalPrice = this.getTotalPrice.bind(this);
@@ -41,6 +45,8 @@ class GeneralOrderModal extends React.Component {
         .map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     }
 
+    console.log(values);
+
     try {
       await fetch(() => orderAPI.add(values));
 
@@ -51,7 +57,7 @@ class GeneralOrderModal extends React.Component {
     }
   }
 
-  update = async values => {    
+  update = async values => {
     const { Items, totalPrice } = this.state;
     const { onCancel, fetch, orderAPI, initialData } = this.props;
     const { id } = initialData;
@@ -64,7 +70,7 @@ class GeneralOrderModal extends React.Component {
       values.purchasedItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.QUANTITY, rate: val.RATE }));
     }
 
-    values = {...initialData, ...values};
+    values = { ...initialData, ...values };
 
     try {
       if (orderAPI == salesOrders) {
@@ -87,7 +93,7 @@ class GeneralOrderModal extends React.Component {
   }
 
   render() {
-    const { onCancel, loading, error, initialData, fetch, fields, ...props } = this.props;
+    const { onCancel, loading, error, initialData, fetch, fields, orderAPI, ...props } = this.props;
     const { TextArea } = Input;
 
     return (
@@ -106,8 +112,32 @@ class GeneralOrderModal extends React.Component {
           onFinish={initialData ? this.update : this.add}
         >
           <Form.Section>
-            {Object.keys(fields).map((key) => (
-              <Form.Item key={fields[key]} {...fields[key]} name={key} />
+            {orderAPI == salesOrders ? <Form.Item
+              label="Customer Name"
+              name="customer"
+              required={true}
+            >
+              <DropdownPicker
+                name="Customer"
+                placeholder="Select a customer"
+                api={customers}
+                formRef={this.formRef}
+              />
+            </Form.Item> :
+              <Form.Item
+                label="Supplier Name"
+                name="supplier"
+                required={true}
+              >
+                <DropdownPicker
+                  name="Supplier"
+                  placeholder="Select a supplier"
+                  api={suppliers}
+                  formRef={this.formRef}
+                />
+              </Form.Item>}
+            {Object.keys(fields).map((data) => (
+              <Form.Item key={fields[data]} {...fields[data]} name={data} />
             ))}
           </Form.Section>
           <Divider />
@@ -129,7 +159,7 @@ class GeneralOrderModal extends React.Component {
             </Form.Item>
           </Form.Section>
           <Footer onCancel={onCancel} />
-        </Form>
+        </ Form>
       </Modal>
     );
   }

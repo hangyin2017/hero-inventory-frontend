@@ -153,8 +153,8 @@ class GeneralOrderDetailModal extends React.Component {
           <Content>
             <Meta>
               <DescriptionList
-                data={Object.keys(fields)
-                  .filter((key) => fields[key].inDetails && !!fields[key])
+                data={Object.keys(data)
+                  .filter((key) => fields[key] && !!data[key])
                   .map((key) => ({
                     title: fields[key].title || fields[key].label,
                     value: data[key]
