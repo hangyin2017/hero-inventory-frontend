@@ -13,7 +13,12 @@ const ItemTableWrapper = styled.div`
   margin: 30px auto;
 `;
 
-const BottomWrapper = styled.div`
+const Top = styled.div`
+  position: relative;
+  z-index: 1;
+`;
+
+const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
@@ -37,7 +42,6 @@ class OrderedItemsTable extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(defaultData);
     this.state = {
       dataSource: [defaultData],
       visible: false,
@@ -142,14 +146,16 @@ class OrderedItemsTable extends React.Component {
 
     return (
       <ItemTableWrapper>
-        <Table
-          pagination={false}
-          components={components}
-          bordered
-          dataSource={dataSource}
-          columns={columns}
-        />
-        <BottomWrapper>
+        <Top>
+          <Table
+            pagination={false}
+            components={components}
+            bordered
+            dataSource={dataSource}
+            columns={columns}
+          />
+        </Top>
+        <Bottom>
           <Button onClick={this.handleAdd}>
             Add Another Line
           </Button>
@@ -159,7 +165,7 @@ class OrderedItemsTable extends React.Component {
               getTotalPrice={getTotalPrice}
             />
           </TableAmountWrapper>
-        </BottomWrapper>
+        </Bottom>
       </ItemTableWrapper>
     );
   }

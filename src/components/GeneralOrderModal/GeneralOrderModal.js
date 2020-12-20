@@ -8,6 +8,7 @@ import salesOrders from '../../apis/salesOrders';
 import DropdownPicker from '../DropdownPicker';
 import customers from '../../apis/customers';
 import suppliers from '../../apis/suppliers';
+
 class GeneralOrderModal extends React.Component {
   constructor(props) {
     super(props);
@@ -44,8 +45,6 @@ class GeneralOrderModal extends React.Component {
       values.purchasedItems = Items.filter((item) => !!item.data)
         .map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.quantity, rate: val.rate }));
     }
-
-    console.log(values);
 
     try {
       await fetch(() => orderAPI.add(values));

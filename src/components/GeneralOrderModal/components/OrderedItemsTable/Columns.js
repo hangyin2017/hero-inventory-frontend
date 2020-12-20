@@ -6,7 +6,7 @@ const COLUMNS =  {
   itemName: {
     title: "Item Details",
     width: 300,
-    editable: true,
+    // editable: true,
     default: "Type or click to select an item",
   },
   quantity: {

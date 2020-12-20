@@ -139,6 +139,9 @@ const OrderedItemsTableCell = ({
   };
 
   let childNode = children;
+
+  // let childNode = {};
+
   if(dataIndex == 'action') {
     childNode = rowCount > 1 ? (
       <Popconfirm
@@ -148,6 +151,73 @@ const OrderedItemsTableCell = ({
         <CloseCircleOutlined style={{ fontSize: '20px' }} />
       </Popconfirm>
     ) : (null);
+  }
+
+  if(dataIndex == 'itemName') {
+    childNode = editing ? (
+      <div>
+        {record.data?.name ? (
+          <>
+            <span>{children}</span>
+            <span>SKU: {record.data.sku}</span>
+          </>
+        ) : (
+          <>
+            <Form.Item
+              style={{ margin: 0 }}
+              name={dataIndex}
+              rules={[
+                {
+                  required: true,
+                  message: `${title} is required.`,
+                },
+              ]}
+            >
+              <Input
+                ref={inputRef}
+                autocomplete="off"
+                onBlur={myblur}
+                onPressEnter={myblur}
+                onChange={search}
+              />
+            </Form.Item>
+            <ItemsList>
+              {data.map((item) => (
+                <li
+                  key={item.id}
+                  onClick={() => {
+                    save(item);
+                    handleAdd();
+                  }}
+                >
+                  <ItemsName>
+                    {item.name}
+                  </ItemsName>
+                  <ItemsDetail>
+                    <span> SKU: {item.sku}</span>
+                    <span> Rate: {item.sellingPrice} </span>
+                    <span> Stock: {item.physicalStock}</span>
+                  </ItemsDetail>
+                </li>
+              ))}
+            </ItemsList>
+          </>
+        )}
+      </div>
+    ) : (
+      <CellContent>
+        {record.data?.name ? (
+          <>
+            <span>{children}</span>
+            <span>SKU: {record.data.sku}</span>
+          </>
+        ) : (
+          <span style={{ flex: 1 }} onClick={toggleEdit}>
+            {children}
+          </span>
+        )}
+      </CellContent>
+    );
   }
 
   if (editable) {
@@ -164,7 +234,7 @@ const OrderedItemsTableCell = ({
           ]}
         >
           <Input
-            style={{ width: '100ox' }}
+            // style={{ width: '100px' }}
             ref={inputRef}
             autocomplete="off"
             onBlur={myblur}
@@ -172,16 +242,16 @@ const OrderedItemsTableCell = ({
             onChange={search}
           />
         </Form.Item>
-        {dataIndex == "itemName" && record.data?.name ? (
+        {/* {dataIndex == "itemName" && record.data?.name ? (
             <span>SKU: {record.data.sku}</span>
-        ) : null}
+        ) : null} */}
         {/* {dataIndex == "discount" ? (
           <Select defaultValue={record.flag} style={{ marginLeft: 10, flex: 1 }}>
             <Option value="%">%</Option>
             <Option value="$">$</Option>
           </Select>
         ) : null} */}
-        {dataIndex == "itemName" && !record.data?.name ? (
+        {/* {dataIndex == "itemName" && !record.data?.name ? (
           <ItemsList>
             {data.map((item) => (
               <li
@@ -202,7 +272,7 @@ const OrderedItemsTableCell = ({
               </li>
             ))}
           </ItemsList>
-        ) : null}
+        ) : null} */}
       </div>
     ) : (//失去焦点，不可编辑状态，显示具体的数据
         <div style={{ paddingRight: 24 }}>
@@ -210,9 +280,9 @@ const OrderedItemsTableCell = ({
             <span style={{ flex: 1 }} onClick={toggleEdit}>
               {children}
             </span>
-            {dataIndex == "itemName" && record.data?.name ? (
+            {/* {dataIndex == "itemName" && record.data?.name ? (
               <span>SKU: {record.data.sku}</span>
-            ) : null}
+            ) : null} */}
             {/* {dataIndex == "discount" ? (
               <Select
                 onClick={() => setEditing(false)}
