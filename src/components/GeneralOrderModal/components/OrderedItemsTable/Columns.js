@@ -21,12 +21,12 @@ const COLUMNS =  {
     editable: true,
     default: 0.0,
   },
-  discount: {
-    title: "Discount",
-    width: 150,
-    editable: true,
-    default: 0,
-  },
+  // discount: {
+  //   title: "Discount",
+  //   width: 150,
+  //   editable: true,
+  //   default: 0,
+  // },
   amount: {
     title: "Amount",
     width: 100,

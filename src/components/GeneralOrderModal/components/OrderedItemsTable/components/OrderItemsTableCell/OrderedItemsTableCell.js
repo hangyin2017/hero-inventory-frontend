@@ -35,6 +35,11 @@ const ItemsDetail = styled.div`
   justify-content: space-between;
 `;
 
+const CellContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const OrderedItemsTableCell = ({
   title,
   editable,
@@ -86,11 +91,12 @@ const OrderedItemsTableCell = ({
     if (dataIndex !== "itemName") {
       let data = { ...record, ...values };
       let amount = 0;
-      if (record.flag == "%") {
-        amount = data.QUANTITY * data.RATE * (1 - data.DISCOUNT / 100);
-      } else {
-        amount = data.QUANTITY * data.RATE - data.DISCOUNT;
-      }
+      // if (record.flag == "%") {
+      //   amount = data.QUANTITY * data.RATE * (1 - data.DISCOUNT / 100);
+      // } else {
+      //   amount = data.QUANTITY * data.RATE - data.DISCOUNT;
+      // }
+      amount = data.quantity * data.rate;
       handleSave({
         ...data,
         amount: amount,
@@ -120,11 +126,7 @@ const OrderedItemsTableCell = ({
           ...record,
           data: data,
           rate: data.sellingPrice,
-          // itemName: data.name,
-          // DETAILS:
-          //   data.sellingPrice === 0
-          //     ? "Type or click to select an item"
-          //     : "Add description to your item",
+          itemName: data.name,
           amount: data.sellingPrice,
         });
       } else {
@@ -149,16 +151,8 @@ const OrderedItemsTableCell = ({
   }
 
   if (editable) {
-    childNode = editing ? (//如果当前是可编辑状态，显示输入框(itemList)
-      <div style={{ display: 'flex' }}>
-        {dataIndex == "itemName" && record.data?.name ? (
-          <div>
-            <SelectedItemName>
-              {record.data.name}
-            </SelectedItemName>
-            <span>SKU:{record.data.sku}</span>
-          </div>
-        ) : null}
+    childNode = editing ? (
+      <div>
         <Form.Item
           style={{ margin: 0 }}
           name={dataIndex}
@@ -178,12 +172,15 @@ const OrderedItemsTableCell = ({
             onChange={search}
           />
         </Form.Item>
-        {dataIndex == "discount" ? (
+        {dataIndex == "itemName" && record.data?.name ? (
+            <span>SKU: {record.data.sku}</span>
+        ) : null}
+        {/* {dataIndex == "discount" ? (
           <Select defaultValue={record.flag} style={{ marginLeft: 10, flex: 1 }}>
             <Option value="%">%</Option>
             <Option value="$">$</Option>
           </Select>
-        ) : null}
+        ) : null} */}
         {dataIndex == "itemName" && !record.data?.name ? (
           <ItemsList>
             {data.map((item) => (
@@ -198,9 +195,9 @@ const OrderedItemsTableCell = ({
                   {item.name}
                 </ItemsName>
                 <ItemsDetail>
-                  <span> SKU:{item.sku}</span>
-                  <span> Rate:{item.sellingPrice} </span>
-                  <span> Stock:{item.physicalStock}</span>
+                  <span> SKU: {item.sku}</span>
+                  <span> Rate: {item.sellingPrice} </span>
+                  <span> Stock: {item.physicalStock}</span>
                 </ItemsDetail>
               </li>
             ))}
@@ -209,25 +206,14 @@ const OrderedItemsTableCell = ({
       </div>
     ) : (//失去焦点，不可编辑状态，显示具体的数据
         <div style={{ paddingRight: 24 }}>
-          {dataIndex == "itemName" && record.data?.name ? (
-            <div>
-              <SelectedItemName>
-                {record.data.name}
-              </SelectedItemName>
-              <span>SKU:{record.data.sku}</span>
-            </div>
-          ) : null}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+          <CellContent>
             <span style={{ flex: 1 }} onClick={toggleEdit}>
               {children}
             </span>
-            {dataIndex == "discount" ? (
+            {dataIndex == "itemName" && record.data?.name ? (
+              <span>SKU: {record.data.sku}</span>
+            ) : null}
+            {/* {dataIndex == "discount" ? (
               <Select
                 onClick={() => setEditing(false)}
                 defaultValue={record.flag}
@@ -251,8 +237,8 @@ const OrderedItemsTableCell = ({
                 <Option value="%">%</Option>
                 <Option value="$">$</Option>
               </Select>
-            ) : null}
-          </div>
+            ) : null} */}
+          </CellContent>
         </div>
       );
   }
