@@ -37,7 +37,7 @@ class ItemCounts extends React.Component {
 
   render() {
     return (
-          <Card title="Product Details" style={cardStyle} hoverable={true}>
+          <Card title="Stock Overview" style={cardStyle} hoverable={true}>
               <Row>
                 <Col span={12}>
                   <Statistic title="All Items" value={this.state.data.itemCount} />
