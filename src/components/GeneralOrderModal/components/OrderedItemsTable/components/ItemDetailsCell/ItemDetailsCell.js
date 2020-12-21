@@ -42,6 +42,7 @@ class ItemDetailsCell extends React.Component {
     
     this.toggleEdit = this.toggleEdit.bind(this);
     this.setEditing = this.setEditing.bind(this);
+    this.onBlur = this.onBlur.bind(this);
     this.search = this.search.bind(this);
   }
 
@@ -50,13 +51,14 @@ class ItemDetailsCell extends React.Component {
     const { editing } = this.state;
     this.setEditing(!editing);
     formRef.setFieldsValue({ [dataIndex]: record[dataIndex] });
-    if(editing) {
-      this.inputRef.current.focus();
-    }
   };
 
   setEditing(editing) {
-    this.setState({ editing });
+    this.setState({ editing }, () => {
+      if(editing) {
+        this.inputRef.current.focus();
+      }
+    });
   }
 
   search(e) {
@@ -70,71 +72,67 @@ class ItemDetailsCell extends React.Component {
     setData(result);
   };
 
+  onBlur() {
+    const { myblur } = this.props;
+    setTimeout(() => {
+      this.toggleEdit();
+    }, 300);
+    myblur();
+  }
+
   render() {
     const { itemData, dataIndex, title, children, myblur, record, save, handleAdd, ...restProps } = this.props;
     const { editing } = this.state;
 
     const editingNode = (
       <div>
-        {record.data?.name ? (
-          <>
-            <span>{children}</span>
-            <span>SKU: {record.data.sku}</span>
-          </>
-        ) : (
-          <>
-            <Form.Item
-              style={{ margin: 0 }}
-              name={dataIndex}
-              rules={[
-                {
-                  required: true,
-                  message: `${title} is required.`,
-                },
-              ]}
+        <Form.Item
+          style={{ margin: 0 }}
+          name={dataIndex}
+          rules={[
+            {
+              required: true,
+              message: `${title} is required.`,
+            },
+          ]}
+        >
+          <Input
+            ref={this.inputRef}
+            autocomplete="off"
+            onBlur={this.onBlur}
+            onPressEnter={this.onBlur}
+            onChange={this.search}
+          />
+        </Form.Item>
+        <ItemsList>
+          {itemData.map((item) => (
+            <li
+              key={item.id}
+              onClick={() => {
+                save(item);
+                handleAdd();
+              }}
             >
-              <Input
-                ref={this.inputRef}
-                autocomplete="off"
-                onBlur={myblur}
-                onPressEnter={myblur}
-                onChange={this.search}
-              />
-            </Form.Item>
-            <ItemsList>
-              {itemData.map((item) => (
-                <li
-                  key={item.id}
-                  onClick={() => {
-                    save(item);
-                    handleAdd();
-                  }}
-                >
-                  <ItemsName>
-                    {item.name}
-                  </ItemsName>
-                  <ItemsDetail>
-                    <span> SKU: {item.sku}</span>
-                    <span> Rate: {item.sellingPrice} </span>
-                    <span> Stock: {item.physicalStock}</span>
-                  </ItemsDetail>
-                </li>
-              ))}
-            </ItemsList>
-          </>
-        )}
+              <ItemsName>
+                {item.name}
+              </ItemsName>
+              <ItemsDetail>
+                <span> SKU: {item.sku}</span>
+                <span> Rate: {item.sellingPrice} </span>
+                <span> Stock: {item.physicalStock}</span>
+              </ItemsDetail>
+            </li>
+          ))}
+        </ItemsList>
       </div>
     );
 
     const displayNode = (
       <CellContent>
         {record.data?.name ? (
-          <>
-            <span>{children}</span>
-            <span>SKU: {record.data.sku}</span>
-          </>
+          <span>{children}</span>
         ) : (
-          <span style={{ flex: 1 }} onClick={this.toggleEdit}>
+          <span onClick={this.toggleEdit}>
             {children}
           </span>
         )}

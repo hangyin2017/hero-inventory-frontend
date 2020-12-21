@@ -108,8 +108,6 @@ const OrderedItemsTableCell = ({
 
   let childNode = children;
 
-  // let childNode = {};
-
   if(dataIndex == 'action') {
     childNode = rowCount > 1 ? (
       <Popconfirm
@@ -136,73 +134,6 @@ const OrderedItemsTableCell = ({
       handleDelete={handleDelete}
     />);
   }
-
-  // if(dataIndex == 'itemName') {
-  //   childNode = editing ? (
-  //     <div>
-  //       {record.data?.name ? (
-  //         <>
-  //           <span>{children}</span>
-  //           <span>SKU: {record.data.sku}</span>
-  //         </>
-  //       ) : (
-  //         <>
-  //           <Form.Item
-  //             style={{ margin: 0 }}
-  //             name={dataIndex}
-  //             rules={[
-  //               {
-  //                 required: true,
-  //                 message: `${title} is required.`,
-  //               },
-  //             ]}
-  //           >
-  //             <Input
-  //               ref={inputRef}
-  //               autocomplete="off"
-  //               onBlur={myblur}
-  //               onPressEnter={myblur}
-  //               onChange={search}
-  //             />
-  //           </Form.Item>
-  //           <ItemsList>
-  //             {data.map((item) => (
-  //               <li
-  //                 key={item.id}
-  //                 onClick={() => {
-  //                   save(item);
-  //                   handleAdd();
-  //                 }}
-  //               >
-  //                 <ItemsName>
-  //                   {item.name}
-  //                 </ItemsName>
-  //                 <ItemsDetail>
-  //                   <span> SKU: {item.sku}</span>
-  //                   <span> Rate: {item.sellingPrice} </span>
-  //                   <span> Stock: {item.physicalStock}</span>
-  //                 </ItemsDetail>
-  //               </li>
-  //             ))}
-  //           </ItemsList>
-  //         </>
-  //       )}
-  //     </div>
-  //   ) : (
-  //     <CellContent>
-  //       {record.data?.name ? (
-  //         <>
-  //           <span>{children}</span>
-  //           <span>SKU: {record.data.sku}</span>
-  //         </>
-  //       ) : (
-  //         <span style={{ flex: 1 }} onClick={toggleEdit}>
-  //           {children}
-  //         </span>
-  //       )}
-  //     </CellContent>
-  //   );
-  // }
 
   if (editable) {
     childNode = editing ? (
