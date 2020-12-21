@@ -44,12 +44,7 @@ class ItemDetailsCell extends React.Component {
           >
             {itemData.map((item, index) => (
               <Select.Option key={index} value={item.name} >
-<<<<<<< HEAD
-                <div 
-                  // key={item.id}
-=======
                 <div
->>>>>>> origin/HERO-68-refactor-orders
                   onClick={() => {
                     save(item);
                     handleAdd();
