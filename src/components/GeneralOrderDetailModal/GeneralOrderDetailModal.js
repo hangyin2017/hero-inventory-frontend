@@ -68,11 +68,6 @@ class GeneralOrderDetailModal extends React.Component {
     return (e) => { this.setState({ editing }) };
   }
 
-  onCancel = () => {
-    this.setState({ editing: false });
-    this.props.onCancel();
-  }
-
   async delete() {
     const { id, onCancel, refreshTableData, fetch, orderAPI } = this.props;
 
@@ -171,7 +166,7 @@ class GeneralOrderDetailModal extends React.Component {
           <NewSalesOrderModal
             visible={editing}
             initialData={data}
-            onCancel={this.onCancel}
+            onCancel={this.setEditing(false)}
             refreshTableData={refreshTableData}
             refreshDetailsData={this.refreshData}
           />
@@ -179,7 +174,7 @@ class GeneralOrderDetailModal extends React.Component {
           <NewPurchaseOrderModal
             visible={editing}
             initialData={data}
-            onCancel={this.onCancel}
+            onCancel={this.setEditing(false)}
             refreshTableData={refreshTableData}
             refreshDetailsData={this.refreshData}
           />
