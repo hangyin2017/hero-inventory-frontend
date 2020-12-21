@@ -106,7 +106,10 @@ class SignInModal extends React.Component {
       email: formData.email.value,
       password: formData.password.value
     })
-    .then(() => onClose())
+    .then((data) => {
+      onClose();
+      onSignIn(data);
+    })
     .catch((error) => {
       const message = error.response && {
         404: 'Email and password does not match, please try again',
@@ -128,7 +131,7 @@ class SignInModal extends React.Component {
     return invalidValidation.message;
   }
   render() {
-    const { onClose, onSignUp } = this.props;
+    const { onClose, onSignUp,onSignIn } = this.props;
     const { formData,errorMessage } = this.state;
 
     return (
