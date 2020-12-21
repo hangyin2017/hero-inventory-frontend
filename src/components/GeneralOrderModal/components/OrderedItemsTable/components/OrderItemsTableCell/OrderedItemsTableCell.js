@@ -8,11 +8,6 @@ import ItemDetailsCell from '../ItemDetailsCell';
 
 const { Option } = Select;
 
-const SelectedItemName = styled.h2`
-  display: flex; 
-  justify-content: space-between;
-`;
-
 const CellContent = styled.div`
   display: flex;
   flex-direction: column;

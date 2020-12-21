@@ -1,21 +1,14 @@
 import React from 'react';
-import { Form, Input } from 'antd';
+import { Form, Select } from 'antd';
 import styled from 'styled-components';
+
+const StyledSelect = styled(Select)`
+  width: 100%;
+`;
 
 const CellContent = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const ItemsList = styled.ul`
-  position: absolute;
-  z-index: 9999;
-  height: 250px;
-  width: 300px;
-  overflow: auto;
-  background: #fff;
-  margin-left: 0px;
-  margin-top: 0px;
 `;
 
 const ItemsName = styled.span`
@@ -34,7 +27,7 @@ class ItemDetailsCell extends React.Component {
   constructor(props) {
     super(props);
 
-    this.inputRef = React.createRef();
+    this.selectRef = React.createRef();
 
     this.state = {
       editing: false,
@@ -43,7 +36,6 @@ class ItemDetailsCell extends React.Component {
     this.toggleEdit = this.toggleEdit.bind(this);
     this.setEditing = this.setEditing.bind(this);
     this.onBlur = this.onBlur.bind(this);
-    this.search = this.search.bind(this);
   }
 
   toggleEdit() {
@@ -54,23 +46,15 @@ class ItemDetailsCell extends React.Component {
   };
 
   setEditing(editing) {
-    this.setState({ editing }, () => {
-      if(editing) {
-        this.inputRef.current.focus();
+    this.setState({ editing },
+      () => {
+        if(editing) {
+          this.selectRef.current.focus();
+          console.log(this.selectRef);
+        }
       }
-    });
+    );
   }
-
-  search(e) {
-    const { allData } = this.props;
-    let result = allData.filter((item) => {
-      return (
-        new RegExp(e.target.value, 'i').test(item.name) ||
-        new RegExp(e.target.value, 'i').test(item.sku)
-      );
-    });
-    setData(result);
-  };
 
   onBlur() {
     const { myblur } = this.props;
@@ -86,44 +70,45 @@ class ItemDetailsCell extends React.Component {
 
     const editingNode = (
       <div>
-        <Form.Item
+        {/* <Form.Item
           style={{ margin: 0 }}
           name={dataIndex}
-          rules={[
-            {
-              required: true,
-              message: `${title} is required.`,
-            },
-          ]}
-        >
-          <Input
-            ref={this.inputRef}
-            autocomplete="off"
+        > */}
+          <StyledSelect
+            ref={this.selectRef}
+            placeholder={'Type or click to select an item'}
+            bordered={false}
+            showSearch
+            optionLabelProp="value"
             onBlur={this.onBlur}
-            onPressEnter={this.onBlur}
-            onChange={this.search}
-          />
-        </Form.Item>
-        <ItemsList>
-          {itemData.map((item) => (
-            <li
-              key={item.id}
-              onClick={() => {
-                save(item);
-                handleAdd();
-              }}
-            >
-              <ItemsName>
-                {item.name}
-              </ItemsName>
-              <ItemsDetail>
-                <span> SKU: {item.sku}</span>
-                <span> Rate: {item.sellingPrice} </span>
-                <span> Stock: {item.physicalStock}</span>
-              </ItemsDetail>
-            </li>
-          ))}
-        </ItemsList>
+            showArrow={false}
+            value={children[1]}
+            // onChange={onChange}
+            filterOption={(input, option) => option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+            // dropdownRender={this.dropdownRender}
+          >
+            {itemData.map((item, index) => (
+              <Select.Option key={index} value={item.name} >
+                <div
+                  // key={item.id}
+                  onClick={() => {
+                    save(item);
+                    handleAdd();
+                  }}
+                >
+                  <ItemsName>
+                    {item.name}
+                  </ItemsName>
+                  <ItemsDetail>
+                    <span> SKU: {item.sku}</span>
+                    <span> Rate: {item.sellingPrice} </span>
+                    <span> Stock: {item.physicalStock}</span>
+                  </ItemsDetail>
+                </div>
+              </Select.Option>
+            ))}
+          </StyledSelect>
+        {/* </Form.Item> */}
       </div>
     );
 
@@ -141,11 +126,11 @@ class ItemDetailsCell extends React.Component {
 
     return (
       <td {...restProps}>
-        {editing ? (
-          editingNode
-        ) : (
+        {/* {editing ? ( */}
+          {editingNode}
+        {/* ) : (
           displayNode
-        )}
+        )} */}
       </td>
     );
   }
