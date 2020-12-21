@@ -7,7 +7,7 @@ const SupplierInfo = ({ formItems }) => {
     <Form.Section>
       <Row>
         <Form.Col>
-          {formItems.supplierName}
+          {formItems.name}
         </Form.Col>
       </Row>
       <Row>

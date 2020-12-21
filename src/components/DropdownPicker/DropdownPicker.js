@@ -106,6 +106,7 @@ class DropdownPicker extends React.Component {
         onChange={onChange}
         filterOption={(input, option) => option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         dropdownRender={this.dropdownRender}
+        getPopupContainer={triggerNode => triggerNode.parentNode}
       >
         {data.map((item) => (
           <Select.Option key={item.id} value={item.name} >

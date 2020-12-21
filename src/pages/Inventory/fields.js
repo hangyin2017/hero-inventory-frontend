@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input, Checkbox } from 'antd';
+import { tupleNum } from 'antd/lib/_util/type';
 
 const { TextArea } = Input;
 
@@ -11,17 +12,37 @@ export default {
     label: 'SKU',
     inTable: true,
     inDetails: true,
+    rules: [
+      {
+        required: true,
+        message: 'Please enter a SKU with numbers or letters!',
+        pattern: /^[A-Za-z0-9]+$/
+      },
+    ],
   },
   upc: {
     label: 'UPC',
     inTable: true,
     inDetails: true,
+    rules: [
+      {
+        required: true,
+        message: 'Please enter a UPC with numbers or letters!',
+        pattern: /^[A-Za-z0-9]+$/
+      },
+    ],
   },
   name: {
     label: 'Name',
-    required: true,
     inTable: true,
     inDetails: true,
+    rules: [
+      {
+        required: true,
+        message: 'Please enter a valid name',
+        pattern: /^\w+$/,
+      },
+    ],
   },
   description: {
     label: 'Description',
@@ -30,7 +51,7 @@ export default {
         showCount
         maxLength={255}
         allowClear
-        autoSize={{ minRows: 3 }}  
+        autoSize={{ minRows: 3 }}
       />
     ),
     inDetails: true,
@@ -40,9 +61,15 @@ export default {
     inDetails: true,
   },
   category: {
-    label: 'Categary',
+    label: 'Category',
     inTable: true,
     inDetails: true,
+    rules: [
+      {
+        message: 'Please enter a valid category',
+        pattern: /^[a-z0-9A-Z]+$/,
+      }
+    ]
   },
   brand: {
     label: 'Brand',
@@ -58,11 +85,25 @@ export default {
     label: 'Selling Price',
     inTable: true,
     inDetails: true,
+    rules: [
+      {
+        required: true,
+        message: 'Please enter a number!',
+        pattern: /^[+-]?(0|([1-9]\d*))(\.\d+)?$/,
+      },
+    ],
   },
   costPrice: {
     label: 'Cost Price',
     inTable: true,
     inDetails: true,
+    rules: [
+      {
+        required: true,
+        message: 'Please enter a number!',
+        pattern: /^[+-]?(0|([1-9]\d*))(\.\d+)?$/,
+      },
+    ],
   },
   applyGst: {
     title: 'Apply GST',
@@ -112,6 +153,13 @@ export default {
     title: 'Physical Stock',
     label: 'Opening Stock',
     inTable: true,
+    rules: [
+      {
+        required: true,
+        message: 'Please enter an opening stock',
+        pattern: /^[0-9]+$/,
+      },
+    ],
   },
   lockedStock: {
     label: 'Locked Stock',

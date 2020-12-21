@@ -3,15 +3,6 @@ import { Input, DatePicker } from 'antd';
 import moment from 'moment';
 
 export default {
-  customer: {
-    label: "Customer Name",
-    rules: [
-      {
-        required: true,
-      },
-    ],
-    children: <Input />,
-  },
   salesorderNumber: {
     label: "Sales Order#",
     rules: [
@@ -32,6 +23,10 @@ export default {
         required: true,
       },
     ],
-    children: <DatePicker initialValue={moment()} format="DD/MM/YYYY" />
+    children: 
+    <DatePicker
+      initialValue={moment()} 
+      format="DD/MM/YYYY" 
+    />
   },
 };
