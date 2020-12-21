@@ -1,37 +1,15 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Form, Input, Popover, Select, Popconfirm } from 'antd';
 import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
 import { EditableContext } from '../../OrderedItemsTable';
 import items from '../../../../../../apis/items';
-import styled from 'styled-components';
+import ItemDetailsCell from '../ItemDetailsCell';
 
 const { Option } = Select;
 
 const SelectedItemName = styled.h2`
   display: flex; 
-  justify-content: space-between;
-`;
-
-const ItemsList = styled.ul`
-  position: absolute;
-  z-index: 9999;
-  height: 250px;
-  width: 300px;
-  overflow: auto;
-  background: #fff;
-  margin-left: 0px;
-  margin-top: 0px;
-`;
-
-const ItemsName = styled.span`
-  font-size: 15px; 
-  font-weight: bold;
-`;
-
-const ItemsDetail = styled.div`
-  margin-top: 15px;
-  margin-bottom: 10px;
-  display: flex;
   justify-content: space-between;
 `;
 
@@ -72,7 +50,7 @@ const OrderedItemsTableCell = ({
 
   //设置edit时候这个框为焦点
   useEffect(() => {
-    if (editing) {
+    if (editing && dataIndex !== "itemName") {
       inputRef.current.focus();
     }
   }, [editing]);
@@ -105,16 +83,6 @@ const OrderedItemsTableCell = ({
       handleSave({ ...record, ...values });
       setData(allData);
     }
-  };
-
-  const search = (e) => {
-    let result = allData.filter((item) => {
-      return (
-        new RegExp(e.target.value, 'i').test(item.name) ||
-        new RegExp(e.target.value, 'i').test(item.sku)
-      );
-    });
-    setData(result);
   };
 
   const save = async (data) => {
@@ -154,71 +122,87 @@ const OrderedItemsTableCell = ({
   }
 
   if(dataIndex == 'itemName') {
-    childNode = editing ? (
-      <div>
-        {record.data?.name ? (
-          <>
-            <span>{children}</span>
-            <span>SKU: {record.data.sku}</span>
-          </>
-        ) : (
-          <>
-            <Form.Item
-              style={{ margin: 0 }}
-              name={dataIndex}
-              rules={[
-                {
-                  required: true,
-                  message: `${title} is required.`,
-                },
-              ]}
-            >
-              <Input
-                ref={inputRef}
-                autocomplete="off"
-                onBlur={myblur}
-                onPressEnter={myblur}
-                onChange={search}
-              />
-            </Form.Item>
-            <ItemsList>
-              {data.map((item) => (
-                <li
-                  key={item.id}
-                  onClick={() => {
-                    save(item);
-                    handleAdd();
-                  }}
-                >
-                  <ItemsName>
-                    {item.name}
-                  </ItemsName>
-                  <ItemsDetail>
-                    <span> SKU: {item.sku}</span>
-                    <span> Rate: {item.sellingPrice} </span>
-                    <span> Stock: {item.physicalStock}</span>
-                  </ItemsDetail>
-                </li>
-              ))}
-            </ItemsList>
-          </>
-        )}
-      </div>
-    ) : (
-      <CellContent>
-        {record.data?.name ? (
-          <>
-            <span>{children}</span>
-            <span>SKU: {record.data.sku}</span>
-          </>
-        ) : (
-          <span style={{ flex: 1 }} onClick={toggleEdit}>
-            {children}
-          </span>
-        )}
-      </CellContent>
-    );
+    return (<ItemDetailsCell
+      record={record}
+      itemData={allData}
+      dataIndex={dataIndex}
+      data={data}
+      title={title}
+      children={children}
+      formRef={form}
+      myblur={myblur}
+      save={save}
+      handleAdd={handleAdd}
+      handleDelete={handleDelete}
+    />);
   }
+
+  // if(dataIndex == 'itemName') {
+  //   childNode = editing ? (
+  //     <div>
+  //       {record.data?.name ? (
+  //         <>
+  //           <span>{children}</span>
+  //           <span>SKU: {record.data.sku}</span>
+  //         </>
+  //       ) : (
+  //         <>
+  //           <Form.Item
+  //             style={{ margin: 0 }}
+  //             name={dataIndex}
+  //             rules={[
+  //               {
+  //                 required: true,
+  //                 message: `${title} is required.`,
+  //               },
+  //             ]}
+  //           >
+  //             <Input
+  //               ref={inputRef}
+  //               autocomplete="off"
+  //               onBlur={myblur}
+  //               onPressEnter={myblur}
+  //               onChange={search}
+  //             />
+  //           </Form.Item>
+  //           <ItemsList>
+  //             {data.map((item) => (
+  //               <li
+  //                 key={item.id}
+  //                 onClick={() => {
+  //                   save(item);
+  //                   handleAdd();
+  //                 }}
+  //               >
+  //                 <ItemsName>
+  //                   {item.name}
+  //                 </ItemsName>
+  //                 <ItemsDetail>
+  //                   <span> SKU: {item.sku}</span>
+  //                   <span> Rate: {item.sellingPrice} </span>
+  //                   <span> Stock: {item.physicalStock}</span>
+  //                 </ItemsDetail>
+  //               </li>
+  //             ))}
+  //           </ItemsList>
+  //         </>
+  //       )}
+  //     </div>
+  //   ) : (
+  //     <CellContent>
+  //       {record.data?.name ? (
+  //         <>
+  //           <span>{children}</span>
+  //           <span>SKU: {record.data.sku}</span>
+  //         </>
+  //       ) : (
+  //         <span style={{ flex: 1 }} onClick={toggleEdit}>
+  //           {children}
+  //         </span>
+  //       )}
+  //     </CellContent>
+  //   );
+  // }
 
   if (editable) {
     childNode = editing ? (
@@ -234,44 +218,17 @@ const OrderedItemsTableCell = ({
           ]}
         >
           <Input
-            // style={{ width: '100px' }}
             ref={inputRef}
             autocomplete="off"
             onBlur={myblur}
             onPressEnter={myblur}
-            onChange={search}
           />
         </Form.Item>
-        {/* {dataIndex == "itemName" && record.data?.name ? (
-            <span>SKU: {record.data.sku}</span>
-        ) : null} */}
         {/* {dataIndex == "discount" ? (
           <Select defaultValue={record.flag} style={{ marginLeft: 10, flex: 1 }}>
             <Option value="%">%</Option>
             <Option value="$">$</Option>
           </Select>
-        ) : null} */}
-        {/* {dataIndex == "itemName" && !record.data?.name ? (
-          <ItemsList>
-            {data.map((item) => (
-              <li
-                key={item.id}
-                onClick={() => {
-                  save(item);
-                  handleAdd();
-                }}
-              >
-                <ItemsName>
-                  {item.name}
-                </ItemsName>
-                <ItemsDetail>
-                  <span> SKU: {item.sku}</span>
-                  <span> Rate: {item.sellingPrice} </span>
-                  <span> Stock: {item.physicalStock}</span>
-                </ItemsDetail>
-              </li>
-            ))}
-          </ItemsList>
         ) : null} */}
       </div>
     ) : (//失去焦点，不可编辑状态，显示具体的数据
@@ -280,9 +237,6 @@ const OrderedItemsTableCell = ({
             <span style={{ flex: 1 }} onClick={toggleEdit}>
               {children}
             </span>
-            {/* {dataIndex == "itemName" && record.data?.name ? (
-              <span>SKU: {record.data.sku}</span>
-            ) : null} */}
             {/* {dataIndex == "discount" ? (
               <Select
                 onClick={() => setEditing(false)}
