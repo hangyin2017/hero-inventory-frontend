@@ -129,13 +129,12 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   render() {
-    const { onCancel, refreshTableData, refreshDetailsData, loading, error, fetch, id, fields, orderAPI, ...modalProps } = this.props;
+    const { onCancel, refreshTableData, loading, error, fetch, id, fields, orderAPI, ...modalProps } = this.props;
     const { data, editing, status } = this.state;
 
     return (
       <Modal
-        title=
-        {<Header
+        title={<Header
           onEdit={this.setEditing(true)}
           loading={loading}
           onDelete={this.delete}
@@ -168,17 +167,23 @@ class GeneralOrderDetailModal extends React.Component {
             orderAPI={orderAPI}
           />
         </Spin>
-        {orderAPI == salesOrders ?
+        {orderAPI == salesOrders ? (
           <NewSalesOrderModal
             visible={editing}
             initialData={data}
             onCancel={this.onCancel}
-          /> :
+            refreshTableData={refreshTableData}
+            refreshDetailsData={this.refreshData}
+          />
+        ) : (
           <NewPurchaseOrderModal
             visible={editing}
             initialData={data}
             onCancel={this.onCancel}
-          />}
+            refreshTableData={refreshTableData}
+            refreshDetailsData={this.refreshData}
+          />
+        )}
       </Modal>
     )
   }
