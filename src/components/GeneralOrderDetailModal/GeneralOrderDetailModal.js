@@ -49,15 +49,13 @@ class GeneralOrderDetailModal extends React.Component {
 
     if (!!id) {
       try {
-        if (orderAPI == salesOrders) {
           const data = await fetch(() => orderAPI.get(id));
+          
           data.date = moment(data.date);
-          this.setState({ data: data, status: data.status });
-        } else {
-          const data = await fetch(() => orderAPI.get(id));
-          data.date = moment(data.date);
-          this.setState({ data: data, status: data.status });
-        }
+          this.setState({
+            data,
+            status: data.status,
+          });
       } catch (err) {
         message.error(`Something went wrong while fetching details for order ${id}`);
       }
@@ -73,11 +71,8 @@ class GeneralOrderDetailModal extends React.Component {
 
     if (!!id) {
       try {
-        if (orderAPI == salesOrders) {
-          await fetch(() => orderAPI.remove(id));        
-        } else {
-          await fetch(() => orderAPI.remove(id));
-        }
+        await fetch(() => orderAPI.remove(id));
+
         onCancel();
         refreshTableData();
         message.success(`Successfully deleted order ${id}`);
@@ -92,11 +87,8 @@ class GeneralOrderDetailModal extends React.Component {
 
     if (!!id) {
       try {
-        if (orderAPI == salesOrders) {
-          await fetch(() => orderAPI.confirm(id));
-        } else {
-          await fetch(() => orderAPI.confirm(id));
-        }
+        await fetch(() => orderAPI.confirm(id));
+
         this.onCancel();
         this.refreshData();
       } catch (err) {
