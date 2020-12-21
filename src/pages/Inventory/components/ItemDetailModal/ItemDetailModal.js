@@ -77,7 +77,7 @@ class ItemDetailModal extends React.Component {
   }
 
   render() {
-    const { onCancel, refreshTableData, refreshDetailsData, loading, error, fetch, ...modalProps } = this.props;
+    const { onCancel, refreshTableData, loading, error, fetch, ...modalProps } = this.props;
     const { data, editing } = this.state;
 		const { physicalStock, lockedStock, arrivingQuantity } = data;
 

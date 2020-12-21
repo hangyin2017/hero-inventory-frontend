@@ -7,7 +7,7 @@ const COLUMNS =  {
     title: "Item Details",
     width: 300,
     // editable: true,
-    default: "Type or click to select an item",
+    default: null,
   },
   quantity: {
     title: "Quantity",

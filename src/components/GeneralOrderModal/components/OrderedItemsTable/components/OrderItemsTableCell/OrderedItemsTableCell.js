@@ -8,11 +8,6 @@ import ItemDetailsCell from '../ItemDetailsCell';
 
 const { Option } = Select;
 
-const SelectedItemName = styled.h2`
-  display: flex; 
-  justify-content: space-between;
-`;
-
 const CellContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,12 +27,10 @@ const OrderedItemsTableCell = ({
   ...restProps
 }) => {
   const [allData, setAllData] = useState([]);
-  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchItem = async () => {
       const result = await items.getAll("items");
-      setData(result.data);
       setAllData(result.data);
     };
 
@@ -81,12 +74,10 @@ const OrderedItemsTableCell = ({
       });
     } else {
       handleSave({ ...record, ...values });
-      setData(allData);
     }
   };
 
   const save = async (data) => {
-
     try {
       const values = await form.validateFields();
       if (dataIndex == "itemName") {
@@ -123,15 +114,10 @@ const OrderedItemsTableCell = ({
     return (<ItemDetailsCell
       record={record}
       itemData={allData}
-      dataIndex={dataIndex}
-      data={data}
-      title={title}
       children={children}
-      formRef={form}
       myblur={myblur}
       save={save}
       handleAdd={handleAdd}
-      handleDelete={handleDelete}
     />);
   }
 
