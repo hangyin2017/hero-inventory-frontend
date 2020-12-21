@@ -81,8 +81,8 @@ class OrderedItemsTable extends React.Component {
       const dataSource = initialData.map(val => ({
         ...val,
         key: val.soldItemId,
-        discount: 0,
-        flag: '%',
+        //discount: 0,
+        //flag: '%',
         amount: val.quantity * val.rate,
       }));
 
