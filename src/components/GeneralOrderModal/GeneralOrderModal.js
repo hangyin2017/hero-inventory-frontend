@@ -116,7 +116,10 @@ class GeneralOrderModal extends React.Component {
             {orderAPI == salesOrders ? <Form.Item
               label="Customer Name"
               name="customer"
-              required={true}
+              rules={[{
+                required: true,
+                message: 'Please select or add a customer',
+              }]}
             >
               <DropdownPicker
                 name="Customer"
@@ -128,7 +131,10 @@ class GeneralOrderModal extends React.Component {
               <Form.Item
                 label="Supplier Name"
                 name="supplier"
-                required={true}
+                rules={[{
+                  required: true,
+                  message: 'Please select or add a supplier',
+                }]}
               >
                 <DropdownPicker
                   name="Supplier"
@@ -138,7 +144,11 @@ class GeneralOrderModal extends React.Component {
                 />
               </Form.Item>}
             {Object.keys(fields).map((data) => (
-              <Form.Item key={fields[data]} {...fields[data]} name={data} />
+              <Form.Item 
+                key={fields[data]} 
+                {...fields[data]} 
+                name={data}
+              />
             ))}
           </Form.Section>
           <Divider />

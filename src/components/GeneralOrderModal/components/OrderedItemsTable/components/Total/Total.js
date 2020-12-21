@@ -72,7 +72,11 @@ class Total extends Component {
         </div>
         <ShippingWrapper>
           <TextWrapper>Shipping Charges</TextWrapper>
-          <Input className="inp" onChange={this.handleAdjustment(this.setShipping)} type="text" />
+          <Input 
+            className="inp" 
+            onChange={this.handleAdjustment(this.setShipping)}
+            
+          />
           <span>{shipment}</span>
         </ShippingWrapper>
         <AdjustmentWrapper>
@@ -80,8 +84,6 @@ class Total extends Component {
           <Input
             className="inp"
             onChange={this.handleAdjustment(this.setAdjust)}
-            style={{ marginLeft: 92 }}
-            type="text"
           />
           <span>{adjustment}</span>
         </AdjustmentWrapper>

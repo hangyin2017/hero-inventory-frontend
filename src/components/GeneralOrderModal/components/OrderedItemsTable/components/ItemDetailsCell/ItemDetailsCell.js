@@ -89,7 +89,7 @@ class ItemDetailsCell extends React.Component {
           >
             {itemData.map((item, index) => (
               <Select.Option key={index} value={item.name} >
-                <div
+                <div 
                   // key={item.id}
                   onClick={() => {
                     save(item);

@@ -103,7 +103,7 @@ const OrderedItemsTableCell = ({
 
   let childNode = children;
 
-  if(dataIndex == 'action') {
+  if (dataIndex == 'action') {
     childNode = rowCount > 1 ? (
       <Popconfirm
         title="Sure to delete?"
@@ -114,7 +114,7 @@ const OrderedItemsTableCell = ({
     ) : (null);
   }
 
-  if(dataIndex == 'itemName') {
+  if (dataIndex == 'itemName') {
     return (<ItemDetailsCell
       record={record}
       itemData={allData}
@@ -139,7 +139,8 @@ const OrderedItemsTableCell = ({
           rules={[
             {
               required: true,
-              message: `${title} is required.`,
+              message: `${title} is required and should be numbers.`,
+              pattern: /^[+-]?(0|([1-9]\d*))(\.\d+)?$/,
             },
           ]}
         >

@@ -7,7 +7,6 @@ export default {
     label: 'Salesorder Number',
     inTable: true,
     inDetails: true,
-    required: true,
   },
   referenceNumber: {
     label: 'Reference Number',
