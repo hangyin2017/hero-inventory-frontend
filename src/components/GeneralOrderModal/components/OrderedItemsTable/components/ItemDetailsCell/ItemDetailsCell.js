@@ -86,65 +86,53 @@ class ItemDetailsCell extends React.Component {
 
     const editingNode = (
       <div>
-        {record.data?.name ? (
-          <>
-            <span>{children}</span>
-            <span>SKU: {record.data.sku}</span>
-          </>
-        ) : (
-          <>
-            <Form.Item
-              style={{ margin: 0 }}
-              name={dataIndex}
-              rules={[
-                {
-                  required: true,
-                  message: `${title} is required.`,
-                },
-              ]}
+        <Form.Item
+          style={{ margin: 0 }}
+          name={dataIndex}
+          rules={[
+            {
+              required: true,
+              message: `${title} is required.`,
+            },
+          ]}
+        >
+          <Input
+            ref={this.inputRef}
+            autocomplete="off"
+            onBlur={this.onBlur}
+            onPressEnter={this.onBlur}
+            onChange={this.search}
+          />
+        </Form.Item>
+        <ItemsList>
+          {itemData.map((item) => (
+            <li
+              key={item.id}
+              onClick={() => {
+                save(item);
+                handleAdd();
+              }}
             >
-              <Input
-                ref={this.inputRef}
-                autocomplete="off"
-                onBlur={this.onBlur}
-                onPressEnter={this.onBlur}
-                onChange={this.search}
-              />
-            </Form.Item>
-            <ItemsList>
-              {itemData.map((item) => (
-                <li
-                  key={item.id}
-                  onClick={() => {
-                    save(item);
-                    handleAdd();
-                  }}
-                >
-                  <ItemsName>
-                    {item.name}
-                  </ItemsName>
-                  <ItemsDetail>
-                    <span> SKU: {item.sku}</span>
-                    <span> Rate: {item.sellingPrice} </span>
-                    <span> Stock: {item.physicalStock}</span>
-                  </ItemsDetail>
-                </li>
-              ))}
-            </ItemsList>
-          </>
-        )}
+              <ItemsName>
+                {item.name}
+              </ItemsName>
+              <ItemsDetail>
+                <span> SKU: {item.sku}</span>
+                <span> Rate: {item.sellingPrice} </span>
+                <span> Stock: {item.physicalStock}</span>
+              </ItemsDetail>
+            </li>
+          ))}
+        </ItemsList>
       </div>
     );
 
     const displayNode = (
       <CellContent>
         {record.data?.name ? (
-          <>
-            <span>{children}</span>
-            <span>SKU: {record.data.sku}</span>
-          </>
+          <span>{children}</span>
         ) : (
-          <span style={{ flex: 1 }} onClick={this.toggleEdit}>
+          <span onClick={this.toggleEdit}>
             {children}
           </span>
         )}
