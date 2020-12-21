@@ -111,6 +111,7 @@ class GeneralOrderModal extends React.Component {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
+          style={{ height: 750 }}
           initialValues={initialData}
           preserve={false}
           onFinish={initialData ? this.update : this.add}
