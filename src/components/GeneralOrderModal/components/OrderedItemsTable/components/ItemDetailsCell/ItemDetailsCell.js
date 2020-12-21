@@ -42,6 +42,7 @@ class ItemDetailsCell extends React.Component {
     
     this.toggleEdit = this.toggleEdit.bind(this);
     this.setEditing = this.setEditing.bind(this);
+    this.onBlur = this.onBlur.bind(this);
     this.search = this.search.bind(this);
   }
 
@@ -50,13 +51,14 @@ class ItemDetailsCell extends React.Component {
     const { editing } = this.state;
     this.setEditing(!editing);
     formRef.setFieldsValue({ [dataIndex]: record[dataIndex] });
-    if(editing) {
-      this.inputRef.current.focus();
-    }
   };
 
   setEditing(editing) {
-    this.setState({ editing });
+    this.setState({ editing }, () => {
+      if(editing) {
+        this.inputRef.current.focus();
+      }
+    });
   }
 
   search(e) {
@@ -69,6 +71,14 @@ class ItemDetailsCell extends React.Component {
     });
     setData(result);
   };
+
+  onBlur() {
+    const { myblur } = this.props;
+    setTimeout(() => {
+      this.toggleEdit();
+    }, 300);
+    myblur();
+  }
 
   render() {
     const { itemData, dataIndex, title, children, myblur, record, save, handleAdd, ...restProps } = this.props;
@@ -96,8 +106,8 @@ class ItemDetailsCell extends React.Component {
               <Input
                 ref={this.inputRef}
                 autocomplete="off"
-                onBlur={myblur}
-                onPressEnter={myblur}
+                onBlur={this.onBlur}
+                onPressEnter={this.onBlur}
                 onChange={this.search}
               />
             </Form.Item>
