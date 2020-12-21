@@ -33,7 +33,7 @@ class GeneralOrderModal extends React.Component {
 
   add = async values => {
     const { Items, totalPrice } = this.state;
-    const { onCancel, fetch, orderAPI } = this.props;
+    const { onCancel, fetch, orderAPI, refreshTableData } = this.props;
 
     values.createdTime = new Date();
     values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.quantity), 0);
@@ -49,6 +49,7 @@ class GeneralOrderModal extends React.Component {
     try {
       await fetch(() => orderAPI.add(values));
 
+      refreshTableData();
       message.success(`This Order has been added`);
       onCancel();
     } catch (err) {
@@ -58,7 +59,7 @@ class GeneralOrderModal extends React.Component {
 
   update = async values => {
     const { Items, totalPrice } = this.state;
-    const { onCancel, fetch, orderAPI, initialData } = this.props;
+    const { onCancel, fetch, orderAPI, initialData, refreshTableData, refreshDetailsData } = this.props;
     const { id } = initialData;
 
     values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.quantity), 0);
@@ -79,13 +80,15 @@ class GeneralOrderModal extends React.Component {
       } else {
         await fetch(() => orderAPI.update(id, values));
       }
+
+      refreshDetailsData();
+      refreshTableData();
       message.success(`Order ${id} has been updated`);
       onCancel();
     } catch (err) {
       message.error(`Something went wrong while updating order ${id}`);
     }
   }
-
 
   getTotalPrice = (totalPrice) => {
     this.setState({
