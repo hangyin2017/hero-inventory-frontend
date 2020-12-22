@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-
-import ROUTES from './Route';
+import ROUTES from './Routes';
 
 const Layout = styled.div`
   height: 80vh;

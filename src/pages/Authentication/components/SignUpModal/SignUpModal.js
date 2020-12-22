@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { Spin } from 'antd';
+import { Link } from 'react-router-dom';
+import { Spin, Result } from 'antd';
 import styled from 'styled-components';
 import validator from 'validator';
 import auth from '../../../../apis/auth';
@@ -10,6 +10,7 @@ import FormItem from '../FormItem';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
+import ROUTES from '../../Routes';
 
 const Form = styled.form`
   padding: 16px 0;
@@ -83,16 +84,14 @@ class SignUpModal extends React.Component {
     super(props);
     
     this.state = {
-      errorMessage: null,
+      signedUp: false,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  setErrorMessage(message){
-    this.setState({
-      errorMessage:message,
-    });
+  setSignedUp(value){
+    this.setState({ signedUp: value });
   }
 
   onSubmit() {
@@ -103,12 +102,12 @@ class SignUpModal extends React.Component {
       email: data.email.value,
       password: data.password.value
     }))
+    .then(this.setSignedUp(true))
     .catch((error) => {});
   }
 
-
   render() {
-    const { errorMessage } = this.state;
+    const { signedUp } = this.state;
 
     const {
       data,
@@ -121,39 +120,57 @@ class SignUpModal extends React.Component {
       error,
     } = this.props;
 
+    const SignedUp = (<Result
+      status="success"
+      title="Successfully signed up"
+      subTitle="Thank you for signing up. A verification email has been sent"
+    />);
+
     return (
       <Modal>
         <Modal.Header>Sign Up</Modal.Header>
-        <Modal.Body>
-          <Spin spinning={loading}>
-            <Form onSubmit={submit(this.onSubmit)}>
-            {error && (
-              <FormItem>
-                <ErrorMessage>{error}</ErrorMessage>
-              </FormItem>
-            )} 
-              {FIELDS.map((f) => (
-                <FormItem key={f.key} htmlFor={f.key} label={f.label}>
-                  <Input
-                    onChange={setData(f.key)}
-                    id={f.key}
-                    type={f.type}
-                  />
-                  {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
-                </FormItem>
-              ))}
-              <FormItem>
-                <button> Sign Up</button>
-              </FormItem>
-            </Form>
-          </Spin>
-        </Modal.Body>
-        <Modal.Footer>
-          Already a member?&nbsp;
-          <SignInButton>
-            <Link to="/auth/signin">Sign In Now</Link>
-          </SignInButton>
-        </Modal.Footer>
+        {signedUp ? (
+          <Modal.Body>
+            <Result
+              status="success"
+              title="Successfully signed up"
+              subTitle="Thank you for signing up. A verification email has been sent"
+            />
+          </Modal.Body>
+        ) : (
+          <>
+            <Modal.Body>
+              <Spin spinning={loading}>
+                <Form onSubmit={submit(this.onSubmit)}>
+                {error && (
+                  <FormItem>
+                    <ErrorMessage>{error}</ErrorMessage>
+                  </FormItem>
+                )} 
+                  {FIELDS.map((f) => (
+                    <FormItem key={f.key} htmlFor={f.key} label={f.label}>
+                      <Input
+                        onChange={setData(f.key)}
+                        id={f.key}
+                        type={f.type}
+                      />
+                      {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
+                    </FormItem>
+                  ))}
+                  <FormItem>
+                    <button> Sign Up</button>
+                  </FormItem>
+                </Form>
+              </Spin>
+            </Modal.Body>
+            <Modal.Footer>
+              Already a member?&nbsp;
+              <SignInButton>
+                <Link to={ROUTES.signIn.path}>Sign In Now</Link>
+              </SignInButton>
+            </Modal.Footer>
+          </>
+        )}
       </Modal>
     ); 
   }
