@@ -4,7 +4,7 @@ import OrderItemsTableRow from './components/OrderedItemsTableRow';
 import OrderedItemsTableCell from './components/OrderItemsTableCell';
 import Total from './components/Total';
 import styled from 'styled-components';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import COLUMNS from './Columns';
 
 export const EditableContext = React.createContext();
 
@@ -13,86 +13,47 @@ const ItemTableWrapper = styled.div`
   margin: 30px auto;
 `;
 
-const BottomWrapper = styled.div`
+const Top = styled.div`
+  position: relative;
+  z-index: 1;
+`;
+
+const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
-`
-
+`;
 
 const TableAmountWrapper = styled.div`
   width: 50%;
 `;
 
+let defaultData = Object.keys(COLUMNS).reduce((obj, key) => ({
+    ...obj,
+    [key]: COLUMNS[key].default,
+  }), {});
+defaultData = {
+  ...defaultData,
+  key: 0,
+  flag: '%',
+};
+
 class OrderedItemsTable extends React.Component {
   constructor(props) {
     super(props);
-    this.columns = [
-      {
-        title: "Item Details",
-        dataIndex: "DETAILS",
-        width: 300,
-        editable: true,
-      },
-      {
-        title: "Quantity",
-        dataIndex: "QUANTITY",
-        width: 100,
-        editable: true,
-      },
-      {
-        title: "Rate",
-        dataIndex: "RATE",
-        width: 100,
-        editable: true,
-      },
-      {
-        title: "Discount",
-        dataIndex: "DISCOUNT",
-        width: 150,
-        editable: true,
-      },
-      {
-        title: "Amount",
-        dataIndex: "AMOUNT",
-        width: 100,
-      },
-      {
-        title: "Action",
-        width: 20,
-        dataIndex: "OPERATION",
-        render: (text, record) =>
-        (
-          <Popconfirm
-            title="Sure to delete?"
-            onConfirm={() => this.handleDelete(record.key)}
-          >
-            <CloseCircleOutlined style={{ fontSize: '20px' }} />
-          </Popconfirm>
-        )
-      },
-    ];
 
     this.state = {
-      dataSource: [
-        {
-          id: 0,
-          key: "0",
-          DETAILS: "Type or click to select an item",
-          QUANTITY: 1,
-          RATE: 0.0,
-          DISCOUNT: 0,
-          AMOUNT: 0,
-          flag: '%'
-        },
-      ],
+      dataSource: [defaultData],
       visible: false,
       count: 1,
     };
+
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleDelete = (key) => {
     const dataSource = [...this.state.dataSource];
+
     this.setState({
       dataSource: dataSource.filter((item) => item.key !== key),
     });
@@ -101,14 +62,8 @@ class OrderedItemsTable extends React.Component {
   handleAdd = () => {
     const { count, dataSource } = this.state;
     const newData = {
+      ...defaultData,
       key: count,
-      DETAILS: "Type or click to select an item",
-      QUANTITY: 1,
-      data: {},
-      RATE: 0.0,
-      DISCOUNT: 0,
-      AMOUNT: 0,
-      flag: '%'
     };
     this.setState({
       dataSource: [...dataSource, newData],
@@ -117,18 +72,21 @@ class OrderedItemsTable extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.initialData) {
-      let dataSource = this.props.initialData.map(val => ({
-        id: val.itemId,
-        key: val.itemId,
-        DETAILS: val.itemName,
-        QUANTITY: val.quantity,
-        RATE: val.rate,
-        DISCOUNT: 0,
-        AMOUNT: val.quantity * val.rate,
+    this.initialize();
+  }
+
+  initialize() {
+    const { initialData } = this.props;
+    if (initialData) {
+      const dataSource = initialData.map(val => ({
+        ...val,
+        key: val.soldItemId,
+        discount: 0,
         flag: '%',
-      }))
-      this.setState({ dataSource })
+        amount: val.quantity * val.rate,
+      }));
+
+      this.setState({ dataSource });
     }
   }
 
@@ -155,39 +113,49 @@ class OrderedItemsTable extends React.Component {
   render() {
     const { dataSource } = this.state;
     const { getTotalPrice } = this.props;
+
     const components = {
       body: {
         row: OrderItemsTableRow,
         cell: OrderedItemsTableCell,
       },
     };
-    const columns = this.columns.map((col) => {
-      if (!col.editable) {
-        return col;
-      }
+
+    const columns = Object.keys(COLUMNS).map((key) => {
+      // if (!COLUMNS[key].editable) {
+      //   return {
+      //     ...COLUMNS[key],
+      //     dataIndex: key,
+      //   };
+      // }
       return {
-        ...col,
+        ...COLUMNS[key],
+        dataIndex: key,
         onCell: (record) => ({
           record,
-          editable: col.editable,
-          dataIndex: col.dataIndex,
-          title: col.title,
+          editable: COLUMNS[key].editable,
+          dataIndex: key,
+          title: COLUMNS[key].title,
+          rowCount: dataSource.length,
           handleSave: this.handleSave,
           handleAdd: this.handleAdd,
+          handleDelete: this.handleDelete,
         }),
       };
     });
 
     return (
       <ItemTableWrapper>
-        <Table
-          pagination={false}
-          components={components}
-          bordered
-          dataSource={dataSource}
-          columns={columns}
-        />
-        <BottomWrapper>
+        <Top>
+          <Table
+            pagination={false}
+            components={components}
+            bordered
+            dataSource={dataSource}
+            columns={columns}
+          />
+        </Top>
+        <Bottom>
           <Button onClick={this.handleAdd}>
             Add Another Line
           </Button>
@@ -197,7 +165,7 @@ class OrderedItemsTable extends React.Component {
               getTotalPrice={getTotalPrice}
             />
           </TableAmountWrapper>
-        </BottomWrapper>
+        </Bottom>
       </ItemTableWrapper>
     );
   }

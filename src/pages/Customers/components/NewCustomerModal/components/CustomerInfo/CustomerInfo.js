@@ -7,7 +7,7 @@ const CustomerInfo = ({ formItems }) => {
     <Form.Section>
       <Row>
         <Form.Col>
-          {formItems.customerName}
+          {formItems.name}
         </Form.Col>
       </Row>
       <Row>

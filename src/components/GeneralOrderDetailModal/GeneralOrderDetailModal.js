@@ -49,15 +49,13 @@ class GeneralOrderDetailModal extends React.Component {
 
     if (!!id) {
       try {
-        if (orderAPI == salesOrders) {
           const data = await fetch(() => orderAPI.get(id));
+          
           data.date = moment(data.date);
-          this.setState({ data: data, status: data.status });
-        } else {
-          const data = await fetch(() => orderAPI.get(id));
-          data.date = moment(data.date);
-          this.setState({ data: data, status: data.status });
-        }
+          this.setState({
+            data,
+            status: data.status,
+          });
       } catch (err) {
         message.error(`Something went wrong while fetching details for order ${id}`);
       }
@@ -68,21 +66,13 @@ class GeneralOrderDetailModal extends React.Component {
     return (e) => { this.setState({ editing }) };
   }
 
-  onCancel = () => {
-    this.setState({ editing: false });
-    this.props.onCancel();
-  }
-
   async delete() {
     const { id, onCancel, refreshTableData, fetch, orderAPI } = this.props;
 
     if (!!id) {
       try {
-        if (orderAPI == salesOrders) {
-          await fetch(() => orderAPI.remove(id));        
-        } else {
-          await fetch(() => orderAPI.remove(id));
-        }
+        await fetch(() => orderAPI.remove(id));
+
         onCancel();
         refreshTableData();
         message.success(`Successfully deleted order ${id}`);
@@ -97,11 +87,8 @@ class GeneralOrderDetailModal extends React.Component {
 
     if (!!id) {
       try {
-        if (orderAPI == salesOrders) {
-          await fetch(() => orderAPI.confirm(id));
-        } else {
-          await fetch(() => orderAPI.confirm(id));
-        }
+        await fetch(() => orderAPI.confirm(id));
+
         this.onCancel();
         this.refreshData();
       } catch (err) {
@@ -129,13 +116,12 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   render() {
-    const { onCancel, refreshTableData, refreshDetailsData, loading, error, fetch, id, fields, orderAPI, ...modalProps } = this.props;
+    const { onCancel, refreshTableData, loading, error, fetch, id, fields, orderAPI, ...modalProps } = this.props;
     const { data, editing, status } = this.state;
 
     return (
       <Modal
-        title=
-        {<Header
+        title={<Header
           onEdit={this.setEditing(true)}
           loading={loading}
           onDelete={this.delete}
@@ -153,8 +139,8 @@ class GeneralOrderDetailModal extends React.Component {
           <Content>
             <Meta>
               <DescriptionList
-                data={Object.keys(fields)
-                  .filter((key) => fields[key].inDetails && !!fields[key])
+                data={Object.keys(data)
+                  .filter((key) => fields[key] && !!data[key])
                   .map((key) => ({
                     title: fields[key].title || fields[key].label,
                     value: data[key]
@@ -168,17 +154,23 @@ class GeneralOrderDetailModal extends React.Component {
             orderAPI={orderAPI}
           />
         </Spin>
-        {orderAPI == salesOrders ?
+        {orderAPI == salesOrders ? (
           <NewSalesOrderModal
             visible={editing}
             initialData={data}
-            onCancel={this.onCancel}
-          /> :
+            onCancel={this.setEditing(false)}
+            refreshTableData={refreshTableData}
+            refreshDetailsData={this.refreshData}
+          />
+        ) : (
           <NewPurchaseOrderModal
             visible={editing}
             initialData={data}
-            onCancel={this.onCancel}
-          />}
+            onCancel={this.setEditing(false)}
+            refreshTableData={refreshTableData}
+            refreshDetailsData={this.refreshData}
+          />
+        )}
       </Modal>
     )
   }
