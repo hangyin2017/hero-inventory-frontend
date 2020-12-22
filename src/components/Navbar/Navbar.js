@@ -17,11 +17,11 @@ class Navbar extends React.Component {
   };
 
   componentDidMount() {
-    this.props.history.listen((e) => this.setSelectedKey(e));
+    this.props.history.listen((e) => this.setSelectedKey(e.pathname));
   }
 
-  setSelectedKey(e) {
-    this.setState({ selectedKey: e.pathname });
+  setSelectedKey(pathname) {
+    this.setState({ selectedKey: pathname });
   }
 
   render() {

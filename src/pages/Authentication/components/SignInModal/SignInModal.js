@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter, Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import validator from 'validator';
 import auth from '../../../../apis/auth';
@@ -72,14 +72,15 @@ class SignInModal extends React.Component {
   }
 
   onSubmit() {
-    const { data } = this.props;
+    const { data, history } = this.props;
 
     auth.signIn({
       username: data.username.value,
       password: data.password.value
     })
-    // .then(this.setState({ user: data }))
-    .then((data) => console.log(data))
+    .then((res) => {
+      this.setUser(res.data);
+    })
     .catch((error) => {
       const message = error.response && {
         404: 'Email and password does not match, please try again',
@@ -90,7 +91,7 @@ class SignInModal extends React.Component {
   }
 
   render() {
-    const { errorMessage } = this.state;
+    const { user, errorMessage } = this.state;
 
     const {
       data,
@@ -100,6 +101,10 @@ class SignInModal extends React.Component {
       setData,
       submit,
     } = this.props;
+
+    if(!!user) {
+      return <Redirect to="/dashboard" />
+    }
 
     return (
       <Modal>
@@ -142,4 +147,6 @@ SignInModal.propTypes = {
   onSignUp: PropTypes.func.isRequired,
 };
 
-export default withForm(FIELDS)(SignInModal);
+const SignInModalWithForm = withForm(FIELDS)(SignInModal);
+
+export default SignInModalWithForm;

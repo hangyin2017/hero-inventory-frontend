@@ -58,7 +58,7 @@ const PAGES = {
     inNavbar: true,
   },
   authentication: {
-    path: '/auth/signin',
+    path: '/auth',
     exact: false,
     title: 'Sign In / Sign Out',
     component: Authentication,

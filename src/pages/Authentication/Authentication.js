@@ -66,9 +66,9 @@ class Authentication extends React.Component {
 
   render() {
     const { showModal } = this.state;
+    const { match } = this.props;
 
     return (
-      <Router>
         <Layout>
           <Left>
               <Switch>
@@ -79,6 +79,7 @@ class Authentication extends React.Component {
                     component={ROUTES[key].component}
                   />
                 ))}
+                <Redirect path='/auth' to={ROUTES.signIn.path} />
               </Switch>
           </Left>
           <Right>
@@ -91,7 +92,6 @@ class Authentication extends React.Component {
             </Shield>
           </Right>
         </Layout>
-      </Router>
     );
   }
 }
