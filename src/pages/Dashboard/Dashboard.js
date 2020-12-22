@@ -6,6 +6,7 @@ import ItemCounts from "./components/ItemCounts";
 import DashboardCalendar from "./components/DashboardCalendar";
 import PAGES from '../../pages';
 import { Col, Row } from "antd";
+import OrderCounts from "./components/OrderCounts";
 
 
 class Dashboard extends React.Component {
@@ -26,6 +27,7 @@ class Dashboard extends React.Component {
       ><Row>
         <Col span={8}>
           <ItemCounts />
+          <OrderCounts />
         </Col>
         <Col span={16}>
           <DashboardCalendar />
