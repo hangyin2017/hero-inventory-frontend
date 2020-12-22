@@ -29,6 +29,7 @@ class SalesOrders extends React.Component {
         headerProps={{
           title: PAGES.salesorders.title,
           hasNewButton: true,
+          hasSearchBar: true,
         }}
         searchBarProps={{
           placeholder: 'Search by order number',

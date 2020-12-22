@@ -28,6 +28,7 @@ class Suppliers extends React.Component {
         headerProps={{
           title: PAGES.suppliers.title,
           hasNewButton: true,
+          hasSearchBar: true,
         }}
         searchBarProps={{
           placeholder: 'Search by supplier\'s name',
