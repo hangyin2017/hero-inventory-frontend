@@ -3,6 +3,7 @@ import React from "react";
 import Page from '../../components/Page';
 import dashboard from '../../apis/dashboard';
 import ItemCounts from "./components/ItemCounts";
+import DashboardCalendar from "./components/DashboardCalendar";
 import PAGES from '../../pages';
 import { Col, Row } from "antd";
 
@@ -23,8 +24,11 @@ class Dashboard extends React.Component {
         }}
         api={dashboard}
       ><Row>
-        <Col span={10}>
+        <Col span={8}>
           <ItemCounts />
+        </Col>
+        <Col span={16}>
+          <DashboardCalendar />
         </Col>
       </Row>
       </Page>
