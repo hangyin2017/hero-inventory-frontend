@@ -8,15 +8,15 @@ instance.interceptors.request.use((request) => {
   const token = localStorage.getItem('TOKEN');
 
   if (token) {
-    request.headers['X-Auth-Token'] = token;
+    request.headers['authorization'] = token;
   }
   return request;
 });
 
 instance.interceptors.response.use((response) => {
-  const token = response.headers['x-auth-token'];
+  const token = response.headers['authorization'];
   if(token){
-  localStorage.setItem('TOKEN', token);
+    localStorage.setItem('TOKEN', token);
   };
   return response;
 })

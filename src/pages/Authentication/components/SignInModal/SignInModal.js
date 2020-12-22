@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import validator from 'validator';
-import signIn from '../../../../apis/signIn';
+import auth from '../../../../apis/auth';
 import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import FormItem from '../FormItem';
@@ -14,15 +14,12 @@ const Form = styled.form`
 `;
 
 const FIELDS = [{
-  key: 'email',
-  label: 'Email',
+  key: 'username',
+  label: 'Username',
   type: 'text',
   validations: [{
-    message: 'Please enter your email address',
+    message: 'Please enter your username',
     validator: (value) => !validator.isEmpty(value),
-  },{
-    message: 'Please enter a valid email address',
-    validator: (value) => validator.isEmail(value),
   }],
 },{
   key: 'password',
@@ -59,23 +56,30 @@ class SignInModal extends React.Component {
     super(props);
     
     this.state = {
+      user: null,
       errorMessage: null,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  setErrorMessage(message){
-    this.setState({
-      errorMessage:message,
-    });
+  setUser(user) {
+    this.setState({ user });
+  }
+
+  setErrorMessage(errorMessage){
+    this.setState({ errorMessage });
   }
 
   onSubmit() {
-    signIn({
-      email: formData.email.value,
-      password: formData.password.value
+    const { data } = this.props;
+
+    auth.signIn({
+      username: data.username.value,
+      password: data.password.value
     })
+    // .then(this.setState({ user: data }))
+    .then((data) => console.log(data))
     .catch((error) => {
       const message = error.response && {
         404: 'Email and password does not match, please try again',

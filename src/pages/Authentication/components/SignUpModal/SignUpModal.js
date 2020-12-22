@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import validator from 'validator';
-import signUp from '../../../../apis/signUp';
+import auth from '../../../../apis/auth';
 import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import FormItem from '../FormItem';
@@ -14,6 +14,14 @@ const Form = styled.form`
 `;
 
 const FIELDS = [{
+  key: 'username',
+  label: 'Username',
+  type: 'text',
+  validations: [{
+    message: 'Please enter your username',
+    validator: (value) => !validator.isEmpty(value),
+  }],
+},{
   key: 'email',
   label: 'Email',
   type: 'text',
@@ -88,7 +96,8 @@ class SignUpModal extends React.Component {
   onSubmit() {
     const { data } = this.props;
 
-    signUp({
+    auth.signUp({
+      username: data.username.value,
       email: data.email.value,
       password: data.password.value
     })
