@@ -1,5 +1,6 @@
 import React from 'react';
-import { withRouter, Link, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { Spin } from 'antd';
 import styled from 'styled-components';
 import validator from 'validator';
 import auth from '../../../../apis/auth';
@@ -8,6 +9,7 @@ import Modal from '../Modal';
 import FormItem from '../FormItem';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import withForm from '../../../../components/withForm';
+import withFetch from '../../../../components/withFetch';
 
 const Form = styled.form`
   padding: 16px 0;
@@ -72,18 +74,22 @@ class SignInModal extends React.Component {
   }
 
   onSubmit() {
-    const { data, history } = this.props;
+    const { data, fetch } = this.props;
 
-    auth.signIn({
+    fetch(() => auth.signIn({
       username: data.username.value,
       password: data.password.value
-    })
-    .then((res) => {
-      this.setUser(res.data);
+    }))
+    auth.signIn({
+        username: data.username.value,
+        password: data.password.value
+      })
+    .then((data) => {
+      this.setUser(data);
     })
     .catch((error) => {
-      const message = error.response && {
-        404: 'Email and password does not match, please try again',
+      const message = error && {
+        401: 'Email and password does not match, please try again',
       }[error.response.status];
 
       this.setErrorMessage(message || 'Something went wrong, please try again later ');
@@ -100,6 +106,7 @@ class SignInModal extends React.Component {
       getErrorMessage,
       setData,
       submit,
+      loading,
     } = this.props;
 
     if(!!user) {
@@ -109,27 +116,29 @@ class SignInModal extends React.Component {
     return (
       <Modal>
         <Modal.Header>Sign In</Modal.Header>
-        <Modal.Body> 
-          <Form onSubmit={submit(this.onSubmit)}>
-          {errorMessage && (
-            <FormItem>
-              <ErrorMessage>{errorMessage}</ErrorMessage>
-            </FormItem>
-          )} 
-            {FIELDS.map((f) => (
-              <FormItem key={f.key} htmlFor={f.key} label={f.label}>
-                <Input
-                  onChange={setData(f.key)}
-                  id={f.key}
-                  type={f.type}
-                />
-                {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
+        <Modal.Body>
+          <Spin spinning={loading}>
+            <Form onSubmit={submit(this.onSubmit)}>
+            {errorMessage && (
+              <FormItem>
+                <ErrorMessage>{errorMessage}</ErrorMessage>
               </FormItem>
-            ))}
-            <FormItem>
-              <button> Sign In</button>
-            </FormItem>
-          </Form>
+            )} 
+              {FIELDS.map((f) => (
+                <FormItem key={f.key} htmlFor={f.key} label={f.label}>
+                  <Input
+                    onChange={setData(f.key)}
+                    id={f.key}
+                    type={f.type}
+                  />
+                  {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
+                </FormItem>
+              ))}
+              <FormItem>
+                <button> Sign In</button>
+              </FormItem>
+            </Form>
+          </Spin>
         </Modal.Body>
         <Modal.Footer>
           Not a member yet?&nbsp;
@@ -148,5 +157,6 @@ SignInModal.propTypes = {
 };
 
 const SignInModalWithForm = withForm(FIELDS)(SignInModal);
+const SignInModalWithFetch = withFetch(SignInModalWithForm);
 
-export default SignInModalWithForm;
+export default SignInModalWithFetch;

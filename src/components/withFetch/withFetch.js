@@ -13,6 +13,10 @@ const withFetch = (Component) => {
       this.fetch = this.fetch.bind(this);
     }
 
+    setError(error) {
+      this.setState({ error });
+    }
+
     fetch(fetcher) {
       this.setState({
         error: null,
@@ -22,7 +26,8 @@ const withFetch = (Component) => {
       return fetcher()
         .then((res) => res?.data)
         .catch((err) => {
-          this.setState({ error: err.response?.data?.message });
+          const errorMessage = err.response?.data?.message;
+          this.setError(errorMessage || 'Unknown error');
           throw err;
         })
         .finally(() => this.setState({ loading: false }));

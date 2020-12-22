@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { Spin } from 'antd';
 import styled from 'styled-components';
 import validator from 'validator';
 import auth from '../../../../apis/auth';
@@ -8,6 +9,7 @@ import Modal from '../Modal';
 import FormItem from '../FormItem';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import withForm from '../../../../components/withForm';
+import withFetch from '../../../../components/withFetch';
 
 const Form = styled.form`
   padding: 16px 0;
@@ -94,20 +96,14 @@ class SignUpModal extends React.Component {
   }
 
   onSubmit() {
-    const { data } = this.props;
+    const { data, fetch } = this.props;
 
-    auth.signUp({
+    fetch(() => auth.signUp({
       username: data.username.value,
       email: data.email.value,
       password: data.password.value
-    })
-    .catch((error) => {
-      const message = error.response && {
-        409: 'This email address has already been taken, please choose another one'
-      }[error.response.status];
-  
-      this.setErrorMessage(message || 'Something went wrong, please try again later')
-    });
+    }))
+    .catch((error) => {});
   }
 
 
@@ -121,32 +117,36 @@ class SignUpModal extends React.Component {
       getErrorMessage,
       setData,
       submit,
+      loading,
+      error,
     } = this.props;
 
     return (
       <Modal>
         <Modal.Header>Sign Up</Modal.Header>
-        <Modal.Body> 
-          <Form onSubmit={submit(this.onSubmit)}>
-          {errorMessage && (
-            <FormItem>
-              <ErrorMessage>{errorMessage}</ErrorMessage>
-            </FormItem>
-          )} 
-            {FIELDS.map((f) => (
-              <FormItem key={f.key} htmlFor={f.key} label={f.label}>
-                <Input
-                  onChange={setData(f.key)}
-                  id={f.key}
-                  type={f.type}
-                />
-                {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
+        <Modal.Body>
+          <Spin spinning={loading}>
+            <Form onSubmit={submit(this.onSubmit)}>
+            {error && (
+              <FormItem>
+                <ErrorMessage>{error}</ErrorMessage>
               </FormItem>
-            ))}
-            <FormItem>
-              <button> Sign Up</button>
-            </FormItem>
-          </Form>
+            )} 
+              {FIELDS.map((f) => (
+                <FormItem key={f.key} htmlFor={f.key} label={f.label}>
+                  <Input
+                    onChange={setData(f.key)}
+                    id={f.key}
+                    type={f.type}
+                  />
+                  {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
+                </FormItem>
+              ))}
+              <FormItem>
+                <button> Sign Up</button>
+              </FormItem>
+            </Form>
+          </Spin>
         </Modal.Body>
         <Modal.Footer>
           Already a member?&nbsp;
@@ -164,4 +164,7 @@ SignUpModal.propTypes = {
   onSignUp: PropTypes.func.isRequired,
 };
 
-export default withForm(FIELDS)(SignUpModal);
+const SignUpModalWithForm = withForm(FIELDS)(SignUpModal);
+const SignUpModalWithFetch = withFetch(SignUpModalWithForm);
+
+export default SignUpModalWithFetch;
