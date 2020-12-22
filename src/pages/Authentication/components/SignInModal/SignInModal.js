@@ -1,11 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import validator from "validator";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import validator from 'validator';
 import signIn from '../../../../apis/signIn';
-import PropTypes from "prop-types";
-import Modal from "../Modal";
-import FormItem from "../FormItem";
-import ErrorMessage from "../../../../components/ErrorMessage";
+import PropTypes from 'prop-types';
+import Modal from '../Modal';
+import FormItem from '../FormItem';
+import ErrorMessage from '../../../../components/ErrorMessage';
 
 const Form = styled.form`
   padding: 16px 0;
@@ -13,9 +14,9 @@ const Form = styled.form`
 
 const FORM = [
   {
-    key: "email",
-    label: "Email",
-    type: "text",
+    key: 'email',
+    label: 'Email',
+    type: 'text',
     validations: [{
       message: 'Please enter your email address',
       validator: (value) => !validator.isEmpty(value),
@@ -23,9 +24,9 @@ const FORM = [
   },
   
   {
-    key: "password",
-    label: "Password",
-    type: "password",
+    key: 'password',
+    label: 'Password',
+    type: 'password',
     validations: [{
       message: 'Please enter your password',
       validator: (value) => !validator.isEmpty(value),
@@ -60,9 +61,9 @@ class SignInModal extends React.Component {
     
     this.state = {
       formData: {
-        email: "",
-        password: "",
-        confirmPassword: "",
+        email: '',
+        password: '',
+        confirmPassword: '',
       },
       errorMessage: null,
     };
@@ -131,11 +132,10 @@ class SignInModal extends React.Component {
     return invalidValidation.message;
   }
   render() {
-    const { onClose, onSignUp,onSignIn } = this.props;
     const { formData,errorMessage } = this.state;
 
     return (
-      <Modal onClose={onClose}>
+      <Modal>
         <Modal.Header>Sign In</Modal.Header>
         <Modal.Body> 
           <Form onSubmit={this.handleFormSubmit}>
@@ -164,7 +164,11 @@ class SignInModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           Not a member yet?&nbsp;
-          <SignUpButton onClick={onSignUp}>Sign Up Now</SignUpButton>
+          <SignUpButton>
+            <Link to="/auth/signup">
+              Sign Up Now
+            </Link>
+          </SignUpButton>
         </Modal.Footer>
       </Modal>
     ); 

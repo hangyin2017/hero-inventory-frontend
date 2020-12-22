@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import SignInModal from "./components/SignInModal";
-import SignUpModal from "./components/SignUpModal";
-import ROUTES from './routes';
+
+import ROUTES from './Route';
 
 const Layout = styled.div`
   height: 80vh;
@@ -71,13 +70,7 @@ class Authentication extends React.Component {
     return (
       <Router>
         <Layout>
-          <Left showModal={showModal}>
-            {/* {showModal === MODAL.SIGN_IN && (
-              <SignInModal onSignUp={this.showModal(MODAL.SIGN_UP)} 
-              />)}
-            {showModal === MODAL.SIGN_UP && (
-              <SignUpModal onSignIn={this.showModal(MODAL.SIGN_IN)} 
-              />)} */}
+          <Left>
               <Switch>
                 {Object.keys(ROUTES).map((key) => (
                   <Route

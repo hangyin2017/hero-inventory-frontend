@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import validator from "validator";
 import signUp from '../../../../apis/signUp';
@@ -49,7 +50,6 @@ const FORM = [
       validator: (value, formData) => value === formData.password.value,
     }
   ]
- 
   }];
 
 const Input = styled.input`
@@ -145,11 +145,10 @@ class SignUpModal extends React.Component {
     return invalidValidation.message;
   }
   render() {
-    const { onClose, onSignIn } = this.props;
     const { formData,errorMessage } = this.state;
 
     return (
-      <Modal onClose={onClose}>
+      <Modal>
         <Modal.Header>Sign Up</Modal.Header>
         <Modal.Body> 
           <Form onSubmit={this.handleFormSubmit}>
@@ -178,7 +177,9 @@ class SignUpModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           Already a member?&nbsp;
-          <SignInButton onClick={onSignIn}>Sign In Now</SignInButton>
+          <SignInButton>
+            <Link to="/auth/signin">Sign In Now</Link>
+          </SignInButton>
         </Modal.Footer>
       </Modal>
     ); 
