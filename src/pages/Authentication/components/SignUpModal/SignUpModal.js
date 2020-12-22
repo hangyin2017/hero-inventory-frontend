@@ -47,7 +47,7 @@ const FORM = [
       validator: (value) => !validator.isEmpty(value),
     },{
       message: 'Confirmed password does not match the password',
-      validator: (value, formData) => value === formData.password.value,
+      validator: (value, data) => value === data.password.value,
     }
   ]
   }];
@@ -72,20 +72,26 @@ const SignInButton = styled.button`
   color: #008fb4;
 `;
 
+const getInitialData = () => {
+  return FORM.reduce((data, f) => ({
+    ...data,
+    [f.key]: {
+      value: '',
+      dirty: false,
+    }
+  }), {});
+}
+
 class SignUpModal extends React.Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      formData: {
-        email: "",
-        password: "",
-        confirmPassword: "",
-      },
+      data: getInitialData(),
       errorMessage: null,
     };
-    this.handleFormDataChange = this.handleFormDataChange.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.setData = this.setData.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   setErrorMessage(message){
@@ -93,15 +99,18 @@ class SignUpModal extends React.Component {
       errorMessage:message,
     });
   }
-  handleFormDataChange(key) {
+  setData(key) {
     return (event) => {
-      const { value } = event.target;
       event.preventDefault();
+      const { value } = event.target;
 
       this.setState((prevState) => ({
-        formData: {
-          ...prevState.formData,
-          [key]: value, 
+        data: {
+          ...prevState.data,
+          [key]: {
+            value,
+            dirty: true,
+          }, 
         },
       }));
     };
@@ -112,17 +121,17 @@ class SignUpModal extends React.Component {
     return !formHasErrorMessage;
 
   }
-  handleFormSubmit(event) {
-    const { formData } = this.state;
+  handleSubmit(event) {
+    console.log('submit');
+    const { data } = this.state;
     event.preventDefault();
     if (!this.valid()){
       return;
     }
     signUp({
-      email: formData.email.value,
-      password: formData.password.value
+      email: data.email.value,
+      password: data.password.value
     })
-    .then(() => onClose())
     .catch((error) => {
       const message = error.response && {
       409: 'This email address has already been taken, please choose another one'
@@ -133,11 +142,11 @@ class SignUpModal extends React.Component {
   }
 
 
-  getErrorMessage(form){
-    const { formData, errorMessage } = this.state;
-    const { key, validations} = form;
-    const value = formData[key];
-    const invalidValidation = validations.find((v) => !v.validator(value, formData));
+  getErrorMessage(field){
+    const { data } = this.state;
+    const { key, validations} = field;
+    const { value } = data[key];
+    const invalidValidation = validations.find((v) => !v.validator(value, data));
 
     if(!invalidValidation){
       return null;
@@ -145,13 +154,13 @@ class SignUpModal extends React.Component {
     return invalidValidation.message;
   }
   render() {
-    const { formData,errorMessage } = this.state;
+    const { data,errorMessage } = this.state;
 
     return (
       <Modal>
         <Modal.Header>Sign Up</Modal.Header>
         <Modal.Body> 
-          <Form onSubmit={this.handleFormSubmit}>
+          <Form onSubmit={this.handleSubmit}>
           {errorMessage && (
             <FormItem>
               <ErrorMessage>{errorMessage}</ErrorMessage>
@@ -163,11 +172,11 @@ class SignUpModal extends React.Component {
             {FORM.map((f) => (
               <FormItem key={f.key} htmlFor={f.key} label={f.label}>
                 <Input
-                  onChange={this.handleFormDataChange(f.key)}
+                  onChange={this.setData(f.key)}
                   id={f.key}
                   type={f.type}
                 />
-                {this.getErrorMessage(f)}
+                {data[f.key].dirty && this.getErrorMessage(f)}
               </FormItem>
             ))}
             <FormItem>
