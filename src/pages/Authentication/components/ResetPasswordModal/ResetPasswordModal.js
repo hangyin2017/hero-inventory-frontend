@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom';
-import { Result } from 'antd';
+import { Result, Button } from 'antd';
 import auth from '../../../../apis/auth';
 import GeneralAuthModal from '../GeneralAuthModal';
+import RedirectCountdown from '../../../../components/RedirectCountdown';
 import FIELDS from './Fields';
 import ROUTES from '../../Routes';
 
@@ -58,10 +59,19 @@ class ResetPasswordModal extends React.Component {
       //     subTitle="Redirecting to log in..."
       //   />}
       // />
-      <>
-        <div>Redirecting in {redirectCountdown} seconds</div>
-        {redirectCountdown == 0 && <Redirect to={ROUTES.signIn.path} />}
-      </>
+      <Result
+        status="success"
+        title="Successfully reset password"
+        subTitle="Redirecting to log in..."
+        extra={
+          <Button>
+            <Link to={ROUTES.signIn.path}>
+            <RedirectCountdown seconds={REDIRECT_AFTER_SECONDS} to={ROUTES.signIn.path} />
+            </Link>
+          </Button>
+        }
+      />
+
     ); 
   }
 }
