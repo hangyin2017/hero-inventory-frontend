@@ -1,17 +1,17 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import { Spin, Input, Button } from 'antd';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import FormItem from '../FormItem';
-import ErrorMessage from '../../../../components/ErrorMessage';
-import withForm from '../../../../components/withForm';
-import withFetch from '../../../../components/withFetch';
-// import ROUTES from '../../Routes';
 
-const horizonPadding = '24px';
+const HORIZON_GAP = '24px';
+const FONT_L = '24px';
+const FONT_M = '16px';
+const FONT_S = '14px';
+const INPUT_HEIGHT = '44px';
+const BORDER_RADIUS = '4px';
+const DIVIDER_BORDER = '1px solid #dadada';
 
-const Container = styled.div`
+const Box = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
@@ -19,144 +19,69 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  padding: 16px ${horizonPadding};
+  padding: 16px ${HORIZON_GAP};
   text-align: center;
-  font-size: 24px;
+  font-size: ${FONT_L};
   font-weight: 500;
-  border-bottom: 1px solid #dadada;
+  border-bottom: ${DIVIDER_BORDER};
 `;
 
 const Body = styled.div`
-  padding: 30px ${horizonPadding};
+  padding: 30px ${HORIZON_GAP};
+`;
+
+const StyledSpin = styled(Spin).attrs({
+  size: 'large',
+})`
+  position: absolute;
+  top: 150px;
+  left: 0;
+  width: 100%;
 `;
 
 const AuthInput = styled(Input)`
-  height: 44px;
-  font-size: 16px;
+  height: ${INPUT_HEIGHT};
+  font-size: ${FONT_M};
   padding: 12px;
-  border-radius: 4px;
+  border-radius: ${BORDER_RADIUS};
 `;
 
 const AuthButton = styled(Button).attrs({
   type: 'primary',
   block: true,
 })`
-  height: 44px;
+  height: ${INPUT_HEIGHT};
   margin-top: 41px;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: ${BORDER_RADIUS};
+  font-size: ${FONT_M};
   font-weight: 500;
 `;
 
 const Footer = styled.div`
-  padding: 20px ${horizonPadding};
-  border-top: 1px solid #dadada;
+  padding: 20px ${HORIZON_GAP};
+  border-top: ${DIVIDER_BORDER};
   text-align: center;
 `;
 
-let FIELDS;
-
-class AuthModal extends React.Component {
-  constructor(props) {
-    super(props);
-    
-    FIELDS = this.props.FIELDS;
-
-    this.state = {
-      result: null,
-      errorMessage: null,
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  setResult(result) {
-    this.setState({ result });
-  }
-
-  setErrorMessage(errorMessage){
-    this.setState({ errorMessage });
-  }
-
-  handleSubmit() {
-    const { api, data, fetch } = this.props;
-
-    fetch(() => api({
-      username: data.username.value,
-      password: data.password.value
-    }))
-    .then((res) => {
-      this.setResult(res);
-    })
-    .catch((error) => {});
-  }
-
-  render() {
-    const { result, errorMessage } = this.state;
-
-    const {
-      title,
-      FIELDS,
-      submitButtonText,
-      children,
-      AfterSubmission,
-      footerNode,
-      data,
-      formDirty,
-      valid,
-      getValidationMessage,
-      setData,
-      submit,
-      loading,
-      error,
-    } = this.props;
-
-    const BeforeSubmission = (
-      <>
-        <Body>
-          <Spin spinning={loading}>
-            <form>
-            {error && (
-              <FormItem>
-                <ErrorMessage>{error}</ErrorMessage>
-              </FormItem>
-            )} 
-              {FIELDS.map((f) => (
-                <FormItem key={f.key} htmlFor={f.key} label={f.label}>
-                  <AuthInput
-                    id={f.key}
-                    type={f.type}
-                    onChange={setData(f.key)}
-                  />
-                  {(formDirty || data[f.key].dirty) && getValidationMessage(f)}
-                </FormItem>
-              ))}
-              <AuthButton onClick={submit(this.handleSubmit)}>{submitButtonText}</AuthButton>
-              {children}
-            </form>
-          </Spin>
-        </Body>
-        <Footer>{footerNode}</Footer>
-      </>
-    );
-
-    return (
-      <Container>
-        <Header>{title}</Header>
-        {result ? AfterSubmission : BeforeSubmission}
-      </Container>
-    ); 
-  }
+const AuthModal = ({ title, children }) => {
+  return (
+    <Box onClick={(e) => e.stopPropagation()}>
+      <Header>{title}</Header>
+      {children}
+    </Box>
+  )
 }
 
-AuthModal.Container = Container;
+AuthModal.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
 AuthModal.Header = Header;
 AuthModal.Body = Body;
+AuthModal.StyledSpin = StyledSpin;
 AuthModal.AuthInput = AuthInput;
 AuthModal.AuthButton = AuthButton;
 AuthModal.Footer = Footer;
 
-const AuthModalWithForm = withForm(FIELDS)(AuthModal);
-const AuthModalWithFetch = withFetch(AuthModalWithForm);
-
-export default AuthModalWithFetch;
+export default AuthModal;

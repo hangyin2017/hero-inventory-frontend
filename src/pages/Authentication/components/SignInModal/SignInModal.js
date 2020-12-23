@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import auth from '../../../../apis/auth';
-import AuthModal from '../AuthModal';
+import GeneralAuthModal from '../GeneralAuthModal';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
 import PAGES from '../../../../pages';
@@ -25,7 +25,7 @@ class SignInModal extends React.Component {
 
   render() {
     return (
-      <AuthModal
+      <GeneralAuthModal
         title="Sign In"
         FIELDS={FIELDS}
         api={auth.signIn}
@@ -41,7 +41,7 @@ class SignInModal extends React.Component {
         <ForgetPassword>
           <Link to={ROUTES.forgetPassword.path}>Forgot Password?</Link>
         </ForgetPassword>
-      </AuthModal>
+      </GeneralAuthModal>
     ); 
   }
 }

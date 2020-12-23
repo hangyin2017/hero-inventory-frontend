@@ -73,6 +73,7 @@ class Authentication extends React.Component {
               <Switch>
                 {Object.keys(ROUTES).map((key) => (
                   <Route
+                    key={key}
                     exact={ROUTES[key].exact}
                     path={ROUTES[key].path}
                     component={ROUTES[key].component}

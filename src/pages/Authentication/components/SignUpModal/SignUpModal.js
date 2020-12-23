@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Result } from 'antd';
 import auth from '../../../../apis/auth';
-import AuthModal from '../AuthModal';
+import GeneralAuthModal from '../GeneralAuthModal';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
 
@@ -13,7 +13,7 @@ class SignUpModal extends React.Component {
 
   render() {
     return (
-      <AuthModal
+      <GeneralAuthModal
         title="Sign Up"
         FIELDS={FIELDS}
         api={auth.signUp}

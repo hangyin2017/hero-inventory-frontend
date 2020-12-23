@@ -43,6 +43,7 @@ const App = () => {
             <Switch>
               {Object.keys(PAGES).map((key) => (
                 <Route
+                  key={key}
                   exact={PAGES[key].exact}
                   path={PAGES[key].path}
                   component={PAGES[key].component}

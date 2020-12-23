@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spin, Result } from 'antd';
 import auth from '../../../../apis/auth';
-import Modal from '../AuthModal';
+import Modal from '../GeneralAuthModal';
 import FormItem from '../FormItem';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import withForm from '../../../../components/withForm';

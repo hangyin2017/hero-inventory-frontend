@@ -1,17 +1,9 @@
 import React from 'react';
-import { Result, Spin } from 'antd';
-import styled from 'styled-components';
+import { Result } from 'antd';
 import { withRouter } from 'react-router-dom';
-import Modal from '../AuthModal';
+import AuthModal from '../AuthModal';
 import withFetch from '../../../../components/withFetch';
 import authApi from '../../../../apis/auth';
-
-const StyledSpin = styled(Spin)`
-  position: absolute;
-  top: 150px;
-  left: 0;
-  width: 100%;
-`;
 
 class EmailVerificationModal extends React.Component {
   constructor(props) {
@@ -42,11 +34,11 @@ class EmailVerificationModal extends React.Component {
   render() {
     const { result } = this.state;
     const { loading, error } = this.props;
+    const { Body, StyledSpin } = AuthModal;
 
     return (
-      <Modal>
-        <Modal.Header>Email Verification</Modal.Header>
-        <Modal.Body>
+      <AuthModal title="Email Verification">
+        <Body>
           <StyledSpin size="large" spinning={loading}>
             {{
               fail: (<Result
@@ -61,8 +53,8 @@ class EmailVerificationModal extends React.Component {
               />),
             }[result]}
           </StyledSpin>
-        </Modal.Body>
-      </Modal>
+        </Body>
+      </AuthModal>
     ); 
   }
 }
