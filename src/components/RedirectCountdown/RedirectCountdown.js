@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button } from 'antd';
 
 class RedirectCountdown extends React.Component {
   constructor(props) {
@@ -18,8 +17,11 @@ class RedirectCountdown extends React.Component {
   }
 
   countdown() {
-    if(this.state.second > 0 ) {
+    if(this.redirectTimer) {
       clearTimeout(this.redirectTimer);
+    }
+
+    if(this.state.second > 0 ) {
       this.redirectTimer = setTimeout(() => {
         this.subtractSecond();
         this.countdown();
@@ -40,7 +42,7 @@ class RedirectCountdown extends React.Component {
     return (
       <>
         <div>Redirecting in {second} seconds</div>
-        {/* {second === 0 && <Redirect to={to} />} */}
+        {second === 0 && <Redirect to={to} />}
       </>
     ); 
   }

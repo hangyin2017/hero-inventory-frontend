@@ -2,8 +2,12 @@ import React from 'react';
 import { Result } from 'antd';
 import { withRouter } from 'react-router-dom';
 import AuthModal from '../AuthModal';
+import RedirectCountdown from '../../../../components/RedirectCountdown';
 import withFetch from '../../../../components/withFetch';
 import authApi from '../../../../apis/auth';
+import { HOMEPAGE } from '../../../../pages';
+
+const REDIRECT_AFTER_SECONDS = 9;
 
 class EmailVerificationModal extends React.Component {
   constructor(props) {
@@ -43,13 +47,13 @@ class EmailVerificationModal extends React.Component {
             {{
               fail: (<Result
                 status="error"
-                title="Email verification failed"
+                title="Email Verification Failed"
                 subTitle={error}
               />),
               success: (<Result
                 status="success"
                 title="Successfully verified email"
-                subTitle="Welcome to Hero Inventory! Redirecting to homepage..."
+                subTitle={<RedirectCountdown seconds={REDIRECT_AFTER_SECONDS} to={HOMEPAGE.path} />}
               />),
             }[result]}
           </StyledSpin>

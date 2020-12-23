@@ -5,7 +5,7 @@ import auth from '../../../../apis/auth';
 import GeneralAuthModal from '../GeneralAuthModal';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
-import PAGES from '../../../../pages';
+import { HOMEPAGE } from '../../../../pages';
 
 const ForgetPassword = styled.div`
   text-align: center;
@@ -30,7 +30,7 @@ class SignInModal extends React.Component {
         FIELDS={FIELDS}
         api={auth.signIn}
         submitButtonText="Sign In"
-        AfterSubmission={<Redirect to={PAGES.dashboard.path} />}
+        AfterSubmission={<Redirect to={HOMEPAGE.path} />}
         footerNode={(
           <>
             <span>Not a member yet?&nbsp;</span>

@@ -18,11 +18,13 @@ class SignUpModal extends React.Component {
         FIELDS={FIELDS}
         api={auth.signUp}
         submitButtonText="Sign Up"
-        AfterSubmission={<Result
-          status="success"
-          title="Successfully signed up"
-          subTitle="Thank you for signing up. A verification email has been sent"
-        />}
+        AfterSubmission={
+          <Result
+            status="success"
+            title="Successfully Signed Up"
+            subTitle="Thank you for signing up. A verification email has been sent"
+          />
+        }
         footerNode={(
           <>
             <span>Already a member?&nbsp;</span>

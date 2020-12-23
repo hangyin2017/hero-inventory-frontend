@@ -20,7 +20,7 @@ class ForgetPasswordModal extends React.Component {
         submitButtonText="Send Verification Email"
         AfterSubmission={<Result
           status="success"
-          title="Reset password link has been sent to your email"
+          title="Reset Password Link Has Been Sent"
           subTitle="Please check your email inbox and click on the verification link"
         />}
         footerNode={(
