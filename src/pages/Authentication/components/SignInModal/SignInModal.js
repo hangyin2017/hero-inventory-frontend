@@ -11,10 +11,6 @@ import ErrorMessage from '../../../../components/ErrorMessage';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
 
-const Form = styled.form`
-  padding: 16px 0;
-`;
-
 const FIELDS = [{
   key: 'username',
   label: 'Username',
@@ -33,24 +29,15 @@ const FIELDS = [{
   }],
 }];
 
-const Input = styled.input`
-  display: block;
-  box-sizing: border-box;
-  width: 100%;
-  color: #292b32;
-  font-size: 14px;
-  padding: 12px;
-  border-radius: 4px;
-  border: 1px solid #bbc2dc;
-`;
+const ForgetPassword = styled.div`
+  text-align: center;
+  margin-top: 30px;
 
-const SignUpButton = styled.button`
-  outline: 0;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  color: #008fb4;
+  & > a {
+    font-size: 16px;
+    font-weight: 500;
+    color: #626262;
+  }
 `;
 
 class SignInModal extends React.Component {
@@ -62,7 +49,7 @@ class SignInModal extends React.Component {
       errorMessage: null,
     };
 
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   setUser(user) {
@@ -73,7 +60,7 @@ class SignInModal extends React.Component {
     this.setState({ errorMessage });
   }
 
-  onSubmit() {
+  handleSubmit() {
     const { data, fetch } = this.props;
 
     fetch(() => auth.signIn({
@@ -109,6 +96,8 @@ class SignInModal extends React.Component {
       loading,
     } = this.props;
 
+    const { AuthButton, AuthInput } = Modal;
+
     if(!!user) {
       return <Redirect to="/dashboard" />
     }
@@ -118,7 +107,7 @@ class SignInModal extends React.Component {
         <Modal.Header>Sign In</Modal.Header>
         <Modal.Body>
           <Spin spinning={loading}>
-            <Form onSubmit={submit(this.onSubmit)}>
+            <form onSubmit={submit(this.handleSubmit)}>
             {errorMessage && (
               <FormItem>
                 <ErrorMessage>{errorMessage}</ErrorMessage>
@@ -126,25 +115,24 @@ class SignInModal extends React.Component {
             )} 
               {FIELDS.map((f) => (
                 <FormItem key={f.key} htmlFor={f.key} label={f.label}>
-                  <Input
-                    onChange={setData(f.key)}
+                  <AuthInput
                     id={f.key}
                     type={f.type}
+                    onChange={setData(f.key)}
                   />
                   {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
                 </FormItem>
               ))}
-              <FormItem>
-                <button> Sign In</button>
-              </FormItem>
-            </Form>
+              <AuthButton>Sign In</AuthButton>
+              <ForgetPassword>
+                <Link to="/auth/forget_password">Forgot Password?</Link>
+              </ForgetPassword>
+            </form>
           </Spin>
         </Modal.Body>
         <Modal.Footer>
           Not a member yet?&nbsp;
-          <SignUpButton>
-            <Link to="/auth/signup">Sign Up Now</Link>
-          </SignUpButton>
+          <Link to="/auth/signup">Sign Up Now</Link>
         </Modal.Footer>
       </Modal>
     ); 

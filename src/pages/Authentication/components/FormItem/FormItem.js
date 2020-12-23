@@ -10,8 +10,8 @@ const Wrapper = styled.div`
 
 const Label = styled.label`
   display: block;
-  font-size: 14px;
-  color: #292b32;
+  font-size: 16px;
+  color: #626262;
   margin-bottom: 8px;
 `;
 const FormItem = ({ label, htmlFor, children }) => (

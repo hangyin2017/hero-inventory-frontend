@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Spin, Result } from 'antd';
+import { Button, Spin, Result } from 'antd';
 import styled from 'styled-components';
 import validator from 'validator';
 import auth from '../../../../apis/auth';
@@ -11,10 +11,6 @@ import ErrorMessage from '../../../../components/ErrorMessage';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
 import ROUTES from '../../Routes';
-
-const Form = styled.form`
-  padding: 16px 0;
-`;
 
 const FIELDS = [{
   key: 'username',
@@ -59,26 +55,6 @@ const FIELDS = [{
   }],
 }];
 
-const Input = styled.input`
-  display: block;
-  box-sizing: border-box;
-  width: 100%;
-  color: #292b32;
-  font-size: 14px;
-  padding: 12px;
-  border-radius: 4px;
-  border: 1px solid #bbc2dc;
-`;
-
-const SignInButton = styled.button`
-  outline: 0;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  color: #008fb4;
-`;
-
 class SignUpModal extends React.Component {
   constructor(props) {
     super(props);
@@ -120,6 +96,8 @@ class SignUpModal extends React.Component {
       error,
     } = this.props;
 
+    const { AuthButton, AuthInput } = Modal;
+
     const SignedUp = (<Result
       status="success"
       title="Successfully signed up"
@@ -141,7 +119,7 @@ class SignUpModal extends React.Component {
           <>
             <Modal.Body>
               <Spin spinning={loading}>
-                <Form onSubmit={submit(this.onSubmit)}>
+                <form onSubmit={submit(this.onSubmit)}>
                 {error && (
                   <FormItem>
                     <ErrorMessage>{error}</ErrorMessage>
@@ -149,7 +127,7 @@ class SignUpModal extends React.Component {
                 )} 
                   {FIELDS.map((f) => (
                     <FormItem key={f.key} htmlFor={f.key} label={f.label}>
-                      <Input
+                      <AuthInput
                         onChange={setData(f.key)}
                         id={f.key}
                         type={f.type}
@@ -157,17 +135,13 @@ class SignUpModal extends React.Component {
                       {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
                     </FormItem>
                   ))}
-                  <FormItem>
-                    <button> Sign Up</button>
-                  </FormItem>
-                </Form>
+                  <AuthButton> Sign Up</AuthButton>
+                </form>
               </Spin>
             </Modal.Body>
             <Modal.Footer>
               Already a member?&nbsp;
-              <SignInButton>
-                <Link to={ROUTES.signIn.path}>Sign In Now</Link>
-              </SignInButton>
+              <Link to={ROUTES.signIn.path}>Sign In Now</Link>
             </Modal.Footer>
           </>
         )}
