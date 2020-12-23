@@ -1,6 +1,7 @@
 import SignInModal from "./components/SignInModal";
 import SignUpModal from "./components/SignUpModal";
 import EmailVerificationModal from './components/EmailVerificationModal';
+import ForgetPasswordModal from './components/ForgetPasswordModal';
 
 const ROUTES = {
   signIn: {
@@ -16,7 +17,7 @@ const ROUTES = {
   forgetPassword: {
     path: '/auth/forget_password',
     exact: true,
-    // component: ForgetPasswordModal,
+    component: ForgetPasswordModal,
   },
   emailVerification: {
     path: '/auth/email_verification',
