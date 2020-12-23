@@ -3,7 +3,6 @@ import { Link, Redirect } from 'react-router-dom';
 import { Spin } from 'antd';
 import styled from 'styled-components';
 import auth from '../../../../apis/auth';
-import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import FormItem from '../FormItem';
 import ErrorMessage from '../../../../components/ErrorMessage';
@@ -118,11 +117,6 @@ class SignInModal extends React.Component {
     ); 
   }
 }
-
-SignInModal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  onSignUp: PropTypes.func.isRequired,
-};
 
 const SignInModalWithForm = withForm(FIELDS)(SignInModal);
 const SignInModalWithFetch = withFetch(SignInModalWithForm);

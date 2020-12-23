@@ -37,6 +37,7 @@ const AuthButton = styled(Button).attrs({
 })`
   height: 44px;
   margin-top: 41px;
+  border-radius: 4px;
   font-size: 16px;
   font-weight: 500;
 `;

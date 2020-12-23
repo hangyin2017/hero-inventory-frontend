@@ -10,12 +10,12 @@ import withFetch from '../../../../components/withFetch';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
 
-class SignUpModal extends React.Component {
+class ForgetPasswordModal extends React.Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      signedUp: false,
+      emailSent: false,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -28,17 +28,13 @@ class SignUpModal extends React.Component {
   onSubmit() {
     const { data, fetch } = this.props;
 
-    fetch(() => auth.signUp({
-      username: data.username.value,
-      email: data.email.value,
-      password: data.password.value
-    }))
+    fetch(() => auth.forgetPassword(data.email.value))
     .then(this.setSignedUp(true))
     .catch((error) => {});
   }
 
   render() {
-    const { signedUp } = this.state;
+    const { emailSent } = this.state;
 
     const {
       data,
@@ -53,17 +49,17 @@ class SignUpModal extends React.Component {
 
     const { AuthButton, AuthInput } = Modal;
 
-    const SignUpResult = (
+    const SentResult = (
       <Modal.Body>
         <Result
           status="success"
-          title="Successfully signed up"
-          subTitle="Thank you for signing up. A verification email has been sent"
+          title="Reset password link has been sent to your email"
+          subTitle="Please check your email inbox and click on the verification link"
         />
       </Modal.Body>
     );
 
-    const SignUpForm = (
+    const ForgetPasswordForm = (
       <>
         <Modal.Body>
           <Spin spinning={loading}>
@@ -83,27 +79,27 @@ class SignUpModal extends React.Component {
                   {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
                 </FormItem>
               ))}
-              <AuthButton onClick={submit(this.onSubmit)}>Sign Up</AuthButton>
+              <AuthButton onClick={submit(this.onSubmit)}>Send Verification Email</AuthButton>
             </form>
           </Spin>
         </Modal.Body>
         <Modal.Footer>
-          Already a member?&nbsp;
-          <Link to={ROUTES.signIn.path}>Sign In Now</Link>
+          Not a member yet?&nbsp;
+          <Link to={ROUTES.signUp.path}>Sign Up Now</Link>
         </Modal.Footer>
       </>
     );
 
     return (
       <Modal>
-        <Modal.Header>Sign Up</Modal.Header>
-        {signedUp ? SignUpResult : SignUpForm}
+        <Modal.Header>Forget Password</Modal.Header>
+        {emailSent ? SentResult : ForgetPasswordForm}
       </Modal>
     ); 
   }
 }
 
-const SignUpModalWithForm = withForm(FIELDS)(SignUpModal);
-const SignUpModalWithFetch = withFetch(SignUpModalWithForm);
+const ForgetPasswordModalWithForm = withForm(FIELDS)(ForgetPasswordModal);
+const ForgetPasswordModalWithFetch = withFetch(ForgetPasswordModalWithForm);
 
-export default SignUpModalWithFetch;
+export default ForgetPasswordModalWithFetch;
