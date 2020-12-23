@@ -25,5 +25,5 @@ export default {
 
   verifyEmail: (token) => instance.get(`${URL}/email_verification?token=${token}`),
 
-  resetPassword: (token, payload) => instance.post(`${URL}/reset_password?token=${token}`, payload),
+  resetPassword: (payload, token) => instance.post(`${URL}/reset_password?token=${token}`, payload),
 };

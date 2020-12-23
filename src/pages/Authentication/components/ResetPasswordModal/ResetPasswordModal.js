@@ -1,37 +1,71 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, Redirect } from 'react-router-dom';
 import { Result } from 'antd';
 import auth from '../../../../apis/auth';
-import AuthModal from '../AuthModal';
-import ROUTES from '../../Routes';
+import GeneralAuthModal from '../GeneralAuthModal';
 import FIELDS from './Fields';
+import ROUTES from '../../Routes';
+
+const REDIRECT_AFTER_SECONDS = 3;
 
 class ResetPasswordModal extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      redirectCountdown: REDIRECT_AFTER_SECONDS,
+    }
+
+    this.countdown = this.countdown.bind(this);
+  }
+
+  componentDidMount() {
+    this.countdown();
+  }
+
+  countdown() {
+    if(this.state.redirectCountdown > 0 ) {
+      clearTimeout(this.redirectTimer);
+      this.redirectTimer = setTimeout(() => {
+        this.subtractRedirectCountdown();
+        this.countdown();
+      }, 1000);
+    }
+  }
+
+  subtractRedirectCountdown() {
+    this.setState((prevState) => {
+      return { redirectCountdown: prevState.redirectCountdown - 1 };
+    });
   }
 
   render() {
+    const { history } = this.props;
+    const { redirectCountdown } = this.state;
+    const request = history.location.search;
+    const token = request.replace('?token=', '');
+
     return (
-      <AuthModal
-        title="Sign Up"
-        FIELDS={FIELDS}
-        api={auth.resetPassword}
-        submitButtonText="Sign Up"
-        AfterSubmission={<Result
-          status="success"
-          title="Successfully signed up"
-          subTitle="Thank you for signing up. A verification email has been sent"
-        />}
-        footerNode={(
-          <>
-            <span>Already a member?&nbsp;</span>
-            <Link to={ROUTES.signIn.path}>Sign In Now</Link>
-          </>
-        )}        
-      />
+      // <GeneralAuthModal
+      //   title="Reset Password"
+      //   FIELDS={FIELDS}
+      //   api={auth.resetPassword}
+      //   token={token}
+      //   submitButtonText="Reset Password"
+      //   AfterSubmission={<Result
+      //     status="success"
+      //     title="Successfully reset password"
+      //     subTitle="Redirecting to log in..."
+      //   />}
+      // />
+      <>
+        <div>Redirecting in {redirectCountdown} seconds</div>
+        {redirectCountdown == 0 && <Redirect to={ROUTES.signIn.path} />}
+      </>
     ); 
   }
 }
 
-export default ResetPasswordModal;
+const ResetPasswordModalWithRoute = withRouter(ResetPasswordModal)
+
+export default ResetPasswordModalWithRoute;

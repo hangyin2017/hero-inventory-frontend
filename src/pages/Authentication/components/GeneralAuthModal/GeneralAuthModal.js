@@ -24,14 +24,14 @@ class GeneralAuthModal extends React.Component {
   }
 
   handleSubmit() {
-    const { api, data, fetch } = this.props;
+    const { api, token, data, fetch } = this.props;
 
     const values = Object.keys(data).reduce((obj, key) => ({
       ...obj,
       [key]: data[key].value,
     }), {});
 
-    fetch(() => api(values))
+    fetch(() => api(values, token))
     .then((res) => {
       this.setResult(res);
     })
