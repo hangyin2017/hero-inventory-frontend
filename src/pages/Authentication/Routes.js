@@ -13,6 +13,11 @@ const ROUTES = {
     exact: true,
     component: SignUpModal,
   },
+  forgetPassword: {
+    path: '/auth/forget_password',
+    exact: true,
+    // component: ForgetPasswordModal,
+  },
   emailVerification: {
     path: '/auth/email_verification',
     exact: true,

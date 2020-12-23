@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Spin } from 'antd';
 import styled from 'styled-components';
-import validator from 'validator';
 import auth from '../../../../apis/auth';
 import PropTypes from 'prop-types';
 import Modal from '../Modal';
@@ -10,24 +9,9 @@ import FormItem from '../FormItem';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
-
-const FIELDS = [{
-  key: 'username',
-  label: 'Username',
-  type: 'text',
-  validations: [{
-    message: 'Please enter your username',
-    validator: (value) => !validator.isEmpty(value),
-  }],
-},{
-  key: 'password',
-  label: 'Password',
-  type: 'password',
-  validations: [{
-    message: 'Please enter your password',
-    validator: (value) => !validator.isEmpty(value),
-  }],
-}];
+import PAGES from '../../../../pages';
+import ROUTES from '../../Routes';
+import FIELDS from './Fields';
 
 const ForgetPassword = styled.div`
   text-align: center;
@@ -67,17 +51,13 @@ class SignInModal extends React.Component {
       username: data.username.value,
       password: data.password.value
     }))
-    auth.signIn({
-        username: data.username.value,
-        password: data.password.value
-      })
     .then((data) => {
       this.setUser(data);
     })
     .catch((error) => {
       const message = error && {
         401: 'Email and password does not match, please try again',
-      }[error.response.status];
+      }[error.response?.status];
 
       this.setErrorMessage(message || 'Something went wrong, please try again later ');
     });
@@ -99,7 +79,7 @@ class SignInModal extends React.Component {
     const { AuthButton, AuthInput } = Modal;
 
     if(!!user) {
-      return <Redirect to="/dashboard" />
+      return <Redirect to={PAGES.dashboard.path} />
     }
 
     return (
@@ -107,7 +87,7 @@ class SignInModal extends React.Component {
         <Modal.Header>Sign In</Modal.Header>
         <Modal.Body>
           <Spin spinning={loading}>
-            <form onSubmit={submit(this.handleSubmit)}>
+            <form>
             {errorMessage && (
               <FormItem>
                 <ErrorMessage>{errorMessage}</ErrorMessage>
@@ -123,16 +103,16 @@ class SignInModal extends React.Component {
                   {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
                 </FormItem>
               ))}
-              <AuthButton>Sign In</AuthButton>
+              <AuthButton onClick={submit(this.handleSubmit)}>Sign In</AuthButton>
               <ForgetPassword>
-                <Link to="/auth/forget_password">Forgot Password?</Link>
+                <Link to={ROUTES.forgetPassword.path}>Forgot Password?</Link>
               </ForgetPassword>
             </form>
           </Spin>
         </Modal.Body>
         <Modal.Footer>
           Not a member yet?&nbsp;
-          <Link to="/auth/signup">Sign Up Now</Link>
+          <Link to={ROUTES.signUp.path}>Sign Up Now</Link>
         </Modal.Footer>
       </Modal>
     ); 

@@ -20,6 +20,7 @@ const FormItem = ({ label, htmlFor, children }) => (
     {children}
   </Wrapper>
 );
+
 FormItem.defaultProps = {
   label: undefined,
   htmlFor: undefined,

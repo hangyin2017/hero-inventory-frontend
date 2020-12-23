@@ -1,59 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Spin, Result } from 'antd';
-import styled from 'styled-components';
-import validator from 'validator';
-import auth from '../../../../apis/auth';
+import { Spin, Result } from 'antd';
 import PropTypes from 'prop-types';
+import auth from '../../../../apis/auth';
 import Modal from '../Modal';
 import FormItem from '../FormItem';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
 import ROUTES from '../../Routes';
-
-const FIELDS = [{
-  key: 'username',
-  label: 'Username',
-  type: 'text',
-  validations: [{
-    message: 'Please enter your username',
-    validator: (value) => !validator.isEmpty(value),
-  }],
-},{
-  key: 'email',
-  label: 'Email',
-  type: 'text',
-  validations: [{
-    message: 'Please enter your email address',
-    validator: (value) => !validator.isEmpty(value),
-  },{
-    message: 'Please enter a valid email address',
-    validator: (value) => validator.isEmail(value),
-  }],
-},{
-  key: 'password',
-  label: 'Password',
-  type: 'password',
-  validations: [{
-    message: 'Please enter your password',
-    validator: (value) => !validator.isEmpty(value),
-  },{
-    message: 'Password must be at least 8 characters',
-    validator: (value) => validator.isLength(value, { min:8 }),
-  }],
-},{
-  key: 'confirmPassword',
-  label: 'Confirm Password',
-  type: 'password',
-  validations: [{
-    message: 'Please confirm your password',
-    validator: (value) => !validator.isEmpty(value),
-  },{
-    message: 'Confirmed password does not match the password',
-    validator: (value, data) => value === data.password.value,
-  }],
-}];
+import FIELDS from './Fields';
 
 class SignUpModal extends React.Component {
   constructor(props) {
@@ -98,53 +54,51 @@ class SignUpModal extends React.Component {
 
     const { AuthButton, AuthInput } = Modal;
 
-    const SignedUp = (<Result
-      status="success"
-      title="Successfully signed up"
-      subTitle="Thank you for signing up. A verification email has been sent"
-    />);
+    const SignUpResult = (
+      <Modal.Body>
+        <Result
+          status="success"
+          title="Successfully signed up"
+          subTitle="Thank you for signing up. A verification email has been sent"
+        />
+      </Modal.Body>
+    );
+
+    const SignUpForm = (
+      <>
+        <Modal.Body>
+          <Spin spinning={loading}>
+            <form>
+              {error && (
+                <FormItem>
+                  <ErrorMessage>{error}</ErrorMessage>
+                </FormItem>
+              )} 
+              {FIELDS.map((f) => (
+                <FormItem key={f.key} htmlFor={f.key} label={f.label}>
+                  <AuthInput
+                    onChange={setData(f.key)}
+                    id={f.key}
+                    type={f.type}
+                  />
+                  {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
+                </FormItem>
+              ))}
+              <AuthButton onClick={submit(this.onSubmit)}>Sign Up</AuthButton>
+            </form>
+          </Spin>
+        </Modal.Body>
+        <Modal.Footer>
+          Already a member?&nbsp;
+          <Link to={ROUTES.signIn.path}>Sign In Now</Link>
+        </Modal.Footer>
+      </>
+    );
 
     return (
       <Modal>
         <Modal.Header>Sign Up</Modal.Header>
-        {signedUp ? (
-          <Modal.Body>
-            <Result
-              status="success"
-              title="Successfully signed up"
-              subTitle="Thank you for signing up. A verification email has been sent"
-            />
-          </Modal.Body>
-        ) : (
-          <>
-            <Modal.Body>
-              <Spin spinning={loading}>
-                <form onSubmit={submit(this.onSubmit)}>
-                {error && (
-                  <FormItem>
-                    <ErrorMessage>{error}</ErrorMessage>
-                  </FormItem>
-                )} 
-                  {FIELDS.map((f) => (
-                    <FormItem key={f.key} htmlFor={f.key} label={f.label}>
-                      <AuthInput
-                        onChange={setData(f.key)}
-                        id={f.key}
-                        type={f.type}
-                      />
-                      {(formDirty || data[f.key].dirty) && getErrorMessage(f)}
-                    </FormItem>
-                  ))}
-                  <AuthButton> Sign Up</AuthButton>
-                </form>
-              </Spin>
-            </Modal.Body>
-            <Modal.Footer>
-              Already a member?&nbsp;
-              <Link to={ROUTES.signIn.path}>Sign In Now</Link>
-            </Modal.Footer>
-          </>
-        )}
+        {signedUp ? SignUpResult : SignUpForm}
       </Modal>
     ); 
   }
