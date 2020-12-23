@@ -8,7 +8,7 @@ const cardStyle = {
 };
 
 const StyledCalendar = styled(Calendar)`
-line-height:4
+line-height:3
 `
 
 class DashboardCalendar extends React.Component {
