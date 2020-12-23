@@ -2,7 +2,7 @@ import React from 'react';
 import { Result, Spin } from 'antd';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import Modal from '../Modal';
+import Modal from '../AuthModal';
 import withFetch from '../../../../components/withFetch';
 import authApi from '../../../../apis/auth';
 

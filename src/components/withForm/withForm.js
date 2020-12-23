@@ -1,26 +1,37 @@
 import React from 'react';
 
 const withForm = (FIELDS) => (Component) => {
-  const getInitialData = () => FIELDS.reduce((data, f) => ({
-    ...data,
-    [f.key]: {
-      value: '',
-      dirty: false,
-    }
-  }), {});
-
+  // const getInitialData = () => FIELDS.reduce((data, f) => ({
+  //   ...data,
+  //   [f.key]: {
+  //     value: '',
+  //     dirty: false,
+  //   }
+  // }), {});
   class Form extends React.Component{
     constructor(props) {
       super(props);
 
+      this.FIELDS = FIELDS || this.props.FIELDS;
+      
       this.state = {
-        data: getInitialData(),
+        data: this.getInitialData(),
         formDirty: false,
       }
 
-      this.getErrorMessage = this.getErrorMessage.bind(this);
+      this.getValidationMessage = this.getValidationMessage.bind(this);
       this.setData = this.setData.bind(this);
       this.submit = this.submit.bind(this);
+    }
+
+    getInitialData() {
+      return this.FIELDS.reduce((data, f) => ({
+        ...data,
+        [f.key]: {
+          value: '',
+          dirty: false,
+        }
+      }), {});
     }
 
     setFormDirty(value) {
@@ -60,7 +71,7 @@ const withForm = (FIELDS) => (Component) => {
       }
     }
     
-    getErrorMessage(field){
+    getValidationMessage(field){
       const { data } = this.state;
       const { key, validations} = field;
       const { value } = data[key];
@@ -73,7 +84,7 @@ const withForm = (FIELDS) => (Component) => {
     }
 
     valid() {
-      const formHasErrorMessage = FIELDS.find((f) => this.getErrorMessage(f));
+      const formHasErrorMessage = this.FIELDS.find((f) => this.getValidationMessage(f));
       return !formHasErrorMessage;
     }
 
@@ -88,7 +99,7 @@ const withForm = (FIELDS) => (Component) => {
           data={data}
           formDirty={formDirty}
           valid={valid}
-          getErrorMessage={this.getErrorMessage}
+          getValidationMessage={this.getValidationMessage}
           setData={this.setData}
           submit={this.submit}
         />

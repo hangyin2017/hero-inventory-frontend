@@ -26,7 +26,9 @@ const withFetch = (Component) => {
       return fetcher()
         .then((res) => res?.data)
         .catch((err) => {
-          const errorMessage = err.response?.data?.message;
+          const errorMessage = {
+            401: 'Email and password does not match, please try again',
+          }[err.response?.status] || err.response?.data?.message;
           this.setError(errorMessage || 'Unknown error');
           throw err;
         })
