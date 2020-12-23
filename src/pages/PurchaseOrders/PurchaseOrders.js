@@ -34,8 +34,6 @@ class PurchaseOrders extends React.Component {
         }}
         searchBarProps={{
           placeholder: 'Search by order number',
-          // onChange: this.debouncedSearch,
-          // onSearch: this.handleSearch,
         }}
         tableProps={{
           columns: columns,
