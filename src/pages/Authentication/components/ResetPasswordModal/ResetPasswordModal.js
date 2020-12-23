@@ -6,7 +6,7 @@ import AuthModal from '../AuthModal';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
 
-class SignUpModal extends React.Component {
+class ResetPasswordModal extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -16,7 +16,7 @@ class SignUpModal extends React.Component {
       <AuthModal
         title="Sign Up"
         FIELDS={FIELDS}
-        api={auth.signUp}
+        api={auth.resetPassword}
         submitButtonText="Sign Up"
         AfterSubmission={<Result
           status="success"
@@ -34,4 +34,4 @@ class SignUpModal extends React.Component {
   }
 }
 
-export default SignUpModal;
+export default ResetPasswordModal;

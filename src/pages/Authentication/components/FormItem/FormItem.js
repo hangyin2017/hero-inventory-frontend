@@ -27,8 +27,8 @@ FormItem.defaultProps = {
 };
 
 FormItem.propTypes = {
-  label: PropTypes.string.isRequired,
-  htmlFor: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  htmlFor: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
 export default FormItem;

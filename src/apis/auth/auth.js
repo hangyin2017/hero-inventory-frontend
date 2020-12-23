@@ -21,7 +21,9 @@ export default {
 
   remove: (id) => instance.delete(`${URL}/${id}`),
 
-  forgetPassword: (email) => instance.post(`${URL}/forget_password`, email),
+  forgetPassword: (payload) => instance.post(`${URL}/forget_password`, payload),
 
   verifyEmail: (token) => instance.get(`${URL}/email_verification?token=${token}`),
+
+  resetPassword: (token, payload) => instance.post(`${URL}/reset_password?token=${token}`, payload),
 };
