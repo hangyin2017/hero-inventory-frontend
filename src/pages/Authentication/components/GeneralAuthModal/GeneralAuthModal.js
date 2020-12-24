@@ -71,7 +71,7 @@ class GeneralAuthModal extends React.Component {
               </FormItem>
             )} 
               {FIELDS.map((f) => (
-                <FormItem key={f.key} htmlFor={f.key} label={f.label}>
+                <FormItem key={f.key} htmlFor={f.key}>
                   <AuthInput
                     id={f.key}
                     type={f.type}

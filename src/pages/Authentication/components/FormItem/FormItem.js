@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   & ~ & {
-    margin-top: 16px;
+    margin-top: 30px;
   }
 `;
 
@@ -14,6 +14,7 @@ const Label = styled.label`
   color: #626262;
   margin-bottom: 8px;
 `;
+
 const FormItem = ({ label, htmlFor, children }) => (
   <Wrapper>
     {label && <Label htmlFor={htmlFor}>{label}</Label>}

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Spin, Input, Button } from 'antd';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import logo from './assets/logo.png';
 
-const HORIZON_GAP = '24px';
+const HORIZON_GAP = '0';
 const FONT_L = '24px';
 const FONT_M = '16px';
 const FONT_S = '14px';
@@ -15,15 +16,21 @@ const Box = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  background: white;
+  padding: 50px;
+  transition: all .1s ease-in-out;
+`;
+
+const Logo = styled.div`
+  height: 30px;
+  margin-bottom: 20px;
+  background: url(${logo}) no-repeat transparent;
+  background-size: auto 100%;
 `;
 
 const Header = styled.div`
-  padding: 16px ${HORIZON_GAP};
-  text-align: center;
+  padding: 0 ${HORIZON_GAP};
   font-size: ${FONT_L};
   font-weight: 500;
-  border-bottom: ${DIVIDER_BORDER};
 `;
 
 const Body = styled.div`
@@ -66,6 +73,7 @@ const Footer = styled.div`
 const AuthModal = ({ title, children }) => {
   return (
     <Box onClick={(e) => e.stopPropagation()}>
+      <Logo />
       <Header>{title}</Header>
       {children}
     </Box>
