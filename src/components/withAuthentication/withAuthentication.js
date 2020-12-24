@@ -1,5 +1,6 @@
 import React from 'react';
 import auth from '../../apis/auth';
+import withFetch from '../../components/withFetch'
 
 const withAuthentication = (Component) => {
 
@@ -15,8 +16,13 @@ const withAuthentication = (Component) => {
     }
     
       componentDidMount() {
-        auth.get()
-          .then((res) => this.setUser(res.data))
+        this.getAuth();
+      }
+
+      getAuth() {
+        const { fetch } = this.props;
+
+        fetch(() => auth.get().then((res) => this.setUser(res.data)))
           .catch((e) => {});
       }
     
@@ -37,7 +43,7 @@ const withAuthentication = (Component) => {
       }
   }
 
-  return AuthenticationProvider;
+  return withFetch(true)(AuthenticationProvider);
 }
 
 export default withAuthentication;

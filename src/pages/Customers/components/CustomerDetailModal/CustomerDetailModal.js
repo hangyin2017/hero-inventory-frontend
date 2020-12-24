@@ -113,4 +113,4 @@ class CustomerDetailModal extends React.Component {
   }
 }
 
-export default withFetch(CustomerDetailModal);
+export default withFetch()(CustomerDetailModal);

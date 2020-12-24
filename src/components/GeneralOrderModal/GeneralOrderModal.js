@@ -179,4 +179,4 @@ class GeneralOrderModal extends React.Component {
   }
 }
 
-export default withFetch(GeneralOrderModal);
+export default withFetch()(GeneralOrderModal);

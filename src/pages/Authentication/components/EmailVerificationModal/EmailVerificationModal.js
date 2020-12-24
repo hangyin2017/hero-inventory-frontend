@@ -63,7 +63,7 @@ class EmailVerificationModal extends React.Component {
   }
 }
 
-const EmailVerificationWithFetch = withFetch(EmailVerificationModal);
+const EmailVerificationWithFetch = withFetch()(EmailVerificationModal);
 const EmailVerificationWithRoute = withRouter(EmailVerificationWithFetch)
 
-export default withFetch(EmailVerificationWithRoute);
+export default EmailVerificationWithRoute;

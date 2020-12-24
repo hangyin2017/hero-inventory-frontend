@@ -153,7 +153,7 @@ class Page extends React.Component {
   }
 }
 
-const PageWithFetch = withFetch(Page);
+const PageWithFetch = withFetch()(Page);
 
 export default PageWithFetch;
 // export default withModal(Page);

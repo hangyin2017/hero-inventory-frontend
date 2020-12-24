@@ -108,6 +108,6 @@ GeneralAuthModal.propTypes = {
 };
 
 const GeneralAuthModalWithForm = withForm()(GeneralAuthModal);
-const GeneralAuthModalWithFetch = withFetch(GeneralAuthModalWithForm);
+const GeneralAuthModalWithFetch = withFetch()(GeneralAuthModalWithForm);
 
 export default GeneralAuthModalWithFetch;

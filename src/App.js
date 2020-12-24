@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Spin, Layout } from 'antd';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header';
@@ -29,8 +29,16 @@ const Main = styled.main`
   overflow: hidden;
 `;
 
-const App = ({ user }) => {
+const App = ({ user, loading }) => {
   const { Footer, Sider } = Layout;
+
+  if(loading) {
+    return (
+      <Container>
+        <Spin spinning={loading} size="large" />
+      </Container>
+    );
+  }
 
   return (
     <Router>

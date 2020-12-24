@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import ROUTES from './Routes';
 
 const Layout = styled.div`
@@ -20,12 +20,6 @@ const Right = styled.div`
   justify-content: center;
 `;
 
-const MODAL = {
-  SIGN_IN: "SIGN_IN",
-  SIGN_UP: "SIGN_UP",
-  EMPTY: "",
-};
-
 const Shield = styled.div`
   bottom: 20px;
   width: 70%;
@@ -40,58 +34,34 @@ const ShieldTitle = styled.div`
 class Authentication extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      showModal: MODAL.SIGN_IN,
-      user: null,
-    };
-
-    this.showModal = this.showModal.bind(this);
-  }
-
-  setUser(value){
-    this.setState({
-      user: value
-    })
-  }
-  showModal(target) {
-    return (event) => {
-      event.preventDefault();
-      this.setState({
-        showModal: target,
-      });
-    };
   }
 
   render() {
-    const { showModal } = this.state;
-    const { match } = this.props;
-
     return (
-        <Layout>
-          <Left>
-              <Switch>
-                {Object.keys(ROUTES).map((key) => (
-                  <Route
-                    key={key}
-                    exact={ROUTES[key].exact}
-                    path={ROUTES[key].path}
-                    component={ROUTES[key].component}
-                  />
-                ))}
-                <Redirect path='/auth' to={ROUTES.signIn.path} />
-              </Switch>
-          </Left>
-          <Right>
-            <Shield>
-              <ShieldTitle>KEEP YOUR ACCOUNT SECURE</ShieldTitle>
-              <div>
-                OneAuth is our new in-house multi-factor authentication app.
-                Shield your account with OneAuth now.
-              </div>
-            </Shield>
-          </Right>
-        </Layout>
+      <Layout>
+        <Left>
+          <Switch>
+            {Object.keys(ROUTES).map((key) => (
+              <Route
+                key={key}
+                exact={ROUTES[key].exact}
+                path={ROUTES[key].path}
+                component={ROUTES[key].component}
+              />
+            ))}
+            <Redirect path='/auth' to={ROUTES.signIn.path} />
+          </Switch>
+        </Left>
+        <Right>
+          <Shield>
+            <ShieldTitle>KEEP YOUR ACCOUNT SECURE</ShieldTitle>
+            <div>
+              OneAuth is our new in-house multi-factor authentication app.
+              Shield your account with OneAuth now.
+            </div>
+          </Shield>
+        </Right>
+      </Layout>
     );
   }
 }

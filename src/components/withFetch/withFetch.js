@@ -1,12 +1,12 @@
 import React from 'react';
 
-const withFetch = (Component) => {
+const withFetch = (initialLoading = false) => (Component) => {
   class Wrapper extends React.Component {
     constructor(props) {
       super(props);
 
       this.state = {
-        loading: false,
+        loading: initialLoading,
         error: null,
       };
 
