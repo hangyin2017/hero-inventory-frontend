@@ -5,8 +5,34 @@ import styled from 'styled-components';
 import AuthModal from '../AuthModal';
 import FormItem from '../FormItem';
 import ErrorMessage from '../../../../components/ErrorMessage';
+import Shield from './components/Shield';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
+
+const Box = styled.div`
+    width: 890px;
+    display: flex;
+    background-color: #fff;
+    box-shadow: 0px 2px 30px #ccc6;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+`;
+
+const Left = styled.div`
+  flex: 0 0;
+`;
+
+const Right = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1;
+  padding: 40px;
+  border-left: 2px solid #f1f1f1;
+  text-align: center;
+`;
 
 class GeneralAuthModal extends React.Component {
   constructor(props) {
@@ -48,6 +74,7 @@ class GeneralAuthModal extends React.Component {
       children,
       AfterSubmission,
       footerNode,
+      showRight,
       data,
       formDirty,
       valid,
@@ -65,11 +92,11 @@ class GeneralAuthModal extends React.Component {
         <Body>
           <StyledSpin spinning={loading}>
             <form>
-            {error && (
-              <FormItem>
-                <ErrorMessage>{error}</ErrorMessage>
-              </FormItem>
-            )} 
+              {error && (
+                <FormItem>
+                  <ErrorMessage>{error}</ErrorMessage>
+                </FormItem>
+              )} 
               {FIELDS.map((f) => (
                 <FormItem key={f.key} htmlFor={f.key}>
                   <AuthInput
@@ -86,15 +113,32 @@ class GeneralAuthModal extends React.Component {
             </form>
           </StyledSpin>
         </Body>
-        <Footer>{footerNode}</Footer>
+        {footerNode ? (
+          <Footer>{footerNode}</Footer>
+        ) : null}
       </>
     );
 
     return (
-      <AuthModal title={title}>
-        {result ? AfterSubmission : BeforeSubmission}
-      </AuthModal>
-    ); 
+      <>
+        {showRight ? (
+          <Box>
+            <Left>
+              <AuthModal title={title}>
+                {result ? AfterSubmission : BeforeSubmission}
+              </AuthModal>
+            </Left>
+            <Right>
+              <Shield />
+            </Right>
+          </Box>
+        ) : (
+          <AuthModal title={title}>
+            {result ? AfterSubmission : BeforeSubmission}
+          </AuthModal>
+        )}
+      </>
+    );
   }
 }
 

@@ -14,9 +14,11 @@ const DIVIDER_BORDER = '1px solid #dadada';
 
 const Box = styled.div`
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 500px;
+  min-height: 520px;
+  margin: 0 auto;
   padding: 50px;
+  background-color: #FFF;
   transition: all .1s ease-in-out;
 `;
 

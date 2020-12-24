@@ -31,6 +31,7 @@ class SignUpModal extends React.Component {
             <Link to={ROUTES.signIn.path}>Sign In Now</Link>
           </>
         )}        
+        showRight={true}
       />
     ); 
   }

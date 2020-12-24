@@ -28,7 +28,8 @@ class ForgetPasswordModal extends React.Component {
             <span> Not a member yet?&nbsp;</span>
             <Link to={ROUTES.signUp.path}>Sign Up Now</Link>
           </>
-        )} 
+        )}
+        showRight={true}
       />
     ); 
   }

@@ -37,6 +37,7 @@ class SignInModal extends React.Component {
             <Link to={ROUTES.signUp.path}>Sign Up Now</Link>
           </>
         )}
+        showRight={true}
       >
         <ForgetPassword>
           <Link to={ROUTES.forgetPassword.path}>Forgot Password?</Link>
