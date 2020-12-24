@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import styled from 'styled-components';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
+import withAuthentication from './components/withAuthentication';
 import ROUTES from './Routes';
 
 const Container = styled.div`
@@ -28,13 +29,13 @@ const Main = styled.main`
   overflow: hidden;
 `;
 
-const App = () => {
+const App = ({ user }) => {
   const { Footer, Sider } = Layout;
 
   return (
     <Router>
       <Container>
-        <Header />
+        <Header user={user} />
         <Wrapper>
           <Sider>
             <Navbar />
@@ -59,4 +60,4 @@ const App = () => {
   )
 };
 
-export default App;
+export default withAuthentication(App);

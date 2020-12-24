@@ -11,7 +11,7 @@ export default {
   //   }
   // }),
 
-  get: (id) => instance.get(`${URL}/${id}`),
+  get: () => instance.get(URL),
 
   signIn: (payload) => instance.post('/login', payload),
 
