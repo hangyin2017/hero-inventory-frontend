@@ -42,7 +42,6 @@ const Avatar = styled.div`
 `;
 
 const Header = ({ user }) => {
-  console.log(user);
   return (
     <Wrapper>
       <Logo>

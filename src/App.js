@@ -42,15 +42,26 @@ const App = ({ user }) => {
           </Sider>
           <Main>
             <Switch>
-              {Object.keys(ROUTES).map((key) => (
-                <Route
+              {Object.keys(ROUTES).map((key) => {
+                const { exact, path, permissions, component } = ROUTES[key];
+                const AUTH_PATH = ROUTES.authentication.path;
+
+                return (<Route
                   key={key}
-                  exact={ROUTES[key].exact}
-                  path={ROUTES[key].path}
-                >
-                  {ROUTES[key].component}
-                </Route>
-              ))}
+                  exact={exact}
+                  path={path}
+                  render={(props) => (
+                    !!user || !permissions || path === AUTH_PATH ? (
+                      component
+                    ) : (
+                      <Redirect to={{
+                        pathname: AUTH_PATH,
+                        state: { from: props.location },
+                      }} />
+                    )
+                  )}
+                />);
+              })}
             </Switch>
             {/* <Footer /> */}
           </Main>

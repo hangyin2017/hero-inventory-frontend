@@ -16,6 +16,7 @@ const ROUTES = {
     title: 'Dashboard',
     component: <Dashboard />,
     inNavbar: true,
+    permissions: ['admin', 'sales', 'trainee'],
   },
   inventory: {
     path: '/inventory',
@@ -23,6 +24,7 @@ const ROUTES = {
     title: 'Inventory',
     component: <Inventory />,
     inNavbar: true,
+    permissions: ['admin', 'sales', 'trainee'],
   },
   customers: {
     path: '/customers',
@@ -30,6 +32,7 @@ const ROUTES = {
     title: 'Customers',
     component: <Customers />,
     inNavbar: true,
+    permissions: ['admin', 'sales', 'trainee'],
   },
   salesorders: {
     path: '/salesorders',
@@ -37,6 +40,7 @@ const ROUTES = {
     title: 'Sales Orders',
     component: <SalesOrders />,
     inNavbar: true,
+    permissions: ['admin', 'sales', 'trainee'],
   },
   suppliers: {
     path: '/suppliers',
@@ -44,6 +48,7 @@ const ROUTES = {
     title: 'Suppliers',
     component: <Suppliers />,
     inNavbar: true,
+    permissions: ['admin', 'sales', 'trainee'],
   },
   purchaseorders: {
     path: '/purchaseorders',
@@ -51,6 +56,7 @@ const ROUTES = {
     title: 'Purchase Orders',
     component: <PurchaseOrders />,
     inNavbar: true,
+    permissions: ['admin', 'sales', 'trainee'],
   },
   users: {
     path: '/users',
@@ -58,6 +64,7 @@ const ROUTES = {
     title: 'Users',
     component: <Users />,
     inNavbar: true,
+    permissions: ['admin'],
   },
   authentication: {
     path: '/auth',
