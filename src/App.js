@@ -6,7 +6,7 @@ import Header from './components/Header';
 import Navbar from './components/Navbar';
 import LoadingApp from './pages/LoadingApp';
 import withAuthentication from './components/withAuthentication';
-import ROUTES from './Routes';
+import ROUTES, { AUTH_ROUTE } from './Routes';
 
 const Container = styled.div`
   display: flex;
@@ -30,6 +30,31 @@ const Main = styled.main`
   overflow: hidden;
 `;
 
+const getRoutes = (ROUTES, AUTH_PATH, user) => (
+  <Switch>
+    {Object.keys(ROUTES).map((key) => {
+      const { exact, path, permissions, component } = ROUTES[key];
+      const AUTH_PATH = AUTH_ROUTE.path;
+
+      return (<Route
+        key={key}
+        exact={exact}
+        path={path}
+        render={(props) => (
+          !!user || !permissions || path === AUTH_PATH ? (
+            component
+          ) : (
+            <Redirect to={{
+              pathname: AUTH_PATH,
+              state: { from: props.location },
+            }} />
+          )
+        )}
+      />);
+    })}
+  </Switch>
+);
+
 const App = ({ user, loading }) => {
   const { Footer, Sider } = Layout;
 
@@ -39,39 +64,28 @@ const App = ({ user, loading }) => {
 
   return (
     <Router>
-      <Container>
-        <Header user={user} />
-        <Wrapper>
-          <Sider>
-            <Navbar />
-          </Sider>
-          <Main>
-            <Switch>
-              {Object.keys(ROUTES).map((key) => {
-                const { exact, path, permissions, component } = ROUTES[key];
-                const AUTH_PATH = ROUTES.authentication.path;
-
-                return (<Route
-                  key={key}
-                  exact={exact}
-                  path={path}
-                  render={(props) => (
-                    !!user || !permissions || path === AUTH_PATH ? (
-                      component
-                    ) : (
-                      <Redirect to={{
-                        pathname: AUTH_PATH,
-                        state: { from: props.location },
-                      }} />
-                    )
-                  )}
-                />);
-              })}
-            </Switch>
-            {/* <Footer /> */}
-          </Main>
-        </Wrapper>
-      </Container>
+      <Switch>
+        <Route
+          key="auth"
+          exact={AUTH_ROUTE.exact}
+          path={AUTH_ROUTE.path}
+          children={<AUTH_ROUTE.component user={user} />}
+        />
+        <Route key="main" path="/">
+          <Container>
+            <Header user={user} />
+            <Wrapper>
+              <Sider>
+                <Navbar />
+              </Sider>
+              <Main>
+                {getRoutes(ROUTES, AUTH_ROUTE.path, user)}
+                {/* <Footer /> */}
+              </Main>
+            </Wrapper>
+          </Container>
+        </Route>
+      </Switch>
     </Router>
   )
 };
