@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import styled from 'styled-components';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
+import LoadingApp from './pages/LoadingApp';
 import withAuthentication from './components/withAuthentication';
 import ROUTES from './Routes';
 
@@ -33,11 +34,7 @@ const App = ({ user, loading }) => {
   const { Footer, Sider } = Layout;
 
   if(loading) {
-    return (
-      <Container>
-        <Spin spinning={loading} size="large" />
-      </Container>
-    );
+    return <LoadingApp />;
   }
 
   return (
