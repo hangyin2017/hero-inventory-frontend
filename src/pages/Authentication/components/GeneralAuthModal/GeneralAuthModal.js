@@ -1,5 +1,4 @@
 import React from 'react';
-import { Spin, Input, Button } from 'antd';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import AuthModal from '../AuthModal';
@@ -20,7 +19,7 @@ const Box = styled.div`
     overflow: hidden;
 `;
 
-const Left = styled.div`
+const Main = styled.main`
   flex: 0 0;
 `;
 
@@ -119,23 +118,25 @@ class GeneralAuthModal extends React.Component {
       </>
     );
 
+    const MainAuthModal = (
+      <AuthModal title={title}>
+        {result ? AfterSubmission : BeforeSubmission}
+      </AuthModal>
+    );
+
     return (
       <>
         {showRight ? (
           <Box>
-            <Left>
-              <AuthModal title={title}>
-                {result ? AfterSubmission : BeforeSubmission}
-              </AuthModal>
-            </Left>
+            <Main>
+              {MainAuthModal}
+            </Main>
             <Right>
               <Shield />
             </Right>
           </Box>
         ) : (
-          <AuthModal title={title}>
-            {result ? AfterSubmission : BeforeSubmission}
-          </AuthModal>
+          {MainAuthModal}
         )}
       </>
     );
