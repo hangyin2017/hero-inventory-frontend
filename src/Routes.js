@@ -66,13 +66,6 @@ const ROUTES = {
     inNavbar: true,
     permissions: ['admin'],
   },
-  authentication: {
-    path: '/auth',
-    exact: false,
-    title: 'Sign In / Sign Out',
-    component: <Authentication />,
-    inNavbar: true,
-  },
 };
 
 const HOMEPAGE = ROUTES.dashboard;
@@ -84,5 +77,11 @@ ROUTES.default = {
   inNavbar: false,
 };
 
+const AUTH_ROUTE = {
+  path: '/auth',
+  exact: false,
+  component: Authentication,
+}
+
 export default ROUTES;
-export { HOMEPAGE };
+export { HOMEPAGE, AUTH_ROUTE };
