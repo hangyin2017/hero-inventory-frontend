@@ -3,7 +3,7 @@ import Page from '../../components/Page';
 import suppliers from '../../apis/suppliers';
 import NewSupplierModal from './components/NewSupplierModal';
 import SupplierDetailModal from './components/SupplierDetailModal';
-import PAGES from '../../pages';
+import ROUTES from '../../Routes';
 import fields from './fields';
 
 const DEFAULT_COLUMNS = Object.keys(fields).filter((key) => fields[key].inTable);
@@ -26,7 +26,7 @@ class Suppliers extends React.Component {
     return (
       <Page
         headerProps={{
-          title: PAGES.suppliers.title,
+          title: ROUTES.suppliers.title,
           hasNewButton: true,
         }}
         searchBarProps={{

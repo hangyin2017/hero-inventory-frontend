@@ -5,7 +5,7 @@ import auth from '../../../../apis/auth';
 import GeneralAuthModal from '../GeneralAuthModal';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
-import { HOMEPAGE } from '../../../../pages';
+import { HOMEPAGE } from '../../../../Routes';
 
 const ForgetPassword = styled.div`
   text-align: center;

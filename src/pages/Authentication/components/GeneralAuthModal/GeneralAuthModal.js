@@ -75,6 +75,7 @@ class GeneralAuthModal extends React.Component {
                   <AuthInput
                     id={f.key}
                     type={f.type}
+                    placeholder={f.label}
                     onChange={setData(f.key)}
                   />
                   {(formDirty || data[f.key].dirty) && getValidationMessage(f)}

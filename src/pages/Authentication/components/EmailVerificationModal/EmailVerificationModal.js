@@ -5,7 +5,7 @@ import AuthModal from '../AuthModal';
 import RedirectCountdown from '../../../../components/RedirectCountdown';
 import withFetch from '../../../../components/withFetch';
 import authApi from '../../../../apis/auth';
-import { HOMEPAGE } from '../../../../pages';
+import { HOMEPAGE } from '../../../../Routes';
 
 const REDIRECT_AFTER_SECONDS = 9;
 

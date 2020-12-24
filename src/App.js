@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import styled from 'styled-components';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
-import PAGES, { HOMEPAGE } from './pages';
+import ROUTES from './Routes';
 
 const Container = styled.div`
   display: flex;
@@ -41,15 +41,15 @@ const App = () => {
           </Sider>
           <Main>
             <Switch>
-              {Object.keys(PAGES).map((key) => (
+              {Object.keys(ROUTES).map((key) => (
                 <Route
                   key={key}
-                  exact={PAGES[key].exact}
-                  path={PAGES[key].path}
-                  component={PAGES[key].component}
-                />
+                  exact={ROUTES[key].exact}
+                  path={ROUTES[key].path}
+                >
+                  {ROUTES[key].component}
+                </Route>
               ))}
-              <Redirect path='/' to={HOMEPAGE.path} />
             </Switch>
             {/* <Footer /> */}
           </Main>

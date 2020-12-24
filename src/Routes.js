@@ -1,3 +1,5 @@
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Inventory from './pages/Inventory';
 import Customers from './pages/Customers';
@@ -7,66 +9,73 @@ import PurchaseOrders from './pages/PurchaseOrders';
 import Users from './pages/Users';
 import Authentication from './pages/Authentication';
 
-const PAGES = {
+const ROUTES = {
   dashboard: {
     path: '/dashboard',
     exact: true,
     title: 'Dashboard',
-    component: Dashboard,
+    component: <Dashboard />,
     inNavbar: true,
   },
   inventory: {
     path: '/inventory',
     exact: true,
     title: 'Inventory',
-    component: Inventory,
+    component: <Inventory />,
     inNavbar: true,
   },
   customers: {
     path: '/customers',
     exact: true,
     title: 'Customers',
-    component: Customers,
+    component: <Customers />,
     inNavbar: true,
   },
   salesorders: {
     path: '/salesorders',
     exact: true,
     title: 'Sales Orders',
-    component: SalesOrders,
+    component: <SalesOrders />,
     inNavbar: true,
   },
   suppliers: {
     path: '/suppliers',
     exact: true,
     title: 'Suppliers',
-    component: Suppliers,
+    component: <Suppliers />,
     inNavbar: true,
   },
   purchaseorders: {
     path: '/purchaseorders',
     exact: true,
     title: 'Purchase Orders',
-    component: PurchaseOrders,
+    component: <PurchaseOrders />,
     inNavbar: true,
   },
   users: {
     path: '/users',
     exact: true,
     title: 'Users',
-    component: Users,
+    component: <Users />,
     inNavbar: true,
   },
   authentication: {
     path: '/auth',
     exact: false,
     title: 'Sign In / Sign Out',
-    component: Authentication,
+    component: <Authentication />,
     inNavbar: true,
   },
 };
 
-const HOMEPAGE = PAGES.dashboard;
+const HOMEPAGE = ROUTES.dashboard;
 
-export default PAGES;
+ROUTES.default = {
+  path: '/',
+  exact: false,
+  component: <Redirect to={HOMEPAGE.path} />,
+  inNavbar: false,
+};
+
+export default ROUTES;
 export { HOMEPAGE };
