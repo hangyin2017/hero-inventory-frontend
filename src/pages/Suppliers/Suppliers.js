@@ -11,6 +11,17 @@ const DEFAULT_COLUMNS = Object.keys(fields).filter((key) => fields[key].inTable)
 const columns = DEFAULT_COLUMNS.map((key) => ({
   title: fields[key].title || fields[key].label,
   dataIndex: key,
+  sorter: (a, b) => {
+    let stringA = a.name.toUpperCase();
+    let stringB = b.name.toUpperCase();
+    if (stringA < stringB) {
+      return -1;
+    }
+    if (stringA > stringB) {
+      return 1;
+    }
+    return 0;
+  },
 }));
 
 class Suppliers extends React.Component {

@@ -32,7 +32,7 @@ export default {
   },
   website: {
     label: "Website",
-    inTable: true,
+    //inTable: true,
     inDetails: true,
     rules: [
       {
@@ -84,6 +84,7 @@ export default {
   email: {
     label: "Email",
     inDetails: true,
+    inTable: true,
     rules: [
       {
         required: true,
