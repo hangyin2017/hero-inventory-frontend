@@ -1,11 +1,13 @@
 import axios from 'axios';
 
+const localStorageToken = process.env.REACT_APP__LOCALSTORAGE_TOKEN_NAME;
+
 const instance = axios.create({
   baseURL: process.env.REACT_APP__API_HOST,
 });
 
 instance.interceptors.request.use((request) => {
-  const token = localStorage.getItem('TOKEN');
+  const token = localStorage.getItem(localStorageToken);
 
   if (token) {
     request.headers['authorization'] = token;
@@ -16,7 +18,7 @@ instance.interceptors.request.use((request) => {
 instance.interceptors.response.use((response) => {
   const token = response.headers['authorization'];
   if(token){
-    localStorage.setItem('TOKEN', token);
+    localStorage.setItem(localStorageToken, token);
   };
   return response;
 })

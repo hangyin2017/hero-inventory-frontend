@@ -3,8 +3,9 @@ import auth from '../../apis/auth';
 import AuthenticationContext from './AuthenticationContext'
 import withFetch from '../withFetch';
 
-const withAuthenticationProvider = (Component) => {
+const localStorageToken = process.env.REACT_APP__LOCALSTORAGE_TOKEN_NAME;
 
+const withAuthenticationProvider = (Component) => {
   class AuthenticationProvider extends React.Component {
     constructor(props) {
       super(props);
@@ -14,32 +15,38 @@ const withAuthenticationProvider = (Component) => {
       }
 
       this.setUser = this.setUser.bind(this);
+      this.signOut = this.signOut.bind(this);
     }
     
-      componentDidMount() {
-        this.getAuth();
-      }
+    componentDidMount() {
+      this.getAuth();
+    }
 
-      getAuth() {
-        const { fetch } = this.props;
+    getAuth() {
+      const { fetch } = this.props;
 
-        fetch(() => auth.get().then((res) => this.setUser(res.data)))
-          .catch((e) => {});
-      }
-    
-      setUser(user) {
-        this.setState({ user });
-      }
+      fetch(() => auth.get().then((res) => this.setUser(res.data)))
+        .catch((e) => {});
+    }
+  
+    setUser(user) {
+      this.setState({ user });
+    }
 
-      render() {
-        const { user } = this.state;
+    signOut() {
+      this.setUser(null);
+      localStorage.removeItem(localStorageToken);
+    }
 
-        return (
-          <AuthenticationContext.Provider value={{user, setUser: this.setUser}}>
-            <Component {...this.props} />
-          </AuthenticationContext.Provider>
-        );
-      }
+    render() {
+      const { user } = this.state;
+
+      return (
+        <AuthenticationContext.Provider value={{user, setUser: this.setUser, signOut: this.signOut}}>
+          <Component {...this.props} />
+        </AuthenticationContext.Provider>
+      );
+    }
   }
 
   return withFetch(true)(AuthenticationProvider);

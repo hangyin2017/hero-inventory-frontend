@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Authentication from './components/Authentication';
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,6 +53,7 @@ const Header = ({ user }) => {
         </Left>
         <Right>
           <span>{user?.username}</span>
+          <Authentication />
           <Avatar>
             A
           </Avatar>
