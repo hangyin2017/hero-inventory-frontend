@@ -43,7 +43,6 @@ class SignInModal extends React.Component {
         )}
         showRight={true}
       >
-        <div>{user.username}</div>
         <ForgetPassword>
           <Link to={ROUTES.forgetPassword.path}>Forgot Password?</Link>
         </ForgetPassword>

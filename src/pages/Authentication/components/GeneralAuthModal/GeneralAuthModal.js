@@ -7,6 +7,7 @@ import ErrorMessage from '../../../../components/ErrorMessage';
 import Shield from './components/Shield';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
+import withAuthentication from '../../../../components/withAuthentication';
 
 const Box = styled.div`
     width: 890px;
@@ -49,7 +50,7 @@ class GeneralAuthModal extends React.Component {
   }
 
   handleSubmit() {
-    const { api, token, data, fetch } = this.props;
+    const { api, token, data, fetch, authentication } = this.props;
 
     const values = Object.keys(data).reduce((obj, key) => ({
       ...obj,
@@ -57,10 +58,13 @@ class GeneralAuthModal extends React.Component {
     }), {});
 
     fetch(() => api(values, token))
-    .then((res) => {
-      this.setResult(res);
-    })
-    .catch((error) => {});
+      .then((data) => {
+        if(!!data?.username) {
+          authentication.setUser(data);
+        }
+        this.setResult(data);
+      })
+      .catch((error) => {});
   }
 
   render() {
@@ -74,7 +78,6 @@ class GeneralAuthModal extends React.Component {
       AfterSubmission,
       footerNode,
       showRight,
-      authentication,
       data,
       formDirty,
       valid,
@@ -121,7 +124,7 @@ class GeneralAuthModal extends React.Component {
 
     const MainAuthModal = (
       <AuthModal title={title}>
-        {result ? AfterSubmission : BeforeSubmission}
+        {!!result ? AfterSubmission : BeforeSubmission}
       </AuthModal>
     );
 
@@ -155,5 +158,6 @@ GeneralAuthModal.propTypes = {
 
 const GeneralAuthModalWithForm = withForm()(GeneralAuthModal);
 const GeneralAuthModalWithFetch = withFetch()(GeneralAuthModalWithForm);
+const GeneralAuthModalWithAuthentication = withAuthentication(GeneralAuthModalWithFetch);
 
-export default GeneralAuthModalWithFetch;
+export default GeneralAuthModalWithAuthentication;
