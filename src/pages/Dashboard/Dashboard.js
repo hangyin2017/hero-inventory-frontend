@@ -10,10 +10,19 @@ import styled from 'styled-components';
 import OrderCounts from "./components/OrderCounts";
 import TotalAmount from "./components/TotalAmount";
 
-const StyledCol = styled(Col)`
+const LeftCol = styled(Col)`
 display: flex;
 flex-direction: column;
 justify-content: space-between;
+`
+const RightCol = styled(Col)`
+
+`
+const StyledRow = styled(Row)`
+margin: 20px 20px;
+display: flex;
+flex-wrap: nowrap;
+justify-content: space-around;
 `
 const Footer = styled.div`
 text-align:center;
@@ -34,16 +43,16 @@ class Dashboard extends React.Component {
         }}
         api={dashboard}
       >
-        <Row>
-        <StyledCol span={8}>
+        <StyledRow>
+        <LeftCol span={8}>
           <ItemCounts />
           <OrderCounts />
           <TotalAmount />
-        </StyledCol>
-        <Col span={16}>
+        </LeftCol>
+        <RightCol span={14}>
           <DashboardCalendar />
-        </Col>
-      </Row>
+        </RightCol>
+      </StyledRow>
       <Divider />
       <Footer> © 2020, Hero Inventory Group. All Rights Reserved. </Footer>
       </Page>

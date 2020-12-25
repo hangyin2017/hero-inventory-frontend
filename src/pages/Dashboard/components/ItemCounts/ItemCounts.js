@@ -6,8 +6,6 @@ import withFetch from '../../../../components/withFetch';
 
 const cardStyle = {
   textAlign: 'center',
-  margin: 20,
-  marginBottom: 10,
 };
 class ItemCounts extends React.Component {
 

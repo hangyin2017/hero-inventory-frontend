@@ -4,7 +4,6 @@ import { Calendar, Card } from "antd";
 
 const cardStyle = {
   textAlign: 'center',
-  margin: 20,
 };
 
 const StyledCalendar = styled(Calendar)`
