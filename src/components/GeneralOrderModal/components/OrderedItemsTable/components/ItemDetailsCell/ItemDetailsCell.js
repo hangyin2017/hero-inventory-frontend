@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Select } from 'antd';
+import { Select } from 'antd';
 import styled from 'styled-components';
 
 const StyledSelect = styled(Select)`
@@ -40,6 +40,7 @@ class ItemDetailsCell extends React.Component {
             onBlur={myblur}
             showArrow={false}
             value={children[1]}
+            getPopupContainer={triggerNode => triggerNode.parentNode}
             filterOption={(input, option) => option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {itemData.map((item, index) => (

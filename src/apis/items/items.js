@@ -1,6 +1,6 @@
 import instance from '../../lib/instance';
 
-const URL = '/items'; 
+const URL = '/api/v1/items'; 
 
 export default {
   getAll: () => instance.get(URL),

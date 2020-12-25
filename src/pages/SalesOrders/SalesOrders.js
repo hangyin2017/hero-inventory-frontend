@@ -1,7 +1,7 @@
 import React from 'react';
 import Page from '../../components/Page';
 import NewSalesOrderModal from './components/NewSalesOrderModal';
-import PAGES from '../../pages';
+import ROUTES from '../../Routes';
 import salesOrders from '../../apis/salesOrders';
 import fields from './fields';
 import OrderDetailModal from './components/OrderDetailModal';
@@ -27,7 +27,7 @@ class SalesOrders extends React.Component {
     return (
       <Page
         headerProps={{
-          title: PAGES.salesorders.title,
+          title: ROUTES.salesorders.title,
           hasNewButton: true,
           hasSearchBar: true,
         }}

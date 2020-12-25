@@ -1,16 +1,20 @@
 import React from 'react';
 
-const withFetch = (Component) => {
+const withFetch = (initialLoading = false) => (Component) => {
   class Wrapper extends React.Component {
     constructor(props) {
       super(props);
 
       this.state = {
-        loading: false,
+        loading: initialLoading,
         error: null,
       };
 
       this.fetch = this.fetch.bind(this);
+    }
+
+    setError(error) {
+      this.setState({ error });
     }
 
     fetch(fetcher) {
@@ -22,7 +26,10 @@ const withFetch = (Component) => {
       return fetcher()
         .then((res) => res?.data)
         .catch((err) => {
-          this.setState({ error: err.response?.data?.message });
+          const errorMessage = {
+            401: 'Email and password does not match, please try again',
+          }[err.response?.status] || err.response?.data?.message;
+          this.setError(errorMessage || 'Unknown error');
           throw err;
         })
         .finally(() => this.setState({ loading: false }));

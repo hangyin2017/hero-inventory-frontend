@@ -23,6 +23,10 @@ export default {
         required: true,
       },
     ],
-    children: <DatePicker initialValue={moment()} format="DD/MM/YYYY" />
+    children: 
+    <DatePicker
+      initialValue={moment()} 
+      format="DD/MM/YYYY" 
+    />
   },
 };

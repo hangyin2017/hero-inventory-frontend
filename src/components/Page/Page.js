@@ -4,6 +4,7 @@ import { Table, Spin, message } from 'antd';
 import Header from './components/Header';
 import withModal from '../withModal';
 import withFetch from '../withFetch';
+import compose from '../../utils/compose';
 import debounce from '../../utils/debounce';
 import throttle from '../../utils/throttle';
 
@@ -153,7 +154,8 @@ class Page extends React.Component {
   }
 }
 
-const PageWithFetch = withFetch(Page);
+const EnhancedPage = compose(
+  withFetch(),
+)(Page);
 
-export default PageWithFetch;
-// export default withModal(Page);
+export default EnhancedPage;

@@ -113,4 +113,4 @@ class SupplierDetailModal extends React.Component {
   }
 }
 
-export default withFetch(SupplierDetailModal);
+export default withFetch()(SupplierDetailModal);

@@ -35,8 +35,7 @@ class Total extends Component {
     return (e) => {
       const { value } = e.target;
       const floatNumber = parseFloat(value);
-      if(!floatNumber) return;
-
+      if(!floatNumber) return setter(0);
       return setter(floatNumber);
     }
   }
@@ -72,7 +71,12 @@ class Total extends Component {
         </div>
         <ShippingWrapper>
           <TextWrapper>Shipping Charges</TextWrapper>
-          <Input className="inp" onChange={this.handleAdjustment(this.setShipping)} type="text" />
+          <Input 
+            className="inp" 
+            onChange={this.handleAdjustment(this.setShipping)}  
+            pattern={/^[+-]?(0|([1-9]\d*))(\.\d+)?$/}
+            title="Please enter a number"
+          />
           <span>{shipment}</span>
         </ShippingWrapper>
         <AdjustmentWrapper>
@@ -80,8 +84,8 @@ class Total extends Component {
           <Input
             className="inp"
             onChange={this.handleAdjustment(this.setAdjust)}
-            style={{ marginLeft: 92 }}
-            type="text"
+            pattern={/^[+-]?(0|([1-9]\d*))(\.\d+)?$/}
+            title="Please enter a number"
           />
           <span>{adjustment}</span>
         </AdjustmentWrapper>

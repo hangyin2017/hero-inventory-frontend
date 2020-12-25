@@ -122,4 +122,4 @@ class NewCustomerModal extends React.Component {
   }
 }
 
-export default withFetch(NewCustomerModal);
+export default withFetch()(NewCustomerModal);

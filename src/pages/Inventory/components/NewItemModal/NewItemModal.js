@@ -121,4 +121,4 @@ class NewItemModal extends React.Component {
   }
 }
 
-export default withFetch(NewItemModal);
+export default withFetch()(NewItemModal);

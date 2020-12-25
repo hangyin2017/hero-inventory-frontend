@@ -1,7 +1,21 @@
-export const color = {
+const color = {
   primary: '#1890ff',
   dangerous: '#ff4d4f',
   grey: '#777',
   lightGrey: '#fbfbfb',
-  // lightGrey: 'rgba(0, 0, 0, 0.15)',
 }
+
+const breakpoints = {
+  sm: '576px',
+  md: '768px',
+  lg: '992px',
+  xl: '1200px',
+}
+
+const fontSizes = {
+  FONT_L: '24px',
+  FONT_M: '16px',
+  FONT_S: '14px',
+}
+
+export { color, breakpoints, fontSizes };

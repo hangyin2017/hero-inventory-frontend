@@ -1,91 +1,44 @@
 import React from "react";
 import styled from "styled-components";
-import SignInModal from "./components/SignInModal";
-import SignUpModal from "./components/SignUpModal";
+import { Switch, Route, Redirect } from 'react-router-dom';
+import ROUTES from './Routes';
+import backgroundImage from './assets/bg.svg';
+import { breakpoints } from '../../styles';
 
-const Layout = styled.div`
-  height: 80vh;
-  width: 80vw;
-  display: flex;
-`;
+const Container = styled.div`
+  height: 100vh;
 
-const Left = styled.div`
-  width: 60%;
-`;
-
-const Right = styled.div`
-  width: 40%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const MODAL = {
-  SIGN_IN: "SIGN_IN",
-  SIGN_UP: "SIGN_UP",
-  EMPTY: "",
-};
-
-const Shield = styled.div`
-  bottom: 20px;
-  width: 70%;
-`;
-
-const ShieldTitle = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 15px;
+  @media (min-width: ${breakpoints.sm}) {
+    padding-top: 7%;
+    background-image: url(${backgroundImage});
+    background-size: auto 100%;
+  }
 `;
 
 class Authentication extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      showModal: MODAL.SIGN_IN,
-      user: null,
-    };
-
-    this.showModal = this.showModal.bind(this);
-  }
-
-  setUser(value){
-    this.setState({
-      user: value
-    })
-  }
-  showModal(target) {
-    return (event) => {
-      event.preventDefault();
-      this.setState({
-        showModal: target,
-      });
-    };
   }
 
   render() {
-    const { showModal } = this.state;
-
     return (
-      <Layout>
-        <Left showModal={showModal}>
-          {showModal === MODAL.SIGN_IN && (
-            <SignInModal onSignUp={this.showModal(MODAL.SIGN_UP)} 
-            />)}
-          {showModal === MODAL.SIGN_UP && (
-            <SignUpModal onSignIn={this.showModal(MODAL.SIGN_IN)} 
-            />)}
-        </Left>
-        <Right>
-          <Shield>
-            <ShieldTitle>KEEP YOUR ACCOUNT SECURE</ShieldTitle>
-            <div>
-              OneAuth is our new in-house multi-factor authentication app.
-              Shield your account with OneAuth now.
-            </div>
-          </Shield>
-        </Right>
-      </Layout>
+      <>
+        <Container>
+          <Switch>
+            {Object.keys(ROUTES).map((key) => {
+              const route = ROUTES[key];
+              const { exact, path } = route;
+
+              return (
+                <Route key={key} exact={exact} path={path}>
+                  <route.component />
+                </Route>
+              );
+            })}
+            <Redirect path='/auth' to={ROUTES.signIn.path} />
+          </Switch>
+        </Container>
+      </>
     );
   }
 }

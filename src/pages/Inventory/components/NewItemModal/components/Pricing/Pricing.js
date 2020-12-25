@@ -10,11 +10,11 @@ const Pricing = ({ formItems }) => {
           {formItems.sellingPrice}
         </Form.Col>
         <Form.Col>
-          {formItems.costPrice}        
+          {formItems.costPrice}
         </Form.Col>
       </Row>
       <Row>
-        <Form.Col>          
+        <Form.Col>
           {formItems.applyGst}
         </Form.Col>
       </Row>

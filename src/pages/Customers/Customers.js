@@ -3,7 +3,7 @@ import Page from '../../components/Page';
 import customers from '../../apis/customers';
 import NewCustomerModal from './components/NewCustomerModal';
 import CustomerDetailModal from './components/CustomerDetailModal';
-import PAGES from "../../pages";
+import ROUTES from "../../Routes";
 import fields from './fields';
 
 const DEFAULT_COLUMNS = Object.keys(fields).filter((key) => fields[key].inTable);
@@ -26,7 +26,7 @@ class Customers extends React.Component {
     return (
       <Page
         headerProps={{
-          title: PAGES.customers.title,
+          title: ROUTES.customers.title,
           hasNewButton: true,
         }}
         searchBarProps={{

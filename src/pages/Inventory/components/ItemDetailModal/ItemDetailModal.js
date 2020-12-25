@@ -123,4 +123,4 @@ class ItemDetailModal extends React.Component {
   }
 }
 
-export default withFetch(ItemDetailModal);
+export default withFetch()(ItemDetailModal);
