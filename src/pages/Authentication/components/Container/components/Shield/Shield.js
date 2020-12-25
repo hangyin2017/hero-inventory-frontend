@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import shield from './assets/shield.png';
+import { fontSizes } from '../../../../../../styles';
+
+const { FONT_M } = fontSizes;
 
 const Wrapper = styled.div`
 `;
@@ -15,7 +18,7 @@ const ShieldImg = styled.div`
 `;
 
 const ShieldTitle = styled.div`
-  font-size: 16px;
+  font-size: ${FONT_M};
   font-weight: 600;
   margin-bottom: 10px;
 `;

@@ -9,13 +9,15 @@ import compose from '../../../../utils/compose';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
 import { HOMEPAGE } from '../../../../Routes';
+import { fontSizes } from '../../../../styles';
 
+const { FONT_M } = fontSizes;
 const ForgetPassword = styled.div`
   text-align: center;
   margin-top: 30px;
 
   & > a {
-    font-size: 16px;
+    font-size: ${FONT_M};
     font-weight: 500;
     color: #626262;
   }
