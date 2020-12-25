@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import auth from '../../../../apis/auth';
 import GeneralAuthModal from '../GeneralAuthModal';
+import withAuthentication from '../../../../components/withAuthentication';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
 import { HOMEPAGE } from '../../../../Routes';
@@ -51,4 +52,4 @@ class SignInModal extends React.Component {
   }
 }
 
-export default SignInModal;
+export default withAuthentication(SignInModal);

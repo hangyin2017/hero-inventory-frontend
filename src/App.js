@@ -5,9 +5,8 @@ import styled from 'styled-components';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
 import LoadingApp from './pages/LoadingApp';
-import withAuthentication from './components/withAuthentication';
+import withAuthentication, { withAuthenticationProvider } from './components/withAuthentication';
 import ROUTES, { AUTH_ROUTE } from './Routes';
-import AuthenticationContext from './components/withAuthentication/AuthenticationContext';
 
 const Container = styled.div`
   display: flex;
@@ -56,7 +55,8 @@ const getRoutes = (ROUTES, AUTH_PATH, user) => (
   </Switch>
 );
 
-const App = ({ user, setUser, loading }) => {
+const App = ({ authentication, loading }) => {
+  const { user } = authentication;
   const { Footer, Sider } = Layout;
 
   if(loading) {
@@ -64,7 +64,6 @@ const App = ({ user, setUser, loading }) => {
   }
 
   return (
-    <AuthenticationContext.Provider value={{user, setUser}}>
     <Router>
       <Switch>
         <Route
@@ -89,8 +88,10 @@ const App = ({ user, setUser, loading }) => {
         </Route>
       </Switch>
     </Router>
-    </AuthenticationContext.Provider>
   )
 };
 
-export default withAuthentication(App);
+const AppWithAuthentication = withAuthentication(App);
+const AppWithAuthenticationProvider = withAuthenticationProvider(AppWithAuthentication);
+
+export default AppWithAuthenticationProvider;
