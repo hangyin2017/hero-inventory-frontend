@@ -1,11 +1,11 @@
 import React from 'react';
-import { Result } from 'antd';
-import { withRouter } from 'react-router-dom';
+import { Result, Button } from 'antd';
+import { Link, withRouter } from 'react-router-dom';
 import AuthModal from '../AuthModal';
 import RedirectCountdown from '../../../../components/RedirectCountdown';
 import withFetch from '../../../../components/withFetch';
 import authApi from '../../../../apis/auth';
-import { HOMEPAGE } from '../../../../Routes';
+import ROUTES from '../../Routes';
 
 const REDIRECT_AFTER_SECONDS = 9;
 
@@ -18,21 +18,26 @@ class EmailVerificationModal extends React.Component {
     };
   }
 
+  setResult(result) {
+    this.setState({ result });
+  }
+
   componentDidMount() {
     this.verifyEmail();
   }
 
-  async verifyEmail() {
+  verifyEmail() {
     const { history, fetch } = this.props;
     const request = history.location.search;
     const token = request.replace('?token=', '');
 
-    try {
-      await fetch(() => authApi.verifyEmail(token));
-      this.setState({ result: "success" });
-    } catch(err) {
-      this.setState({ result: "fail" });
-    };
+    fetch(() => authApi.verifyEmail(token))
+      .then((data) => {
+        this.setResult("success");
+      })
+      .catch((err) => {
+        this.setResult("fail");
+      });
   }
 
   render() {
@@ -53,7 +58,14 @@ class EmailVerificationModal extends React.Component {
               success: (<Result
                 status="success"
                 title="Successfully verified email"
-                subTitle={<RedirectCountdown seconds={REDIRECT_AFTER_SECONDS} to={HOMEPAGE.path} />}
+                subTitle={<RedirectCountdown seconds={REDIRECT_AFTER_SECONDS} to={ROUTES.signIn.path} />}
+                extra={
+                  <Button type="primary">
+                    <Link to={ROUTES.signIn.path}>
+                      Go To Sign In
+                    </Link>
+                  </Button>
+                }
               />),
             }[result]}
           </StyledSpin>

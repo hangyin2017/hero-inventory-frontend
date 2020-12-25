@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
 import { Result, Button } from 'antd';
+import { Link, withRouter } from 'react-router-dom';
 import auth from '../../../../apis/auth';
 import GeneralAuthModal from '../GeneralAuthModal';
 import RedirectCountdown from '../../../../components/RedirectCountdown';
