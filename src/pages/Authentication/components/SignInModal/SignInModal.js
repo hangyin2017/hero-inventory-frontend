@@ -24,6 +24,9 @@ class SignInModal extends React.Component {
   }
 
   render() {
+    const { authentication } = this.props;
+    const { user, setUser } = authentication;
+
     return (
       <GeneralAuthModal
         title="Sign In"
@@ -39,6 +42,7 @@ class SignInModal extends React.Component {
         )}
         showRight={true}
       >
+        <div>{user.username}</div>
         <ForgetPassword>
           <Link to={ROUTES.forgetPassword.path}>Forgot Password?</Link>
         </ForgetPassword>

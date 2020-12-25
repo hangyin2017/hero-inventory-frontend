@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spin, Layout } from 'antd';
+import { Layout } from 'antd';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header';
@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import LoadingApp from './pages/LoadingApp';
 import withAuthentication from './components/withAuthentication';
 import ROUTES, { AUTH_ROUTE } from './Routes';
+import AuthenticationContext from './components/withAuthentication/AuthenticationContext';
 
 const Container = styled.div`
   display: flex;
@@ -55,7 +56,7 @@ const getRoutes = (ROUTES, AUTH_PATH, user) => (
   </Switch>
 );
 
-const App = ({ user, loading }) => {
+const App = ({ user, setUser, loading }) => {
   const { Footer, Sider } = Layout;
 
   if(loading) {
@@ -63,6 +64,7 @@ const App = ({ user, loading }) => {
   }
 
   return (
+    <AuthenticationContext.Provider value={{user, setUser}}>
     <Router>
       <Switch>
         <Route
@@ -71,7 +73,7 @@ const App = ({ user, loading }) => {
           path={AUTH_ROUTE.path}
           children={<AUTH_ROUTE.component user={user} />}
         />
-        <Route key="main" path="/">
+        <Route key="private" path="/">
           <Container>
             <Header user={user} />
             <Wrapper>
@@ -87,6 +89,7 @@ const App = ({ user, loading }) => {
         </Route>
       </Switch>
     </Router>
+    </AuthenticationContext.Provider>
   )
 };
 

@@ -74,6 +74,7 @@ class GeneralAuthModal extends React.Component {
       AfterSubmission,
       footerNode,
       showRight,
+      authentication,
       data,
       formDirty,
       valid,

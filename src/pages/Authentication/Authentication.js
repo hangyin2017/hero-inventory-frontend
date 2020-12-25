@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Switch, Route, Redirect } from 'react-router-dom';
 import ROUTES from './Routes';
 import backgroundImage from './assets/bg.svg';
+import AuthenticationContext from '../../components/withAuthentication/AuthenticationContext';
 
 const Container = styled.div`
   height: 100vh;
@@ -18,19 +19,29 @@ class Authentication extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Switch>
-          {Object.keys(ROUTES).map((key) => (
-            <Route
-              key={key}
-              exact={ROUTES[key].exact}
-              path={ROUTES[key].path}
-              component={ROUTES[key].component}
-            />
-          ))}
-          <Redirect path='/auth' to={ROUTES.signIn.path} />
-        </Switch>
-      </Container>
+      <AuthenticationContext.Consumer>
+        {(authentication) => (
+          <Container>
+            <Switch>
+              {Object.keys(ROUTES).map((key) => {
+                const route = ROUTES[key];
+                const { exact, path } = route;
+
+                return (
+                  <Route
+                    key={key}
+                    exact={exact}
+                    path={path}
+                  >
+                    <route.component authentication={authentication} />
+                  </Route>
+                );
+              })}
+              <Redirect path='/auth' to={ROUTES.signIn.path} />
+            </Switch>
+          </Container>
+        )}
+      </AuthenticationContext.Consumer>
     );
   }
 }
