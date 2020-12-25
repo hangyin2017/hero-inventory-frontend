@@ -8,6 +8,7 @@ import Shield from './components/Shield';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
 import withAuthentication from '../../../../components/withAuthentication';
+import compose from '../../../../utils/compose';
 import { breakpoints } from '../../../../styles';
 
 const Box = styled.div`
@@ -169,8 +170,10 @@ GeneralAuthModal.propTypes = {
   footerNode: PropTypes.node,
 };
 
-const GeneralAuthModalWithForm = withForm()(GeneralAuthModal);
-const GeneralAuthModalWithFetch = withFetch()(GeneralAuthModalWithForm);
-const GeneralAuthModalWithAuthentication = withAuthentication(GeneralAuthModalWithFetch);
+const EnhancedGeneralAuthModal = compose(
+  withForm(),
+  withFetch(),
+  withAuthentication,
+)(GeneralAuthModal);
 
-export default GeneralAuthModalWithAuthentication;
+export default EnhancedGeneralAuthModal;

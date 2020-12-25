@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import auth from '../../../../apis/auth';
 import GeneralAuthModal from '../GeneralAuthModal';
 import withAuthentication from '../../../../components/withAuthentication';
+import compose from '../../../../utils/compose';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
 import { HOMEPAGE } from '../../../../Routes';
@@ -51,4 +52,8 @@ class SignInModal extends React.Component {
   }
 }
 
-export default withAuthentication(SignInModal);
+const EnhancedSignInModal = compose(
+  withAuthentication,
+)(SignInModal);
+
+export default EnhancedSignInModal;

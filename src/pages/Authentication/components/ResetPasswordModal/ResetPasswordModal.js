@@ -4,6 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import auth from '../../../../apis/auth';
 import GeneralAuthModal from '../GeneralAuthModal';
 import RedirectCountdown from '../../../../components/RedirectCountdown';
+import compose from '../../../../utils/compose';
 import FIELDS from './Fields';
 import ROUTES from '../../Routes';
 
@@ -45,6 +46,8 @@ class ResetPasswordModal extends React.Component {
   }
 }
 
-const ResetPasswordModalWithRoute = withRouter(ResetPasswordModal)
+const EnhancedResetPasswordModal = compose(
+  withRouter,
+)(ResetPasswordModal);
 
-export default ResetPasswordModalWithRoute;
+export default EnhancedResetPasswordModal;

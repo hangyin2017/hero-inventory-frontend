@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Navbar from './components/Navbar';
 import LoadingApp from './pages/LoadingApp';
 import withAuthentication, { withAuthenticationProvider } from './components/withAuthentication';
+import compose from './utils/compose';
 import ROUTES, { AUTH_ROUTE } from './Routes';
 
 const Container = styled.div`
@@ -91,7 +92,9 @@ const App = ({ authentication, loading }) => {
   )
 };
 
-const AppWithAuthentication = withAuthentication(App);
-const AppWithAuthenticationProvider = withAuthenticationProvider(AppWithAuthentication);
+const EnhancedApp = compose(
+  withAuthentication,
+  withAuthenticationProvider,
+)(App);
 
-export default AppWithAuthenticationProvider;
+export default EnhancedApp;

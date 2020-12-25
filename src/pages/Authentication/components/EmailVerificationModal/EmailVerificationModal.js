@@ -4,6 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import AuthModal from '../AuthModal';
 import RedirectCountdown from '../../../../components/RedirectCountdown';
 import withFetch from '../../../../components/withFetch';
+import compose from '../../../../utils/compose';
 import authApi from '../../../../apis/auth';
 import ROUTES from '../../Routes';
 
@@ -75,7 +76,9 @@ class EmailVerificationModal extends React.Component {
   }
 }
 
-const EmailVerificationWithFetch = withFetch()(EmailVerificationModal);
-const EmailVerificationWithRoute = withRouter(EmailVerificationWithFetch)
+const EnhancedEmailVerificationModal = compose(
+  withFetch(),
+  withRouter,
+)(EmailVerificationModal);
 
-export default EmailVerificationWithRoute;
+export default EnhancedEmailVerificationModal;
