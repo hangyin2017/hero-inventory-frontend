@@ -51,4 +51,4 @@ class OrderCounts extends React.Component {
   }
   
 
-export default withFetch(OrderCounts);
+export default withFetch()(OrderCounts);

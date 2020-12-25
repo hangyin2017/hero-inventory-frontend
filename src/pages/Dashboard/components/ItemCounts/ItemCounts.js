@@ -51,4 +51,4 @@ class ItemCounts extends React.Component {
   }
   
 
-export default withFetch(ItemCounts);
+export default withFetch()(ItemCounts);

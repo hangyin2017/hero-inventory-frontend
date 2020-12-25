@@ -51,4 +51,4 @@ class TotalAmount extends React.Component {
   }
   
 
-export default withFetch(TotalAmount);
+export default withFetch()(TotalAmount);

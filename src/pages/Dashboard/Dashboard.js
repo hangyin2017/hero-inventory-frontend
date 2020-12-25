@@ -1,14 +1,14 @@
 
-import React from "react";
+import React from 'react';
 import Page from '../../components/Page';
 import dashboard from '../../apis/dashboard';
-import ItemCounts from "./components/ItemCounts";
-import DashboardCalendar from "./components/DashboardCalendar";
-import PAGES from '../../pages';
+import ItemCounts from './components/ItemCounts';
+import DashboardCalendar from './components/DashboardCalendar';
+import ROUTES from '../../Routes';
 import { Col, Row, Divider } from "antd";
 import styled from 'styled-components';
-import OrderCounts from "./components/OrderCounts";
-import TotalAmount from "./components/TotalAmount";
+import OrderCounts from './components/OrderCounts';
+import TotalAmount from './components/TotalAmount';
 
 const LeftCol = styled(Col)`
 display: flex;
@@ -39,7 +39,7 @@ class Dashboard extends React.Component {
     return (
       <Page
         headerProps={{
-          title: PAGES.dashboard.title,
+          title: ROUTES.dashboard.title,
         }}
         api={dashboard}
       >
