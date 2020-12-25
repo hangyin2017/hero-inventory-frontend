@@ -8,6 +8,7 @@ import PAGES from '../../pages';
 import { Col, Row, Divider } from "antd";
 import styled from 'styled-components';
 import OrderCounts from "./components/OrderCounts";
+import TotalAmount from "./components/TotalAmount";
 
 const StyledCol = styled(Col)`
 display: flex;
@@ -37,6 +38,7 @@ class Dashboard extends React.Component {
         <StyledCol span={8}>
           <ItemCounts />
           <OrderCounts />
+          <TotalAmount />
         </StyledCol>
         <Col span={16}>
           <DashboardCalendar />
