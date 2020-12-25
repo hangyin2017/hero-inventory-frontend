@@ -7,6 +7,8 @@ import withFetch from '../../../../components/withFetch';
 const cardStyle = {
   textAlign: 'center',
   margin: 20,
+  marginTop: 10,
+  marginBottom:10,
 };
 class TotalAmount extends React.Component {
 
@@ -40,10 +42,10 @@ class TotalAmount extends React.Component {
           <Card title="Total Orders Amount" style={cardStyle} hoverable={true}>
               <Row>
                 <Col span={12}>
-                  <Statistic title="Sales Amount" value={this.state.data.totalSalesOrderPrice} />
+                  <Statistic title="Sales Amount" value={"$" + this.state.data.totalSalesOrderPrice} />
                   </Col>
                 <Col span={12}>
-                  <Statistic title="Purchase Amount" value={this.state.data.totalPurchaseOrderPrice} />
+                  <Statistic title="Purchase Amount" value={"$" + this.state.data.totalPurchaseOrderPrice} />
                 </Col>
               </Row>
           </Card>
