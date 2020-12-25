@@ -8,16 +8,25 @@ import Shield from './components/Shield';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
 import withAuthentication from '../../../../components/withAuthentication';
+import { breakpoints } from '../../../../styles';
 
 const Box = styled.div`
-    width: 890px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  background-color: #fff;
+  overflow: hidden;
+
+  @media (min-width: ${breakpoints.sm}) {
     display: flex;
-    background-color: #fff;
-    box-shadow: 0px 2px 30px #ccc6;
+    width: 500px;
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
+    box-shadow: 0px 2px 30px #ccc6;
+  }
+
+  @media (min-width: ${breakpoints.lg}) {
+    width: 890px;
+  }
 `;
 
 const Main = styled.main`
@@ -25,13 +34,17 @@ const Main = styled.main`
 `;
 
 const Right = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
   flex: 1 1;
   padding: 40px;
   border-left: 2px solid #f1f1f1;
   text-align: center;
+
+  @media (min-width: ${breakpoints.lg}) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 class GeneralAuthModal extends React.Component {

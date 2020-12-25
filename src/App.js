@@ -70,11 +70,11 @@ const App = ({ authentication, loading }) => {
           key="auth"
           exact={AUTH_ROUTE.exact}
           path={AUTH_ROUTE.path}
-          children={<AUTH_ROUTE.component user={user} />}
+          children={<AUTH_ROUTE.component />}
         />
         <Route key="private" path="/">
           <Container>
-            <Header user={user} />
+            <Header />
             <Wrapper>
               <Sider>
                 <Navbar />

@@ -3,23 +3,26 @@ import { Spin, Input, Button } from 'antd';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import logo from './assets/logo.png';
+import { breakpoints, fontSizes } from '../../../../styles';
 
+const { FONT_M, FONT_L } = fontSizes;
 const HORIZON_GAP = '0';
-const FONT_L = '24px';
-const FONT_M = '16px';
-const FONT_S = '14px';
 const INPUT_HEIGHT = '44px';
 const BORDER_RADIUS = '4px';
 const DIVIDER_BORDER = '1px solid #dadada';
 
 const Box = styled.div`
   position: relative;
-  width: 500px;
+  width: 100%;
   min-height: 520px;
   margin: 0 auto;
   padding: 50px;
   background-color: #FFF;
   transition: all .1s ease-in-out;
+
+  @media (min-width: ${breakpoints.sm}) {
+      width: 500px;
+  }
 `;
 
 const Logo = styled.div`
