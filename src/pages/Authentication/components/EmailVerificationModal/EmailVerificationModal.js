@@ -48,8 +48,8 @@ class EmailVerificationModal extends React.Component {
 
     return (
       <AuthModal title="Email Verification">
-        <Body>
-          <StyledSpin size="large" spinning={loading}>
+        <StyledSpin size="large" spinning={loading}>
+          <Body>
             {{
               fail: (<Result
                 status="error"
@@ -69,8 +69,8 @@ class EmailVerificationModal extends React.Component {
                 }
               />),
             }[result]}
-          </StyledSpin>
-        </Body>
+          </Body>
+        </StyledSpin>
       </AuthModal>
     ); 
   }

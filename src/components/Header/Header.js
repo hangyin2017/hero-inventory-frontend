@@ -42,7 +42,7 @@ const Avatar = styled.div`
   color: #fff;
 `;
 
-const Header = ({ user }) => {
+const Header = () => {
   return (
     <Wrapper>
       <Logo>
@@ -52,7 +52,6 @@ const Header = ({ user }) => {
         <Left>
         </Left>
         <Right>
-          <span>{user?.username}</span>
           <Authentication />
           <Avatar>
             A

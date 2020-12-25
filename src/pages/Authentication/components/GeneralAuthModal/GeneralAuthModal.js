@@ -4,49 +4,10 @@ import styled from 'styled-components';
 import AuthModal from '../AuthModal';
 import FormItem from '../FormItem';
 import ErrorMessage from '../../../../components/ErrorMessage';
-import Shield from './components/Shield';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
 import withAuthentication from '../../../../components/withAuthentication';
 import compose from '../../../../utils/compose';
-import { breakpoints } from '../../../../styles';
-
-const Box = styled.div`
-  width: 100%;
-  position: relative;
-  z-index: 1;
-  background-color: #fff;
-  overflow: hidden;
-
-  @media (min-width: ${breakpoints.sm}) {
-    display: flex;
-    width: 500px;
-    margin: 0 auto;
-    box-shadow: 0px 2px 30px #ccc6;
-  }
-
-  @media (min-width: ${breakpoints.lg}) {
-    width: 890px;
-  }
-`;
-
-const Main = styled.main`
-  flex: 0 0;
-`;
-
-const Right = styled.div`
-  display: none;
-  flex: 1 1;
-  padding: 40px;
-  border-left: 2px solid #f1f1f1;
-  text-align: center;
-
-  @media (min-width: ${breakpoints.lg}) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
 
 class GeneralAuthModal extends React.Component {
   constructor(props) {
@@ -106,8 +67,8 @@ class GeneralAuthModal extends React.Component {
 
     const BeforeSubmission = (
       <>
-        <Body>
-          <StyledSpin spinning={loading}>
+        <StyledSpin spinning={loading}>
+          <Body>
             <form>
               {error && (
                 <FormItem>
@@ -128,8 +89,8 @@ class GeneralAuthModal extends React.Component {
               <AuthButton onClick={submit(this.handleSubmit)}>{submitButtonText}</AuthButton>
               {children}
             </form>
-          </StyledSpin>
-        </Body>
+          </Body>
+        </StyledSpin>
         {footerNode ? (
           <Footer>{footerNode}</Footer>
         ) : null}
@@ -154,7 +115,9 @@ class GeneralAuthModal extends React.Component {
             </Right>
           </Box>
         ) : (
-          {MainAuthModal}
+          <>
+            {MainAuthModal}
+          </>
         )}
       </>
     );

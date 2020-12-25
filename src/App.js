@@ -15,7 +15,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const Wrapper = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex: auto;
@@ -68,15 +68,14 @@ const App = ({ authentication, loading }) => {
     <Router>
       <Switch>
         <Route
-          key="auth"
           exact={AUTH_ROUTE.exact}
           path={AUTH_ROUTE.path}
-          children={<AUTH_ROUTE.component />}
+          component={AUTH_ROUTE.component}
         />
-        <Route key="private" path="/">
+        <Route path="/">
           <Container>
             <Header />
-            <Wrapper>
+            <ContentWrapper>
               <Sider>
                 <Navbar />
               </Sider>
@@ -84,7 +83,7 @@ const App = ({ authentication, loading }) => {
                 {getRoutes(ROUTES, AUTH_ROUTE.path, user)}
                 {/* <Footer /> */}
               </Main>
-            </Wrapper>
+            </ContentWrapper>
           </Container>
         </Route>
       </Switch>

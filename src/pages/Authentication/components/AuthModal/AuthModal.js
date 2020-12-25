@@ -39,6 +39,7 @@ const Header = styled.div`
 `;
 
 const Body = styled.div`
+  min-height: 300px;
   padding: 30px ${HORIZON_GAP};
 `;
 
