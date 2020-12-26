@@ -5,6 +5,7 @@ import React from 'react';
 
 const cardStyle = {
   textAlign: 'center',
+  borderRadius: 20,
 };
 class ItemCounts extends React.Component {
 
