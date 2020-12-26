@@ -14,7 +14,9 @@ const Content = styled.div`
   position: relative;
   overflow-y: auto;
 `;
-
+const Footer = styled.div`
+text-align:center;
+`
 class Page extends React.Component {
   constructor(props) {
     super(props);
@@ -149,6 +151,7 @@ class Page extends React.Component {
             {children}
           </Spin>
         </Content>
+        <Footer> © 2020, Hero Inventory Group. All Rights Reserved. </Footer>
       </>
     );
   }

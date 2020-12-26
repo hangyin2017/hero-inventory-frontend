@@ -81,7 +81,6 @@ const App = ({ authentication, loading }) => {
               </Sider>
               <Main>
                 {getRoutes(ROUTES, AUTH_ROUTE.path, user)}
-                {/* <Footer /> */}
               </Main>
             </ContentWrapper>
           </Container>
