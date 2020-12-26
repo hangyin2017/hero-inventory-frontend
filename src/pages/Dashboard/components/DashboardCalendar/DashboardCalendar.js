@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Calendar, Card } from "antd";
+import { Calendar, Card } from 'antd';
 
 const cardStyle = {
   textAlign: 'center',
@@ -11,20 +11,15 @@ line-height:4
 `
 
 class DashboardCalendar extends React.Component {
+  render() {
+    return(
+      <Card title="Calendar" style={cardStyle}>
+        <div className="CalendarCard">
+          <StyledCalendar fullscreen={false} />
+        </div>
+      </Card>
+    );
+  };
+}
 
-    onPanelChange(value, mode) {
-        console.log(value, mode);
-      }
-
-    render() {
-      return(
-        <Card title="Calendar" style={cardStyle}>
-          <div className="CalendarCard">
-            <StyledCalendar fullscreen={false} onPanelChange={this.onPanelChange} />
-          </div>
-        </Card>
-      );
-    };
-  }
-
-  export default DashboardCalendar;
+export default DashboardCalendar;

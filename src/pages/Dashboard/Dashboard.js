@@ -11,28 +11,21 @@ import OrderCounts from './components/OrderCounts';
 import TotalAmount from './components/TotalAmount';
 
 const LeftCol = styled(Col)`
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-`
-const RightCol = styled(Col)`
-
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+const RightCol = styled(Col)``;
 const StyledRow = styled(Row)`
-margin: 20px 20px;
-display: flex;
-flex-wrap: nowrap;
-justify-content: space-around;
-`
-const Footer = styled.div`
-text-align:center;
-`
+  margin: 20px 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+`;
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-    }
+    this.state = {}
   }
 
   render() {
@@ -44,17 +37,16 @@ class Dashboard extends React.Component {
         api={dashboard}
       >
         <StyledRow>
-        <LeftCol span={8}>
-          <ItemCounts />
-          <OrderCounts />
-          <TotalAmount />
-        </LeftCol>
-        <RightCol span={14}>
-          <DashboardCalendar />
-        </RightCol>
-      </StyledRow>
-      <Divider />
-      <Footer> © 2020, Hero Inventory Group. All Rights Reserved. </Footer>
+          <LeftCol span={8}>
+            <ItemCounts />
+            <OrderCounts />
+            <TotalAmount />
+          </LeftCol>
+          <RightCol span={14}>
+            <DashboardCalendar />
+          </RightCol>
+        </StyledRow>
+        <Divider />
       </Page>
     );
   };

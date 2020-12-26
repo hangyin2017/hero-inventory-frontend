@@ -1,6 +1,6 @@
-import { Card, Col, Row, Statistic, message } from "antd";
-import React from "react";
-import dashboard from "../../../../apis/dashboard";
+import { Card, Col, Row, Statistic, message } from 'antd';
+import React from 'react';
+import dashboard from '../../../../apis/dashboard';
 import withFetch from '../../../../components/withFetch';
 
 

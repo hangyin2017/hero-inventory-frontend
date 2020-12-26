@@ -1,6 +1,6 @@
-import { Card, Col, Row, Statistic, message } from "antd";
-import React from "react";
-import dashboard from "../../../../apis/dashboard";
+import { Card, Col, Row, Statistic, message } from 'antd';
+import React from 'react';
+import dashboard from '../../../../apis/dashboard';
 import withFetch from '../../../../components/withFetch';
 
 
@@ -36,19 +36,19 @@ class ItemCounts extends React.Component {
 
   render() {
     return (
-          <Card title="Stock Overview" style={cardStyle} hoverable={true}>
-              <Row>
-                <Col span={12}>
-                  <Statistic title="All Items" value={this.state.data.itemCount} />
-                  </Col>
-                <Col span={12}>
-                  <Statistic title="Low Stock Items" value={this.state.data.lowStockItemCount}  valueStyle={{ color: '#cf1322' }} />
-                </Col>
-              </Row>
-          </Card>
+      <Card title="Stock Overview" style={cardStyle} hoverable={true}>
+        <Row>
+          <Col span={12}>
+            <Statistic title="All Items" value={this.state.data.itemCount} />
+          </Col>
+          <Col span={12}>
+            <Statistic title="Low Stock Items" value={this.state.data.lowStockItemCount}  valueStyle={{ color: '#cf1322' }} />
+          </Col>
+        </Row>
+      </Card>
     );
   };
-  }
+}
   
 
 export default withFetch()(ItemCounts);
