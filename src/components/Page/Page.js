@@ -14,9 +14,21 @@ const Content = styled.div`
   position: relative;
   overflow-y: auto;
 `;
+
 const Footer = styled.div`
-text-align:center;
-`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+`;
+
+const StyledTable = styled(Table)`
+  position: relative;
+  z-index: 1;
+  margin-bottom: 40px;
+  background-color: #f0f2f5;
+`;
+
 class Page extends React.Component {
   constructor(props) {
     super(props);
@@ -117,7 +129,7 @@ class Page extends React.Component {
         <Content>
           <Spin size="large" spinning={loading}>
             {tableProps && (
-              <Table
+              <StyledTable
                 // sticky={true}
                 // scroll={{ y: 700 }}
                 dataSource={data}

@@ -1,54 +1,36 @@
-import { Card, Col, Row, Statistic, message } from "antd";
-import React from "react";
-import dashboard from "../../../../apis/dashboard";
-import withFetch from '../../../../components/withFetch';
+import { Card, Col, Row, Statistic, message } from 'antd';
+import React from 'react';
+
 
 
 const cardStyle = {
   textAlign: 'center',
+  borderRadius: 20,
 };
 class ItemCounts extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.state={
-      data:{},
-    }
+    this.state={}
 
   }
-
-  async componentDidMount() {
-    this.refreshData();
-  }
-
-  async refreshData() {
-    const { fetch } = this.props;
-
-    try {
-      const data = await fetch(() => dashboard.getAll());
-      this.setState({ data });
-    } catch(err) {
-      message.error(`Something went wrong while fetching details`);
-    }
-  }
-
 
   render() {
     return (
-          <Card title="Stock Overview" style={cardStyle} hoverable={true}>
-              <Row>
-                <Col span={12}>
-                  <Statistic title="All Items" value={this.state.data.itemCount} />
-                  </Col>
-                <Col span={12}>
-                  <Statistic title="Low Stock Items" value={this.state.data.lowStockItemCount}  valueStyle={{ color: '#cf1322' }} />
-                </Col>
-              </Row>
-          </Card>
+      <Card title="Stock Overview" style={cardStyle} hoverable={true}>
+        <Row>
+          <Col span={12}>
+            <Statistic title="All Items" value={this.props.itemCount} />
+          </Col>
+          <Col span={12}>
+            <Statistic title="Low Stock Items" value={this.props.lowStockItemCount}  valueStyle={{ color: '#cf1322' }} />
+          </Col>
+        </Row>
+      </Card>
     );
   };
-  }
+}
   
 
-export default withFetch()(ItemCounts);
+export default ItemCounts;
