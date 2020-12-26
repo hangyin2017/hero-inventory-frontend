@@ -1,46 +1,98 @@
 import React from 'react';
+import { Spin, message } from 'antd';
+import styled from 'styled-components';
 import Modal from '../../../../components/Modal';
-import Form from '../../../../components/Form';
-import SimpleFooter from '../../../../components/Form/components/SimpleFooter';
+import Header from './components/Header';
+import DescriptionList from '../../../../components/DescriptionList';
+import fields from '../../fields';
+import withFetch from '../../../../components/withFetch';
+import compose from '../../../../utils/compose';
+import users from '../../../../apis/users';
 
-class NewOrderModal extends React.Component {
+const Content = styled.div`
+  min-height: 60vh;
+`;
+
+class UserDetailsModal extends React.Component {
   constructor(props) {
     super(props);
 
-    // this.state = {
-    // }
+    this.state = {
+      data: {},
+    }
+
+    this.refreshData = this.refreshData.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
-  // onFinish = values => {
-  //   console.log('Success:', values);
-  // };
+  async componentDidUpdate(prevProps) {
+    const { id } = this.props;
 
-  // onFinishFailed = (errorInfo) => {
-  //   console.log('Failed:', errorInfo);
-  // };
+    if(!!id && id != prevProps.id){
+      this.refreshData();
+    }
+  }
+
+  async refreshData() {
+    const { id, fetch } = this.props;
+    
+    if (!!id) {
+      try {
+        const data = await fetch(() => users.get(id));
+        this.setState({ data });
+      } catch(err) {
+        message.error(`Something went wrong while fetching details for user ${id}`);
+      }
+    }
+  }
+
+  delete() {
+    const { id, onCancel, refreshTableData, fetch } = this.props;
+    
+    if (!!id) {
+      fetch(() => users.remove(id))
+        .then(() => {
+          onCancel();
+          refreshTableData();
+          message.success(`Successfully deleted user ${id}`);
+        })
+        .catch(() => message.error(this.props.error));
+    }
+  }
 
   render() {
-    const { onCancel, ...modalProps } = this.props;
-    // const { } = this.state;
+    const { onCancel, refreshTableData, refreshDetailsData, loading, ...modalProps } = this.props;
+    const { data } = this.state;
+
 
     return (
       <Modal
-        {...modalProps}
-        title="Add New User"
+        title={<Header loading={loading} onDelete={this.delete} />}
+        footer={null}
         onCancel={onCancel}
         width={1000}
+        {...modalProps}   
       >
-        <Form
-          labelCol={{ span: 6 }}
-          preserve={false}
-          // onFinish={this.onFinish}
-          // onFinishFailed={this.onFinishFailed}
-        >
-          <SimpleFooter onCancel={onCancel}/>
-        </Form>
+        <Spin size="large" spinning={loading}>
+          <Content>
+              <DescriptionList
+                data={Object.keys(data)
+                  .filter((key) =>  fields[key] && !!data[key])
+                  .map((key) => ({
+                    title: fields[key].title || fields[key].label,
+                    value: data[key]
+                  }))
+                }
+              />
+          </Content>
+        </Spin>
       </Modal>
     );
   }
 }
 
-export default NewOrderModal;
+const EnhancedUserDetailsModal = compose(
+  withFetch(),
+)(UserDetailsModal);
+
+export default EnhancedUserDetailsModal;

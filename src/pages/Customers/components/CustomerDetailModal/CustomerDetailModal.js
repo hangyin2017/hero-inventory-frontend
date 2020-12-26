@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import customers from '../../../../apis/customers';
 import Modal from '../../../../components/Modal';
 import NewCustomerModal from '../NewCustomerModal';
-import Header from './components/Header/Header';
+import Header from './components/Header';
 import DescriptionList from '../../../../components/DescriptionList';
 import fields from '../../fields';
 import withFetch from '../../../../components/withFetch';

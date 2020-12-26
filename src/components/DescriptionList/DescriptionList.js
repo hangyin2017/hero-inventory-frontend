@@ -32,7 +32,7 @@ const DescriptionList = ({ data }) => {
   return (
     <dl>
       {data.map((item) => (
-        <Item title={item.title} value={item.value} />
+        <Item key={item.title} title={item.title} value={item.value} />
       ))}
     </dl>
   );

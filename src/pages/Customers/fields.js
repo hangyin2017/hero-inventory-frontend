@@ -14,8 +14,8 @@ export default {
     rules: [
       {
         required: true,
-        message: 'Please enter a valid name',
-        pattern: /^[a-zA-Z]+$/,
+        // message: 'Please enter a valid name',
+        // pattern: /^[a-zA-Z]+$/,
       },
     ],
   },
@@ -23,12 +23,12 @@ export default {
     label: "Company Name",
     inTable: true,
     inDetails: true,
-    rules: [
-      {
-        message: 'Please enter a valid company name',
-        pattern: /^\w+$/,
-      },
-    ],
+    // rules: [
+    //   {
+    //     message: 'Please enter a valid company name',
+    //     pattern: /^\w+$/,
+    //   },
+    // ],
   },
   website: {
     label: "Website",
