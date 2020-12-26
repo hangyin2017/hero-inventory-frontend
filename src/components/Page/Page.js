@@ -43,8 +43,6 @@ class Page extends React.Component {
     this.hideModal = this.hideModal.bind(this);
     this.setRowId = this.setRowId.bind(this);
     this.refreshData = this.refreshData.bind(this);
-    this.debouncedSearch = this.debouncedSearch.bind(this);
-    this.throttledSearch = this.throttledSearch.bind(this);
   }
 
   componentDidMount() {
