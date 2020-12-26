@@ -5,87 +5,49 @@ import styled from 'styled-components';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
 import Guard from './components/Guard';
+import Private from './components/Private';
 import withAuthentication, { withAuthenticationProvider } from './components/withAuthentication';
 import compose from './utils/compose';
 import ROUTES, { AUTH_ROUTE } from './Routes';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-`;
+// const Container = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   height: 100vh;
+// `;
 
-const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex: auto;
-  background: #f0f2f5;
-  overflow: hidden;
-`;
+// const ContentWrapper = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   flex: auto;
+//   background: #f0f2f5;
+//   overflow: hidden;
+// `;
 
-const Main = styled.main`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  overflow: hidden;
-`;
-
-const getRoutes = (ROUTES, AUTH_PATH, user) => (
-  <Switch>
-    {Object.keys(ROUTES).map((key) => {
-      const { exact, path, permissions, component } = ROUTES[key];
-      const AUTH_PATH = AUTH_ROUTE.path;
-
-      return (<Route
-        key={key}
-        exact={exact}
-        path={path}
-        render={(props) => (
-          !!user || !permissions || path === AUTH_PATH ? (
-            component
-          ) : (
-            <Redirect to={{
-              pathname: AUTH_PATH,
-              state: { from: props.location },
-            }} />
-          )
-        )}
-      />);
-    })}
-  </Switch>
-);
+// const Main = styled.main`
+//   position: relative;
+//   display: flex;
+//   flex-direction: column;
+//   width: 100%;
+//   overflow: hidden;
+// `;
 
 const App = ({ authentication }) => {
-  const { user } = authentication;
-  const { Sider } = Layout;
 
   return (
     <Router>
       <Switch>
-        <Route
-          exact={AUTH_ROUTE.exact}
-          path={AUTH_ROUTE.path}
-          component={AUTH_ROUTE.component}
-        />
+        <Route path={AUTH_ROUTE.path}>
+          <AUTH_ROUTE.component />
+        </Route>
         <Route path="/">
           <Guard>
-            <Container>
-              <Header />
-              <ContentWrapper>
-                <Sider>
-                  <Navbar />
-                </Sider>
-                <Main>
-                  {getRoutes(ROUTES, AUTH_ROUTE.path, user)}
-                </Main>
-              </ContentWrapper>
-            </Container>
+            <Private />
           </Guard>
         </Route>
       </Switch>
     </Router>
-  )
+  );
 };
 
 const EnhancedApp = compose(
