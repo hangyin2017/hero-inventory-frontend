@@ -39,10 +39,18 @@ const withAuthenticationProvider = (Component) => {
     }
 
     render() {
+      const { loading } = this.props;
       const { user } = this.state;
 
+      const value = {
+        user,
+        setUser: this.setUser,
+        signOut: this.signOut,
+        loading,
+      }
+
       return (
-        <AuthenticationContext.Provider value={{user, setUser: this.setUser, signOut: this.signOut}}>
+        <AuthenticationContext.Provider value={value}>
           <Component {...this.props} />
         </AuthenticationContext.Provider>
       );

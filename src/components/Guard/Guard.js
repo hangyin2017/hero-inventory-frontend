@@ -5,31 +5,13 @@ import withAuthentication from '../withAuthentication';
 import compose from '../../utils/compose';
 import { AUTH_ROUTE } from '../../Routes';
 
-
 class Guard extends React.Component {
-  componentDidMount() {
-    this.preCheck();
-  }
-
-  preCheck() {
-    const { authentication, loading } = this.props;
-
-    if(loading) {
-      return;
-    }
-
-    if(!authentication.user) {
-      return (<Redirect to={{
-        pathname: AUTH_ROUTE.path,
-        state: { from: props.location },
-      }} />);
-    }
-  }
-
   render() {
-    const { authentication, loading, children } = this.props;
+    const { authentication, location, children } = this.props;
 
-    if(loading) {
+    console.log('loading', authentication.loading);
+    console.log('user', authentication.user);
+    if(authentication.loading) {
       return <LoadingApp />;
     }
 
@@ -37,7 +19,7 @@ class Guard extends React.Component {
       return (
         <Redirect to={{
           pathname: AUTH_ROUTE.path,
-          state: { from: props.location },
+          state: { from: location },
         }} />
       );
     }

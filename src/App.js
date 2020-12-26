@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import styled from 'styled-components';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
-import LoadingApp from './pages/LoadingApp';
+import Guard from './components/Guard';
 import withAuthentication, { withAuthenticationProvider } from './components/withAuthentication';
 import compose from './utils/compose';
 import ROUTES, { AUTH_ROUTE } from './Routes';
@@ -56,13 +56,9 @@ const getRoutes = (ROUTES, AUTH_PATH, user) => (
   </Switch>
 );
 
-const App = ({ authentication, loading }) => {
+const App = ({ authentication }) => {
   const { user } = authentication;
-  const { Footer, Sider } = Layout;
-
-  if(loading) {
-    return <LoadingApp />;
-  }
+  const { Sider } = Layout;
 
   return (
     <Router>
@@ -73,17 +69,19 @@ const App = ({ authentication, loading }) => {
           component={AUTH_ROUTE.component}
         />
         <Route path="/">
-          <Container>
-            <Header />
-            <ContentWrapper>
-              <Sider>
-                <Navbar />
-              </Sider>
-              <Main>
-                {getRoutes(ROUTES, AUTH_ROUTE.path, user)}
-              </Main>
-            </ContentWrapper>
-          </Container>
+          <Guard>
+            <Container>
+              <Header />
+              <ContentWrapper>
+                <Sider>
+                  <Navbar />
+                </Sider>
+                <Main>
+                  {getRoutes(ROUTES, AUTH_ROUTE.path, user)}
+                </Main>
+              </ContentWrapper>
+            </Container>
+          </Guard>
         </Route>
       </Switch>
     </Router>
