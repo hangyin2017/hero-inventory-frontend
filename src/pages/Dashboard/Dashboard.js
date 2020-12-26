@@ -16,13 +16,17 @@ const LeftCol = styled(Col)`
   flex-direction: column;
   justify-content: space-between;
 `;
-const RightCol = styled(Col)``;
+
+const RightCol = styled(Col)`
+`;
+
 const StyledRow = styled(Row)`
   margin: 20px 20px;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-around;
 `;
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
