@@ -31,6 +31,7 @@ class PurchaseOrders extends React.Component {
         headerProps={{
           title: ROUTES.purchaseorders.title,
           hasNewButton: true,
+          hasSearchBar: true,
         }}
         searchBarProps={{
           placeholder: 'Search by order number',

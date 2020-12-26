@@ -27,6 +27,7 @@ class Inventory extends React.Component {
         headerProps={{
           title: ROUTES.inventory.title,
           hasNewButton: true,
+          hasSearchBar: true,
         }}
         searchBarProps={{
           placeholder: 'Search by item name or SKU',
