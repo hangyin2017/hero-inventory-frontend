@@ -5,12 +5,17 @@ import withAuthentication from '../withAuthentication';
 import compose from '../../utils/compose';
 import { AUTH_ROUTE } from '../../Routes';
 
+const permitted = (permissions, authentication) => {
+  if(!!permissions && permissions.indexOf(authentication.user.role) < 0 ) {
+    return false;
+  }
+  return true;
+};
+
 class Guard extends React.Component {
   render() {
-    const { authentication, location, children } = this.props;
+    const { authentication, permissions, location, children } = this.props;
 
-    console.log('loading', authentication.loading);
-    console.log('user', authentication.user);
     if(authentication.loading) {
       return <LoadingApp />;
     }
@@ -24,6 +29,11 @@ class Guard extends React.Component {
       );
     }
 
+    if(!permitted(permissions, authentication)) {
+      console.log(`${authentication.user.role} does not have access to this page`);
+      return null;
+    }
+
     return children;
   }
 }
@@ -31,5 +41,7 @@ class Guard extends React.Component {
 const EnhancedGuard = compose(
   withAuthentication,
 )(Guard);
+
+EnhancedGuard.permitted = permitted;
 
 export default EnhancedGuard;

@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { Layout } from 'antd';
 import Header from './components/Header';
 import Navbar from '../Navbar';
+import Guard from '../Guard';
 import withAuthentication from '../withAuthentication';
 import compose from '../../utils/compose';
 import ROUTES, { AUTH_ROUTE } from '../../Routes';
@@ -30,29 +31,54 @@ const Main = styled.main`
   overflow: hidden;
 `;
 
-const getRoutes = (ROUTES, AUTH_PATH, user) => (
-  <Switch>
-    {Object.keys(ROUTES).map((key) => {
-      const { exact, path, permissions, component } = ROUTES[key];
+const getRoutes = (ROUTES, AUTH_PATH, authentication) => (
+    Object.keys(ROUTES).map((key) => {
+      const { exact, path, permissions, component: Component } = ROUTES[key];
 
-      return (<Route
-        key={key}
-        exact={exact}
-        path={path}
-        render={(props) => (
-          !!user || !permissions || path === AUTH_PATH ? (
-            component
-          ) : (
-            <Redirect to={{
-              pathname: AUTH_PATH,
-              state: { from: props.location },
-            }} />
-          )
-        )}
-      />);
-    })}
-  </Switch>
+      return (
+        <Route key={key} exact={exact} path={path}>
+          <Guard permissions={permissions}>
+            {Component}
+            {/* <Route
+              key={key}
+              exact={exact}
+              path={path}
+              render={(props) => (
+                !!user || !permissions || path === AUTH_PATH ? (
+                  component
+                ) : (
+                  <Redirect to={{
+                    pathname: AUTH_PATH,
+                    state: { from: props.location },
+                  }} />
+                )
+              )}
+            /> */}
+          </Guard>
+        </Route>
+      );
+    })
 );
+
+// const CheckPermission = ({
+//   authentication,
+//   AUTH_PATH,
+//   permissions,
+//   location,
+//   children,
+// }) => {
+//   if(!authentication.user) {
+//     return <Redirect to={{
+//       pathname: AUTH_PATH,
+//       state: { from: location },
+//     }} />
+//   }
+
+//   if(permissions.indexOf(authentication.user.role) === -1 ) {
+//     console.log(permissions, authentication.user.role);
+//   }
+//   return children;
+// };
 
 const Private = ({
   authentication,
@@ -69,7 +95,9 @@ const Private = ({
           <Navbar />
         </Sider>
         <Main>
-          {getRoutes(ROUTES, AUTH_PATH, user)}
+          <Switch>
+          {getRoutes(ROUTES, AUTH_PATH, authentication)}
+          </Switch>
         </Main>
       </ContentWrapper>
     </Container>
