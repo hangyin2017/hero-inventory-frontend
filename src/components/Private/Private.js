@@ -5,9 +5,7 @@ import { Layout } from 'antd';
 import Header from './components/Header';
 import Navbar from '../Navbar';
 import Guard from '../Guard';
-import withAuthentication from '../withAuthentication';
-import compose from '../../utils/compose';
-import ROUTES, { AUTH_ROUTE } from '../../Routes';
+import ROUTES, { HOMEPAGE } from '../../Routes';
 
 const Container = styled.div`
   display: flex;
@@ -31,61 +29,22 @@ const Main = styled.main`
   overflow: hidden;
 `;
 
-const getRoutes = (ROUTES, AUTH_PATH, authentication) => (
-    Object.keys(ROUTES).map((key) => {
-      const { exact, path, permissions, component: Component } = ROUTES[key];
+const getRoutes = (ROUTES) => (
+  Object.keys(ROUTES).map((key) => {
+    const { exact, path, permissions, component: Component } = ROUTES[key];
 
-      return (
-        <Route key={key} exact={exact} path={path}>
-          <Guard permissions={permissions}>
-            {Component}
-            {/* <Route
-              key={key}
-              exact={exact}
-              path={path}
-              render={(props) => (
-                !!user || !permissions || path === AUTH_PATH ? (
-                  component
-                ) : (
-                  <Redirect to={{
-                    pathname: AUTH_PATH,
-                    state: { from: props.location },
-                  }} />
-                )
-              )}
-            /> */}
-          </Guard>
-        </Route>
-      );
-    })
+    return (
+      <Route key={key} exact={exact} path={path}>
+        <Guard permissions={permissions}>
+          <Component />
+        </Guard>
+      </Route>
+    );
+  })
 );
 
-// const CheckPermission = ({
-//   authentication,
-//   AUTH_PATH,
-//   permissions,
-//   location,
-//   children,
-// }) => {
-//   if(!authentication.user) {
-//     return <Redirect to={{
-//       pathname: AUTH_PATH,
-//       state: { from: location },
-//     }} />
-//   }
-
-//   if(permissions.indexOf(authentication.user.role) === -1 ) {
-//     console.log(permissions, authentication.user.role);
-//   }
-//   return children;
-// };
-
-const Private = ({
-  authentication,
-}) => {
+const Private = () => {
   const { Sider } = Layout;
-  const { user } = authentication;
-  const AUTH_PATH = AUTH_ROUTE.path;
 
   return (
     <Container>
@@ -96,16 +55,13 @@ const Private = ({
         </Sider>
         <Main>
           <Switch>
-          {getRoutes(ROUTES, AUTH_PATH, authentication)}
+            {getRoutes(ROUTES)}
+            <Redirect to={HOMEPAGE.path} />
           </Switch>
         </Main>
       </ContentWrapper>
     </Container>
-  )
-}
+  );
+};
 
-const EnhancedPrivate = compose(
-  withAuthentication,
-)(Private);
-
-export default EnhancedPrivate;
+export default Private;

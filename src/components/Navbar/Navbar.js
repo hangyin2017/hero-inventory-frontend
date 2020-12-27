@@ -22,7 +22,11 @@ class Navbar extends React.Component {
   };
 
   componentDidMount() {
-    this.props.history.listen((e) => this.setSelectedKey(e.pathname));
+    this.props.history.listen((e) => {
+      if(!!this) {
+        this.setSelectedKey(e.pathname);
+      }
+    });
   }
 
   setSelectedKey(pathname) {
