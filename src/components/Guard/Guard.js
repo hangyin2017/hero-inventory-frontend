@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import LoadingApp from '../../pages/LoadingApp';
+import UnAuthorized from '../../pages/UnAuthorized';
 import withAuthentication from '../withAuthentication';
 import compose from '../../utils/compose';
 import { AUTH_ROUTE } from '../../Routes';
@@ -30,8 +31,7 @@ class Guard extends React.Component {
     }
 
     if(!permitted(permissions, authentication)) {
-      console.log(`${authentication.user.role} does not have access to this page`);
-      return null;
+      return <UnAuthorized />;
     }
 
     return children;
