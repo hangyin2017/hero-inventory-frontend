@@ -64,7 +64,7 @@ const AuthButton = styled(Button).attrs({
   block: true,
 })`
   height: ${INPUT_HEIGHT};
-  margin-top: 41px;
+  margin-top: 11px;
   border-radius: ${BORDER_RADIUS};
   font-size: ${FONT_M};
   font-weight: 500;

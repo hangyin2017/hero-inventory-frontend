@@ -15,32 +15,27 @@ const Container = styled.div`
   }
 `;
 
-class Authentication extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const getRoutes = (ROUTES) => (
+  Object.keys(ROUTES).map((key) => {
+    const { exact, path, component: Component } = ROUTES[key];
 
-  render() {
     return (
-      <>
-        <Container>
-          <Switch>
-            {Object.keys(ROUTES).map((key) => {
-              const route = ROUTES[key];
-              const { exact, path } = route;
-
-              return (
-                <Route key={key} exact={exact} path={path}>
-                  <route.component />
-                </Route>
-              );
-            })}
-            <Redirect path='/auth' to={ROUTES.signIn.path} />
-          </Switch>
-        </Container>
-      </>
+      <Route key={key} exact={exact} path={path}>
+        <Component />
+      </Route>
     );
-  }
+  })
+);
+
+const Authentication = () => {
+  return (
+    <Container>
+      <Switch>
+        {getRoutes(ROUTES)}
+        <Redirect path='/auth' to={ROUTES.signIn.path} />
+      </Switch>
+    </Container>
+  );
 }
 
 export default Authentication;

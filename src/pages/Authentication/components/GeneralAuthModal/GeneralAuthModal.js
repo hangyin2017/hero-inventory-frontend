@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import AuthModal from '../AuthModal';
 import FormItem from '../FormItem';
-import ErrorMessage from '../../../../components/ErrorMessage';
+import Alert from '../../../../components/Alert';
 import withForm from '../../../../components/withForm';
 import withFetch from '../../../../components/withFetch';
 import withAuthentication from '../../../../components/withAuthentication';
@@ -72,20 +72,24 @@ class GeneralAuthModal extends React.Component {
             <form>
               {error && (
                 <FormItem>
-                  <ErrorMessage>{error}</ErrorMessage>
+                  <Alert>{error}</Alert>
                 </FormItem>
               )} 
-              {FIELDS.map((f) => (
-                <FormItem key={f.key} htmlFor={f.key}>
-                  <AuthInput
-                    id={f.key}
-                    type={f.type}
-                    placeholder={f.label}
-                    onChange={setData(f.key)}
-                  />
-                  {(formDirty || data[f.key].dirty) && getValidationMessage(f)}
-                </FormItem>
-              ))}
+              {FIELDS.map((f) => {
+                const { key, type, label } = f;
+                const errorMessage = (formDirty || data[key].dirty) ? getValidationMessage(f) : '';
+
+                return (
+                  <FormItem key={key} htmlFor={key} errorMessage={errorMessage}>
+                    <AuthInput
+                      id={key}
+                      type={type}
+                      placeholder={label}
+                      onChange={setData(key)}
+                    />
+                  </FormItem>
+                );
+              })}
               <AuthButton onClick={submit(this.handleSubmit)}>{submitButtonText}</AuthButton>
               {children}
             </form>

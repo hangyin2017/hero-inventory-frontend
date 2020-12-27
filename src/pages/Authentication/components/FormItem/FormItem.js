@@ -3,9 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  & ~ & {
-    margin-top: 30px;
-  }
+  transition: all .4s ease-in-out;
 `;
 
 const Label = styled.label`
@@ -15,10 +13,24 @@ const Label = styled.label`
   margin-bottom: 8px;
 `;
 
-const FormItem = ({ label, htmlFor, children }) => (
+const ErrorMessage = styled.div`
+  min-height: 30px;
+  margin: 2px 0 6px;
+  color: #e0446d;
+  opacity: ${({ active }) => active ? 1 : 0};
+  transition: all .4s ease-in-out;
+`;
+
+const FormItem = ({
+  label,
+  htmlFor,
+  errorMessage,
+  children,
+}) => (
   <Wrapper>
     {label && <Label htmlFor={htmlFor}>{label}</Label>}
     {children}
+    <ErrorMessage active={!!errorMessage}>{errorMessage}</ErrorMessage>
   </Wrapper>
 );
 
