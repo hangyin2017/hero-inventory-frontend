@@ -39,6 +39,7 @@ class Customers extends React.Component {
         headerProps={{
           title: ROUTES.customers.title,
           hasNewButton: true,
+          hasSearchBar: true,
         }}
         searchBarProps={{
           placeholder: 'Search by customer\'s name',
