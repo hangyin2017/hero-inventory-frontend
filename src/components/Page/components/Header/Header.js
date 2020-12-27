@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import SearchBar from './components/SearchBar';
 import NewButton from './components/NewButton';
+import Guard from '../../../Guard';
+import withAuthentication from '../../../withAuthentication';
+import compose from '../../../../utils/compose';
 
 const StyledHeader = styled.div`
 border-bottom: 1px solid #dadada;
@@ -25,12 +28,15 @@ const Right = styled.div`
     }
 `;
 
+const newButtonPermissions = ['admin', 'sales'];
+
 const Header = ({
   title,
   hasNewButton,
   hasSearchBar,
   searchBarProps,
   onNewButtonClick,
+  authentication,
 }) => {
 
   return (
@@ -44,7 +50,10 @@ const Header = ({
             <SearchBar {...searchBarProps} />
           )}
           {hasNewButton && (
-            <NewButton onClick={onNewButtonClick} />
+            <NewButton
+              onClick={onNewButtonClick}
+              disabled={!Guard.permitted(newButtonPermissions, authentication)}
+            />
           )}
         </Right>
       </Layout>
@@ -52,4 +61,8 @@ const Header = ({
   );
 };
 
-export default Header;
+const EnhancedHeader = compose(
+  withAuthentication,
+)(Header);
+
+export default EnhancedHeader;
