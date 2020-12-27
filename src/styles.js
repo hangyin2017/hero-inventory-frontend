@@ -1,6 +1,6 @@
 const color = {
   primary: '#1890ff',
-  dangerous: '#ff4d4f',
+  dangerous: '#e0446d',
   grey: '#777',
   lightGrey: '#fbfbfb',
 }

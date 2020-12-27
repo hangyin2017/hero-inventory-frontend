@@ -1,9 +1,9 @@
 import React from 'react';
 import { Spin, Input, Button } from 'antd';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import logo from './assets/logo.png';
-import { breakpoints, fontSizes } from '../../../../styles';
+import { color, breakpoints, fontSizes } from '../../../../styles';
 
 const { FONT_M, FONT_L } = fontSizes;
 const HORIZON_GAP = '0';
@@ -57,7 +57,29 @@ const AuthInput = styled(Input)`
   font-size: ${FONT_M};
   padding: 12px;
   border-radius: ${BORDER_RADIUS};
+
+
+  ${({ invalid }) =>invalid && css`
+    border-color: ${color.dangerous};
+
+    &:hover, &:focus {
+      border-color: ${color.dangerous};
+      box-shadow: 0 0 0 2px rgba(224, 68, 109, 0.2);
+    }
+  `}
+
 `;
+
+  /* border-color: ${({ invalid }) => invalid && '#e0446d'}; */
+  /* ${({ invalid }) => {
+    if(invalid) {
+      const style = css`
+        border-color: '#e0446d';
+        // &:hovoer
+      `;
+      console.log(style);
+      return style;
+    } */
 
 const AuthButton = styled(Button).attrs(({ disabled }) => ({
   type: 'primary',

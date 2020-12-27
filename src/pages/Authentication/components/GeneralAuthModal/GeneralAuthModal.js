@@ -77,13 +77,15 @@ class GeneralAuthModal extends React.Component {
               )} 
               {FIELDS.map((f) => {
                 const { key, type, label } = f;
+                const { errorMessage } = data[key];
 
                 return (
-                  <FormItem key={key} htmlFor={key} errorMessage={data[key].errorMessage}>
+                  <FormItem key={key} htmlFor={key} errorMessage={errorMessage}>
                     <AuthInput
                       id={key}
                       type={type}
                       placeholder={label}
+                      invalid={!!errorMessage}
                       onChange={setData(key)}
                     />
                   </FormItem>

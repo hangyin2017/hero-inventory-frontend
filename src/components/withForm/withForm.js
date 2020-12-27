@@ -58,13 +58,13 @@ const withForm = (FIELDS) => (Component) => {
     }
 
     submit(onSubmit) {
-      return (event) => {
+      return async (event) => {
         event.preventDefault();
 
         this.setFormDirty(true);
-        this.validateForm();
+        await this.validateForm();
 
-        if (!this.valid()) {
+        if (this.formHasError()) {
           return;
         }
         
@@ -98,9 +98,9 @@ const withForm = (FIELDS) => (Component) => {
       });
     }
 
-    validateForm() {
+    async validateForm() {
       const { data } = this.state;
-      this.FIELDS.forEach((f) => this.validateField(f, data[f.key].value));
+      await this.FIELDS.forEach(async (f) => await this.validateField(f, data[f.key].value));
     }
 
     formHasError() {
