@@ -1,13 +1,6 @@
 import React from 'react';
 
 const withForm = (FIELDS) => (Component) => {
-  // const getInitialData = () => FIELDS.reduce((data, f) => ({
-  //   ...data,
-  //   [f.key]: {
-  //     value: '',
-  //     dirty: false,
-  //   }
-  // }), {});
   class Form extends React.Component{
     constructor(props) {
       super(props);
@@ -19,7 +12,7 @@ const withForm = (FIELDS) => (Component) => {
         formDirty: false,
       }
 
-      this.getValidationMessage = this.getValidationMessage.bind(this);
+      this.validateField = this.validateField.bind(this);
       this.setData = this.setData.bind(this);
       this.submit = this.submit.bind(this);
     }
@@ -30,6 +23,7 @@ const withForm = (FIELDS) => (Component) => {
         [f.key]: {
           value: '',
           dirty: false,
+          errorMessage: null,
         }
       }), {});
     }
@@ -41,19 +35,25 @@ const withForm = (FIELDS) => (Component) => {
     }
 
     setData(key) {
-      return (event) => {
+      return async (event) => {
         event.preventDefault();
         const { value } = event.target;
+        const field = this.FIELDS.find((f) => f.key === key);
+        this.validateField(field, value);
   
-        this.setState((prevState) => ({
-          data: {
-            ...prevState.data,
-            [key]: {
-              value,
-              dirty: true,
-            }, 
-          },
-        }));
+        this.setState((prevState) => {
+          const fieldData = prevState.data[field.key];
+          return {
+            data: {
+              ...prevState.data,
+              [key]: {
+                ...fieldData,
+                value,
+                dirty: true,
+              }, 
+            },
+          }
+        });
       };
     }
 
@@ -62,6 +62,7 @@ const withForm = (FIELDS) => (Component) => {
         event.preventDefault();
 
         this.setFormDirty(true);
+        this.validateForm();
 
         if (!this.valid()) {
           return;
@@ -71,27 +72,47 @@ const withForm = (FIELDS) => (Component) => {
       }
     }
     
-    getValidationMessage(field){
+    async validateField(field, value){
       const { data } = this.state;
-      const { key, validations} = field;
-      const { value } = data[key];
-      const invalidValidation = validations.find((v) => !v.validator(value, data));
+      let errorMessage = null;
 
-      if(!invalidValidation){
-        return null;
+      for(let v of field.validations) {
+        const valid = await v.validator(value, data);
+        if(!valid) {
+          errorMessage = v.message;
+          break;
+        }
       }
-      return invalidValidation.message;
+
+      this.setState((prevState) => {
+        const fieldData = this.state.data[field.key];
+        return {
+          data: {
+            ...prevState.data,
+            [field.key]: {
+              ...fieldData,
+              errorMessage,
+            }, 
+          }
+        };
+      });
     }
 
-    valid() {
-      const formHasErrorMessage = this.FIELDS.find((f) => this.getValidationMessage(f));
-      return !formHasErrorMessage;
+    validateForm() {
+      const { data } = this.state;
+      this.FIELDS.forEach((f) => this.validateField(f, data[f.key].value));
+    }
+
+    formHasError() {
+      const { data } = this.state;
+      const formHasErrorMessage = Object.keys(data).find((key) => data[key].errorMessage);
+      return !!formHasErrorMessage;
     }
 
     render(){
       const { data, formDirty } = this.state;
 
-      const valid = this.valid()
+      const valid = !this.formHasError();
 
       return (
         <Component
@@ -99,7 +120,7 @@ const withForm = (FIELDS) => (Component) => {
           data={data}
           formDirty={formDirty}
           valid={valid}
-          getValidationMessage={this.getValidationMessage}
+          validateField={this.validateField}
           setData={this.setData}
           submit={this.submit}
         />

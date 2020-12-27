@@ -1,4 +1,5 @@
 import validator from 'validator';
+import auth from '../../../../apis/auth';
 
 const FIELDS = [{
   key: 'username',
@@ -7,6 +8,16 @@ const FIELDS = [{
   validations: [{
     message: 'Please enter your username',
     validator: (value) => !validator.isEmpty(value),
+  },{
+    message: 'Username already exists',
+    validator: async (value) => {
+      if(!!value && value.length >= 6) {
+        return await auth.checkUsername({ username: value })
+          .then((res) => true)
+          .catch((err) => false);
+      }
+      return true;
+    },
   }],
 },{
   key: 'email',

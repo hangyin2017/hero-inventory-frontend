@@ -59,10 +59,11 @@ const AuthInput = styled(Input)`
   border-radius: ${BORDER_RADIUS};
 `;
 
-const AuthButton = styled(Button).attrs({
+const AuthButton = styled(Button).attrs(({ disabled }) => ({
   type: 'primary',
   block: true,
-})`
+  disabled: disabled,
+}))`
   height: ${INPUT_HEIGHT};
   margin-top: 11px;
   border-radius: ${BORDER_RADIUS};

@@ -3,21 +3,15 @@ import instance from '../../lib/instance';
 const URL = '/api/v1/auth'; 
 
 export default {
-  // getAll: () => instance.get(URL),
-
-  // filter: (searchInput) => instance.get(`${URL}/filter`, {
-  //   params: {
-  //     searchInput,
-  //   }
-  // }),
-
   get: () => instance.get(URL),
 
   signIn: (payload) => instance.post('/login', payload),
 
   signUp: (payload) => instance.post(`${URL}/sign_up`, payload),
 
-  update: (id, payload) => instance.put(`${URL}/${id}`, payload),
+  checkUsername: (username) => instance.post(`${URL}/sign_up/username`, username),
+
+  checkEmail: (email) => instance.post(`${URL}/sign_up/email`, email),
 
   remove: (id) => instance.delete(`${URL}/${id}`),
 

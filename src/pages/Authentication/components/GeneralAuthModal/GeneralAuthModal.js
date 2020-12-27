@@ -77,10 +77,9 @@ class GeneralAuthModal extends React.Component {
               )} 
               {FIELDS.map((f) => {
                 const { key, type, label } = f;
-                const errorMessage = (formDirty || data[key].dirty) ? getValidationMessage(f) : '';
 
                 return (
-                  <FormItem key={key} htmlFor={key} errorMessage={errorMessage}>
+                  <FormItem key={key} htmlFor={key} errorMessage={data[key].errorMessage}>
                     <AuthInput
                       id={key}
                       type={type}
@@ -90,7 +89,12 @@ class GeneralAuthModal extends React.Component {
                   </FormItem>
                 );
               })}
-              <AuthButton onClick={submit(this.handleSubmit)}>{submitButtonText}</AuthButton>
+              <AuthButton
+                onClick={submit(this.handleSubmit)}
+                disabled={!valid}
+              >
+                {submitButtonText}
+              </AuthButton>
               {children}
             </form>
           </Body>
