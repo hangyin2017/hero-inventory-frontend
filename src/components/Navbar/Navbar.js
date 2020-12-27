@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { withRouter, NavLink } from 'react-router-dom';
 import { Menu } from 'antd';
-import PAGES from '../../pages';
+import ROUTES from '../../Routes';
 
 const SideMenu = styled(Menu)`
   font-size: 16px;
@@ -17,11 +17,11 @@ class Navbar extends React.Component {
   };
 
   componentDidMount() {
-    this.props.history.listen((e) => this.setSelectedKey(e));
+    this.props.history.listen((e) => this.setSelectedKey(e.pathname));
   }
 
-  setSelectedKey(e) {
-    this.setState({ selectedKey: e.pathname });
+  setSelectedKey(pathname) {
+    this.setState({ selectedKey: pathname });
   }
 
   render() {
@@ -29,11 +29,11 @@ class Navbar extends React.Component {
 
     return (
       <SideMenu theme="dark" selectedKeys={[selectedKey]}>
-        {Object.keys(PAGES)
-          .filter((key) => PAGES[key].inNavbar)
+        {Object.keys(ROUTES)
+          .filter((key) => ROUTES[key].inNavbar)
           .map((key) => (
-            <Menu.Item key={PAGES[key].path}>
-              <NavLink to={PAGES[key].path}>{PAGES[key].title}</NavLink>
+            <Menu.Item key={ROUTES[key].path}>
+              <NavLink to={ROUTES[key].path}>{ROUTES[key].title}</NavLink>
             </Menu.Item>
           ))
         }

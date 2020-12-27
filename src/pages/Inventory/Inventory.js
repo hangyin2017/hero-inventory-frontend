@@ -3,7 +3,7 @@ import items from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
 import ItemDetailModal from './components/ItemDetailModal';
-import PAGES from '../../pages';
+import ROUTES from '../../Routes';
 import fields from './fields';
 
 const DEFAULT_COLUMNS = Object.keys(fields).filter((key) => fields[key].inTable);
@@ -36,8 +36,9 @@ class Inventory extends React.Component {
     return (
       <Page
         headerProps={{
-          title: PAGES.inventory.title,
+          title: ROUTES.inventory.title,
           hasNewButton: true,
+          hasSearchBar: true,
         }}
         searchBarProps={{
           placeholder: 'Search by item name or SKU',

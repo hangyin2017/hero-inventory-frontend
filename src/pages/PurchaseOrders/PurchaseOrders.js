@@ -1,6 +1,6 @@
 import React from "react";
 import Page from '../../components/Page';
-import PAGES from "../../pages";
+import ROUTES from "../../Routes";
 import NewPurchaseOrderModal from './components/NewPurchaseOrderModal';
 import purchaseOrder from '../../apis/purchaseOrders';
 import fields from './fields';
@@ -40,8 +40,9 @@ class PurchaseOrders extends React.Component {
     return (
       <Page
         headerProps={{
-          title: PAGES.purchaseorders.title,
+          title: ROUTES.purchaseorders.title,
           hasNewButton: true,
+          hasSearchBar: true,
         }}
         searchBarProps={{
           placeholder: 'Search by order number',

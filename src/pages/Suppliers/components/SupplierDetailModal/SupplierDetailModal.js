@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import suppliers from '../../../../apis/suppliers';
 import Modal from '../../../../components/Modal';
 import NewSupplierModal from '../NewSupplierModal';
-import Header from './components/Header/Header';
+import Header from './components/Header';
 import DescriptionList from '../../../../components/DescriptionList';
 import fields from '../../fields';
 import withFetch from '../../../../components/withFetch';
@@ -113,4 +113,4 @@ class SupplierDetailModal extends React.Component {
   }
 }
 
-export default withFetch(SupplierDetailModal);
+export default withFetch()(SupplierDetailModal);

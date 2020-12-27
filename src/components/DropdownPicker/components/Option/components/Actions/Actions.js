@@ -1,9 +1,12 @@
 import styled from 'styled-components';
+import { fontSizes } from '../../../../../../styles';
+
+const { FONT_M } = fontSizes;
 
 const Actions = styled.div`
   visibility: hidden;
   float: right;
-  font-size: 16px;
+  font-size: ${FONT_M};
   opacity: 0.7;
 
   & > span {

@@ -1,23 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
+import withAuthentication from '../../../withAuthentication';
 
 const NakedButton = styled.button`
   margin: 20px;
-  border: 1px solid #7f7f7f;
-  text-align: center;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
 `;
 
-const Authentication = () => {
+const Authentication = ({ authentication }) => {
   return (
     <>
-      <NakedButton>
-        Log In
-      </NakedButton>
-      <NakedButton>
-        Sign Up
+      <NakedButton onClick={authentication.signOut}>
+        Sign Out
       </NakedButton>
     </>
   );
 };
 
-export default Authentication;
+export default withAuthentication(Authentication);

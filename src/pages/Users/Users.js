@@ -1,29 +1,33 @@
 import React from "react";
 import Page from '../../components/Page';
-import NewUserModal from './components/NewUserModal';
+import UserDetailsModal from './components/UserDetailsModal';
+import users from '../../apis/users';
+import fields from './fields';
+import ROUTES from '../../Routes';
+
+const DEFAULT_COLUMNS = Object.keys(fields).filter((key) => fields[key].inTable);
+
+const columns = DEFAULT_COLUMNS.map((key) => ({
+  title: fields[key].title || fields[key].label,
+  dataIndex: key,
+}));
 
 const Users = () => {
   return (
     <Page
       headerProps={{
-        title: 'Users & Roles',
-        hasNewButton: true,
+        title: ROUTES.users.title,
+        hasNewButton: false,
       }}
       searchBarProps={{
         placeholder: 'Search by user\'s name',
-        // onChange: this.debouncedSearch,
-        // onSearch: this.handleSearch,
       }}
       tableProps={{
-        // columns: columns,
-        // dataSource: tableData,
-        // rowKey: 'id',
-        pagination: {
-          position: ['bottomRight'],
-          defaultPageSize: 10,
-        },
+        columns: columns,
+        rowKey: 'id',
       }}
-      Modal={NewUserModal}
+      DetailsModal={UserDetailsModal}
+      api={users}
     />
   );
 };

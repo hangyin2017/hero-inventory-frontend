@@ -4,6 +4,7 @@ import { Table, Spin, message } from 'antd';
 import Header from './components/Header';
 import withModal from '../withModal';
 import withFetch from '../withFetch';
+import compose from '../../utils/compose';
 import debounce from '../../utils/debounce';
 import throttle from '../../utils/throttle';
 
@@ -12,6 +13,20 @@ const Content = styled.div`
   height: 100%;
   position: relative;
   overflow-y: auto;
+`;
+
+const Footer = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+`;
+
+const StyledTable = styled(Table)`
+  position: relative;
+  z-index: 1;
+  margin-bottom: 40px;
+  background-color: #f0f2f5;
 `;
 
 class Page extends React.Component {
@@ -28,8 +43,6 @@ class Page extends React.Component {
     this.hideModal = this.hideModal.bind(this);
     this.setRowId = this.setRowId.bind(this);
     this.refreshData = this.refreshData.bind(this);
-    this.debouncedSearch = this.debouncedSearch.bind(this);
-    this.throttledSearch = this.throttledSearch.bind(this);
   }
 
   componentDidMount() {
@@ -114,7 +127,7 @@ class Page extends React.Component {
         <Content>
           <Spin size="large" spinning={loading}>
             {tableProps && (
-              <Table
+              <StyledTable
                 // sticky={true}
                 // scroll={{ y: 700 }}
                 dataSource={data}
@@ -148,12 +161,14 @@ class Page extends React.Component {
             {children}
           </Spin>
         </Content>
+        <Footer> © 2020, Hero Inventory Group. All Rights Reserved. </Footer>
       </>
     );
   }
 }
 
-const PageWithFetch = withFetch(Page);
+const EnhancedPage = compose(
+  withFetch(),
+)(Page);
 
-export default PageWithFetch;
-// export default withModal(Page);
+export default EnhancedPage;

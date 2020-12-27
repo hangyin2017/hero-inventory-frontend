@@ -125,4 +125,4 @@ class DropdownPicker extends React.Component {
   }
 }
 
-export default withFetch(DropdownPicker);
+export default withFetch()(DropdownPicker);

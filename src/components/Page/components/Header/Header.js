@@ -28,6 +28,7 @@ const Right = styled.div`
 const Header = ({
   title,
   hasNewButton,
+  hasSearchBar,
   searchBarProps,
   onNewButtonClick,
 }) => {
@@ -39,7 +40,7 @@ const Header = ({
           <h2>{title}</h2>
         </Left>
         <Right>
-          {searchBarProps && (
+          {hasSearchBar && (
             <SearchBar {...searchBarProps} />
           )}
           {hasNewButton && (

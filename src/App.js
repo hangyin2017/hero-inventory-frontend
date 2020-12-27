@@ -4,7 +4,10 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import styled from 'styled-components';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
-import PAGES, { HOMEPAGE } from './pages';
+import LoadingApp from './pages/LoadingApp';
+import withAuthentication, { withAuthenticationProvider } from './components/withAuthentication';
+import compose from './utils/compose';
+import ROUTES, { AUTH_ROUTE } from './Routes';
 
 const Container = styled.div`
   display: flex;
@@ -12,7 +15,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const Wrapper = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex: auto;
@@ -28,34 +31,68 @@ const Main = styled.main`
   overflow: hidden;
 `;
 
-const App = () => {
+const getRoutes = (ROUTES, AUTH_PATH, user) => (
+  <Switch>
+    {Object.keys(ROUTES).map((key) => {
+      const { exact, path, permissions, component } = ROUTES[key];
+      const AUTH_PATH = AUTH_ROUTE.path;
+
+      return (<Route
+        key={key}
+        exact={exact}
+        path={path}
+        render={(props) => (
+          !!user || !permissions || path === AUTH_PATH ? (
+            component
+          ) : (
+            <Redirect to={{
+              pathname: AUTH_PATH,
+              state: { from: props.location },
+            }} />
+          )
+        )}
+      />);
+    })}
+  </Switch>
+);
+
+const App = ({ authentication, loading }) => {
+  const { user } = authentication;
   const { Footer, Sider } = Layout;
+
+  if(loading) {
+    return <LoadingApp />;
+  }
 
   return (
     <Router>
-      <Container>
-        <Header />
-        <Wrapper>
-          <Sider>
-            <Navbar />
-          </Sider>
-          <Main>
-            <Switch>
-              {Object.keys(PAGES).map((key) => (
-                <Route
-                  exact={PAGES[key].exact}
-                  path={PAGES[key].path}
-                  component={PAGES[key].component}
-                />
-              ))}
-              <Redirect path='/' to={HOMEPAGE.path} />
-            </Switch>
-            {/* <Footer /> */}
-          </Main>
-        </Wrapper>
-      </Container>
+      <Switch>
+        <Route
+          exact={AUTH_ROUTE.exact}
+          path={AUTH_ROUTE.path}
+          component={AUTH_ROUTE.component}
+        />
+        <Route path="/">
+          <Container>
+            <Header />
+            <ContentWrapper>
+              <Sider>
+                <Navbar />
+              </Sider>
+              <Main>
+                {getRoutes(ROUTES, AUTH_ROUTE.path, user)}
+              </Main>
+            </ContentWrapper>
+          </Container>
+        </Route>
+      </Switch>
     </Router>
   )
 };
 
-export default App;
+const EnhancedApp = compose(
+  withAuthentication,
+  withAuthenticationProvider,
+)(App);
+
+export default EnhancedApp;
