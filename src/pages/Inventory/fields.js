@@ -1,6 +1,5 @@
 import React from 'react';
 import { Input, Checkbox } from 'antd';
-import { tupleNum } from 'antd/lib/_util/type';
 
 const { TextArea } = Input;
 
@@ -142,7 +141,7 @@ export default {
   },
   createdTime: {
     label: 'Created Time',
-    inTable: true,
+    //inTable: true,
     inDetails: true,
   },
   lastModifiedTime: {

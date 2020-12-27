@@ -15,7 +15,7 @@ export default {
       {
         required: true,
         message: 'Please enter a valid name',
-        pattern: /^[a-zA-Z]+$/,
+        pattern: /^[a-zA-Z0-9_-]+$/,
       },
     ],
   },
@@ -23,21 +23,15 @@ export default {
     label: "Company Name",
     inTable: true,
     inDetails: true,
-    rules: [
-      {
-        message: 'Please enter a valid company name',
-        pattern: /^\w+$/,
-      },
-    ],
   },
   website: {
     label: "Website",
-    inTable: true,
+    //inTable: true,
     inDetails: true,
     rules: [
       {
         message: 'Please enter a valid website',
-        pattern: /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/,
+        pattern: /((https?)?(:\/\/)?(([a-zA-Z0-9]+-?)+[a-zA-Z0-9]+\.)+[a-zA-Z]+)(:\d+)?(\/.*)?(\?.*)?(#.*)?$/,
       },
     ],
   },
@@ -84,6 +78,7 @@ export default {
   email: {
     label: "Email",
     inDetails: true,
+    inTable: true,
     rules: [
       {
         required: true,
@@ -98,7 +93,7 @@ export default {
     rules: [
       {
         message: "Please enter a valid phone number",
-        pattern: /^0[0-9]\d{8}$/,
+        pattern: /^[1-9]+[0-9]*$/,
       },
     ],
   },
