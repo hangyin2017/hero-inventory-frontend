@@ -1,14 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { color, fontSizes } from '../../../../styles';
 
 const Wrapper = styled.div`
   transition: all .4s ease-in-out;
 `;
 
+const { FONT_M } = fontSizes;
 const Label = styled.label`
   display: block;
-  font-size: 16px;
+  font-size: ${FONT_M};
   color: #626262;
   margin-bottom: 8px;
 `;
@@ -16,7 +18,7 @@ const Label = styled.label`
 const ErrorMessage = styled.div`
   min-height: 30px;
   margin: 2px 0 6px;
-  color: #e0446d;
+  color: ${color.dangerous};
   opacity: ${({ active }) => active ? 1 : 0};
   transition: all .4s ease-in-out;
 `;

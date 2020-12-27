@@ -59,7 +59,7 @@ const AuthInput = styled(Input)`
   border-radius: ${BORDER_RADIUS};
 
 
-  ${({ invalid }) =>invalid && css`
+  ${({ invalid }) => invalid && css`
     border-color: ${color.dangerous};
 
     &:hover, &:focus {

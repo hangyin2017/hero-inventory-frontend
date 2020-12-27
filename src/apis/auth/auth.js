@@ -9,9 +9,9 @@ export default {
 
   signUp: (payload) => instance.post(`${URL}/sign_up`, payload),
 
-  checkUsername: (username) => instance.post(`${URL}/sign_up/username`, username),
+  checkUsername: (usernameObj) => instance.post(`${URL}/sign_up/username`, usernameObj),
 
-  checkEmail: (email) => instance.post(`${URL}/sign_up/email`, email),
+  checkEmail: (emailObj) => instance.post(`${URL}/sign_up/email`, emailObj),
 
   remove: (id) => instance.delete(`${URL}/${id}`),
 

@@ -29,6 +29,13 @@ const FIELDS = [{
   },{
     message: 'Please enter a valid email address',
     validator: (value) => validator.isEmail(value),
+  },{
+    message: 'Email already exists',
+    validator: async (value) => {
+      return await auth.checkEmail({ email: value })
+        .then((res) => true)
+        .catch((err) => false);
+    },
   }],
 },{
   key: 'password',
