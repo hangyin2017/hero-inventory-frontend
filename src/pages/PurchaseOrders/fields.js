@@ -1,8 +1,3 @@
-import React from 'react';
-import { Input } from 'antd';
-
-const { TextArea } = Input;
-
 export default {
   purchaseorderId: {
     label: 'Purchaseorder Id',
@@ -20,7 +15,7 @@ export default {
   },
   date: {
     label: 'Date',
-    inTable: true,
+    //inTable: true,
     inDetails: true,
   },
   createdTime: {

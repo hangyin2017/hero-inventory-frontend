@@ -83,14 +83,15 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   async confirmOrder() {
-    const { id, fetch, orderAPI } = this.props;
+    const { id, fetch, orderAPI, onCancel } = this.props;
 
     if (!!id) {
       try {
         await fetch(() => orderAPI.confirm(id));
 
-        this.onCancel();
+        onCancel();
         this.refreshData();
+        message.success(`Successfully confirming order ${id}`);
       } catch (err) {
         message.error(`Something went wrong while confirming order ${id}`);
       }
@@ -98,7 +99,7 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   async closeOrder() {
-    const { id, fetch, orderAPI } = this.props;
+    const { id, fetch, orderAPI, onCancel } = this.props;
 
     if (!!id) {
       try {
@@ -107,8 +108,9 @@ class GeneralOrderDetailModal extends React.Component {
         } else {
           await fetch(() => orderAPI.receive(id));
         }
-        this.onCancel();
+        onCancel();
         this.refreshData();
+        message.success(`Successfully finishing order ${id}`);
       } catch (err) {
         message.error(`Something went wrong while sending order ${id}`)
       }

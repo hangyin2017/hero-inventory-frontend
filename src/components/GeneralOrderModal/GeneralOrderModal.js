@@ -39,11 +39,9 @@ class GeneralOrderModal extends React.Component {
     values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.quantity), 0);
     values.totalPrice = parseFloat(totalPrice);
     if (orderAPI == salesOrders) {
-      values.soldItems = Items.filter((item) => !!item.data)
-        .map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.quantity, rate: val.rate }));
+      values.soldItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.quantity, rate: val.rate }));
     } else {
-      values.purchasedItems = Items.filter((item) => !!item.data)
-        .map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.quantity, rate: val.rate }));
+      values.purchasedItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.quantity, rate: val.rate }));
     }
 
     try {
@@ -64,12 +62,11 @@ class GeneralOrderModal extends React.Component {
 
     values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.quantity), 0);
     values.totalPrice = totalPrice;
+
     if (orderAPI == salesOrders) {
-      values.soldItems = Items.filter((item) => !!item.data)
-        .map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.quantity, rate: val.rate }));
+      values.soldItems = Items.map((val) => ({ itemName: val.itemName, itemId: val.itemId, quantity: val.quantity, rate: val.rate }));
     } else {
-      values.purchasedItems = Items.filter((item) => !!item.data)
-        .map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.quantity, rate: val.rate }));
+      values.purchasedItems = Items.map((val) => ({ itemName: val.itemName, itemId: val.itemId, quantity: val.quantity, rate: val.rate }));
     }
 
     values = { ...initialData, ...values };
@@ -111,6 +108,7 @@ class GeneralOrderModal extends React.Component {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
+          style={{ height: 750 }}
           initialValues={initialData}
           preserve={false}
           onFinish={initialData ? this.update : this.add}
@@ -147,9 +145,9 @@ class GeneralOrderModal extends React.Component {
                 />
               </Form.Item>}
             {Object.keys(fields).map((data) => (
-              <Form.Item 
-                key={fields[data]} 
-                {...fields[data]} 
+              <Form.Item
+                key={fields[data]}
+                {...fields[data]}
                 name={data}
               />
             ))}

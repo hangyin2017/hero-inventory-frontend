@@ -11,6 +11,17 @@ const DEFAULT_COLUMNS = Object.keys(fields).filter(key => fields[key].inTable);
 const columns = DEFAULT_COLUMNS.map((key) => ({
   title: fields[key].title || fields[key].label,
   dataIndex: key,
+  sorter: (a, b) => {
+    let stringA = a.supplier.toUpperCase();
+    let stringB = b.supplier.toUpperCase();
+    if (stringA < stringB) {
+      return -1;
+    }
+    if (stringA > stringB) {
+      return 1;
+    }
+    return 0;
+  },
 }));
 
 class PurchaseOrders extends React.Component {
@@ -35,8 +46,6 @@ class PurchaseOrders extends React.Component {
         }}
         searchBarProps={{
           placeholder: 'Search by order number',
-          // onChange: this.debouncedSearch,
-          // onSearch: this.handleSearch,
         }}
         tableProps={{
           columns: columns,

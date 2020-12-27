@@ -33,10 +33,9 @@ class Total extends Component {
 
   handleAdjustment(setter) {
     return (e) => {
-      const { value } = e.target;
-      const floatNumber = parseFloat(value);
-      if(!floatNumber) return setter(0);
-      return setter(floatNumber);
+      const number = parseFloat(e.target.value);
+      if(!number) return setter(0);
+      return setter(number);
     }
   }
 
@@ -50,9 +49,10 @@ class Total extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.dataSource != this.props.dataSource || prevState.shipment != this.state.shipment || prevState.adjustment != this.state.adjustment) {
-      let subTotal = this.props.dataSource.reduce((prev, cur) => prev + cur.AMOUNT, 0);
+      let subTotal = this.props.dataSource.reduce((prev, cur) => prev + cur.amount, 0);
       let total = subTotal + this.state.shipment + this.state.adjustment;
       this.props.getTotalPrice(total);
+      console.log(this.props.dataSource);
     } else {
       return false;
     }
@@ -74,7 +74,7 @@ class Total extends Component {
           <Input 
             className="inp" 
             onChange={this.handleAdjustment(this.setShipping)}  
-            pattern={/^[+-]?(0|([1-9]\d*))(\.\d+)?$/}
+            pattern="^[0-9\.]+$"
             title="Please enter a number"
           />
           <span>{shipment}</span>
@@ -84,7 +84,7 @@ class Total extends Component {
           <Input
             className="inp"
             onChange={this.handleAdjustment(this.setAdjust)}
-            pattern={/^[+-]?(0|([1-9]\d*))(\.\d+)?$/}
+            pattern="^[0-9\.]+$"
             title="Please enter a number"
           />
           <span>{adjustment}</span>

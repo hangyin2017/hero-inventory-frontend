@@ -24,10 +24,12 @@ class SignUpModal extends React.Component {
             <Result
               status="success"
               title="Successfully Signed Up"
-              subTitle="
-                Thank you for signing up\n
-                A verification email has been sent
-              "
+              subTitle={
+                <div>
+                  <p>Thank you for signing up</p>
+                  <p>A verification email has been sent</p>
+                </div>
+              }
             />
           }
           footerNode={(
