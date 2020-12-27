@@ -23,7 +23,6 @@ const columns = DEFAULT_COLUMNS.map((key) => ({
     return 0;
   },
 }));
-
 class Suppliers extends React.Component {
   constructor(props) {
     super(props);
