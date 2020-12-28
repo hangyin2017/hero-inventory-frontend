@@ -1,5 +1,5 @@
 import React from 'react';
-import { message, Row, Col, Spin, Button } from 'antd';
+import { message, Row, Col, Spin, Progress } from 'antd';
 import styled from 'styled-components';
 import salesOrders from '../../apis/salesOrders';
 import withFetch from '../../components/withFetch';
@@ -17,6 +17,19 @@ const Content = styled(Row)`
 `;
 
 const Meta = styled(Col).attrs({ span: 24, md: 18 })`
+`;
+
+const ProgressTitle = styled.h2`
+  position: absolute;
+  top: 10px;
+  right: 0px;
+`;
+
+const StyledProgress = styled(Progress)`
+  position: absolute;
+  top: 60px;
+  right: 0px;
+  font-size: 20px;
 `;
 
 class GeneralOrderDetailModal extends React.Component {
@@ -49,13 +62,13 @@ class GeneralOrderDetailModal extends React.Component {
 
     if (!!id) {
       try {
-          const data = await fetch(() => orderAPI.get(id));
-          
-          data.date = moment(data.date);
-          this.setState({
-            data,
-            status: data.status,
-          });
+        const data = await fetch(() => orderAPI.get(id));
+
+        data.date = moment(data.date);
+        this.setState({
+          data,
+          status: data.status,
+        });
       } catch (err) {
         message.error(`Something went wrong while fetching details for order ${id}`);
       }
@@ -139,6 +152,15 @@ class GeneralOrderDetailModal extends React.Component {
       >
         <Spin size="large" spinning={loading}>
           <Content>
+            <ProgressTitle>Order Progress</ProgressTitle>
+            <StyledProgress
+              type="circle"
+              strokeColor={{
+                '0%': '#108ee9',
+                '100%': '#87d068',
+              }}
+              percent={ status == 'draft' ? 0 : status == 'confirmed' ? 50 : 100 }  
+            />
             <Meta>
               <DescriptionList
                 data={Object.keys(data)
@@ -165,14 +187,14 @@ class GeneralOrderDetailModal extends React.Component {
             refreshDetailsData={this.refreshData}
           />
         ) : (
-          <NewPurchaseOrderModal
-            visible={editing}
-            initialData={data}
-            onCancel={this.setEditing(false)}
-            refreshTableData={refreshTableData}
-            refreshDetailsData={this.refreshData}
-          />
-        )}
+            <NewPurchaseOrderModal
+              visible={editing}
+              initialData={data}
+              onCancel={this.setEditing(false)}
+              refreshTableData={refreshTableData}
+              refreshDetailsData={this.refreshData}
+            />
+          )}
       </Modal>
     )
   }
