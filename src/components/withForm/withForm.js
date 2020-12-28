@@ -34,26 +34,28 @@ const withForm = (FIELDS) => (Component) => {
       });
     }
 
+    updateField(field, value) {
+      this.setState((prevState) => {
+        const fieldData = prevState.data[field.key];
+        return {
+          data: {
+            ...prevState.data,
+            [field.key]: {
+              ...fieldData,
+              ...value,
+            }, 
+          },
+        }
+      });
+    }
+
     setData(key) {
       return async (event) => {
         event.preventDefault();
         const { value } = event.target;
         const field = this.FIELDS.find((f) => f.key === key);
         this.validateField(field, value);
-  
-        this.setState((prevState) => {
-          const fieldData = prevState.data[field.key];
-          return {
-            data: {
-              ...prevState.data,
-              [key]: {
-                ...fieldData,
-                value,
-                dirty: true,
-              }, 
-            },
-          }
-        });
+        this.updateField(field, { value, dirty: true });
       };
     }
 
@@ -84,23 +86,12 @@ const withForm = (FIELDS) => (Component) => {
         }
       }
 
-      this.setState((prevState) => {
-        const fieldData = this.state.data[field.key];
-        return {
-          data: {
-            ...prevState.data,
-            [field.key]: {
-              ...fieldData,
-              errorMessage,
-            }, 
-          }
-        };
-      });
+      this.updateField(field, { errorMessage });
     }
 
     async validateForm() {
       const { data } = this.state;
-      this.FIELDS.forEach(async (f) => await this.validateField(f, data[f.key].value));
+      await Promise.all(this.FIELDS.map((f) => this.validateField(f, data[f.key].value)));
     }
 
     formHasError() {
