@@ -54,8 +54,8 @@ const withForm = (FIELDS) => (Component) => {
         event.preventDefault();
         const { value } = event.target;
         const field = this.FIELDS.find((f) => f.key === key);
-        this.validateField(field, value);
         this.updateField(field, { value, dirty: true });
+        this.validateField(field, value);
       };
     }
 
@@ -80,6 +80,12 @@ const withForm = (FIELDS) => (Component) => {
 
       for(let v of field.validations) {
         const valid = await v.validator(value, data);
+        
+        const currentValue = this.state.data[field.key].value;
+        if(currentValue !== value) {
+          return;
+        }
+
         if(!valid) {
           errorMessage = v.message;
           break;
