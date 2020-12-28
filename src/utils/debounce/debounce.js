@@ -3,9 +3,14 @@ const debounce = (func, delay) => {
   let timer;
   
   return (...args) => {
-    const context = this;
-    if(timer) clearTimeout(timer);
-    timer = setTimeout(() => func.apply(context, args), delay);
+    return new Promise((resolve) => {
+      const context = this;
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        const result = func.apply(context, args);
+        resolve(result);
+      }, delay);
+    });
   };
 }
 

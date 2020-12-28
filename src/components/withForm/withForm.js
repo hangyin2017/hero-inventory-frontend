@@ -100,7 +100,7 @@ const withForm = (FIELDS) => (Component) => {
 
     async validateForm() {
       const { data } = this.state;
-      await this.FIELDS.forEach(async (f) => await this.validateField(f, data[f.key].value));
+      this.FIELDS.forEach(async (f) => await this.validateField(f, data[f.key].value));
     }
 
     formHasError() {

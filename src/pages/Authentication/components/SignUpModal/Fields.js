@@ -1,5 +1,9 @@
 import validator from 'validator';
 import auth from '../../../../apis/auth';
+import debounce from '../../../../utils/debounce';
+
+const debouncedCheckUsername = debounce(auth.checkUsername, 1000);
+const debouncedCheckEmail = debounce(auth.checkEmail, 1000);
 
 const FIELDS = [{
   key: 'username',
@@ -9,10 +13,13 @@ const FIELDS = [{
     message: 'Please enter your username',
     validator: (value) => !validator.isEmpty(value),
   },{
+    message: 'Username must be at least 6 characters',
+    validator: (value) => validator.isLength(value, { min: 6 }),
+  },{
     message: 'Username already exists',
-    validator: async (value) => {
+    validator: (value) => {
       if(!!value && value.length >= 6) {
-        return await auth.checkUsername({ username: value })
+        return debouncedCheckUsername({ username: value })
           .then((res) => true)
           .catch((err) => false);
       }
@@ -31,8 +38,8 @@ const FIELDS = [{
     validator: (value) => validator.isEmail(value),
   },{
     message: 'Email already exists',
-    validator: async (value) => {
-      return await auth.checkEmail({ email: value })
+    validator: (value) => {
+      return debouncedCheckEmail({ email: value })
         .then((res) => true)
         .catch((err) => false);
     },
@@ -46,7 +53,7 @@ const FIELDS = [{
     validator: (value) => !validator.isEmpty(value),
   },{
     message: 'Password must be at least 8 characters',
-    validator: (value) => validator.isLength(value, { min:8 }),
+    validator: (value) => validator.isLength(value, { min: 8 }),
   }],
 },{
   key: 'confirmPassword',
