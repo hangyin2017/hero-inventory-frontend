@@ -8,7 +8,6 @@ import salesOrders from '../../apis/salesOrders';
 import DropdownPicker from '../DropdownPicker';
 import customers from '../../apis/customers';
 import suppliers from '../../apis/suppliers';
-
 class GeneralOrderModal extends React.Component {
   constructor(props) {
     super(props);
@@ -171,7 +170,7 @@ class GeneralOrderModal extends React.Component {
             </Form.Item>
           </Form.Section>
           <Footer onCancel={onCancel} />
-        </ Form>
+        </Form>
       </Modal>
     );
   }

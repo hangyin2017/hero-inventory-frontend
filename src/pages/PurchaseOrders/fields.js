@@ -29,7 +29,7 @@ export default {
     inDetails: true,
   },
   totalPrice: {
-    label: 'Total Price',
+    label: 'Total Price ($)',
     inTable: true,
     inDetails: true,
   },

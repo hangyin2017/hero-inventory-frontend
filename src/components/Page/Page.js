@@ -135,6 +135,7 @@ class Page extends React.Component {
                   position: ['bottomRight'],
                   defaultPageSize: 10,
                 }}
+                scroll={{ x: 1500, y: 550 }}
                 onRow={(record) => {
                   return {
                     onClick: this.setRowId(record.id)
