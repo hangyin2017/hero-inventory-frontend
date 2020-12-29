@@ -1,17 +1,14 @@
-import { Card, Col, Row, Statistic } from 'antd';
 import React from 'react';
-
-const cardStyle = {
-  textAlign: 'center',
-  borderRadius: 20,
-};
+import { Col, Row, Statistic } from 'antd';
+import StatisticCard from '../StatisticCard';
 
 const OrderCounts = ({
+  loading,
   salesOrderCount,
   purchaseOrderCount,
 }) => {
   return (
-    <Card title="Orders Overview" style={cardStyle} hoverable={true}>
+    <StatisticCard title="Orders Overview" loading={loading}>
       <Row>
         <Col span={12}>
           <Statistic title="Sales Orders" value={salesOrderCount} />
@@ -20,7 +17,7 @@ const OrderCounts = ({
           <Statistic title="Purchase Orders" value={purchaseOrderCount} />
         </Col>
       </Row>
-    </Card>
+    </StatisticCard>
   );
 };
 

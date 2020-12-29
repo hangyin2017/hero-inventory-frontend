@@ -1,5 +1,6 @@
-import { Card, Col, Row, Statistic } from 'antd';
 import React from 'react';
+import { Card, Col, Row, Statistic } from 'antd';
+import StatisticCard from '../StatisticCard';
 
 const cardStyle = {
   textAlign: 'center',
@@ -7,11 +8,12 @@ const cardStyle = {
 };
 
 const TotalAmount = ({
+  loading,
   totalSalesOrderPrice,
   totalPurchaseOrderPrice,
 }) => {
   return (
-    <Card title="Total Orders Amount" style={cardStyle} hoverable={true}>
+    <StatisticCard title="Total Orders Amount" loading={loading}>
       <Row>
         <Col span={12}>
           <Statistic title="Sales Amount" value={"$" + totalSalesOrderPrice} />
@@ -20,7 +22,7 @@ const TotalAmount = ({
           <Statistic title="Purchase Amount" value={"$" + totalPurchaseOrderPrice} />
         </Col>
       </Row>
-    </Card>
+    </StatisticCard>
   );
 }
 

@@ -1,5 +1,6 @@
-import { Card, Col, Row, Statistic } from 'antd';
 import React from 'react';
+import { Card, Col, Row, Statistic, Spin } from 'antd';
+import StatisticCard from '../StatisticCard';
 
 const cardStyle = {
   textAlign: 'center',
@@ -7,20 +8,23 @@ const cardStyle = {
 };
 
 const ItemCounts = ({
+  loading,
   itemCount,
   lowStockItemCount,
 }) => {
   return (
-    <Card title="Stock Overview" style={cardStyle} hoverable={true}>
-      <Row>
-        <Col span={12}>
-          <Statistic title="All Items" value={itemCount} />
-        </Col>
-        <Col span={12}>
-          <Statistic title="Low Stock Items" value={lowStockItemCount}  valueStyle={{ color: '#cf1322' }} />
-        </Col>
-      </Row>
-    </Card>
+    <StatisticCard title="Stock Overview" loading={loading}>
+      <Spin spinning={loading}>
+        <Row>
+          <Col span={12}>
+            <Statistic title="All Items" value={itemCount} />
+          </Col>
+          <Col span={12}>
+            <Statistic title="Low Stock Items" value={lowStockItemCount}  valueStyle={{ color: '#cf1322' }} />
+          </Col>
+        </Row>
+      </Spin>
+    </StatisticCard>
   );
 };
 

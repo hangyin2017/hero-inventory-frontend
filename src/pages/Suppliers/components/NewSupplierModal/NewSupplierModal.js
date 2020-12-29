@@ -69,7 +69,6 @@ class NewSupplierModal extends React.Component {
       message.success(`Supplier ${values.name} has been added`);
       onCancel();
     } catch(err) {
-      console.log(err);
       message.error(`Something went wrong while adding supplier ${values.name}`);
     }
   };

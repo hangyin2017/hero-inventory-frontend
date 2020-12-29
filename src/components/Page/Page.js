@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Table, Spin, message } from 'antd';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import withModal from '../withModal';
 import withFetch from '../withFetch';
 import compose from '../../utils/compose';
@@ -13,13 +14,6 @@ const Content = styled.div`
   height: 100%;
   position: relative;
   overflow-y: auto;
-`;
-
-const Footer = styled.div`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
 `;
 
 const StyledTable = styled(Table)`
@@ -51,6 +45,7 @@ class Page extends React.Component {
 
   refreshData() {
     const { api, fetch } = this.props;
+    if(!api) { return; }
 
     try {
       fetch(() => api.getAll())
@@ -82,6 +77,7 @@ class Page extends React.Component {
 
   search(input) {
     const { api, fetch } = this.props;
+    if(!api) { return; }
     
     try {
       fetch(() => api.filter(input))
@@ -107,12 +103,10 @@ class Page extends React.Component {
       // showModal,
       // hideModal,
       loading,
-      error,
-      fetch,
     } = this.props;
 
     const { modal, data, rowId } = this.state;
-
+    
     return (
       <>
         <Header
@@ -128,8 +122,6 @@ class Page extends React.Component {
           <Spin size="large" spinning={loading}>
             {tableProps && (
               <StyledTable
-                // sticky={true}
-                // scroll={{ y: 700 }}
                 dataSource={data}
                 pagination= {{
                   position: ['bottomRight'],
@@ -159,10 +151,13 @@ class Page extends React.Component {
                 refreshTableData={this.refreshData}
               />
             )}
-            {children}
+            {React.Children.map(children, (child) => (
+              React.cloneElement(child, { loading, data })
+            ))}
+
           </Spin>
         </Content>
-        <Footer> © 2020, Hero Inventory Group. All Rights Reserved. </Footer>
+        <Footer />
       </>
     );
   }
