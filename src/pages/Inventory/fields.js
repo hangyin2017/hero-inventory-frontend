@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input, Checkbox } from 'antd';
+import moment from 'moment';
 
 const { TextArea } = Input;
 
@@ -142,10 +143,12 @@ export default {
   createdTime: {
     label: 'Created Time',
     inDetails: true,
+    formatter: (value) => moment(value).format('DD/MM/YYYY HH:mm:ss'),
   },
   lastModifiedTime: {
     label: 'Last Modified Time',
     inDetails: true,
+    formatter: (value) => moment(value).format('DD/MM/YYYY HH:mm:ss'),
   },
   physicalStock: {
     title: 'Physical Stock',

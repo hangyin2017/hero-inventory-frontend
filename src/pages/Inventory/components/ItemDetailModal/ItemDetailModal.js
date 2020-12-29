@@ -7,7 +7,7 @@ import NewItemModal from '../NewItemModal';
 import Header from './components/Header/Header';
 import DescriptionList from '../../../../components/DescriptionList';
 import StockData from './components/StockData';
-import fields from '../../fields';
+import FIELDS from '../../fields';
 import withFetch from '../../../../components/withFetch';
 
 const Content = styled(Row)`
@@ -45,12 +45,9 @@ class ItemDetailModal extends React.Component {
     const { id, fetch } = this.props;
     
     if (!!id) {
-      try {
-        const data = await fetch(() => items.get(id));
-        this.setState({ data });
-      } catch(err) {
-        message.error(`Something went wrong while fetching details for item ${id}`);
-      }
+      fetch(() => items.get(id))
+        .then((data) => this.setState({ data }))
+        .catch((err) => message.error(`Something went wrong while fetching details for item ${id}`));
     }
   }
 
@@ -79,7 +76,13 @@ class ItemDetailModal extends React.Component {
   render() {
     const { onCancel, refreshTableData, loading, error, fetch, ...modalProps } = this.props;
     const { data, editing } = this.state;
-		const { physicalStock, lockedStock, arrivingQuantity } = data;
+    const { physicalStock, lockedStock, arrivingQuantity } = data;
+    const formattedData = Object.keys(data)
+      .filter((key) => FIELDS[key].inDetails && !!data[key])
+      .map((key) => ({
+        title: FIELDS[key].title || FIELDS[key].label,
+        value: !!FIELDS[key].formatter ? FIELDS[key].formatter(data[key]) : data[key],
+      }));
 
     return (
       <Modal
@@ -93,13 +96,7 @@ class ItemDetailModal extends React.Component {
           <Content>
             <Meta>
               <DescriptionList
-                data={Object.keys(data)
-                  .filter((key) =>  fields[key].inDetails && !!data[key])
-                  .map((key) => ({
-                    title: fields[key].title || fields[key].label,
-                    value: data[key]
-                  }))
-                }
+                data={formattedData}
               />
             </Meta>
             <Stock>
