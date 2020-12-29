@@ -14,7 +14,7 @@ export default {
     rules: [
       {
         required: true,
-        message: 'Please enter a SKU with numbers or letters!',
+        message: 'Please enter a SKU with numbers or letters',
         pattern: /^[A-Za-z0-9]+$/
       },
     ],
@@ -26,7 +26,7 @@ export default {
     rules: [
       {
         required: true,
-        message: 'Please enter a UPC with numbers or letters!',
+        message: 'Please enter a UPC with numbers or letters',
         pattern: /^[A-Za-z0-9]+$/
       },
     ],
@@ -87,7 +87,7 @@ export default {
     rules: [
       {
         required: true,
-        message: 'Please enter a number!',
+        message: 'Please enter a number',
         pattern: /^[+-]?(0|([1-9]\d*))(\.\d+)?$/,
       },
     ],
@@ -99,7 +99,7 @@ export default {
     rules: [
       {
         required: true,
-        message: 'Please enter a number!',
+        message: 'Please enter a number',
         pattern: /^[+-]?(0|([1-9]\d*))(\.\d+)?$/,
       },
     ],
@@ -141,7 +141,6 @@ export default {
   },
   createdTime: {
     label: 'Created Time',
-    //inTable: true,
     inDetails: true,
   },
   lastModifiedTime: {

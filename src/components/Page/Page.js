@@ -47,12 +47,9 @@ class Page extends React.Component {
     const { api, fetch } = this.props;
     if(!api) { return; }
 
-    try {
-      fetch(() => api.getAll())
-        .then((data) => this.setState({ data }));
-    } catch(err) {
-      message.error(`Something went wrong while fetching data`);
-    }
+    fetch(() => api.getAll())
+      .then((data) => this.setState({ data }))
+      .catch((err) => message.error(`Something went wrong while fetching data`));
   }
 
   showModal(modal) {
@@ -79,12 +76,9 @@ class Page extends React.Component {
     const { api, fetch } = this.props;
     if(!api) { return; }
     
-    try {
-      fetch(() => api.filter(input))
-        .then((data) => this.setState({ data }));
-    } catch(err) {
-      message.error(`Something went wrong while fetching data`);
-    }
+    fetch(() => api.filter(input))
+      .then((data) => this.setState({ data }))
+      .catch((err) => message.error(`Something went wrong while fetching data`));
   }
 
   debouncedSearch = debounce((e) => this.search(e.target.value), 1000);
@@ -127,7 +121,7 @@ class Page extends React.Component {
                   position: ['bottomRight'],
                   defaultPageSize: 10,
                 }}
-                scroll={{ x: 1500, y: 550 }}
+                scroll={{ x: 1500, y: 680 }}
                 onRow={(record) => {
                   return {
                     onClick: this.setRowId(record.id)
