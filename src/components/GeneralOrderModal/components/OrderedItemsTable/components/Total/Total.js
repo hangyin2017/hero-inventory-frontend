@@ -52,7 +52,6 @@ class Total extends Component {
       let subTotal = this.props.dataSource.reduce((prev, cur) => prev + cur.amount, 0);
       let total = subTotal + this.state.shipment + this.state.adjustment;
       this.props.getTotalPrice(total);
-      console.log(this.props.dataSource);
     } else {
       return false;
     }

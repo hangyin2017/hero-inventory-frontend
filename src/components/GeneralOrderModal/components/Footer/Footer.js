@@ -5,7 +5,7 @@ import Form from '../../../Form';
 const Footer = ({ onCancel }) => {
   return (
     <Form.Footer>
-      <Button htmlType="submit">
+      <Button type="primary" htmlType="submit">
         Save
       </Button>
       <Button onClick={onCancel}>
