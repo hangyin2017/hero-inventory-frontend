@@ -9,36 +9,27 @@ import FIELDS from './fields';
 
 const columns = getColumns(FIELDS);
 
-class Suppliers extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-    }
-
-  }
-
-  render() {
-    return (
-      <Page
-        headerProps={{
-          title: ROUTES.suppliers.title,
-          hasNewButton: true,
-          hasSearchBar: true,
-        }}
-        searchBarProps={{
-          placeholder: 'Search by supplier\'s name',
-        }}
-        tableProps={{
-          columns: columns,
-          rowKey: 'id',
-        }}
-        NewModal={NewSupplierModal}
-        DetailsModal={SupplierDetailModal}
-        api={suppliers}
-      />
-    )
-  }    
-}
+const Suppliers = () => {
+  return (
+    <Page
+      headerProps={{
+        title: ROUTES.suppliers.title,
+        hasNewButton: true,
+        hasSearchBar: true,
+      }}
+      searchBarProps={{
+        placeholder: 'Search by supplier\'s name',
+      }}
+      tableProps={{
+        columns: columns,
+        rowKey: 'id',
+      }}
+      NewModal={NewSupplierModal}
+      DetailsModal={SupplierDetailModal}
+      api={suppliers}
+      FIELDS={FIELDS}
+    />
+  );
+};
 
 export default Suppliers;

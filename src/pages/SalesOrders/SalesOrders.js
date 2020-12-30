@@ -37,6 +37,7 @@ class SalesOrders extends React.Component {
         NewModal={NewSalesOrderModal}
         DetailsModal={OrderDetailModal}
         api={salesOrders}
+        FIELDS={FIELDS}
       />
     )
   }

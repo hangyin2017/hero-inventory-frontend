@@ -24,6 +24,7 @@ const Users = () => {
       }}
       DetailsModal={UserDetailsModal}
       api={users}
+      FIELDS={FIELDS}
     />
   );
 };

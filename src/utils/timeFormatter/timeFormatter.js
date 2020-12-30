@@ -2,8 +2,8 @@ import moment from 'moment';
 
 const timeFormatter = (format) => (value) => {
   const formatTemplate = {
-    dateTime: 'DD/MM/YYYY HH:mm:ss',
-    date: 'DD/MM/YYYY',
+    dateTime: 'YYYY-MM-DD HH:mm:ss',
+    date: 'YYYY-MM-DD',
   }[format];
 
   return moment(value).format(formatTemplate);

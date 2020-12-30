@@ -36,6 +36,7 @@ class Customers extends React.Component {
         NewModal={NewCustomerModal}
         DetailsModal={CustomerDetailModal}
         api={customers}
+        FIELDS={FIELDS}
       />
     )
   }    

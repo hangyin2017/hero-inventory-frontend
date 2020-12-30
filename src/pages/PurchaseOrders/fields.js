@@ -1,7 +1,7 @@
 import timeFormatter from '../../utils/timeFormatter';
 
 export default {
-  purchaseorderId: {
+  Id: {
     label: 'Purchaseorder Id',
   },
   purchaseorderNumber: {

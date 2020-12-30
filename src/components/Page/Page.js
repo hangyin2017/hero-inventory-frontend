@@ -27,6 +27,8 @@ class Page extends React.Component {
   constructor(props) {
     super(props);
 
+    this.FIELDS = this.props.FIELDS;
+
     this.state = {
       modal: null,
       data: [],
@@ -100,6 +102,11 @@ class Page extends React.Component {
     } = this.props;
 
     const { modal, data, rowId } = this.state;
+    const formattedData = data.map((row) => Object.keys(row)
+      .reduce((obj, key) => ({
+        ...obj,
+        [key]: this.FIELDS[key]?.formatter ? this.FIELDS[key].formatter(row[key]) : row[key],
+      }), {}));
     
     return (
       <>
@@ -116,7 +123,7 @@ class Page extends React.Component {
           <Spin size="large" spinning={loading}>
             {tableProps && (
               <StyledTable
-                dataSource={data}
+                dataSource={formattedData}
                 pagination= {{
                   position: ['bottomRight'],
                   defaultPageSize: 10,

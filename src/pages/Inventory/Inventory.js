@@ -35,6 +35,7 @@ class Inventory extends React.Component {
         NewModal={NewItemModal}
         DetailsModal={ItemDetailModal}
         api={items}
+        FIELDS={FIELDS}
       />
     )
   }

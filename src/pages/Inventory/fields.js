@@ -151,6 +151,7 @@ export default {
   },
   lastModifiedTime: {
     label: 'Last Modified Time',
+    inTable: true,
     inDetails: true,
     formatter: timeFormatter('dateTime'),
   },
