@@ -4,7 +4,6 @@ import salesOrders from '../../../../apis/salesOrders';
 import styled from 'styled-components';
 
 const DetailsTableContainer = styled.div`
-  margin-top: -120px;
 `;
 
 const TotalAmountContainer = styled.div`
@@ -16,6 +15,7 @@ const TotalAmountContainer = styled.div`
 const TotalAmountText = styled.h2`
   margin-right: 30px;
 `;
+
 class ItemTable extends React.Component {
   constructor(props) {
     super(props);
