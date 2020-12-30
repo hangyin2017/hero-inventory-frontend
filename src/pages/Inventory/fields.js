@@ -11,6 +11,7 @@ export default {
   sku: {
     label: 'SKU',
     inTable: true,
+    width: 100,
     inDetails: true,
     rules: [
       {
@@ -34,6 +35,7 @@ export default {
   name: {
     label: 'Name',
     inTable: true,
+    width: 200,
     inDetails: true,
     rules: [
       {
@@ -83,6 +85,7 @@ export default {
   sellingPrice: {
     label: 'Selling Price',
     inTable: true,
+    width: 60,
     inDetails: true,
     rules: [
       {
@@ -95,6 +98,7 @@ export default {
   costPrice: {
     label: 'Cost Price',
     inTable: true,
+    width: 60,
     inDetails: true,
     rules: [
       {
@@ -154,6 +158,7 @@ export default {
     title: 'Physical Stock',
     label: 'Opening Stock',
     inTable: true,
+    width: 60,
     rules: [
       {
         required: true,
