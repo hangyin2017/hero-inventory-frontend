@@ -11,7 +11,7 @@ const Header = ({
   onConfirm,
   onCloseOrder,
   status,
-  orderAPI,
+  orderApi,
 }) => {
   return (
     <Modal.Header title="Order Details">
@@ -24,7 +24,7 @@ const Header = ({
         <Button
           disabled={loading}
           onClick={status == "confirmed" ? onCloseOrder : null}
-        >{orderAPI == salesOrders ? "Mark As Send" : "Mark as Receive"}</Button>
+        >{orderApi == salesOrders ? "Mark As Send" : "Mark as Receive"}</Button>
         : <Button
           disabled={loading}
           onClick={status == "draft" ? onConfirm : null}

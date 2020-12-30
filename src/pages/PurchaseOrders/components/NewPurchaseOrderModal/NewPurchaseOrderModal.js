@@ -15,7 +15,7 @@ class NewPurchaseOrderModal extends React.Component {
         {...props}
         onCancel={onCancel}
         fields={PurchaseorderFields}
-        orderAPI={purchaseOrders}
+        orderApi={purchaseOrders}
         refreshTableData={refreshTableData}
         refreshDetailsData={refreshDetailsData}
       />

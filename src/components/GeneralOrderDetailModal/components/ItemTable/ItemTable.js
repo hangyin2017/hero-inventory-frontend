@@ -43,16 +43,16 @@ class ItemTable extends React.Component {
   }
 
   async componentDidMount() {
-    const { id, orderAPI } = this.props;
-    if (orderAPI == salesOrders) {
-      const result = await orderAPI.get(id);
+    const { id, orderApi } = this.props;
+    if (orderApi == salesOrders) {
+      const result = await orderApi.get(id);
       const soldItems = result.data.soldItems;
       this.setState({
         dataSource: soldItems,
         totalPrice: result.data.totalPrice,
       });
     } else {
-      const result = await orderAPI.get(id);
+      const result = await orderApi.get(id);
       const purchasedItems = result.data.purchasedItems;
       this.setState({
         dataSource: purchasedItems,

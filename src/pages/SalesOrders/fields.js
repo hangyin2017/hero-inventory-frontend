@@ -13,7 +13,7 @@ export default {
     inDetails: true,
   },
   date: {
-    label: 'Date',
+    label: 'Order Date',
     //inTable: true,
     inDetails: true,
   },

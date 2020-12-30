@@ -32,37 +32,37 @@ class GeneralOrderModal extends React.Component {
 
   add = async values => {
     const { Items, totalPrice } = this.state;
-    const { onCancel, fetch, orderAPI, refreshTableData } = this.props;
+    const { onCancel, fetch, orderApi, refreshTableData } = this.props;
 
     values.createdTime = new Date();
     values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.quantity), 0);
     values.totalPrice = parseFloat(totalPrice);
-    if (orderAPI == salesOrders) {
+    if (orderApi == salesOrders) {
       values.soldItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.quantity, rate: val.rate }));
     } else {
       values.purchasedItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.quantity, rate: val.rate }));
     }
 
     try {
-      await fetch(() => orderAPI.add(values));
+      await fetch(() => orderApi.add(values));
 
       refreshTableData();
       message.success(`This Order has been added`);
       onCancel();
     } catch (err) {
-      message.error(`Something went wrong while adding this order`)
+      message.error(this.props.error);
     }
   }
 
   update = async values => {
     const { Items, totalPrice } = this.state;
-    const { onCancel, fetch, orderAPI, initialData, refreshTableData, refreshDetailsData } = this.props;
+    const { onCancel, fetch, orderApi, initialData, refreshTableData, refreshDetailsData } = this.props;
     const { id } = initialData;
 
     values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.quantity), 0);
     values.totalPrice = totalPrice;
 
-    if (orderAPI == salesOrders) {
+    if (orderApi == salesOrders) {
       values.soldItems = Items.map((val) => ({ itemName: val.itemName, itemId: val.itemId, quantity: val.quantity, rate: val.rate }));
     } else {
       values.purchasedItems = Items.map((val) => ({ itemName: val.itemName, itemId: val.itemId, quantity: val.quantity, rate: val.rate }));
@@ -71,10 +71,10 @@ class GeneralOrderModal extends React.Component {
     values = { ...initialData, ...values };
 
     try {
-      if (orderAPI == salesOrders) {
-        await fetch(() => orderAPI.update(id, values));
+      if (orderApi == salesOrders) {
+        await fetch(() => orderApi.update(id, values));
       } else {
-        await fetch(() => orderAPI.update(id, values));
+        await fetch(() => orderApi.update(id, values));
       }
 
       refreshDetailsData();
@@ -93,7 +93,7 @@ class GeneralOrderModal extends React.Component {
   }
 
   render() {
-    const { onCancel, loading, error, initialData, fetch, fields, orderAPI, ...props } = this.props;
+    const { onCancel, loading, error, initialData, fetch, fields, orderApi, ...props } = this.props;
     const { TextArea } = Input;
 
     return (
@@ -112,7 +112,7 @@ class GeneralOrderModal extends React.Component {
           onFinish={initialData ? this.update : this.add}
         >
           <Form.Section>
-            {orderAPI == salesOrders ? <Form.Item
+            {orderApi == salesOrders ? <Form.Item
               label="Customer Name"
               name="customer"
               rules={[{
@@ -168,7 +168,7 @@ class GeneralOrderModal extends React.Component {
               />
             </Form.Item>
           </Form.Section>
-          <Footer onCancel={onCancel} />
+          <Footer loading={loading} onCancel={onCancel} />
         </Form>
       </Modal>
     );

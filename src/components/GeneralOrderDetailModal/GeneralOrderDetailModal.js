@@ -61,11 +61,11 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   async refreshData() {
-    const { id, fetch, orderAPI } = this.props;
+    const { id, fetch, orderApi } = this.props;
 
     if (!!id) {
       try {
-        const data = await fetch(() => orderAPI.get(id));
+        const data = await fetch(() => orderApi.get(id));
 
         data.date = moment(data.date);
         this.setState({
@@ -83,29 +83,28 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   async delete() {
-    const { id, onCancel, refreshTableData, fetch, orderAPI } = this.props;
+    const { id, onCancel, refreshTableData, fetch, orderApi } = this.props;
 
     if (!!id) {
       try {
-        await fetch(() => orderAPI.remove(id));
+        await fetch(() => orderApi.remove(id));
 
         onCancel();
         refreshTableData();
         message.success(`Successfully deleted order ${id}`);
       } catch (err) {
-        message.error(`Something went wrong while deleting order ${id}`);
+        message.error(this.props.error);
       }
     }
   }
 
   async confirmOrder() {
-    const { id, fetch, orderAPI, onCancel } = this.props;
+    const { id, fetch, orderApi, error } = this.props;
 
     if (!!id) {
       try {
-        await fetch(() => orderAPI.confirm(id));
+        await fetch(() => orderApi.confirm(id));
 
-        onCancel();
         this.refreshData();
         message.success(`Successfully confirming order ${id}`);
       } catch (err) {
@@ -115,16 +114,13 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   async closeOrder() {
-    const { id, fetch, orderAPI, onCancel } = this.props;
+    const { id, fetch, orderApi } = this.props;
 
     if (!!id) {
       try {
-        if (orderAPI == salesOrders) {
-          await fetch(() => orderAPI.send(id));
-        } else {
-          await fetch(() => orderAPI.receive(id));
-        }
-        onCancel();
+        await fetch(() => orderApi.close(id));
+
+        // onCancel();
         this.refreshData();
         message.success(`Successfully finishing order ${id}`);
       } catch (err) {
@@ -134,7 +130,7 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   render() {
-    const { onCancel, refreshTableData, loading, error, fetch, id, fields, orderAPI, ...modalProps } = this.props;
+    const { onCancel, refreshTableData, loading, error, fetch, id, fields, orderApi, ...modalProps } = this.props;
     const { data, editing, status } = this.state;
 
     return (
@@ -146,7 +142,7 @@ class GeneralOrderDetailModal extends React.Component {
           onConfirm={this.confirmOrder}
           onCloseOrder={this.closeOrder}
           status={status}
-          orderAPI={orderAPI}
+          orderApi={orderApi}
         />}
         footer={null}
         onCancel={onCancel}
@@ -184,10 +180,10 @@ class GeneralOrderDetailModal extends React.Component {
           </Content>
           <ItemTable
             id={id}
-            orderAPI={orderAPI}
+            orderApi={orderApi}
           />
         </Spin>
-        {orderAPI == salesOrders ? (
+        {orderApi == salesOrders ? (
           <NewSalesOrderModal
             visible={editing}
             initialData={data}

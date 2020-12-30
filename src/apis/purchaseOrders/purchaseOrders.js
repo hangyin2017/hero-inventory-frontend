@@ -21,5 +21,5 @@ export default {
 
   confirm: (id) => instance.get(`${URL}/${id}/confirm`),
 
-  receive: (id) => instance.get(`${URL}/${id}/receive`),
+  close: (id) => instance.get(`${URL}/${id}/receive`),
 };

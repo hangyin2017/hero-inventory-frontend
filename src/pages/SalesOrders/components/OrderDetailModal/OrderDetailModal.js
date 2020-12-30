@@ -14,7 +14,7 @@ class OrderDetailModal extends React.Component {
         onCancel={onCancel}
         id={id}
         refreshTableData={refreshTableData}
-        orderAPI={salesOrders}
+        orderApi={salesOrders}
         fields={fields}
       />
     )
