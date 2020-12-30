@@ -3,20 +3,11 @@ import items from '../../apis/items';
 import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
 import ItemDetailModal from './components/ItemDetailModal';
+import getColumns from '../../utils/getColumns';
 import ROUTES from '../../Routes';
-import fields from './fields';
+import FIELDS from './fields';
 
-const DEFAULT_COLUMNS = Object.keys(fields).filter((key) => fields[key].inTable);
-
-const columns = DEFAULT_COLUMNS.map((key) => ({
-  title: fields[key].title || fields[key].label,
-  dataIndex: key,
-  width: fields[key].width || 100,
-  sorter: (a, b) => {
-    const [aValue, bValue] = [a, b].map((row) => (row[key] || '').toString());
-    return aValue.localeCompare(bValue);
-  },
-}));
+const columns = getColumns(FIELDS);
 
 class Inventory extends React.Component {
   constructor(props) {

@@ -1,28 +1,13 @@
-import React from "react";
+import React from 'react';
 import Page from '../../components/Page';
-import customers from '../../apis/customers';
 import NewCustomerModal from './components/NewCustomerModal';
 import CustomerDetailModal from './components/CustomerDetailModal';
-import ROUTES from "../../Routes";
-import fields from './fields';
+import customers from '../../apis/customers';
+import getColumns from '../../utils/getColumns';
+import ROUTES from '../../Routes';
+import FIELDS from './fields';
 
-const DEFAULT_COLUMNS = Object.keys(fields).filter((key) => fields[key].inTable);
-
-const columns = DEFAULT_COLUMNS.map((key) => ({
-  title: fields[key].title || fields[key].label,
-  dataIndex: key,
-  sorter: (a, b) => {
-    let stringA = a.name.toUpperCase();
-    let stringB = b.name.toUpperCase();
-    if (stringA < stringB) {
-      return -1;
-    }
-    if (stringA > stringB) {
-      return 1;
-    }
-    return 0;
-  },
-}));
+const columns = getColumns(FIELDS);
 
 class Customers extends React.Component {
   constructor(props) {
