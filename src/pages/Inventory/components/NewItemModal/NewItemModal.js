@@ -53,7 +53,7 @@ class NewItemModal extends React.Component {
   async add(values) {
     const { onCancel, refreshTableData, fetch } = this.props;
     
-    values.createdTime = new Date();
+    values.lastModifiedTime = values.createdTime = new Date();
 
     try {
       await fetch(() => items.add(values));

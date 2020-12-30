@@ -34,14 +34,14 @@ class ItemDetailModal extends React.Component {
     this.delete = this.delete.bind(this);
   }
 
-  async componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     const { id } = this.props;
     if(!!id && id != prevProps.id){
       this.refreshData();
     }
   }
 
-  async refreshData() {
+  refreshData() {
     const { id, fetch } = this.props;
     
     if (!!id) {

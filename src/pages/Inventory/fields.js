@@ -26,7 +26,6 @@ export default {
     inDetails: true,
     rules: [
       {
-        required: true,
         message: 'Please enter a UPC with numbers or letters',
         pattern: /^[A-Za-z0-9]+$/
       },
@@ -157,7 +156,7 @@ export default {
     rules: [
       {
         required: true,
-        message: 'Please enter an opening stock',
+        message: 'Please enter a number as opening stock',
         pattern: /^[0-9]+$/,
       },
     ],

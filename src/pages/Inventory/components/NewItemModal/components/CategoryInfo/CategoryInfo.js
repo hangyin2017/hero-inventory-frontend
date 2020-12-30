@@ -17,10 +17,7 @@ const CategoryInfo = ({ formRef, formItems }) => {
         <Form.Col>
           <Form.Item
             label="Manufacturer"
-            name="manufacturer" 
-            rules={[
-              { required: true, message: "Please select or add a manufacturer !" },
-            ]} 
+            name="manufacturer"
           >
             <DropdownPicker
               name="manufacturer"
@@ -33,13 +30,10 @@ const CategoryInfo = ({ formRef, formItems }) => {
         <Form.Col>
           <Form.Item
             label="Brand"
-            name="brand"  
-            rules={[
-              { required: true, message: "Please select or add a brand !" },
-            ]} 
+            name="brand"
           >
             <DropdownPicker
-              name="brand"  
+              name="brand"
               placeholder="Select a brand"
               api={brands}
               formRef={formRef}
