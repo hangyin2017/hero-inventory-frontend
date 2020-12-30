@@ -16,13 +16,6 @@ const Content = styled.div`
   overflow-y: auto;
 `;
 
-const StyledTable = styled(Table)`
-  position: relative;
-  z-index: 1;
-  margin-bottom: 40px;
-  background-color: #f0f2f5;
-`;
-
 class Page extends React.Component {
   constructor(props) {
     super(props);
@@ -122,7 +115,7 @@ class Page extends React.Component {
         <Content>
           <Spin size="large" spinning={loading}>
             {tableProps && (
-              <StyledTable
+              <Table
                 dataSource={formattedData}
                 pagination= {{
                   position: ['bottomRight'],

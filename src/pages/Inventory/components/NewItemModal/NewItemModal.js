@@ -54,6 +54,7 @@ class NewItemModal extends React.Component {
     const { onCancel, refreshTableData, fetch } = this.props;
     
     values.lastModifiedTime = values.createdTime = new Date();
+    values.lockedStock = values.arrivingQuantity = 0;
 
     try {
       await fetch(() => items.add(values));

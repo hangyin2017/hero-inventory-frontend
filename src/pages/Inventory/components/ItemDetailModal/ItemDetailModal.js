@@ -68,7 +68,7 @@ class ItemDetailModal extends React.Component {
         refreshTableData();
         message.success(`Successfully deleted item ${id}`);
       } catch(err) {
-        message.error(`Something went wrong while deleting item ${id}`);
+        message.error(this.props.error);
       }
     }
   }
