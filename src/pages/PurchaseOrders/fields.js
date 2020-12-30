@@ -1,3 +1,5 @@
+import timeFormatter from '../../utils/timeFormatter';
+
 export default {
   purchaseorderId: {
     label: 'Purchaseorder Id',
@@ -15,13 +17,14 @@ export default {
   },
   date: {
     label: 'Order Date',
-    //inTable: true,
+    inTable: true,
     inDetails: true,
+    formatter: timeFormatter('date'),
   },
   createdTime: {
     label: 'Created Time',
-    inTable: true,
     inDetails: true,
+    formatter: timeFormatter('dateTime'),
   },
   totalQuantity: {
     label: 'Total Quantity',

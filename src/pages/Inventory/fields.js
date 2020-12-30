@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Checkbox } from 'antd';
-import moment from 'moment';
+import timeFormatter from '../../utils/timeFormatter';
 
 const { TextArea } = Input;
 
@@ -113,6 +113,7 @@ export default {
       <Checkbox>Apply GST</Checkbox>
     ),
     inDetails: true,
+    formatter: (value) => value ? 'Yes' : 'No',
   },
   length: {
     label: 'Length',
@@ -142,12 +143,12 @@ export default {
   createdTime: {
     label: 'Created Time',
     inDetails: true,
-    formatter: (value) => moment(value).format('DD/MM/YYYY HH:mm:ss'),
+    formatter: timeFormatter('dateTime'),
   },
   lastModifiedTime: {
     label: 'Last Modified Time',
     inDetails: true,
-    formatter: (value) => moment(value).format('DD/MM/YYYY HH:mm:ss'),
+    formatter: timeFormatter('dateTime'),
   },
   physicalStock: {
     title: 'Physical Stock',

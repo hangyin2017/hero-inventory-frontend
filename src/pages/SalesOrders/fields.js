@@ -1,3 +1,5 @@
+import timeFormatter from '../../utils/timeFormatter';
+
 export default {
   Id: {
     label: 'Salesorder Id',
@@ -14,13 +16,14 @@ export default {
   },
   date: {
     label: 'Order Date',
-    //inTable: true,
+    inTable: true,
     inDetails: true,
+    formatter: timeFormatter('date'),
   },
   createdTime: {
     label: 'Created Time',
-    inTable: true,
     inDetails: true,
+    formatter: timeFormatter('dateTime'),
   },
   totalQuantity: {
     label: 'Total Quantity',

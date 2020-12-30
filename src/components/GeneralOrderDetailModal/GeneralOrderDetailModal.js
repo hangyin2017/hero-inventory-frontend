@@ -42,7 +42,6 @@ class GeneralOrderDetailModal extends React.Component {
     this.state = {
       data: {},
       editing: false,
-      status: '',
     }
 
     this.setEditing = this.setEditing.bind(this);
@@ -68,10 +67,7 @@ class GeneralOrderDetailModal extends React.Component {
         const data = await fetch(() => orderApi.get(id));
 
         data.date = moment(data.date);
-        this.setState({
-          data,
-          status: data.status,
-        });
+        this.setState({ data });
       } catch (err) {
         message.error(`Something went wrong while fetching details for order ${id}`);
       }
@@ -120,7 +116,6 @@ class GeneralOrderDetailModal extends React.Component {
       try {
         await fetch(() => orderApi.close(id));
 
-        // onCancel();
         this.refreshData();
         message.success(`Successfully finishing order ${id}`);
       } catch (err) {
@@ -131,7 +126,8 @@ class GeneralOrderDetailModal extends React.Component {
 
   render() {
     const { onCancel, refreshTableData, loading, error, fetch, id, fields, orderApi, ...modalProps } = this.props;
-    const { data, editing, status } = this.state;
+    const { data, editing } = this.state;
+    const { status } = data;
 
     return (
       <Modal
@@ -157,7 +153,7 @@ class GeneralOrderDetailModal extends React.Component {
                   .filter((key) => fields[key] && !!data[key])
                   .map((key) => ({
                     title: fields[key].title || fields[key].label,
-                    value: data[key]
+                    value: !!fields[key].formatter ? fields[key].formatter(data[key]) : data[key],
                   }))
                 }
               />
