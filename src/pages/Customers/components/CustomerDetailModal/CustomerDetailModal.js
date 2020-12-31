@@ -6,7 +6,7 @@ import Modal from '../../../../components/Modal';
 import NewCustomerModal from '../NewCustomerModal';
 import Header from './components/Header';
 import DescriptionList from '../../../../components/DescriptionList';
-import fields from '../../fields';
+import FIELDS from '../../fields';
 import withFetch from '../../../../components/withFetch';
 
 const Content = styled(Row)`
@@ -91,10 +91,10 @@ class CustomerDetailModal extends React.Component {
             <Meta>
               <DescriptionList
                 data={Object.keys(data)
-                  .filter((key) =>  fields[key] && !!data[key])
+                  .filter((key) =>  FIELDS[key] && !!data[key])
                   .map((key) => ({
-                    title: fields[key].title || fields[key].label,
-                    value: data[key]
+                    title: FIELDS[key].title || FIELDS[key].label,
+                    value: !!FIELDS[key].formatter ? FIELDS[key].formatter(data[key]) : data[key],
                   }))
                 }
               />

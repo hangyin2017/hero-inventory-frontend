@@ -1,5 +1,6 @@
 import React from "react";
 import { Input, Select } from "antd";
+import timeFormatter from '../../utils/timeFormatter';
 
 const { TextArea } = Input;
 
@@ -26,7 +27,7 @@ export default {
   },
   website: {
     label: "Website",
-    //inTable: true,
+    inTable: true,
     inDetails: true,
     rules: [
       {
@@ -100,10 +101,12 @@ export default {
   createdTime: {
     label: "Created Time",
     inDetails: true,
+    formatter: timeFormatter.dateTime,
   },
   lastModifiedTime: {
     label: "Last Modified Time",
     inDetails: true,
+    formatter: timeFormatter.dateTime,
   },
   comments: {
     label: "Comments",
@@ -113,7 +116,7 @@ export default {
         showCount
         maxLength={255}
         allowClear
-        utoSize={{ minRows: 3 }}
+        autoSize={{ minRows: 3 }}
       />
     ),
   },

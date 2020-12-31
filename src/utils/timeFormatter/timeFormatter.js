@@ -1,12 +1,8 @@
 import moment from 'moment';
 
-const timeFormatter = (format) => (value) => {
-  const formatTemplate = {
-    dateTime: 'YYYY-MM-DD HH:mm:ss',
-    date: 'YYYY-MM-DD',
-  }[format];
-
-  return moment(value).format(formatTemplate);
+const timeFormatter = {
+  dateTime: (value) => moment(value).format('YYYY-MM-DD HH:mm:ss'),
+  date: (value) => moment(value).format('YYYY-MM-DD'),
 };
 
 export default timeFormatter;

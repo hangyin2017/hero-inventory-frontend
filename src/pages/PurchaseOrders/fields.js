@@ -19,12 +19,12 @@ export default {
     label: 'Order Date',
     inTable: true,
     inDetails: true,
-    formatter: timeFormatter('date'),
+    formatter: timeFormatter.date,
   },
   createdTime: {
     label: 'Created Time',
     inDetails: true,
-    formatter: timeFormatter('dateTime'),
+    formatter: timeFormatter.dateTime,
   },
   totalQuantity: {
     label: 'Total Quantity',

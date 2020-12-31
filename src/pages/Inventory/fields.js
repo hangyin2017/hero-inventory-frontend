@@ -147,13 +147,13 @@ export default {
   createdTime: {
     label: 'Created Time',
     inDetails: true,
-    formatter: timeFormatter('dateTime'),
+    formatter: timeFormatter.dateTime,
   },
   lastModifiedTime: {
     label: 'Last Modified Time',
     inTable: true,
     inDetails: true,
-    formatter: timeFormatter('dateTime'),
+    formatter: timeFormatter.dateTime,
   },
   physicalStock: {
     title: 'Physical Stock',
