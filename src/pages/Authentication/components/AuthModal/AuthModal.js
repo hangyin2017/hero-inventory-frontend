@@ -2,7 +2,7 @@ import React from 'react';
 import { Spin, Input, Button } from 'antd';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import logo from './assets/logo.png';
+import logo from '../../../../assets/img/logo.png';
 import { color, breakpoints, fontSizes } from '../../../../styles';
 
 const { FONT_M, FONT_L } = fontSizes;
@@ -26,8 +26,8 @@ const Box = styled.div`
 `;
 
 const Logo = styled.div`
-  height: 30px;
-  margin-bottom: 20px;
+  height: 60px;
+  margin-bottom: 10px;
   background: url(${logo}) no-repeat transparent;
   background-size: auto 100%;
 `;
@@ -58,7 +58,6 @@ const AuthInput = styled(Input)`
   padding: 12px;
   border-radius: ${BORDER_RADIUS};
 
-
   ${({ invalid }) => invalid && css`
     border-color: ${color.dangerous};
 
@@ -69,17 +68,6 @@ const AuthInput = styled(Input)`
   `}
 
 `;
-
-  /* border-color: ${({ invalid }) => invalid && '#e0446d'}; */
-  /* ${({ invalid }) => {
-    if(invalid) {
-      const style = css`
-        border-color: '#e0446d';
-        // &:hovoer
-      `;
-      console.log(style);
-      return style;
-    } */
 
 const AuthButton = styled(Button).attrs(({ disabled }) => ({
   type: 'primary',

@@ -2,7 +2,7 @@ import { Anchor } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Logo from "../../assets/img/Logo.png";
+import logo from "../../assets/img/logo.png";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
@@ -71,8 +71,8 @@ class Header extends React.Component {
       <Wrapper>
         <StyledLogo>
           <Anchor>
-            <a href="http://localhost:3000/dashboard">
-              <img src={Logo} alt="Logo" />
+            <a href={process.env.REACT_APP__API_HOST}>
+              <img src={logo} alt="logo" />
             </a>
           </Anchor>
         </StyledLogo>
