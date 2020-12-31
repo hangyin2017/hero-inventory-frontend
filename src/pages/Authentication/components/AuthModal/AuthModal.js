@@ -26,8 +26,8 @@ const Box = styled.div`
 `;
 
 const Logo = styled.div`
-  height: 60px;
-  margin-bottom: 10px;
+  height: 50px;
+  margin-bottom: 20px;
   background: url(${logo}) no-repeat transparent;
   background-size: auto 100%;
 `;

@@ -15,10 +15,6 @@ const Wrapper = styled.div`
 const StyledLogo = styled.div`
   flex: 0 0 200px;
   border-right: 1px solid #eee;
-
-  & img {
-    height: 55px;
-  }
 `;
 
 const Main = styled.div`

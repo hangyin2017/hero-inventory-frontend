@@ -36,7 +36,11 @@ const Profile = styled.div`
   `}
 `;
 
-const AvatarWrapper = styled.div`
+const HeaderAvatar = styled.div`
+  cursor: pointer;
+`;
+
+const ProfileAvatar = styled.div`
   padding: 20px 20px;
   background-color: #f3f8fe;
 `;
@@ -70,17 +74,17 @@ const User = ({ authentication }) => {
   const { username = 'user', id = 'unknown', email = 'email' } = user;
   return (
     <Wrapper>
-      <div onClick={(e) => {
+      <HeaderAvatar onClick={(e) => {
         e.stopPropagation();
         setShow(!showProfile);
       }}>
         <Avatar style={{ backgroundColor: "lightblue" }} icon={<UserOutlined />} />
-      </div>
+      </HeaderAvatar>
       <Profile visible={showProfile}>
         {showProfile && <Overlay onClick={() => setShow(false)} />}
-        <AvatarWrapper>
+        <ProfileAvatar>
           <Avatar size={64} icon={<UserOutlined />} />
-        </AvatarWrapper>
+        </ProfileAvatar>
         <UserInfo>
           <h4>{username}</h4>
           <div>User ID : {id}</div>
