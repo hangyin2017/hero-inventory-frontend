@@ -3,8 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 const START_COLUMN = 0;
-const TARGET_DIRECTORY = '../../docs/resources/';
-const FILE_NAME = 'items3';
+const TARGET_DIRECTORY = '../../../docs/resources/';
+const FILE_NAME = 'items1';
 
 function rowToSqlQuery(row, startColumn) {
   let query = '(';
