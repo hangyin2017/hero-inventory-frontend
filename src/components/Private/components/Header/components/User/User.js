@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Avatar } from 'antd';
 import withAuthentication from '../../../../../withAuthentication';
 import compose from '../../../../../../utils/compose';
 import { UserOutlined } from '@ant-design/icons';
 import { color } from '../../../../../../styles';
 
-const Dropdown = styled.div`
+const Wrapper = styled.div`
+
+`;
+
+const Profile = styled.div`
   width: 360px;
   position: absolute;
   z-index: 3;
   top: 54px;
-  right: 0;
   background-color: #fff;
   box-shadow: -2px 5px 10px 1px rgba(0,0,0,.2);
+  transition: all .5s ease-in-out;
+
+  ${({ visible }) => visible ? css`
+    right: 0;
+  ` : css`
+    right: -400px;
+  `}
 `;
 
 const AvatarWrapper = styled.div`
@@ -36,38 +46,37 @@ const SignOutWrapper = styled.div`
 `;
 
 const NakedButton = styled.button`
-  border: none;
   padding: 10px;
   background: none;
   border: none;
   outline: none;
   color: ${color.dangerous};
+  cursor: pointer;
 `;
 
 const User = ({ authentication }) => {
   const [showProfile, setShow] = useState(false);
-  const { username = 'user', id = 'unknown', email = 'email' } = authentication.user;
+  const { user, signOut } = authentication;
+  const { username = 'user', id = 'unknown', email = 'email' } = user;
   return (
-    <div>
+    <Wrapper>
       <div onClick={() => setShow(!showProfile)} >
         <Avatar style={{ backgroundColor: "lightblue" }} icon={<UserOutlined />} />
       </div>
-      {showProfile ? (
-        <Dropdown>
-          <AvatarWrapper>
-            <Avatar size={64} icon={<UserOutlined />} />
-          </AvatarWrapper>
-          <UserInfo>
-            <h4>{username}</h4>
-            <div>User ID : {id}</div>
-            <div>{email}</div>
-          </UserInfo>
-          <SignOutWrapper>
-            <NakedButton>Sign out</NakedButton>
-          </SignOutWrapper>
-        </Dropdown>
-      ) : null}
-    </div>
+      <Profile visible={showProfile}>
+        <AvatarWrapper>
+          <Avatar size={64} icon={<UserOutlined />} />
+        </AvatarWrapper>
+        <UserInfo>
+          <h4>{username}</h4>
+          <div>User ID : {id}</div>
+          <div>{email}</div>
+        </UserInfo>
+        <SignOutWrapper>
+          <NakedButton onClick={signOut}>Sign Out</NakedButton>
+        </SignOutWrapper>
+      </Profile>
+    </Wrapper>
   );
 };
 

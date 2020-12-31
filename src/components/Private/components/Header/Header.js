@@ -23,6 +23,7 @@ const StyledLogo = styled.div`
 
 const Main = styled.div`
   display: flex;
+  position: relative;
   justify-content: space-between;
   flex: 1 1;
   padding: 0 15px;
