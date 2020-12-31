@@ -4,19 +4,44 @@ import { Avatar } from 'antd';
 import withAuthentication from '../../../../../withAuthentication';
 import compose from '../../../../../../utils/compose';
 import { UserOutlined } from '@ant-design/icons';
+import { color } from '../../../../../../styles';
 
 const Dropdown = styled.div`
   width: 360px;
-  height: 240px;
   position: absolute;
   z-index: 3;
+  top: 54px;
   right: 0;
-  padding: 10px 20px;
-  background-color: #eefaff;
+  background-color: #fff;
+  box-shadow: -2px 5px 10px 1px rgba(0,0,0,.2);
 `;
 
-const Logout = styled.div`
-  color: red;
+const AvatarWrapper = styled.div`
+  padding: 20px 20px;
+  background-color: #f3f8fe;
+`;
+
+const UserInfo = styled.div`
+  padding: 10px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: center;
+
+  & > div ~ div {
+    margin-top: 5px;
+  }
+`;
+
+const SignOutWrapper = styled.div`
+  padding: 0 10px;
+`;
+
+const NakedButton = styled.button`
+  border: none;
+  padding: 10px;
+  background: none;
+  border: none;
+  outline: none;
+  color: ${color.dangerous};
 `;
 
 const User = ({ authentication }) => {
@@ -29,11 +54,17 @@ const User = ({ authentication }) => {
       </div>
       {showProfile ? (
         <Dropdown>
-          <Avatar size={64} icon={<UserOutlined />} />
-          <div>{username}</div>
-          <div>User ID : {id}</div>
-          <div>{email}</div>
-          <Logout onClick>Log out</Logout>
+          <AvatarWrapper>
+            <Avatar size={64} icon={<UserOutlined />} />
+          </AvatarWrapper>
+          <UserInfo>
+            <h4>{username}</h4>
+            <div>User ID : {id}</div>
+            <div>{email}</div>
+          </UserInfo>
+          <SignOutWrapper>
+            <NakedButton>Sign out</NakedButton>
+          </SignOutWrapper>
         </Dropdown>
       ) : null}
     </div>
