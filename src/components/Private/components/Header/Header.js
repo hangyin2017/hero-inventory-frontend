@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Anchor, Avatar } from 'antd';
+import User from './components/User';
 import logo from '../../../../assets/img/logo.png';
-import { UserOutlined } from '@ant-design/icons';
 import { HOMEPAGE } from '../../../../Routes';
 
 const Wrapper = styled.div`
@@ -38,20 +37,6 @@ const Right = styled.div`
   align-items: center;
 `;
 
-const Dropdown = styled.div`
-  width: 360px;
-  height: 240px;
-  position: absolute;
-  z-index: 3;
-  right: 0;
-  padding: 10px 20px;
-  background-color: #eefaff;
-`;
-
-const Logout = styled.div`
-  color: red;
-`;
-
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -62,9 +47,6 @@ class Header extends React.Component {
   }
 
   render() {
-    const { authentication } = this.props;
-    const { show } = this.state;
-
     return (
       <Wrapper>
         <StyledLogo>
@@ -75,29 +57,7 @@ class Header extends React.Component {
         <Main>
           <Left></Left>
           <Right>
-            {/* <Authentication /> */}
-            <div>
-              <div
-                onClick={() => {
-                  this.setState({ show: !show });
-                }}
-              >
-                <Avatar style={{ backgroundColor: "lightblue" }} icon={<UserOutlined />} />
-              </div>
-              {this.state.show ? (
-                <Dropdown>
-                  <h3>
-                    <Avatar size={64} icon={<UserOutlined />} />
-                  </h3>
-                  <div class="">zixiangli0516</div>
-                  <div class="">User ID : 123456</div>
-                  <p>
-                    <small class="">zixiangli0516@gmail.com</small>
-                  </p>
-                  <Logout onClick>Log out</Logout>
-                </Dropdown>
-              ) : null}
-            </div>
+            <User />
           </Right>
         </Main>
       </Wrapper>
