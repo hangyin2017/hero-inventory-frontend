@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import auth from '../../../../apis/auth';
 import Container from '../Container';
 import GeneralAuthModal from '../GeneralAuthModal';
-import withAuthentication from '../../../../components/withAuthentication';
-import compose from '../../../../utils/compose';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
 import { HOMEPAGE } from '../../../../Routes';
@@ -23,17 +21,9 @@ const ForgetPassword = styled.div`
   }
 `;
 
-class SignInModal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { authentication } = this.props;
-    const { user, setUser } = authentication;
-
-    return (
-      <Container showRight={true}>
+const SignInModal = () => {
+  return (
+    <Container showRight={true}>
       <GeneralAuthModal
         title="Sign In"
         FIELDS={FIELDS}
@@ -51,13 +41,8 @@ class SignInModal extends React.Component {
           <Link to={ROUTES.forgetPassword.path}>Forgot Password?</Link>
         </ForgetPassword>
       </GeneralAuthModal>
-      </Container>
-    ); 
-  }
-}
+    </Container>
+  ); 
+};
 
-const EnhancedSignInModal = compose(
-  withAuthentication,
-)(SignInModal);
-
-export default EnhancedSignInModal;
+export default SignInModal;

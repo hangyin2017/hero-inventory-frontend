@@ -27,7 +27,7 @@ const withFetch = (initialLoading = false) => (Component) => {
         .then((res) => res?.data)
         .catch((err) => {
           const errorMessage = {
-            401: 'Email and password does not match, please try again',
+            401: 'Username and password does not match, please try again',
           }[err.response?.status] || err.response?.data?.message;
           this.setError(errorMessage || 'Unknown network error');
           throw err;

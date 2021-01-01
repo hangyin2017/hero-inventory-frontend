@@ -11,42 +11,35 @@ import ROUTES from '../../Routes';
 
 const REDIRECT_AFTER_SECONDS = 9;
 
-class ResetPasswordModal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const ResetPasswordModal = ({ history }) => {
+  const request = history.location.search;
+  const token = request.replace('?token=', '');
 
-  render() {
-    const { history } = this.props;
-    const request = history.location.search;
-    const token = request.replace('?token=', '');
-
-    return (
-      <Container>
-        <GeneralAuthModal
-          title="Reset Password"
-          FIELDS={FIELDS}
-          api={auth.resetPassword}
-          token={token}
-          submitButtonText="Reset Password"
-          AfterSubmission={
-            <Result
-              status="success"
-              title="Successfully Reset Password"
-              subTitle={<RedirectCountdown seconds={REDIRECT_AFTER_SECONDS} to={ROUTES.signIn.path} />}
-              extra={
-                <Button type="primary">
-                  <Link to={ROUTES.signIn.path}>
-                    Go To Sign In
-                  </Link>
-                </Button>
-              }
-            />
-          }
-        />
-      </Container>
-    ); 
-  }
+  return (
+    <Container>
+      <GeneralAuthModal
+        title="Reset Password"
+        FIELDS={FIELDS}
+        api={auth.resetPassword}
+        token={token}
+        submitButtonText="Reset Password"
+        AfterSubmission={
+          <Result
+            status="success"
+            title="Successfully Reset Password"
+            subTitle={<RedirectCountdown seconds={REDIRECT_AFTER_SECONDS} to={ROUTES.signIn.path} />}
+            extra={
+              <Button type="primary">
+                <Link to={ROUTES.signIn.path}>
+                  Go To Sign In
+                </Link>
+              </Button>
+            }
+          />
+        }
+      />
+    </Container>
+  ); 
 }
 
 const EnhancedResetPasswordModal = compose(

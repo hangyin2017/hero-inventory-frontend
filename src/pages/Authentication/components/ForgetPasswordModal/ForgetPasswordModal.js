@@ -7,34 +7,28 @@ import GeneralAuthModal from '../GeneralAuthModal';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
 
-class ForgetPasswordModal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <Container showRight={true}>
-        <GeneralAuthModal
-          title="Forget Password"
-          FIELDS={FIELDS}
-          api={auth.forgetPassword}
-          submitButtonText="Send Verification Email"
-          AfterSubmission={<Result
-            status="success"
-            title="Reset Password Link Has Been Sent"
-            subTitle="Please check your email inbox and click on the verification link"
-          />}
-          footerNode={(
-            <>
-              <span> Not a member yet?&nbsp;</span>
-              <Link to={ROUTES.signUp.path}>Sign Up Now</Link>
-            </>
-          )}        
-        />
-      </Container>
-    ); 
-  }
+const ForgetPasswordModal = () => {
+  return (
+    <Container showRight={true}>
+      <GeneralAuthModal
+        title="Forget Password"
+        FIELDS={FIELDS}
+        api={auth.forgetPassword}
+        submitButtonText="Send Verification Email"
+        AfterSubmission={<Result
+          status="success"
+          title="Reset Password Link Has Been Sent"
+          subTitle="Please check your email inbox and click on the verification link"
+        />}
+        footerNode={(
+          <>
+            <span> Not a member yet?&nbsp;</span>
+            <Link to={ROUTES.signUp.path}>Sign Up Now</Link>
+          </>
+        )}        
+      />
+    </Container>
+  ); 
 }
 
 export default ForgetPasswordModal;

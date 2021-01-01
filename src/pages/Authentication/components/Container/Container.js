@@ -16,7 +16,9 @@ const Box = styled.div`
     margin: 0 auto;
     box-shadow: 0px 2px 30px #ccc6;
   }
+`;
 
+const WideBox = styled(Box)`
   @media (min-width: ${breakpoints.lg}) {
     width: 890px;
   }
@@ -47,18 +49,18 @@ const Container = ({
   return (
     <>
       {showRight ? (
-        <Box>
+        <WideBox>
           <Main>
             {children}
           </Main>
           <Right>
             <Shield />
           </Right>
-        </Box>
+        </WideBox>
       ) : (
-        <>
+        <Box>
           {children}
-        </>
+        </Box>
       )}
     </>
   );

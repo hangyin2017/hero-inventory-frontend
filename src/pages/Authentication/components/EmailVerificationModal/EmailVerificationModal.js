@@ -2,6 +2,7 @@ import React from 'react';
 import { Result, Button } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import AuthModal from '../AuthModal';
+import Container from '../Container';
 import RedirectCountdown from '../../../../components/RedirectCountdown';
 import withFetch from '../../../../components/withFetch';
 import compose from '../../../../utils/compose';
@@ -47,31 +48,33 @@ class EmailVerificationModal extends React.Component {
     const { Body, StyledSpin } = AuthModal;
 
     return (
-      <AuthModal title="Email Verification">
-        <StyledSpin size="large" spinning={loading}>
-          <Body>
-            {{
-              fail: (<Result
-                status="error"
-                title="Email Verification Failed"
-                subTitle={error}
-              />),
-              success: (<Result
-                status="success"
-                title="Successfully verified email"
-                subTitle={<RedirectCountdown seconds={REDIRECT_AFTER_SECONDS} to={ROUTES.signIn.path} />}
-                extra={
-                  <Button type="primary">
-                    <Link to={ROUTES.signIn.path}>
-                      Go To Sign In
-                    </Link>
-                  </Button>
-                }
-              />),
-            }[result]}
-          </Body>
-        </StyledSpin>
-      </AuthModal>
+      <Container>
+        <AuthModal title="Email Verification">
+          <StyledSpin size="large" spinning={loading}>
+            <Body>
+              {{
+                fail: (<Result
+                  status="error"
+                  title="Email Verification Failed"
+                  subTitle={error}
+                />),
+                success: (<Result
+                  status="success"
+                  title="Successfully verified email"
+                  subTitle={<RedirectCountdown seconds={REDIRECT_AFTER_SECONDS} to={ROUTES.signIn.path} />}
+                  extra={
+                    <Button type="primary">
+                      <Link to={ROUTES.signIn.path}>
+                        Go To Sign In
+                      </Link>
+                    </Button>
+                  }
+                />),
+              }[result]}
+            </Body>
+          </StyledSpin>
+        </AuthModal>
+      </Container>
     ); 
   }
 }

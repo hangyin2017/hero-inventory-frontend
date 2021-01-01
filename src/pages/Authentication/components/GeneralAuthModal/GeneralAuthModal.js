@@ -52,11 +52,8 @@ class GeneralAuthModal extends React.Component {
       children,
       AfterSubmission,
       footerNode,
-      showRight,
       data,
-      formDirty,
       valid,
-      getValidationMessage,
       setData,
       submit,
       loading,
@@ -66,70 +63,49 @@ class GeneralAuthModal extends React.Component {
     const { Body, StyledSpin, AuthInput, AuthButton, Footer } = AuthModal;
 
     const BeforeSubmission = (
-      <>
-        <StyledSpin spinning={loading}>
-          <Body>
-            <form>
-              {error && (
-                <FormItem>
-                  <Alert>{error}</Alert>
-                </FormItem>
-              )} 
-              {FIELDS.map((f) => {
-                const { key, type, label } = f;
-                const { errorMessage } = data[key];
+      <StyledSpin spinning={loading}>
+        <Body>
+          <form>
+            {error && (
+              <FormItem>
+                <Alert>{error}</Alert>
+              </FormItem>
+            )} 
+            {FIELDS.map((f) => {
+              const { key, type, label } = f;
+              const { errorMessage } = data[key];
 
-                return (
-                  <FormItem key={key} htmlFor={key} errorMessage={errorMessage}>
-                    <AuthInput
-                      id={key}
-                      type={type}
-                      placeholder={label}
-                      invalid={!!errorMessage}
-                      onChange={setData(key)}
-                    />
-                  </FormItem>
-                );
-              })}
-              <AuthButton
-                onClick={submit(this.handleSubmit)}
-                disabled={!valid}
-              >
-                {submitButtonText}
-              </AuthButton>
-              {children}
-            </form>
-          </Body>
-        </StyledSpin>
+              return (
+                <FormItem key={key} htmlFor={key} errorMessage={errorMessage}>
+                  <AuthInput
+                    id={key}
+                    type={type}
+                    placeholder={label}
+                    invalid={!!errorMessage}
+                    onChange={setData(key)}
+                  />
+                </FormItem>
+              );
+            })}
+            <AuthButton
+              onClick={submit(this.handleSubmit)}
+              disabled={!valid}
+            >
+              {submitButtonText}
+            </AuthButton>
+            {children}
+          </form>
+        </Body>
         {footerNode ? (
           <Footer>{footerNode}</Footer>
         ) : null}
-      </>
-    );
-
-    const MainAuthModal = (
-      <AuthModal title={title}>
-        {!!result ? AfterSubmission : BeforeSubmission}
-      </AuthModal>
+      </StyledSpin>
     );
 
     return (
-      <>
-        {showRight ? (
-          <Box>
-            <Main>
-              {MainAuthModal}
-            </Main>
-            <Right>
-              <Shield />
-            </Right>
-          </Box>
-        ) : (
-          <>
-            {MainAuthModal}
-          </>
-        )}
-      </>
+      <AuthModal title={title}>
+        {!!result ? AfterSubmission : BeforeSubmission}
+      </AuthModal>
     );
   }
 }
