@@ -132,14 +132,14 @@ class Page extends React.Component {
             )}
             {NewModal && (
               <NewModal
-                visible={modal == 'new'}
+                visible={modal === 'new'}
                 onCancel={this.hideModal}
                 refreshTableData={this.refreshData}
               />
             )}
             {DetailsModal && (
               <DetailsModal
-                visible={modal == 'details'}
+                visible={modal === 'details'}
                 onCancel={this.hideModal}
                 id={rowId}
                 refreshTableData={this.refreshData}
@@ -148,7 +148,6 @@ class Page extends React.Component {
             {React.Children.map(children, (child) => (
               React.cloneElement(child, { loading, data })
             ))}
-
           </Spin>
         </Content>
         <Footer />

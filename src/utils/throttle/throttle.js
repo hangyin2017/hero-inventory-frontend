@@ -4,6 +4,7 @@ const throttle = (func, delay) => {
   return (...args) => {
     const context = this;
     let now = Date.now();
+    
     if(now - prev >= delay) {
       func.apply(context, args);
       prev = now;  
