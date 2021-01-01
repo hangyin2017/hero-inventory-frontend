@@ -3,9 +3,8 @@ import { Input } from 'antd';
 import styled from 'styled-components';
 import './total.less';
 
-
 const ShippingWrapper = styled.div`
-  margin-top: 20px;
+  margin-top: 15px;
 `;
 
 const AdjustmentWrapper = styled.div`
@@ -16,7 +15,7 @@ const TotalWrapper = styled.h2`
 `;
 
 const TextWrapper = styled.span`
-  font-size: 15px;
+  font-size: 14px;
 `;
 class Total extends Component {
   constructor(props) {

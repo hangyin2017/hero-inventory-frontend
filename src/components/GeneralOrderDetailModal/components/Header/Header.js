@@ -16,21 +16,38 @@ const Header = ({
   return (
     <Modal.Header title="Order Details">
       <Button
-        disabled={loading}
+        disabled={loading || status !== "draft"}
         icon={<EditOutlined />}
-        onClick={status == "closed" ? null : onEdit}
+        onClick={onEdit}
       />
-      {status == "confirmed" ?
+      {{
+        draft: (
+          <Button disabled={loading} onClick={onConfirm}>
+            Mark As Confirmed
+          </Button>
+        ),
+        confirmed: (
+          <Button disabled={loading} onClick={onCloseOrder}>
+            {orderApi == salesOrders ? 'Mark As Sent' : 'Mark as Received'}
+          </Button>
+        ),
+        closed: (
+          <Button disabled>
+            Order Closed
+          </Button>
+        ),
+      }[status]}
+      {/* {status == 'confirmed' ?
         <Button
           disabled={loading}
           onClick={status == "confirmed" ? onCloseOrder : null}
-        >{orderApi == salesOrders ? "Mark As Send" : "Mark as Receive"}</Button>
+        >{orderApi == salesOrders ? "Mark As Sent" : "Mark as Received"}</Button>
         : <Button
           disabled={loading}
           onClick={status == "draft" ? onConfirm : null}
-        > {status == "closed" ? 'Order Closed' : 'Mark As Confirmed'}</Button>}
+        > {status == "closed" ? 'Order Closed' : 'Mark As Confirmed'}</Button>} */}
       <Dropdown
-        disabled={loading}
+        disabled={loading || status !== "draft"}
         trigger={['click']}
         overlay={
           <Menu>

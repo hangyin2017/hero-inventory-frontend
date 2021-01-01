@@ -13,7 +13,7 @@ import moment from 'moment';
 
 
 const Content = styled(Row)`
-  min-height: 60vh;
+  min-height: 50vh;
 `;
 
 const Meta = styled(Col).attrs({ span: 24, md: 18 })`
@@ -171,6 +171,7 @@ class GeneralOrderDetailModal extends React.Component {
                   confirmed: 50,
                   closed: 100,
                 }[status]}
+                format={() => status}
               />
             </OrderProgress>
           </Content>

@@ -17,6 +17,7 @@ instance.interceptors.request.use((request) => {
 
 instance.interceptors.response.use((response) => {
   const token = response.headers['authorization'];
+  
   if(token){
     localStorage.setItem(localStorageToken, token);
   };
