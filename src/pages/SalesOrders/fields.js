@@ -35,6 +35,16 @@ export default {
     inTable: true,
     inDetails: true,
   },
+  shipmentPrice: {
+    label: 'Shipment Price ($)',
+    inTable: true,
+    inDetails: true,
+  },
+  adjustmentPrice: {
+    label: 'Adjustment Price ($)',
+    inTable: true,
+    inDetails: true,
+  },
   customer: {
     label: 'Customer',
     inTable: true,

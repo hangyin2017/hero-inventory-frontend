@@ -95,14 +95,23 @@ class GeneralOrderDetailModal extends React.Component {
   }
 
   async confirmOrder() {
-    const { id, fetch, orderApi, error } = this.props;
+    const { id, fetch, orderApi } = this.props;
 
     if (!!id) {
       try {
-        await fetch(() => orderApi.confirm(id));
-
-        this.refreshData();
-        message.success(`Successfully confirming order ${id}`);
+        if (orderApi == salesOrders) {
+          const data = await fetch(() => orderApi.confirm(id));
+          if (data.code != 200) {
+            message.error(data.msg);
+          } else {
+            this.refreshData();
+            message.success(`Successfully confirming order ${id}`);
+          }
+        } else {
+          await fetch(() => orderApi.confirm(id));
+          this.refreshData();
+          message.success(`Successfully confirming order ${id}`);
+        }
       } catch (err) {
         message.error(`Something went wrong while confirming order ${id}`);
       }
@@ -177,6 +186,7 @@ class GeneralOrderDetailModal extends React.Component {
           <ItemTable
             id={id}
             orderApi={orderApi}
+            data={data}
           />
         </Spin>
         {orderApi == salesOrders ? (
@@ -188,14 +198,14 @@ class GeneralOrderDetailModal extends React.Component {
             refreshDetailsData={this.refreshData}
           />
         ) : (
-          <NewPurchaseOrderModal
-            visible={editing}
-            initialData={data}
-            onCancel={this.setEditing(false)}
-            refreshTableData={refreshTableData}
-            refreshDetailsData={this.refreshData}
-          />
-        )}
+            <NewPurchaseOrderModal
+              visible={editing}
+              initialData={data}
+              onCancel={this.setEditing(false)}
+              refreshTableData={refreshTableData}
+              refreshDetailsData={this.refreshData}
+            />
+          )}
       </Modal>
     )
   }

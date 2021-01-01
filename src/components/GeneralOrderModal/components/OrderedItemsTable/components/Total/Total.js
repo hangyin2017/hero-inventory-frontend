@@ -48,12 +48,14 @@ class Total extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.dataSource != this.props.dataSource || prevState.shipment != this.state.shipment || prevState.adjustment != this.state.adjustment) {
-      let subTotal = this.props.dataSource.reduce((prev, cur) => prev + cur.amount, 0);
-      let total = subTotal + this.state.shipment + this.state.adjustment;
-      this.props.getTotalPrice(total);
+    const { dataSource, getPrice } = this.props;
+    const { shipment, adjustment } = this.state;
+    if (prevProps.dataSource != dataSource || prevState.shipment != shipment || prevState.adjustment != adjustment) {
+      let subTotal = dataSource.reduce((prev, cur) => prev + cur.amount, 0);
+      let total = subTotal + shipment + adjustment;
+      getPrice(total, shipment, adjustment);
     } else {
-      return false;
+      return false; 
     }
   }
 
