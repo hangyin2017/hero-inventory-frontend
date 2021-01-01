@@ -76,8 +76,8 @@ const withForm = (FIELDS) => (Component) => {
     
     async validateField(field, value){
       const { data } = this.state;
-      let errorMessage = null;
-
+      this.updateField(field, { errorMessage: null });
+      
       for(let v of field.validations) {
         const valid = await v.validator(value, data);
         
@@ -87,12 +87,11 @@ const withForm = (FIELDS) => (Component) => {
         }
 
         if(!valid) {
-          errorMessage = v.message;
+          this.updateField(field, { errorMessage: v.message });
           break;
         }
       }
 
-      this.updateField(field, { errorMessage });
     }
 
     async validateForm() {
