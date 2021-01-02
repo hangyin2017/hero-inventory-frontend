@@ -88,9 +88,6 @@ class Page extends React.Component {
       tableProps,
       NewModal,
       DetailsModal,
-      // modalVisible,
-      // showModal,
-      // hideModal,
       loading,
     } = this.props;
 

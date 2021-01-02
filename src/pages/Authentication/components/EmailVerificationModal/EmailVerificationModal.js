@@ -16,7 +16,7 @@ class EmailVerificationModal extends React.Component {
     super(props);
     
     this.state = {
-      result: null
+      result: null,
     };
   }
 
