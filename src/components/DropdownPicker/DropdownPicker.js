@@ -10,6 +10,7 @@ const FloatingAlert = styled(Alert)`
   z-index: 3;
   width: 100%;
 `;
+
 class DropdownPicker extends React.Component {
   constructor(props) {
     super(props);

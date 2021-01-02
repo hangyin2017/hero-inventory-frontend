@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form as AntdForm, Col as AntdCol } from 'antd';
-import SimpleFooter from './components/SimpleFooter';
 import styled from 'styled-components';
 
 const Section = styled.section`
@@ -46,6 +45,5 @@ Form.Section = Section;
 Form.Col = Col;
 Form.Item = Item;
 Form.Footer = Footer;
-// Form.SimpleFooter = SimpleFooter;
 
 export default Form;
