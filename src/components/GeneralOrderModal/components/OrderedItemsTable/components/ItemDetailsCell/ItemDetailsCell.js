@@ -40,7 +40,7 @@ class ItemDetailsCell extends React.Component {
             onBlur={myblur}
             showArrow={false}
             value={children[1]}
-            // getPopupContainer={triggerNode => triggerNode.parentNode}
+            getPopupContainer={triggerNode => triggerNode.parentNode}
             filterOption={(input, option) => option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {itemData.map((item, index) => (

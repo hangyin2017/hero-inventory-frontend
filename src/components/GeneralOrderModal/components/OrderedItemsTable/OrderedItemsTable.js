@@ -76,11 +76,11 @@ class OrderedItemsTable extends React.Component {
   }
 
   initialize() {
-    const { initialData } = this.props;
-    if (initialData) {
-      const dataSource = initialData.map(val => ({
+    const { initialItemsData } = this.props;
+    if (initialItemsData) {
+      const dataSource = initialItemsData.map(val => ({
         ...val,
-        key: val.soldItemId,
+        key: val.soldItemId || val.purchasedItemId,
         //discount: 0,
         //flag: '%',
         amount: val.quantity * val.rate,
@@ -112,7 +112,7 @@ class OrderedItemsTable extends React.Component {
 
   render() {
     const { dataSource } = this.state;
-    const { getTotalPrice } = this.props;
+    const { getPrice, initialData } = this.props;
 
     const components = {
       body: {
@@ -162,7 +162,8 @@ class OrderedItemsTable extends React.Component {
           <TableAmountWrapper>
             <Total
               dataSource={dataSource}
-              getTotalPrice={getTotalPrice}
+              getPrice={getPrice}
+              initialData={initialData}
             />
           </TableAmountWrapper>
         </Bottom>

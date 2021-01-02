@@ -20,9 +20,10 @@ const TextWrapper = styled.span`
 class Total extends Component {
   constructor(props) {
     super(props);
+    const { initialData } = this.props;
     this.state = {
-      shipment: 0,
-      adjustment: 0,
+      shipment: initialData ? initialData.shipmentPrice : 0,
+      adjustment: initialData ? initialData.adjustmentPrice : 0,
     };
 
     this.handleAdjustment = this.handleAdjustment.bind(this);
@@ -47,17 +48,19 @@ class Total extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.dataSource != this.props.dataSource || prevState.shipment != this.state.shipment || prevState.adjustment != this.state.adjustment) {
-      let subTotal = this.props.dataSource.reduce((prev, cur) => prev + cur.amount, 0);
-      let total = subTotal + this.state.shipment + this.state.adjustment;
-      this.props.getTotalPrice(total);
+    const { dataSource, getPrice } = this.props;
+    const { shipment, adjustment } = this.state;
+    if (prevProps.dataSource != dataSource || prevState.shipment != shipment || prevState.adjustment != adjustment) {
+      let subTotal = dataSource.reduce((prev, cur) => prev + cur.amount, 0);
+      let total = subTotal + shipment + adjustment;
+      getPrice(total, shipment, adjustment);
     } else {
-      return false;
+      return false; 
     }
   }
 
   render() {
-    const { dataSource } = this.props;
+    const { dataSource, initialData } = this.props;
     const { shipment, adjustment } = this.state;
     let subTotal = dataSource.reduce((prev, cur) => prev + cur.amount, 0);
     let total = subTotal + shipment + adjustment;
