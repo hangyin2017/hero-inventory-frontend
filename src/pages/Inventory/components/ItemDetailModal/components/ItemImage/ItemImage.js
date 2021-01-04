@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Image, Upload } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
 import { baseUrl } from '../../../../../../lib/aws';
+
+const { Dragger } = Upload;
 
 const Wrapper = styled.div`
   height: 200px;
@@ -9,14 +13,13 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 
-const Image = styled.img`
-  height: 100%;
-  max-width: 100%;
-`;
-
 class ItemImage extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      hasImage: false,
+    };
   }
 
   render() {
@@ -25,7 +28,16 @@ class ItemImage extends React.Component {
 
     return (
       <Wrapper>
-        <Image src={photoUrl} alt="item image" />
+        {/* <Image height={200} src={photoUrl} alt="item image" /> */}
+        <Dragger>
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">Click or drag file to this area to upload</p>
+          <p className="ant-upload-hint">
+            You can add up to 15 images, each not exceeding 5 MB.
+          </p>
+        </Dragger>
       </Wrapper>
     );
   }
