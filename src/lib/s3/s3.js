@@ -14,5 +14,16 @@ var s3 = new AWS.S3({
 
 const baseUrl = `https://${bucketName}.s3.${AWS.config.region}.amazonaws.com/`;
 
+const upload = (imageKey, file) => {
+  return new AWS.S3.ManagedUpload({
+    params: {
+      Bucket: bucketName,
+      Key: imageKey,
+      Body: file,
+      ACL: 'public-read',
+    }
+  }).promise();
+};
+
 export default s3;
-export { bucketName, baseUrl };
+export { bucketName, baseUrl, upload };

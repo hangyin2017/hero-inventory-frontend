@@ -1,0 +1,1 @@
+export { default, bucketName, baseUrl, upload } from './s3';

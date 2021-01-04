@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Image, Upload } from 'antd';
+import { Image, Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import s3, { baseUrl } from '../../../../../../lib/aws';
+import s3, { baseUrl, upload } from '../../../../../../lib/s3';
 
 const { Dragger } = Upload;
 
@@ -21,6 +21,8 @@ class ItemImage extends React.Component {
       loading: true,
       hasImage: false,
     };
+
+    this.putImage = this.putImage.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +41,6 @@ class ItemImage extends React.Component {
         return;
       }
 
-      console.log(data);
       const images = data.Contents.filter((obj) => obj.Size > 0);
 
       if(images.length === 0 ) {
@@ -48,6 +49,23 @@ class ItemImage extends React.Component {
 
       this.setState({ hasImage: true });
     })
+  }
+
+  putImage({ file }) {
+    const { id } = this.props;
+
+    s3.headObject({Key: `${id}/`}, (err, data) => {
+      if(err?.code === "NotFound") {
+        s3.putObject({Key: `${id}/`});
+      }
+    });
+
+    upload(`${id}/1.jpg`, file)
+      .then((data) => {
+        message.success('Item image added');
+        this.getImage();
+      })
+      .catch((err) => message.error('Cannot upload image. Please try again later'));
   }
 
   render() {
@@ -66,7 +84,10 @@ class ItemImage extends React.Component {
         {hasImage ? (
           <Image height={200} src={photoUrl} alt="item image" />
         ) : (
-          <Dragger disabled={loading}>
+          <Dragger
+            disabled={loading}
+            customRequest={this.putImage}
+          >
             <p className="ant-upload-drag-icon">
               <InboxOutlined />
             </p>
