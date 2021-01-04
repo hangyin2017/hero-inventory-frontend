@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Table, Spin, message } from 'antd';
-import AWS from 'aws-sdk';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import withModal from '../withModal';
@@ -9,18 +8,6 @@ import withFetch from '../withFetch';
 import compose from '../../utils/compose';
 import debounce from '../../utils/debounce';
 import throttle from '../../utils/throttle';
-
-var albumBucketName = 'hero-inventory-item-image';
-
-AWS.config.region = 'ap-southeast-2';
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'ap-southeast-2:2ab03726-216c-46bd-b263-5cc2e8ab7d63',
-});
-
-var s3 = new AWS.S3({
-  apiVersion: '2006-03-01',
-  params: {Bucket: albumBucketName}
-});
 
 const Content = styled.div`
   width: 100%;
@@ -49,18 +36,6 @@ class Page extends React.Component {
 
   componentDidMount() {
     this.refreshData();
-    this.showS3();
-  }
-
-  showS3() {
-    const albumPhotosKey = encodeURIComponent('item1') + '/';
-    s3.listObjects({Prefix: albumPhotosKey}, (err, data) => {
-      console.log(err, data);
-    });
-    // console.log(albumPhotosKey);
-    // s3.listObjects({Delimiter: '/'}, (err, data) => {
-    //   console.log(data);
-    // })
   }
 
   refreshData() {

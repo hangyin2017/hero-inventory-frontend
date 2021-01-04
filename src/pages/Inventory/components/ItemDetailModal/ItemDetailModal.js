@@ -6,6 +6,7 @@ import Modal from '../../../../components/Modal';
 import NewItemModal from '../NewItemModal';
 import Header from './components/Header/Header';
 import DescriptionList from '../../../../components/DescriptionList';
+import ItemImage from './components/ItemImage';
 import StockData from './components/StockData';
 import FIELDS from '../../fields';
 import withFetch from '../../../../components/withFetch';
@@ -14,10 +15,10 @@ const Content = styled(Row)`
   min-height: 60vh;
 `;
 
-const Meta = styled(Col).attrs({ span: 24, md: 18 })`
+const Left = styled(Col).attrs({ span: 24, md: 18 })`
 `;
 
-const Stock = styled(Col).attrs({ span: 24, md: 6 })`
+const Right = styled(Col).attrs({ span: 24, md: 6 })`
 `;
 
 class ItemDetailModal extends React.Component {
@@ -94,18 +95,19 @@ class ItemDetailModal extends React.Component {
       >
         <Spin size="large" spinning={loading}>
           <Content>
-            <Meta>
+            <Left>
               <DescriptionList
                 data={formattedData}
               />
-            </Meta>
-            <Stock>
+            </Left>
+            <Right>
+              <ItemImage />
               <StockData
                 physicalStock={physicalStock}
                 lockedStock={lockedStock}
                 arrivingQuantity={arrivingQuantity}
               />
-            </Stock>
+            </Right>
           </Content>
         </Spin>
         <NewItemModal
