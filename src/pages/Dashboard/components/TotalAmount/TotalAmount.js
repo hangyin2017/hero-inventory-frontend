@@ -2,11 +2,6 @@ import React from 'react';
 import { Card, Col, Row, Statistic } from 'antd';
 import StatisticCard from '../StatisticCard';
 
-const cardStyle = {
-  textAlign: 'center',
-  borderRadius: 20,
-};
-
 const TotalAmount = ({
   loading,
   totalSalesOrderPrice,
