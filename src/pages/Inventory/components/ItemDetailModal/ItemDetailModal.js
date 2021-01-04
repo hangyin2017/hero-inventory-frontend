@@ -75,7 +75,7 @@ class ItemDetailModal extends React.Component {
   }
 
   render() {
-    const { onCancel, refreshTableData, loading, error, fetch, ...modalProps } = this.props;
+    const { id, onCancel, refreshTableData, loading, error, fetch, ...modalProps } = this.props;
     const { data, editing } = this.state;
     const { physicalStock, lockedStock, arrivingQuantity } = data;
     const formattedData = Object.keys(data)
@@ -101,7 +101,7 @@ class ItemDetailModal extends React.Component {
               />
             </Left>
             <Right>
-              <ItemImage />
+              <ItemImage id={id} />
               <StockData
                 physicalStock={physicalStock}
                 lockedStock={lockedStock}
