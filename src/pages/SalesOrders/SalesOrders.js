@@ -9,38 +9,27 @@ import OrderDetailModal from './components/OrderDetailModal';
 
 const columns = getColumns(FIELDS);
 
-class SalesOrders extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      tableData: [],
-    }
-  }
-
-  render() {
-
-    return (
-      <Page
-        headerProps={{
-          title: ROUTES.salesorders.title,
-          hasNewButton: true,
-          hasSearchBar: true,
-        }}
-        searchBarProps={{
-          placeholder: 'Search by order number',
-        }}
-        tableProps={{
-          columns: columns,
-          rowKey: 'id',
-        }}
-        NewModal={NewSalesOrderModal}
-        DetailsModal={OrderDetailModal}
-        api={salesOrders}
-        FIELDS={FIELDS}
-      />
-    )
-  }
-}
+const SalesOrders = () => {
+  return (
+    <Page
+      headerProps={{
+        title: ROUTES.salesorders.title,
+        hasNewButton: true,
+        hasSearchBar: true,
+      }}
+      searchBarProps={{
+        placeholder: 'Search by order number',
+      }}
+      tableProps={{
+        columns: columns,
+        rowKey: 'id',
+      }}
+      NewModal={NewSalesOrderModal}
+      DetailsModal={OrderDetailModal}
+      api={salesOrders}
+      FIELDS={FIELDS}
+    />
+  );
+};
 
 export default SalesOrders;

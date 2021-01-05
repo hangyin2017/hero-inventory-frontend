@@ -1,6 +1,6 @@
 import React from 'react';
 import GeneralOrderModal from '../../../../components/GeneralOrderModal';
-import PurchaseorderFields from './PurchaseorderFields';
+import FIELDS from './fields';
 import purchaseOrders from '../../../../apis/purchaseOrders';
 
 class NewPurchaseOrderModal extends React.Component {
@@ -14,7 +14,7 @@ class NewPurchaseOrderModal extends React.Component {
       <GeneralOrderModal
         {...props}
         onCancel={onCancel}
-        fields={PurchaseorderFields}
+        FIELDS={FIELDS}
         orderApi={purchaseOrders}
         refreshTableData={refreshTableData}
         refreshDetailsData={refreshDetailsData}

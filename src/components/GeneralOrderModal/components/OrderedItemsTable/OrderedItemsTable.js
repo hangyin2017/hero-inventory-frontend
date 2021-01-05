@@ -81,8 +81,6 @@ class OrderedItemsTable extends React.Component {
       const dataSource = initialItemsData.map(val => ({
         ...val,
         key: val.soldItemId || val.purchasedItemId,
-        //discount: 0,
-        //flag: '%',
         amount: val.quantity * val.rate,
       }));
 
@@ -122,12 +120,6 @@ class OrderedItemsTable extends React.Component {
     };
 
     const columns = Object.keys(COLUMNS).map((key) => {
-      // if (!COLUMNS[key].editable) {
-      //   return {
-      //     ...COLUMNS[key],
-      //     dataIndex: key,
-      //   };
-      // }
       return {
         ...COLUMNS[key],
         dataIndex: key,

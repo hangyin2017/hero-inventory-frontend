@@ -23,7 +23,7 @@ class Page extends React.Component {
     this.FIELDS = this.props.FIELDS;
 
     this.state = {
-      modal: null,
+      modal: 'new',
       data: [],
       rowId: '',
     };

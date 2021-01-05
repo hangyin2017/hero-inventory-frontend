@@ -3,6 +3,10 @@ import { Input } from 'antd';
 import styled from 'styled-components';
 import './total.less';
 
+const GstWrapper = styled.div`
+  margin-top: 15px;
+`;
+
 const ShippingWrapper = styled.div`
   margin-top: 15px;
 `;
@@ -63,13 +67,19 @@ class Total extends Component {
     const { dataSource, initialData } = this.props;
     const { shipment, adjustment } = this.state;
     let subTotal = dataSource.reduce((prev, cur) => prev + cur.amount, 0);
+    const gst = subTotal * 0.1;
     let total = subTotal + shipment + adjustment;
+
     return (
       <div className="total">
         <div>
           <TextWrapper>Sub Total</TextWrapper>
           <span>{subTotal}</span>
         </div>
+        <GstWrapper>
+          <TextWrapper>GST (10%)</TextWrapper>
+          <span>{gst}</span>
+        </GstWrapper>
         <ShippingWrapper>
           <TextWrapper>Shipping Charges</TextWrapper>
           <Input 

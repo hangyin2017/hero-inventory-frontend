@@ -102,7 +102,7 @@ class GeneralOrderModal extends React.Component {
   }
 
   render() {
-    const { onCancel, loading, error, initialData, fetch, fields, orderApi, ...props } = this.props;
+    const { onCancel, loading, error, initialData, fetch, FIELDS, orderApi, ...props } = this.props;
     const { TextArea } = Input;
 
     return (
@@ -121,21 +121,23 @@ class GeneralOrderModal extends React.Component {
           onFinish={initialData ? this.update : this.add}
         >
           <Form.Section>
-            {orderApi == salesOrders ? <Form.Item
-              label="Customer Name"
-              name="customer"
-              rules={[{
-                required: true,
-                message: 'Please select or add a customer',
-              }]}
-            >
-              <DropdownPicker
-                name="Customer"
-                placeholder="Select a customer"
-                api={customers}
-                formRef={this.formRef}
-              />
-            </Form.Item> :
+            {orderApi == salesOrders ? (
+              <Form.Item
+                label="Customer Name"
+                name="customer"
+                rules={[{
+                  required: true,
+                  message: 'Please select or add a customer',
+                }]}
+              >
+                <DropdownPicker
+                  name="Customer"
+                  placeholder="Select a customer"
+                  api={customers}
+                  formRef={this.formRef}
+                />
+              </Form.Item>
+            ) : (
               <Form.Item
                 label="Supplier Name"
                 name="supplier"
@@ -150,12 +152,13 @@ class GeneralOrderModal extends React.Component {
                   api={suppliers}
                   formRef={this.formRef}
                 />
-              </Form.Item>}
-            {Object.keys(fields).map((data) => (
+              </Form.Item>
+            )}
+            {Object.keys(FIELDS).map((key) => (
               <Form.Item
-                key={fields[data]}
-                {...fields[data]}
-                name={data}
+                key={key}
+                {...FIELDS[key]}
+                name={key}
               />
             ))}
           </Form.Section>
@@ -165,7 +168,8 @@ class GeneralOrderModal extends React.Component {
               initialItemsData={initialData ? initialData.purchasedItems || initialData.soldItems : null}
               initialData={initialData}
               getItems={this.getItems}
-              getPrice={this.getPrice} />
+              getPrice={this.getPrice}
+            />
           </Form.Section>
           <Divider />
           <Form.Section>

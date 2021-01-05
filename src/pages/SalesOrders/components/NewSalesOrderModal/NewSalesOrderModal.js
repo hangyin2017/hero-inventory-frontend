@@ -1,6 +1,6 @@
 import React from 'react';
 import GeneralOrderModal from '../../../../components/GeneralOrderModal';
-import SalesorderFields from './SalesorderFields';
+import FIELDS from './fields';
 import salesOrders from '../../../../apis/salesOrders';
 
 class NewSalesOrderModal extends React.Component {
@@ -14,7 +14,7 @@ class NewSalesOrderModal extends React.Component {
       <GeneralOrderModal
         {...props}
         onCancel={onCancel}
-        fields={SalesorderFields}
+        FIELDS={FIELDS}
         orderApi={salesOrders}
         refreshTableData={refreshTableData}
         refreshDetailsData={refreshDetailsData}
