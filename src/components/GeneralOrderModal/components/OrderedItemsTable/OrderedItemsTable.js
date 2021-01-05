@@ -110,7 +110,8 @@ class OrderedItemsTable extends React.Component {
 
   render() {
     const { dataSource } = this.state;
-    const { getPrice, initialData } = this.props;
+    const { getPrice, initialData, formRef } = this.props;
+    const applyGst = formRef.current?.getFieldValue('applyGst') || false;
 
     const components = {
       body: {
@@ -154,6 +155,7 @@ class OrderedItemsTable extends React.Component {
           <TableAmountWrapper>
             <Total
               dataSource={dataSource}
+              applyGst={applyGst}
               getPrice={getPrice}
               initialData={initialData}
             />

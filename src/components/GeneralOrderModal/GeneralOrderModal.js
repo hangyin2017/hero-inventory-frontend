@@ -11,6 +11,7 @@ import suppliers from '../../apis/suppliers';
 class GeneralOrderModal extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       Items: [],
       totalPrice: 0,
@@ -116,6 +117,7 @@ class GeneralOrderModal extends React.Component {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
+          ref={this.formRef}
           initialValues={initialData}
           preserve={false}
           onFinish={initialData ? this.update : this.add}
@@ -164,12 +166,21 @@ class GeneralOrderModal extends React.Component {
           </Form.Section>
           <Divider />
           <Form.Section>
-            <OrderedItemsTable
-              initialItemsData={initialData ? initialData.purchasedItems || initialData.soldItems : null}
-              initialData={initialData}
-              getItems={this.getItems}
-              getPrice={this.getPrice}
-            />
+            <Form.Item
+              labelCol={{ span: 0 }}
+              wrapperCol={{ span: 24 }}
+              shouldUpdate={(prevValues, curValues) => prevValues.applyGst !== curValues.applyGst}
+            >
+              {() => 
+                <OrderedItemsTable
+                  initialItemsData={initialData ? initialData.purchasedItems || initialData.soldItems : null}
+                  initialData={initialData}
+                  formRef={this.formRef}
+                  getItems={this.getItems}
+                  getPrice={this.getPrice}
+                />
+              }
+            </Form.Item>
           </Form.Section>
           <Divider />
           <Form.Section>

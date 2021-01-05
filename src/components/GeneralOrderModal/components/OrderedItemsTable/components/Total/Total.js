@@ -64,10 +64,10 @@ class Total extends Component {
   }
 
   render() {
-    const { dataSource, initialData } = this.props;
+    const { dataSource, initialData, applyGst } = this.props;
     const { shipment, adjustment } = this.state;
     let subTotal = dataSource.reduce((prev, cur) => prev + cur.amount, 0);
-    const gst = subTotal * 0.1;
+    let gst = applyGst ? subTotal * 0.1 : 0;
     let total = subTotal + shipment + adjustment;
 
     return (
