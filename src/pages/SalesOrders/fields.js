@@ -1,3 +1,5 @@
+import React from 'react';
+import { Checkbox } from 'antd';
 import timeFormatter from '../../utils/timeFormatter';
 
 export default {
@@ -34,6 +36,17 @@ export default {
     label: 'Total Price ($)',
     inTable: true,
     inDetails: true,
+  },
+  applyGst: {
+    title: 'Apply GST',
+    label: ' ',
+    colon: false,
+    valuePropName: 'checked',
+    component: (
+      <Checkbox>Apply GST</Checkbox>
+    ),
+    inDetails: true,
+    formatter: (value) => value ? 'Yes' : 'No',
   },
   shipmentPrice: {
     label: 'Shipment Price ($)',

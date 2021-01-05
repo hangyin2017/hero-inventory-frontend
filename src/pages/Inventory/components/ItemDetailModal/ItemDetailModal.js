@@ -79,7 +79,7 @@ class ItemDetailModal extends React.Component {
     const { data, editing } = this.state;
     const { physicalStock, lockedStock, arrivingQuantity } = data;
     const formattedData = Object.keys(data)
-      .filter((key) => FIELDS[key].inDetails && !!data[key])
+      .filter((key) => FIELDS[key]?.inDetails && !!data[key])
       .map((key) => ({
         title: FIELDS[key].title || FIELDS[key].label,
         value: !!FIELDS[key].formatter ? FIELDS[key].formatter(data[key]) : data[key],

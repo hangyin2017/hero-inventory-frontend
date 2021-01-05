@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Checkbox } from 'antd';
+import { Input } from 'antd';
 import timeFormatter from '../../utils/timeFormatter';
 
 const { TextArea } = Input;
@@ -107,17 +107,6 @@ export default {
         pattern: /^[+-]?(0|([1-9]\d*))(\.\d+)?$/,
       },
     ],
-  },
-  applyGst: {
-    title: 'Apply GST',
-    label: ' ',
-    colon: false,
-    valuePropName: 'checked',
-    component: (
-      <Checkbox>Apply GST</Checkbox>
-    ),
-    inDetails: true,
-    formatter: (value) => value ? 'Yes' : 'No',
   },
   length: {
     label: 'Length',
