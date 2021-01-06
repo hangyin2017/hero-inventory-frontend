@@ -16,7 +16,7 @@ export default {
       {
         required: true,
         message: 'Please enter a valid name',
-        pattern: /^[a-zA-Z0-9_-]+$/,
+        pattern: /^[\w ]*[^\W_][\w ]*$/,
       },
     ],
   },
@@ -64,7 +64,7 @@ export default {
     rules: [
       {
         message: 'Please enter a valid name',
-        pattern: /^[a-zA-Z]+$/,
+        pattern: /^[\w ]*[^\W_][\w ]*$/,
       },
     ],
   },
@@ -75,7 +75,7 @@ export default {
     rules: [
       {
         message: 'Please enter a valid name',
-        pattern: /^[a-zA-Z]+$/,
+        pattern: /^[\w ]*[^\W_][\w ]*$/,
       },
     ],
   },

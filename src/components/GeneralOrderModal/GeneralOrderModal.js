@@ -51,9 +51,9 @@ class GeneralOrderModal extends React.Component {
     try {
       await fetch(() => orderApi.add(values));
 
-      refreshTableData();
       message.success(`This Order has been added`);
       onCancel();
+      refreshTableData();
     } catch (err) {
       message.error(this.props.error);
     }
