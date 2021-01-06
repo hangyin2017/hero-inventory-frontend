@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Input } from 'antd';
 import styled from 'styled-components';
+import accounting from '../../../../../../utils/accounting';
 import './total.less';
 
 const GstWrapper = styled.div`
@@ -67,18 +68,19 @@ class Total extends Component {
     const { dataSource, initialData, applyGst } = this.props;
     const { shipment, adjustment } = this.state;
     let subTotal = dataSource.reduce((prev, cur) => prev + cur.amount, 0);
-    let gst = applyGst ? subTotal * 0.1 : 0;
+    subTotal = accounting.toFixedNumber2(subTotal);
+    let gst = accounting.calcGst(subTotal, applyGst);
     let total = subTotal + gst + shipment + adjustment;
 
     return (
       <div className="total">
         <div>
           <TextWrapper>Sub Total</TextWrapper>
-          <span>{subTotal}</span>
+          <span>{subTotal.toFixed(2)}</span>
         </div>
         <GstWrapper>
           <TextWrapper>GST (10%)</TextWrapper>
-          <span>{gst}</span>
+          <span>{gst.toFixed(2)}</span>
         </GstWrapper>
         <ShippingWrapper>
           <TextWrapper>Shipping Charges</TextWrapper>
@@ -88,7 +90,7 @@ class Total extends Component {
             pattern="^[0-9\.]+$"
             title="Please enter a number"
           />
-          <span>{shipment}</span>
+          <span>{shipment.toFixed(2)}</span>
         </ShippingWrapper>
         <AdjustmentWrapper>
           <TextWrapper>Adjustment</TextWrapper>
@@ -98,11 +100,11 @@ class Total extends Component {
             pattern="^[0-9\.]+$"
             title="Please enter a number"
           />
-          <span>{adjustment}</span>
+          <span>{adjustment.toFixed(2)}</span>
         </AdjustmentWrapper>
         <TotalWrapper>
           <span>Total</span>
-          <span>{total}</span>
+          <span>{total.toFixed(2)}</span>
         </TotalWrapper>
       </div>
     );

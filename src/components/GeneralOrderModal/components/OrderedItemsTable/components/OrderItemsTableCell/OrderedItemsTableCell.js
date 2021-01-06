@@ -3,6 +3,7 @@ import { Form, Input, Popover, Select, Popconfirm } from 'antd';
 import { CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { EditableContext } from '../../OrderedItemsTable';
+import accounting from '../../../../../../utils/accounting';
 import items from '../../../../../../apis/items';
 import ItemDetailsCell from '../ItemDetailsCell';
 
@@ -72,7 +73,7 @@ const OrderedItemsTableCell = ({
       handleSave({
         ...data,
         amount,
-        gst: applyGst ? amount * 0.1 : 0,
+        gst: accounting.calcGst(amount, applyGst),
       });
     } else {
       handleSave({ ...record, ...values });
@@ -88,7 +89,7 @@ const OrderedItemsTableCell = ({
         rate: data.sellingPrice,
         itemName: data.name,
         amount: data.sellingPrice,
-        gst: applyGst ? data.sellingPrice * 0.1 : 0,
+        gst: accounting.calcGst(data.sellingPrice, applyGst),
       });
     } else {
       handleSave({ ...record, ...values });

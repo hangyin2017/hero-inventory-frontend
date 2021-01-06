@@ -1,9 +1,10 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Table, Popconfirm, Button } from 'antd';
 import OrderItemsTableRow from './components/OrderedItemsTableRow';
 import OrderedItemsTableCell from './components/OrderItemsTableCell';
 import Total from './components/Total';
-import styled from 'styled-components';
+import accounting from '../../../../utils/accounting';
 import COLUMNS from './Columns';
 
 export const EditableContext = React.createContext();
@@ -82,7 +83,7 @@ class OrderedItemsTable extends React.Component {
         ...val,
         key: val.soldItemId || val.purchasedItemId,
         amount: val.quantity * val.rate,
-        gst: applyGst ? val.quantity * val.rate * 0.1 : 0,
+        gst: accounting.calcGst(val.quantity * val.rate, applyGst),
       }));
 
       this.setState({ dataSource });
@@ -90,7 +91,6 @@ class OrderedItemsTable extends React.Component {
   }
 
   handleSave = (row) => {
-    // console.log('row: ', row);
     this.setState((prevState) => {
       const newData = [...prevState.dataSource];
       const index = newData.findIndex((item) => row.key === item.key);
@@ -102,7 +102,6 @@ class OrderedItemsTable extends React.Component {
 
       return { dataSource: newData };
     });
-    // console.log(newData);
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -115,7 +114,7 @@ class OrderedItemsTable extends React.Component {
     if(applyGst !== prevProps.applyGst) {
       const newDataSource = this.state.dataSource.map((record) => ({
         ...record,
-        gst: applyGst ? record.amount * 0.1 : 0,
+        gst: accounting.calcGst(record.amount, applyGst),
       }));
       this.setState({ dataSource: newDataSource });
     }
