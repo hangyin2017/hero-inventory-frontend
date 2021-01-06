@@ -2,26 +2,40 @@ import React, { Component } from 'react';
 import { Input } from 'antd';
 import styled from 'styled-components';
 import accounting from '../../../../../../utils/accounting';
-import './total.less';
 
-const GstWrapper = styled.div`
-  margin-top: 15px;
+const Box = styled.div`
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fbfafa;
 `;
 
-const ShippingWrapper = styled.div`
-  margin-top: 15px;
-`;
-
-const AdjustmentWrapper = styled.div`
-  margin-top: 15px;
-`
-const TotalWrapper = styled.h2`
-  margin-top: 20px;
-`;
-
-const TextWrapper = styled.span`
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 32px;
+  margin-top: 10px;
   font-size: 14px;
+
+  & > input {
+    flex: 0 0 30%;
+  }
+
+  & > span {
+    flex: 0 0 30%;
+  }
 `;
+
+const Money = styled.span`
+  text-align: right;
+`;
+
+const TotalWrapper = styled(Row)`
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 500;
+`;
+
 class Total extends Component {
   constructor(props) {
     super(props);
@@ -73,40 +87,40 @@ class Total extends Component {
     let total = subTotal + gst + shipment + adjustment;
 
     return (
-      <div className="total">
-        <div>
-          <TextWrapper>Sub Total</TextWrapper>
-          <span>{subTotal.toFixed(2)}</span>
-        </div>
-        <GstWrapper>
-          <TextWrapper>GST (10%)</TextWrapper>
-          <span>{gst.toFixed(2)}</span>
-        </GstWrapper>
-        <ShippingWrapper>
-          <TextWrapper>Shipping Charges</TextWrapper>
+      <Box>
+        <Row>
+          <span>Sub Total</span>
+          <Money>{subTotal.toFixed(2)}</Money>
+        </Row>
+        <Row>
+          <span>GST (10%)</span>
+          <Money>{gst.toFixed(2)}</Money>
+        </Row>
+        <Row>
+          <span>Shipping Charges</span>
           <Input 
             className="inp" 
             onChange={this.handleAdjustment(this.setShipping)}  
             pattern="^[0-9\.]+$"
             title="Please enter a number"
           />
-          <span>{shipment.toFixed(2)}</span>
-        </ShippingWrapper>
-        <AdjustmentWrapper>
-          <TextWrapper>Adjustment</TextWrapper>
+          <Money>{shipment.toFixed(2)}</Money>
+        </Row>
+        <Row>
+          <span>Adjustment</span>
           <Input
             className="inp"
             onChange={this.handleAdjustment(this.setAdjust)}
             pattern="^[0-9\.]+$"
             title="Please enter a number"
           />
-          <span>{adjustment.toFixed(2)}</span>
-        </AdjustmentWrapper>
+          <Money>{adjustment.toFixed(2)}</Money>
+        </Row>
         <TotalWrapper>
           <span>Total</span>
-          <span>{total.toFixed(2)}</span>
+          <Money>{total.toFixed(2)}</Money>
         </TotalWrapper>
-      </div>
+      </Box>
     );
   }
 }
