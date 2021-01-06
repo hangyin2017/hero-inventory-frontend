@@ -175,7 +175,7 @@ class GeneralOrderModal extends React.Component {
                 <OrderedItemsTable
                   initialItemsData={initialData ? initialData.purchasedItems || initialData.soldItems : null}
                   initialData={initialData}
-                  formRef={this.formRef}
+                  applyGst={this.formRef.current?.getFieldValue('applyGst') || false}
                   getItems={this.getItems}
                   getPrice={this.getPrice}
                 />

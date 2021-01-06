@@ -76,12 +76,13 @@ class OrderedItemsTable extends React.Component {
   }
 
   initialize() {
-    const { initialItemsData } = this.props;
+    const { initialItemsData, applyGst } = this.props;
     if (initialItemsData) {
       const dataSource = initialItemsData.map(val => ({
         ...val,
         key: val.soldItemId || val.purchasedItemId,
         amount: val.quantity * val.rate,
+        gst: applyGst ? val.quantity * val.rate * 0.1 : 0,
       }));
 
       this.setState({ dataSource });
@@ -110,8 +111,7 @@ class OrderedItemsTable extends React.Component {
 
   render() {
     const { dataSource } = this.state;
-    const { getPrice, initialData, formRef } = this.props;
-    const applyGst = formRef.current?.getFieldValue('applyGst') || false;
+    const { getPrice, initialData, applyGst } = this.props;
 
     const components = {
       body: {

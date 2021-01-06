@@ -68,7 +68,7 @@ class Total extends Component {
     const { shipment, adjustment } = this.state;
     let subTotal = dataSource.reduce((prev, cur) => prev + cur.amount, 0);
     let gst = applyGst ? subTotal * 0.1 : 0;
-    let total = subTotal + shipment + adjustment;
+    let total = subTotal + gst + shipment + adjustment;
 
     return (
       <div className="total">
