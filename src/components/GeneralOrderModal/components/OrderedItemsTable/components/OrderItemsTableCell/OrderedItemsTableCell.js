@@ -20,6 +20,7 @@ const OrderedItemsTableCell = ({
   dataIndex,
   record,
   rowCount,
+  applyGst,
   handleSave,
   handleAdd,
   handleDelete,
@@ -70,7 +71,8 @@ const OrderedItemsTableCell = ({
       amount = data.quantity * data.rate;
       handleSave({
         ...data,
-        amount: amount,
+        amount,
+        gst: applyGst ? amount * 0.1 : 0,
       });
     } else {
       handleSave({ ...record, ...values });
@@ -78,23 +80,22 @@ const OrderedItemsTableCell = ({
   };
 
   const save = async (data) => {
-    try {
-      const values = await form.validateFields();
-      if (dataIndex == "itemName") {
-        handleSave({
-          ...record,
-          data: data,
-          rate: data.sellingPrice,
-          itemName: data.name,
-          amount: data.sellingPrice,
-        });
-      } else {
-        handleSave({ ...record, ...values });
-      }
-      setTimeout(() => {
-        toggleEdit();
-      }, 300);
-    } catch (errInfo) { }
+    const values = await form.validateFields();
+    if (dataIndex == "itemName") {
+      handleSave({
+        ...record,
+        data: data,
+        rate: data.sellingPrice,
+        itemName: data.name,
+        amount: data.sellingPrice,
+        gst: applyGst ? data.sellingPrice * 0.1 : 0,
+      });
+    } else {
+      handleSave({ ...record, ...values });
+    }
+    setTimeout(() => {
+      toggleEdit();
+    }, 300);
   };
 
   let childNode = children;

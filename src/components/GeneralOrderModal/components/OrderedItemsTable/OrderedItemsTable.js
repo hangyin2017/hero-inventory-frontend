@@ -90,22 +90,34 @@ class OrderedItemsTable extends React.Component {
   }
 
   handleSave = (row) => {
-    const newData = [...this.state.dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
+    // console.log('row: ', row);
+    this.setState((prevState) => {
+      const newData = [...prevState.dataSource];
+      const index = newData.findIndex((item) => row.key === item.key);
+      const item = newData[index];
+      newData.splice(index, 1, {
+        ...item,
+        ...row,
+      });
+
+      return { dataSource: newData };
     });
-    this.setState({ dataSource: newData });
+    // console.log(newData);
   };
 
-  //数据改变 就传数据
   componentDidUpdate(prevProps, prevState) {
     const { dataSource } = this.state;
-    const { getItems } = this.props;
+    const { getItems, applyGst } = this.props;
     if (dataSource != prevState.dataSource) {
       getItems(dataSource);
+    }
+
+    if(applyGst !== prevProps.applyGst) {
+      const newDataSource = this.state.dataSource.map((record) => ({
+        ...record,
+        gst: applyGst ? record.amount * 0.1 : 0,
+      }));
+      this.setState({ dataSource: newDataSource });
     }
   };
 
@@ -130,6 +142,7 @@ class OrderedItemsTable extends React.Component {
           dataIndex: key,
           title: COLUMNS[key].title,
           rowCount: dataSource.length,
+          applyGst,
           handleSave: this.handleSave,
           handleAdd: this.handleAdd,
           handleDelete: this.handleDelete,

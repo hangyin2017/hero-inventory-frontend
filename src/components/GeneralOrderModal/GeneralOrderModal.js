@@ -28,9 +28,7 @@ class GeneralOrderModal extends React.Component {
   }
 
   getItems = (Items) => {
-    this.setState({
-      Items
-    })
+    this.setState({ Items });
   }
 
   add = async values => {
