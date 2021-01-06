@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from 'antd';
+import { Input, Form } from 'antd';
 import styled from 'styled-components';
 import accounting from '../../../../../../utils/accounting';
 
@@ -99,9 +99,8 @@ class Total extends Component {
         <Row>
           <span>Shipping Charges</span>
           <Input 
-            className="inp" 
             onChange={this.handleAdjustment(this.setShipping)}  
-            pattern="^[0-9\.]+$"
+            pattern="^[-]?(0|([1-9]\d{1,11}))(\.\d{1,2})?$"
             title="Please enter a number"
           />
           <Money>{shipment.toFixed(2)}</Money>
@@ -109,9 +108,8 @@ class Total extends Component {
         <Row>
           <span>Adjustment</span>
           <Input
-            className="inp"
             onChange={this.handleAdjustment(this.setAdjust)}
-            pattern="^[0-9\.]+$"
+            pattern="^[-]?(0|([1-9]\d{1,11}))(\.\d{1,2})?$"
             title="Please enter a number"
           />
           <Money>{adjustment.toFixed(2)}</Money>

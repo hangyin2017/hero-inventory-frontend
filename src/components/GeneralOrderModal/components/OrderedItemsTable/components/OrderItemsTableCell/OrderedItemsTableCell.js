@@ -132,7 +132,7 @@ const OrderedItemsTableCell = ({
           rules={[
             {
               required: true,
-              message: `${title} is required and should be numbers.`,
+              message: `${title} is required and should be a number`,
               pattern: /^[+-]?(0|([1-9]\d*))(\.\d+)?$/,
             },
           ]}
