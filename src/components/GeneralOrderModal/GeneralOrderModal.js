@@ -8,6 +8,7 @@ import salesOrders from '../../apis/salesOrders';
 import DropdownPicker from '../DropdownPicker';
 import customers from '../../apis/customers';
 import suppliers from '../../apis/suppliers';
+
 class GeneralOrderModal extends React.Component {
   constructor(props) {
     super(props);

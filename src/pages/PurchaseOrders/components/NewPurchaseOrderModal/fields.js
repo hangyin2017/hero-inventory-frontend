@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, DatePicker, Checkbox } from 'antd';
+import { Input, DatePicker } from 'antd';
 import moment from 'moment';
 
 export default {
@@ -24,14 +24,5 @@ export default {
       },
     ],
     children: <DatePicker initialValue={moment()} format="DD/MM/YYYY" />
-  },
-  applyGst: {
-    title: 'Apply GST',
-    label: ' ',
-    colon: false,
-    valuePropName: 'checked',
-    children: (
-      <Checkbox>Apply GST</Checkbox>
-    ),
   },
 };

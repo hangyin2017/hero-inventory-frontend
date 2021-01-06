@@ -38,7 +38,7 @@ const validateMessages = {
 const Form = styled(AntdForm).attrs({
   validateMessages: validateMessages,
 })`
-  margin-bottom: 50px;
+  margin-bottom: 70px;
 `;
 
 Form.Section = Section;

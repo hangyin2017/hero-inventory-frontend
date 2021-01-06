@@ -81,7 +81,7 @@ class Total extends React.Component {
     let subTotal = dataSource.reduce((sum, cur) => sum + cur.amount, 0);
     subTotal = accounting.toFixedNumber2(subTotal);
     let gst = accounting.calcGst(subTotal, applyGst);
-    let totalPrice = subTotal + gst + shipment + adjustment;
+    let totalPrice = accounting.toFixedNumber2(subTotal + gst + shipment + adjustment);
     setPrices({
       ...newPrices,
       totalPrice,
@@ -115,7 +115,8 @@ class Total extends React.Component {
         <Row>
           <span>Shipping Charges</span>
           <Input 
-            onChange={this.handleAdjustment(this.setShipping)}  
+            maxLength={15}
+            onChange={this.handleAdjustment(this.setShipping)}
             pattern="^[-]?(0|([1-9]\d{0,11}))(\.\d{1,2})?$"
             title="Please enter a number"
           />
@@ -124,6 +125,7 @@ class Total extends React.Component {
         <Row>
           <span>Adjustment</span>
           <Input
+            maxLength={15}
             onChange={this.handleAdjustment(this.setAdjust)}
             pattern="^[-]?(0|([1-9]\d{0,11}))(\.\d{1,2})?$"
             title="Please enter a number"
