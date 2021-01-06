@@ -12,17 +12,20 @@ class GeneralOrderModal extends React.Component {
   constructor(props) {
     super(props);
 
+    const { initialData } = this.props;
+
     this.state = {
       Items: [],
-      totalPrice: 0,
-      shipmentPrice: 0,
-      adjustmentPrice: 0,
+      totalPrice: initialData?.totalPrice || 0,
+      gst: initialData?.gst || 0,
+      shipment: initialData?.shipment || 0,
+      adjustment: initialData?.adjustment || 0,
     }
 
     this.formRef = React.createRef();
 
     this.getItems = this.getItems.bind(this);
-    this.getPrice = this.getPrice.bind(this);
+    this.setPrices = this.setPrices.bind(this);
     this.add = this.add.bind(this);
     this.update = this.update.bind(this);
   }
@@ -32,14 +35,14 @@ class GeneralOrderModal extends React.Component {
   }
 
   add = async values => {
-    const { Items, totalPrice, shipmentPrice, adjustmentPrice } = this.state;
+    const { Items, totalPrice, shipment, adjustment } = this.state;
     const { onCancel, fetch, orderApi, refreshTableData } = this.props;
 
     values.createdTime = new Date();
     values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.quantity), 0);
     values.totalPrice = parseFloat(totalPrice);
-    values.shipmentPrice = parseFloat(shipmentPrice);
-    values.adjustmentPrice = parseFloat(adjustmentPrice);
+    values.shipment = parseFloat(shipment);
+    values.adjustment = parseFloat(adjustment);
 
     if (orderApi == salesOrders) {
       values.soldItems = Items.map((val) => ({ itemName: val.data.name, itemId: val.data.id, quantity: val.quantity, rate: val.rate }));
@@ -59,14 +62,14 @@ class GeneralOrderModal extends React.Component {
   }
 
   update = async values => {
-    const { Items, totalPrice, shipmentPrice, adjustmentPrice } = this.state;
+    const { Items, totalPrice, shipment, adjustment } = this.state;
     const { onCancel, fetch, orderApi, initialData, refreshTableData, refreshDetailsData } = this.props;
     const { id } = initialData;
 
     values.totalQuantity = Items.reduce((total, cur) => total + parseFloat(cur.quantity), 0);
     values.totalPrice = parseFloat(totalPrice);
-    values.shipmentPrice = parseFloat(shipmentPrice);
-    values.adjustmentPrice = parseFloat(adjustmentPrice);
+    values.shipment = parseFloat(shipment);
+    values.adjustment = parseFloat(adjustment);
 
     if (orderApi == salesOrders) {
       values.soldItems = Items.map((val) => ({ itemName: val.itemName, itemId: val.itemId, quantity: val.quantity, rate: val.rate }));
@@ -92,16 +95,18 @@ class GeneralOrderModal extends React.Component {
     }
   }
 
-  getPrice = (totalPrice, shipmentPrice, adjustmentPrice) => {
+  setPrices = (newPrices) => {
     this.setState({
-      totalPrice: totalPrice,
-      shipmentPrice: shipmentPrice,
-      adjustmentPrice: adjustmentPrice,
+      totalPrice: newPrices.totalPrice,
+      gst: newPrices.gst,
+      shipment: newPrices.shipment,
+      adjustment: newPrices.adjustment,
     })
   }
 
   render() {
     const { onCancel, loading, error, initialData, fetch, FIELDS, orderApi, ...props } = this.props;
+    const { totalPrice, gst, shipment, adjustment } = this.state;
     const { TextArea } = Input;
 
     return (
@@ -175,7 +180,13 @@ class GeneralOrderModal extends React.Component {
                   initialData={initialData}
                   applyGst={this.formRef.current?.getFieldValue('applyGst') || false}
                   getItems={this.getItems}
-                  getPrice={this.getPrice}
+                  prices={{
+                    totalPrice,
+                    gst,
+                    shipment,
+                    adjustment,
+                  }}
+                  setPrices={this.setPrices}
                 />
               }
             </Form.Item>

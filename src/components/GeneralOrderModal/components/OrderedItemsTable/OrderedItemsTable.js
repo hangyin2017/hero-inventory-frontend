@@ -122,7 +122,7 @@ class OrderedItemsTable extends React.Component {
 
   render() {
     const { dataSource } = this.state;
-    const { getPrice, initialData, applyGst } = this.props;
+    const { setPrices, initialData, applyGst, prices } = this.props;
 
     const components = {
       body: {
@@ -168,7 +168,8 @@ class OrderedItemsTable extends React.Component {
             <Total
               dataSource={dataSource}
               applyGst={applyGst}
-              getPrice={getPrice}
+              prices={prices}
+              setPrices={setPrices}
               initialData={initialData}
             />
           </TableAmountWrapper>
