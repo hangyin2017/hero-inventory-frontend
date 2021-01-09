@@ -8,7 +8,7 @@ phases:
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - REPOSITORY_URI=012938631357.dkr.ecr.ap-southeast-2.amazonaws.com/hero-inventory-index
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${​​​COMMIT_HASH:=latest}
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
       - docker build -t $REPOSITORY_URI:latest -f Dockerfile.prod .
