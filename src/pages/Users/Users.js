@@ -4,7 +4,7 @@ import UserDetailsModal from './components/UserDetailsModal';
 import users from '../../apis/users';
 import getColumns from '../../utils/getColumns';
 import FIELDS from './fields';
-import ROUTES from '../../Routes';
+import ROUTES from '../../routes.ts';
 
 const columns = getColumns(FIELDS);
 

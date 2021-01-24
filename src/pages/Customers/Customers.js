@@ -4,7 +4,7 @@ import NewCustomerModal from './components/NewCustomerModal';
 import CustomerDetailModal from './components/CustomerDetailModal';
 import customers from '../../apis/customers';
 import getColumns from '../../utils/getColumns';
-import ROUTES from '../../Routes';
+import ROUTES from '../../routes.ts';
 import FIELDS from './fields';
 
 const columns = getColumns(FIELDS);

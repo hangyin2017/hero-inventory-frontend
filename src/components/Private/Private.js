@@ -5,7 +5,7 @@ import { Layout } from 'antd';
 import Header from './components/Header';
 import Navbar from '../Navbar';
 import Guard from '../Guard';
-import ROUTES, { HOMEPAGE } from '../../Routes';
+import ROUTES, { HOMEPAGE } from '../../routes.ts';
 
 const Container = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Main = styled.main`
   overflow: hidden;
 `;
 
-const getRoutes = (ROUTES) => (
+const getroutes = (ROUTES) => (
   Object.keys(ROUTES).map((key) => {
     const { exact, path, permissions, component: Component } = ROUTES[key];
 
@@ -56,7 +56,7 @@ const Private = () => {
         </Sider>
         <Main>
           <Switch>
-            {getRoutes(ROUTES)}
+            {getroutes(ROUTES)}
             <Redirect to={HOMEPAGE.path} />
           </Switch>
         </Main>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import User from './components/User';
 import logo from '../../../../assets/img/logo.png';
-import { HOMEPAGE } from '../../../../Routes';
+import { HOMEPAGE } from '../../../../routes.ts';
 
 const Wrapper = styled.div`
   display: flex;

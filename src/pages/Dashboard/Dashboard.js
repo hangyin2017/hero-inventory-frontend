@@ -9,7 +9,7 @@ import TotalAmount from './components/TotalAmount';
 import withFetch from '../../components/withFetch';
 import compose from '../../utils/compose';
 import dashboard from '../../apis/dashboard';
-import ROUTES from '../../Routes';
+import ROUTES from '../../routes.ts';
 
 const LeftCol = styled(Col)`
   display: flex;

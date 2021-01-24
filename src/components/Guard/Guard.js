@@ -4,7 +4,7 @@ import LoadingApp from '../../pages/LoadingApp';
 import UnAuthorized from '../../pages/UnAuthorized';
 import withAuthentication from '../withAuthentication';
 import compose from '../../utils/compose';
-import { AUTH_ROUTE } from '../../Routes';
+import { AUTH_ROUTE } from '../../routes.ts';
 
 const permitted = (permissions, authentication) => {
   if(!!permissions && permissions.indexOf(authentication.user.role) < 0 ) {

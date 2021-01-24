@@ -6,7 +6,7 @@ import Container from '../Container';
 import GeneralAuthModal from '../GeneralAuthModal';
 import ROUTES from '../../Routes';
 import FIELDS from './Fields';
-import { HOMEPAGE } from '../../../../Routes';
+import { HOMEPAGE } from '../../../../routes.ts';
 import { fontSizes } from '../../../../styles';
 
 const { FONT_M } = fontSizes;

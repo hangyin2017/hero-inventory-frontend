@@ -1,6 +1,6 @@
 import React from "react";
 import Page from '../../components/Page';
-import ROUTES from "../../Routes";
+import ROUTES from "../../routes.ts";
 import NewPurchaseOrderModal from './components/NewPurchaseOrderModal';
 import purchaseOrder from '../../apis/purchaseOrders';
 import getColumns from '../../utils/getColumns';

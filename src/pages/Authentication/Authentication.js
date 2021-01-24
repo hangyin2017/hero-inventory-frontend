@@ -15,7 +15,7 @@ const Container = styled.div`
   }
 `;
 
-const getRoutes = (ROUTES) => (
+const getroutes = (ROUTES) => (
   Object.keys(ROUTES).map((key) => {
     const { exact, path, component: Component } = ROUTES[key];
 
@@ -31,7 +31,7 @@ const Authentication = () => {
   return (
     <Container>
       <Switch>
-        {getRoutes(ROUTES)}
+        {getroutes(ROUTES)}
         <Redirect path='/auth' to={ROUTES.signIn.path} />
       </Switch>
     </Container>

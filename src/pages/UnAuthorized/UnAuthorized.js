@@ -1,7 +1,7 @@
 import React from 'react';
 import { Result, Button } from 'antd';
 import { Link } from 'react-router-dom';
-import { HOMEPAGE } from '../../Routes';
+import { HOMEPAGE } from '../../routes.ts';
 
 const UnAuthorized = () => {
   return (

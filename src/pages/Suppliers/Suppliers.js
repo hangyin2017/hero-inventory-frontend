@@ -4,7 +4,7 @@ import suppliers from '../../apis/suppliers';
 import NewSupplierModal from './components/NewSupplierModal';
 import SupplierDetailModal from './components/SupplierDetailModal';
 import getColumns from '../../utils/getColumns';
-import ROUTES from '../../Routes';
+import ROUTES from '../../routes.ts';
 import FIELDS from './fields';
 
 const columns = getColumns(FIELDS);

@@ -4,7 +4,7 @@ import Page from '../../components/Page';
 import NewItemModal from './components/NewItemModal';
 import ItemDetailModal from './components/ItemDetailModal';
 import getColumns from '../../utils/getColumns';
-import ROUTES from '../../Routes';
+import ROUTES from '../../routes.ts';
 import FIELDS from './fields';
 
 const columns = getColumns(FIELDS);

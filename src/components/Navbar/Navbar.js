@@ -5,7 +5,7 @@ import { Menu } from 'antd';
 import Guard from '../Guard';
 import withAuthentication from '../withAuthentication';
 import compose from '../../utils/compose';
-import ROUTES from '../../Routes';
+import ROUTES from '../../routes.ts';
 import { fontSizes } from '../../styles';
 
 const { FONT_M } = fontSizes;
