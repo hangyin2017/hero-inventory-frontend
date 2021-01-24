@@ -7,16 +7,18 @@ import PurchaseOrders from './pages/PurchaseOrders';
 import Users from './pages/Users';
 import Authentication from './pages/Authentication';
 
-interface route {
+interface Route {
   path: string;
   exact: boolean;
   title: string;
   component: object;
   inNavbar: boolean;
-  permissions: [string];
+  permissions: string[];
 }
 
-const PRIVATE_ROUTES = {
+const PRIVATE_ROUTES: {
+  [routeName: string]: Route;
+} = {
   dashboard: {
     path: '/dashboard',
     exact: true,
