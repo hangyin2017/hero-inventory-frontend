@@ -56,7 +56,7 @@ const lessModuleRegex = /\.module\.less$/;
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
-const config = function(webpackEnv) {
+module.exports = function(webpackEnv) {
   const isEnvDevelopment = webpackEnv === 'development';
   const isEnvProduction = webpackEnv === 'production';
 
@@ -683,7 +683,8 @@ const config = function(webpackEnv) {
           formatter: isEnvProduction ? typescriptFormatter : undefined,
         }),
 
-      new BundleAnalyzerPlugin(),
+      enableBundleAnalyzerPlugin &&
+        new BundleAnalyzerPlugin(),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell webpack to provide empty mocks for them so importing them works.
@@ -703,9 +704,3 @@ const config = function(webpackEnv) {
   };
 
 };
-
-if (enableBundleAnalyzerPlugin) {
-  config.plugins.push(new BundleAnalyzerPlugin());
-}
-
-module.exports = config;
