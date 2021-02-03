@@ -15,11 +15,11 @@ const App = () => {
     <Router>
       <Route path="/test">
         <button onClick={() => setShow(true)}>show lazy</button>
-        {show && (
+        {/* {show && ( */}
           <Suspense fallback={<p>loading</p>}>
             <Lazy />
           </Suspense>
-        )}
+        {/* )} */}
       </Route>
     </Router>
     // <AuthenticationProvider>

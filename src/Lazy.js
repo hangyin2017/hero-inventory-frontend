@@ -1,11 +1,11 @@
 import React from 'react';
-import { Select } from 'antd';
+import { Button } from 'antd';
 
 const Lazy = () => {
   return (
     <div>
       <h1>Lazy component</h1>
-      <Select />
+      <Button type="primary">button</Button>
     </div>
   );
 };
