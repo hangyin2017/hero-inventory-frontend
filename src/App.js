@@ -1,6 +1,6 @@
-import React, { Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 // import Lazy from './Lazy';
-// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 // import Guard from './components/Guard';
 // import Private from './components/Private';
 // import { AuthenticationProvider } from './components/withAuthentication';
@@ -9,10 +9,19 @@ import React, { Suspense } from 'react';
 const Lazy = React.lazy(() => import(/* webpackChunkName: "lazy" */ './Lazy'));
 
 const App = () => {
+  const [show, setShow] = useState(false);
+
   return (
-    <Suspense fallback={<p>loading</p>}>
-      <Lazy />
-    </Suspense>
+    <Router>
+      <Route path="/test">
+        <button onClick={() => setShow(true)}>show lazy</button>
+        {show && (
+          <Suspense fallback={<p>loading</p>}>
+            <Lazy />
+          </Suspense>
+        )}
+      </Route>
+    </Router>
     // <AuthenticationProvider>
     //   <Router>
     //     <Switch>
