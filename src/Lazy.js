@@ -1,11 +1,14 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Pagination } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+
 
 const Lazy = () => {
   return (
     <div>
       <h1>Lazy component</h1>
-      <Button type="primary">button</Button>
+      <LoadingOutlined />
+      <Pagination type="primary">button</Pagination>
     </div>
   );
 };
