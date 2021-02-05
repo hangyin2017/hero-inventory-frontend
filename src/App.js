@@ -1,5 +1,5 @@
 import React, { useState, Suspense } from 'react';
-// import Lazy from './Lazy';
+import Lazy from './Lazy';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 // import Guard from './components/Guard';
 // import Private from './components/Private';
