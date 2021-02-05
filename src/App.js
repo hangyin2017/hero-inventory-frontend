@@ -6,22 +6,11 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 // import { AuthenticationProvider } from './components/withAuthentication';
 // import { AUTH_ROUTE } from './Routes';
 
-const Lazy = React.lazy(() => import(/* webpackChunkName: "lazy" */ './Lazy'));
-
 const App = () => {
   const [show, setShow] = useState(false);
 
   return (
-    <Router>
-      <Route path="/test">
-        <button onClick={() => setShow(true)}>show lazy</button>
-        {/* {show && ( */}
-          <Suspense fallback={<p>loading</p>}>
-            <Lazy />
-          </Suspense>
-        {/* )} */}
-      </Route>
-    </Router>
+    <Lazy />
     // <AuthenticationProvider>
     //   <Router>
     //     <Switch>
