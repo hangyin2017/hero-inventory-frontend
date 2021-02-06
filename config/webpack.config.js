@@ -25,7 +25,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const enableBundleAnalyzerPlugin = process.argv[2] === 'bundleAnalyzer';
+const enableBundleAnalyzerPlugin = process.env.npm_config_analyze;
 
 const postcssNormalize = require('postcss-normalize');
 

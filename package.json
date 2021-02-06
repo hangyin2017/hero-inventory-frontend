@@ -71,8 +71,9 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "start:analyze": "node scripts/start.js bundleAnalyzer",
+    "start:analyze": "npm start --analyze",
     "build": "node scripts/build.js",
+    "build:analyze": "npm run build --analyze",
     "test": "node scripts/test.js"
   },
   "browserslist": {
