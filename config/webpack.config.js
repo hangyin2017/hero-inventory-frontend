@@ -369,7 +369,7 @@ module.exports = function(webpackEnv) {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               include: paths.appSrc,
               loader: require.resolve('babel-loader'),
-              query: {
+              options: {
                 presets: [
                   'react-app'
                 ],
@@ -389,25 +389,6 @@ module.exports = function(webpackEnv) {
                       },
                     },
                   ],
-                  [
-                    'import',
-                    {
-                      'libraryName': 'antd',
-                      'libraryDirectory': 'es',
-                      'style': 'css'
-                    },
-                    'antd'
-                  ],
-                  [
-                    'import',
-                    {
-                      'libraryName': '@ant-design/icons',
-                      'libraryDirectory': 'es/icons',
-                      'camel2DashComponentName': false
-                    },
-                    'ant-design-icons'
-                  ]
-                ],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/
                 // directory for faster rebuilds.
