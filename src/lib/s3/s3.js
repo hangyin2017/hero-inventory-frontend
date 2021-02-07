@@ -1,18 +1,15 @@
 import AWS from 'aws-sdk';
+import { BUCKET_NAME, REGION, BASE_URL, IDENTITY_POOL_ID } from './constants';
 
-const bucketName = 'hero-inventory-item-image';
-
-AWS.config.region = 'ap-southeast-2';
+AWS.config.region = REGION;
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'ap-southeast-2:2ab03726-216c-46bd-b263-5cc2e8ab7d63',
+    IdentityPoolId: IDENTITY_POOL_ID,
 });
 
 var s3 = new AWS.S3({
   apiVersion: '2006-03-01',
-  params: {Bucket: bucketName}
+  params: {Bucket: BUCKET_NAME}
 });
-
-const baseUrl = `https://${bucketName}.s3.${AWS.config.region}.amazonaws.com/`;
 
 const upload = (imageKey, file) => {
   return new AWS.S3.ManagedUpload({
@@ -26,4 +23,4 @@ const upload = (imageKey, file) => {
 };
 
 export default s3;
-export { bucketName, baseUrl, upload };
+export { upload };

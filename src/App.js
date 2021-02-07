@@ -14,9 +14,9 @@ const App = () => {
             <AUTH_ROUTE.component />
           </Route>
           <Route path="/">
-            <Guard>
+            {/* <Guard> */}
               <Private />
-            </Guard>
+            {/* </Guard> */}
           </Route>
         </Switch>
       </Router>

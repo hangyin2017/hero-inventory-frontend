@@ -1,1 +1,1 @@
-export { default, bucketName, baseUrl, upload } from './s3';
+export { default, upload } from './s3';
