@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import styled from 'styled-components';
 import { Image, Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import s3, { upload } from '@/lib/s3';
+// import s3, { upload } from '@/lib/s3';
 import { BASE_URL } from '../../../../../../lib/s3/constants.js';
 
 const { Dragger } = Upload;
@@ -19,7 +19,7 @@ class ItemImage extends React.Component {
     super(props);
 
     this.state = {
-      loading: true,
+      loading: false,
       hasImage: false,
     };
 
@@ -27,7 +27,7 @@ class ItemImage extends React.Component {
   }
 
   componentDidMount() {
-    this.getImage();
+    // this.getImage();
   }
 
   getImage() {
@@ -52,9 +52,10 @@ class ItemImage extends React.Component {
     })
   }
 
-  putImage({ file }) {
+  async putImage({ file }) {
     const { id } = this.props;
-    // const { default: s3 } = import('../../../../../../lib/s3')
+    const { default: s3Lib } = await import('@/lib/s3');
+    const { s3, upload } = s3Lib;
 
     s3.headObject({Key: `${id}/`}, (err, data) => {
       if(err?.code === "NotFound") {

@@ -1,1 +1,1 @@
-export { default, upload } from './s3';
+export { default } from './s3';

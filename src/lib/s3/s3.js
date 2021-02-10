@@ -14,7 +14,7 @@ var s3 = new AWS.S3({
 const upload = (imageKey, file) => {
   return new AWS.S3.ManagedUpload({
     params: {
-      Bucket: bucketName,
+      Bucket: BUCKET_NAME,
       Key: imageKey,
       Body: file,
       ACL: 'public-read',
@@ -22,5 +22,10 @@ const upload = (imageKey, file) => {
   }).promise();
 };
 
-export default s3;
-export { upload };
+const s3Lib = {
+  s3,
+  upload,
+}
+
+export default s3Lib;
+// export { upload };
