@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import styled from 'styled-components';
 import { Image, Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-// import s3, { upload } from '@/lib/s3';
 import { BASE_URL } from '../../../../../../lib/s3/constants.js';
 
 const { Dragger } = Upload;
