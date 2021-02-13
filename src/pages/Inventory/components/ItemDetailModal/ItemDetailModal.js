@@ -101,7 +101,7 @@ class ItemDetailModal extends React.Component {
               />
             </Left>
             <Right>
-              <ItemImage id={id} />
+              <ItemImage data={data} />
               <StockData
                 physicalStock={physicalStock}
                 lockedStock={lockedStock}

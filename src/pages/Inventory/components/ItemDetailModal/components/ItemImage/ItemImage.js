@@ -4,6 +4,7 @@ import { Image, Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 // import { BASE_URL } from '@/lib/s3/constants.js';
 import { BASE_URL } from '../../../../../../lib/s3/constants.js';
+import resources from '@/apis/resources';
 
 const { Dragger } = Upload;
 
@@ -20,7 +21,6 @@ class ItemImage extends React.Component {
 
     this.state = {
       loading: false,
-      hasImage: false,
     };
 
     this.putImage = this.putImage.bind(this);
@@ -53,28 +53,38 @@ class ItemImage extends React.Component {
   }
 
   async putImage({ file }) {
-    const { id } = this.props;
     const { default: s3Lib } = await import('@/lib/s3');
     const { s3, upload } = s3Lib;
 
+    // Creates new folder on S3 if folder doesn't exist
     s3.headObject({Key: `${id}/`}, (err, data) => {
       if(err?.code === "NotFound") {
         s3.putObject({Key: `${id}/`});
       }
     });
 
-    upload(`${id}/1.jpg`, file)
-      .then((data) => {
-        message.success('Item image added');
-        this.getImage();
-      })
-      .catch((err) => message.error('Cannot upload image. Please try again later'));
+    // Uploads resource to S3
+    const url = `${id}/${file.name}`;
+    try {
+      const S3Res = await upload(url, file);
+      console.log(S3Res);
+      const resourcesRes = await resources.add({
+        name: file.name,
+        link: url,
+        type: 'image',
+      });
+      message.success('Item image added');
+    } catch(err) {
+      message.error('Cannot upload image. Please try again later');
+    }
   }
 
   render() {
-    const { id } = this.props;
-    const { loading, hasImage } = this.state;
-    const photoUrl = `${BASE_URL}${id}/1.jpg`;
+    const { data } = this.props;
+    const { loading } = this.state;
+    const hasImage = data.images && data.images.length > 0;
+    // const photoUrl = `${BASE_URL}${data.images[0]}`;
+    
 
     if(loading) {
       return (
@@ -85,7 +95,7 @@ class ItemImage extends React.Component {
     return (
       <Wrapper>
         {hasImage ? (
-          <Image height={200} src={photoUrl} alt="item image" />
+          <Image height={200} src={`${BASE_URL}${data.images[0].link}`} alt="item image" />
         ) : (
           <Dragger
             disabled={loading}
