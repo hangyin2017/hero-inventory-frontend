@@ -1,10 +1,10 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Image, Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-// import { BASE_URL } from '@/lib/s3/constants.js';
-import { BASE_URL } from '../../../../../../lib/s3/constants.js';
+import { BASE_URL } from '@/lib/s3/constants.js';
 import resources from '@/apis/resources';
+import items from '@/apis/items';
 
 const { Dragger } = Upload;
 
@@ -21,40 +21,24 @@ class ItemImage extends React.Component {
 
     this.state = {
       loading: false,
+      images: this.props.data.images,
     };
 
     this.putImage = this.putImage.bind(this);
   }
 
-  componentDidMount() {
-    // this.getImage();
-  }
-
-  getImage() {
-    const { id } = this.props;
-
-    this.setState({ loading: true });
-
-    s3.listObjects({Prefix: `${id}/`}, (err, data) => {
-      this.setState({ loading: false });
-
-      if(err) {
-        return;
-      }
-
-      const images = data.Contents.filter((obj) => obj.Size > 0);
-
-      if(images.length === 0 ) {
-        return;
-      }
-
-      this.setState({ hasImage: true });
-    })
+  componentDidUpdate(prevProps) {
+    const { data } = this.props;
+    if(!!data && (data.images !== prevProps.data.images)) {
+      this.setState({ images: data.images });
+    }
   }
 
   async putImage({ file }) {
     const { default: s3Lib } = await import('@/lib/s3');
     const { s3, upload } = s3Lib;
+    const { data } = this.props;
+    const id = data.id;
 
     // Creates new folder on S3 if folder doesn't exist
     s3.headObject({Key: `${id}/`}, (err, data) => {
@@ -63,39 +47,36 @@ class ItemImage extends React.Component {
       }
     });
 
-    // Uploads resource to S3
+    // Uploads resource to S3 and db
     const url = `${id}/${file.name}`;
+    this.setState({ loading: true });
     try {
       const S3Res = await upload(url, file);
-      console.log(S3Res);
       const resourcesRes = await resources.add({
         name: file.name,
-        link: url,
+        link: S3Res.Key,
         type: 'image',
       });
+      const newItem = await items.update(id, {
+        ...data,
+        images: [resourcesRes.data],
+      });
+      this.setState({ images: newItem.data.images });
       message.success('Item image added');
     } catch(err) {
       message.error('Cannot upload image. Please try again later');
     }
-  }
+    this.setState({ loading: false });
+  } 
 
   render() {
-    const { data } = this.props;
-    const { loading } = this.state;
-    const hasImage = data.images && data.images.length > 0;
-    // const photoUrl = `${BASE_URL}${data.images[0]}`;
-    
-
-    if(loading) {
-      return (
-        <Wrapper></Wrapper>
-      );
-    }
+    const { loading, images } = this.state;
+    const hasImage = images && images.length > 0;
 
     return (
       <Wrapper>
         {hasImage ? (
-          <Image height={200} src={`${BASE_URL}${data.images[0].link}`} alt="item image" />
+          <Image height={200} src={`${BASE_URL}/${images[0].link}`} alt="item image" />
         ) : (
           <Dragger
             disabled={loading}
