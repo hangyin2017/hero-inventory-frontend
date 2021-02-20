@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Image, Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import s3, { baseUrl, upload } from '../../../../../../lib/s3';
+import { BASE_URL } from '@/lib/s3/constants.js';
+import resources from '@/apis/resources';
+import items from '@/apis/items';
 
 const { Dragger } = Upload;
 
@@ -18,71 +20,63 @@ class ItemImage extends React.Component {
     super(props);
 
     this.state = {
-      loading: true,
-      hasImage: false,
+      loading: false,
+      images: this.props.data.images,
     };
 
     this.putImage = this.putImage.bind(this);
   }
 
-  componentDidMount() {
-    this.getImage();
+  componentDidUpdate(prevProps) {
+    const { data } = this.props;
+    if(!!data && (data.images !== prevProps.data.images)) {
+      this.setState({ images: data.images });
+    }
   }
 
-  getImage() {
-    const { id } = this.props;
+  async putImage({ file }) {
+    const { default: s3Lib } = await import('@/lib/s3');
+    const { s3, upload } = s3Lib;
+    const { data } = this.props;
+    const id = data.id;
 
-    this.setState({ loading: true });
-
-    s3.listObjects({Prefix: `${id}/`}, (err, data) => {
-      this.setState({ loading: false });
-
-      if(err) {
-        return;
-      }
-
-      const images = data.Contents.filter((obj) => obj.Size > 0);
-
-      if(images.length === 0 ) {
-        return;
-      }
-
-      this.setState({ hasImage: true });
-    })
-  }
-
-  putImage({ file }) {
-    const { id } = this.props;
-
+    // Creates new folder on S3 if folder doesn't exist
     s3.headObject({Key: `${id}/`}, (err, data) => {
       if(err?.code === "NotFound") {
         s3.putObject({Key: `${id}/`});
       }
     });
 
-    upload(`${id}/1.jpg`, file)
-      .then((data) => {
-        message.success('Item image added');
-        this.getImage();
-      })
-      .catch((err) => message.error('Cannot upload image. Please try again later'));
-  }
+    // Uploads resource to S3 and db
+    const url = `${id}/${file.name}`;
+    this.setState({ loading: true });
+    try {
+      const S3Res = await upload(url, file);
+      const resourcesRes = await resources.add({
+        name: file.name,
+        link: S3Res.Key,
+        type: 'image',
+      });
+      const newItem = await items.update(id, {
+        ...data,
+        images: [resourcesRes.data],
+      });
+      this.setState({ images: newItem.data.images });
+      message.success('Item image added');
+    } catch(err) {
+      message.error('Cannot upload image. Please try again later');
+    }
+    this.setState({ loading: false });
+  } 
 
   render() {
-    const { id } = this.props;
-    const { loading, hasImage } = this.state;
-    const photoUrl = `${baseUrl}${id}/1.jpg`;
-
-    if(loading) {
-      return (
-        <Wrapper></Wrapper>
-      );
-    }
+    const { loading, images } = this.state;
+    const hasImage = images && images.length > 0;
 
     return (
       <Wrapper>
         {hasImage ? (
-          <Image height={200} src={photoUrl} alt="item image" />
+          <Image height={200} src={`${BASE_URL}/${images[0].link}`} alt="item image" />
         ) : (
           <Dragger
             disabled={loading}

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.4.0",
     "@babel/core": "7.9.0",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",
@@ -70,7 +71,9 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
+    "start:analyze": "npm start --analyze",
     "build": "node scripts/build.js",
+    "build:analyze": "npm run build --analyze",
     "test": "node scripts/test.js"
   },
   "browserslist": {
@@ -158,6 +161,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "faker": "^5.1.0",
     "less": "^3.12.2",
-    "less-loader": "^7.0.2"
+    "less-loader": "^7.0.2",
+    "webpack-bundle-analyzer": "^4.4.0"
   }
 }
