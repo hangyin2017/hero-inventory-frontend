@@ -1,1 +1,1 @@
-export const RESOURCE_TYPES = ["image"];
+export const RESOURCE_TYPES = ['image'];
