@@ -1,1 +1,3 @@
-export const RESOURCE_TYPES = ['image'];
+export enum RESOURCE_TYPES {
+  IMAGE = 'image',
+}

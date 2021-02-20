@@ -5,6 +5,7 @@ import { InboxOutlined } from '@ant-design/icons';
 import { BASE_URL } from '@/lib/s3/constants.js';
 import resources from '@/apis/resources';
 import items from '@/apis/items';
+import { RESOURCE_TYPES } from '@/constants/resources';
 
 const { Dragger } = Upload;
 
@@ -55,7 +56,7 @@ class ItemImage extends React.Component {
       const resourcesRes = await resources.add({
         name: file.name,
         link: S3Res.Key,
-        type: 'image',
+        type: RESOURCE_TYPES.IMAGE,
       });
       const newItem = await items.update(id, {
         ...data,
